@@ -64,6 +64,8 @@ dependencies {
 
     implementation 'com.google.firebase:firebase-auth-ktx'
 
+    def dataStore_version = '1.0.0'
+    implementation "androidx.datastore:datastore-preferences:$dataStore_version"
 
     implementation 'androidx.core:core-ktx:1.9.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
