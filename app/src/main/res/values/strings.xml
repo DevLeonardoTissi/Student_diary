@@ -2,4 +2,14 @@
     <string name="app_name">Student diary</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Register Fragment -->
+    <string name="register_fragment_snackbar_message_firebase_auth_weak_password_exception">Sua senha precisa de, no mínimo 6 dígitos</string>
+    <string name="register_fragment_snackbar_message_firebase_auth_Invalid_credentials_Exception">Email inválido</string>
+    <string name="register_fragment_snackbar_message_firebase_auth_user_collision_exception">Email já cadastrado</string>
+    <string name="register_fragment_snackbar_message_firebase_auth_illegal_argument_exception">Existem campos vazios</string>
+    <string name="register_fragment_snackbar_message_unknown_error">Erro desconhecido</string>
+    <string name="register_fragment_snackbar_message_registration_done">Cadastro realizado</string>
+
+    <string name="register_fragment_textfield_hint_email">Email</string>
 </resources>
