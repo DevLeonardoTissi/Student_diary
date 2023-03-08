@@ -36,27 +36,84 @@ class RegisterFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        register(User("leonardo.tissi@gmail.com", "123"))
+        configureObserverRegister()
+        configureRegistrationButton()
 
-        lifecycleScope.launch {
-            val respostaSignificado = dicionarioRepo.searchMeaning("sorriso")
-            Log.i("TAG", "onViewCreated: $respostaSignificado")
 
-            val respostaSinonimo = dicionarioRepo.searchSynonyms("sorriso")
-            Log.i("TAG", "onViewCreated: $respostaSinonimo")
 
-            val respostaSilaba = dicionarioRepo.searchSyllables("sorriso")
-            Log.i("TAG", "onViewCreated: $respostaSilaba")
 
-            val respostaFrase = dicionarioRepo.searchSentences("sorriso")
-            Log.i("TAG", "onViewCreated: $respostaFrase")
+
+//        lifecycleScope.launch {
+//            val respostaSignificado = dicionarioRepo.searchMeaning("sorriso")
+//            Log.i("TAG", "onViewCreated: $respostaSignificado")
+//
+//            val respostaSinonimo = dicionarioRepo.searchSynonyms("sorriso")
+//            Log.i("TAG", "onViewCreated: $respostaSinonimo")
+//
+//            val respostaSilaba = dicionarioRepo.searchSyllables("sorriso")
+//            Log.i("TAG", "onViewCreated: $respostaSilaba")
+//
+//            val respostaFrase = dicionarioRepo.searchSentences("sorriso")
+//            Log.i("TAG", "onViewCreated: $respostaFrase")
+//
+//        }
+
+    }
+
+
+    private fun configureRegistrationButton() {
+        val registrationButton = binding.fragmentRegisterRegisterButton
+        registrationButton.setOnClickListener {
+            cleanFields()
+
+            val email = binding.fragmentRegisterTextfieldEmail.editText?.text.toString()
+            val password = binding.fragmentRegisterTextfieldPassword.editText?.text.toString()
+            val passwordChecker =
+                binding.fragmentRegisterTextfieldPasswordChecker.editText?.text.toString()
+
+            val isvalid = validateData(email, password, passwordChecker)
+            if (isvalid) {
+                register(User(email, password))
+            }
 
         }
     }
 
-    fun register(user: User) {
-        context?.let { context ->
+    private fun cleanFields() {
+        binding.fragmentRegisterTextfieldEmail.error = null
+        binding.fragmentRegisterTextfieldPassword.error = null
+        binding.fragmentRegisterTextfieldPasswordChecker.error = null
+    }
+
+    private fun validateData(email: String, password: String, passwordChecker: String): Boolean {
+        var valid = true
+
+        if (email.isBlank()) {
+            binding.fragmentRegisterTextfieldEmail.error =
+                context?.getString(R.string.register_fragment_text_field_error_email_required)
+            valid = false
+        }
+
+        if (password.isBlank()) {
+            binding.fragmentRegisterTextfieldPassword.error =
+                context?.getString(R.string.register_fragment_text_field_error_password_required)
+            valid = false
+        }
+
+        if (passwordChecker != password) {
+            binding.fragmentRegisterTextfieldPasswordChecker.error =
+                context?.getString(R.string.register_fragment_text_field_error_different_password)
+            valid = false
+        }
+        return valid
+    }
+
+    private fun register(user: User) {
             model.register(user)
+    }
+
+    private fun configureObserverRegister() {
+        context?.let { context ->
             model.firebaseAuthLiveData.observe(viewLifecycleOwner) { resource ->
                 resource?.let {
                     if (resource.data) {
@@ -79,3 +136,4 @@ class RegisterFragment : Fragment() {
         }
     }
 }
+

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="textField" parent="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+        <item name="android:layout_margin">@dimen/margin_default</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="elevationButton" parent="@style/Widget.Material3.Button.ElevatedButton">
+        <item name="android:layout_margin">@dimen/margin_default</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+
+    </style>
+</resources>

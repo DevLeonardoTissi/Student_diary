@@ -10,6 +10,14 @@
     <string name="register_fragment_snackbar_message_firebase_auth_illegal_argument_exception">Existem campos vazios</string>
     <string name="register_fragment_snackbar_message_unknown_error">Erro desconhecido</string>
     <string name="register_fragment_snackbar_message_registration_done">Cadastro realizado</string>
-
-    <string name="register_fragment_textfield_hint_email">Email</string>
+    <string name="register_fragment_text_field_hint_email">Email</string>
+    <string name="register_fragment_text_field_hint_password">Senha</string>
+    <string name="register_fragment_text_field_hint_passwordChecker">Confirme a senha</string>
+    <string name="register_fragment_registerButton">Cadastrar</string>
+    <string name="register_fragment_text_field_error_email_required">Email necessário</string>
+    <string name="register_fragment_text_field_error_password_required">Senha necessária</string>
+    <string name="register_fragment_text_field_error_different_password">Senhas diferentes</string>
+    
+    
+    
 </resources>

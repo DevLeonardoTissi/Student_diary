@@ -11,4 +11,8 @@ class FirebaseAuthRepository(private val firebaseAuth: FirebaseAuth) {
     fun register(user: User): Task<AuthResult> {
         return firebaseAuth.createUserWithEmailAndPassword(user.name, user.password)
     }
+
+    fun authenticate(user: User): Task<AuthResult> {
+        return firebaseAuth.signInWithEmailAndPassword(user.name, user.password)
+    }
 }
