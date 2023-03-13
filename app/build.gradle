@@ -65,6 +65,12 @@ dependencies {
 
     implementation 'com.google.firebase:firebase-auth-ktx'
 
+    implementation 'com.google.firebase:firebase-auth-ktx:21.1.0'
+
+
+    implementation 'com.facebook.android:facebook-login:latest.release'
+
+
     def dataStore_version = '1.0.0'
     implementation "androidx.datastore:datastore-preferences:$dataStore_version"
 

@@ -2,6 +2,7 @@ package com.example.studentdiary.di.modules
 
 import com.example.studentdiary.repository.DictionaryRepository
 import com.example.studentdiary.repository.FirebaseAuthRepository
+import com.example.studentdiary.ui.fragment.loginFragment.LoginViewModel
 import com.example.studentdiary.ui.fragment.registerFragment.RegisterViewModel
 import com.example.studentdiary.webClient.RetrofitLauncherDicioApi
 import com.google.firebase.auth.ktx.auth
@@ -23,6 +24,7 @@ val repositoryModule = module {
     single { DictionaryRepository(get()) }
 }
 
-val viewModewModule = module {
+val viewModelModule = module {
     single { RegisterViewModel(get()) }
+    single { LoginViewModel(get()) }
 }
