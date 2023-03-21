@@ -8,11 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.example.studentdiary.R
 import com.example.studentdiary.databinding.FragmentLoginBinding
 import com.example.studentdiary.extensions.googleSignInClient
 import com.example.studentdiary.extensions.snackBar
+import com.example.studentdiary.model.Discipline
 import com.example.studentdiary.model.User
+import com.example.studentdiary.repository.DisciplineRepository
 import com.facebook.*
 import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -21,7 +24,9 @@ import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.GoogleAuthProvider
+import kotlinx.coroutines.launch
 import org.json.JSONException
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -30,6 +35,7 @@ class LoginFragment : Fragment() {
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
     private val model: LoginViewModel by viewModel()
+    private val repository: DisciplineRepository by inject()
 
 
     override fun onCreateView(
@@ -50,6 +56,19 @@ class LoginFragment : Fragment() {
         configureLoginGoogleAccountButton()
         configureLoginFacebookAccountButton()
         botaoSairContaGoogle()
+
+
+        lifecycleScope.launch {
+            repository.insert(
+                Discipline(
+                    name = "ViewModel",
+                    description = "teste descrição",
+                    startTime = "12:00",
+                    endTime = "15:00",
+                    favorite = false
+                )
+            )
+        }
     }
 
     private fun configureObserverLogin() {

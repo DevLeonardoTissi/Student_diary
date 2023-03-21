@@ -1,6 +1,8 @@
 package com.example.studentdiary.database.dao
 
 import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy.Companion.REPLACE
 import androidx.room.Query
 import com.example.studentdiary.model.Discipline
 
@@ -8,5 +10,8 @@ import com.example.studentdiary.model.Discipline
 interface DisciplineDao {
 
     @Query("SELECT * FROM Discipline ORDER BY id DESC")
-    fun searchAll(): List<Discipline>
+    suspend fun searchAll(): List<Discipline>
+
+    @Insert(onConflict = REPLACE)
+    suspend fun insert(discipline: Discipline)
 }
