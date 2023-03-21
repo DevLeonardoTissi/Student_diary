@@ -5,10 +5,12 @@ import com.example.studentdiary.database.AppDatabase
 import com.example.studentdiary.repository.DictionaryRepository
 import com.example.studentdiary.repository.DisciplineRepository
 import com.example.studentdiary.repository.FirebaseAuthRepository
+import com.example.studentdiary.repository.PublicTenderRepository
 import com.example.studentdiary.ui.fragment.loginFragment.LoginViewModel
 import com.example.studentdiary.ui.fragment.registerFragment.RegisterViewModel
 import com.example.studentdiary.webClient.services.DicioApiService
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -33,6 +35,7 @@ val roomModule = module {
 
 val firebaseModule = module {
     single { Firebase.auth }
+    single { Firebase.firestore }
 }
 
 val retrofitModule = module {
@@ -51,6 +54,7 @@ val repositoryModule = module {
     single { FirebaseAuthRepository(get()) }
     single { DictionaryRepository(get()) }
     single { DisciplineRepository(get()) }
+    single { PublicTenderRepository(get()) }
 }
 
 val viewModelModule = module {
