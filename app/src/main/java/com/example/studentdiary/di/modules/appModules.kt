@@ -1,6 +1,9 @@
 package com.example.studentdiary.di.modules
 
+import androidx.room.Room
+import com.example.studentdiary.database.AppDatabase
 import com.example.studentdiary.repository.DictionaryRepository
+import com.example.studentdiary.repository.DisciplineRepository
 import com.example.studentdiary.repository.FirebaseAuthRepository
 import com.example.studentdiary.ui.fragment.loginFragment.LoginViewModel
 import com.example.studentdiary.ui.fragment.registerFragment.RegisterViewModel
@@ -10,6 +13,23 @@ import com.google.firebase.ktx.Firebase
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+
+private const val DATABASE_NAME = "studentDiary.db"
+
+val roomModule = module {
+    single {
+        Room.databaseBuilder(
+            get(),
+            AppDatabase::class.java,
+            DATABASE_NAME
+        ).build()
+
+    }
+
+    single {
+        get<AppDatabase>().disciplineDAO
+    }
+}
 
 val firebaseModule = module {
     single { Firebase.auth }
@@ -30,6 +50,7 @@ val retrofitModule = module {
 val repositoryModule = module {
     single { FirebaseAuthRepository(get()) }
     single { DictionaryRepository(get()) }
+    single { DisciplineRepository(get()) }
 }
 
 val viewModelModule = module {

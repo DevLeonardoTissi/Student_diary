@@ -2,6 +2,8 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'com.google.gms.google-services'
+    id 'com.google.devtools.ksp'
+
 }
 
 android {
@@ -39,38 +41,50 @@ android {
 
 dependencies {
 
+    //Material Design
     def material_version = '1.8.0'
     implementation "com.google.android.material:material:$material_version"
 
+    //Koin
     def koin_version = '3.3.3'
     implementation "io.insert-koin:koin-android:$koin_version"
 
-    def lifecycle_version = '2.6.0-rc01'
+    //Lifecycle
+    def lifecycle_version = '2.6.0'
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
 
+    //Navigation
     def nav_version = "2.5.3"
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
 
+    //Coil
     def coil_version = '2.2.2'
     implementation("io.coil-kt:coil:$coil_version")
 
+    //Retrofit
     def retrofit_version = '2.9.0'
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-moshi:$retrofit_version"
 
+    //Room Database
+    def room_version = "2.5.0"
+    implementation "androidx.room:room-runtime:$room_version"
+    ksp "androidx.room:room-compiler:$room_version"
+
+    //Firebase Services
     implementation platform('com.google.firebase:firebase-bom:31.2.3')
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.google.android.gms:play-services-auth:20.4.1'
 
+    //Firebase Auth
     implementation 'com.google.firebase:firebase-auth-ktx'
-
     implementation 'com.google.firebase:firebase-auth-ktx:21.1.0'
 
-
+    //Facebook Login
     implementation 'com.facebook.android:facebook-login:latest.release'
 
-
+    //DataStore
     def dataStore_version = '1.0.0'
     implementation "androidx.datastore:datastore-preferences:$dataStore_version"
 
