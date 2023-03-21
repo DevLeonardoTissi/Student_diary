@@ -8,6 +8,7 @@ import com.example.studentdiary.utils.Resource
 import com.google.firebase.auth.AuthCredential
 
 class LoginViewModel(private val firebaseAuthRepository: FirebaseAuthRepository) : ViewModel() {
+
     private val _firebaseAuthLiveData = MutableLiveData<Resource<Boolean>>()
     val firebaseAuthLiveData = _firebaseAuthLiveData
 

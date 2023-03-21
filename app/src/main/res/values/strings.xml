@@ -4,7 +4,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
-    <!-- Register Fragment -->
+    <!-- Google Server Client ID -->
     <string name="googleSignInClient_serverClientId">291261739017-8vrqq5dc7vb5gahio769oeq61rnb366a.apps.googleusercontent.com</string>
 
 
@@ -40,7 +40,6 @@
 
 
     <!-- Facebook -->
-
     <string name="facebook_app_id">172559435542270</string>
     <string name="fb_login_protocol_scheme">fb172559435542270</string>
     <string name="facebook_client_token">757d1efebbc1a4cc3932929b69d1cfd0</string>
