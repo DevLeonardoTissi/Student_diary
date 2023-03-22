@@ -25,12 +25,9 @@ val roomModule = module {
             AppDatabase::class.java,
             DATABASE_NAME
         ).build()
-
     }
 
-    single {
-        get<AppDatabase>().disciplineDAO
-    }
+    single { get<AppDatabase>().disciplineDAO }
 }
 
 val firebaseModule = module {
@@ -39,7 +36,6 @@ val firebaseModule = module {
 }
 
 val retrofitModule = module {
-
     single {
         Retrofit.Builder()
             .baseUrl("https://dicio-api-ten.vercel.app/v2/")
