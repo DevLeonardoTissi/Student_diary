@@ -1,20 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    style="?attr/materialCardViewFilledStyle"
-    android:layout_width="match_parent"
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
     android:layout_height="100dp"
-    android:layout_margin="@dimen/cardCornerRadius_default"
-    android:clickable="true"
-    android:elevation="@dimen/elevation_default"
-    android:focusable="true"
-    app:cardCornerRadius="@dimen/cardCornerRadius_default"
-    tools:context=".ui.fragment.disciplinesFragment.DisciplinesFragment">
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/purple_500">
 
         <TextView
             android:id="@+id/disciplineItem_name"
@@ -39,4 +28,3 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.cardview.widget.CardView>

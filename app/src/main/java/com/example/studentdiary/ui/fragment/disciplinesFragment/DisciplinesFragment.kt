@@ -53,13 +53,13 @@ class DisciplinesFragment : Fragment() {
             recycler.layoutManager = LinearLayoutManager(context)
             val divider = MaterialDividerItemDecoration(it, LinearLayoutManager.VERTICAL)
             recycler.addItemDecoration(divider)
+            divider.isLastItemDecorated = false
         }
-
 
 
     }
 
-    private fun configureFab(){
+    private fun configureFab() {
         val fab = binding.disciplinesFragmentFabInsert
         fab.setOnClickListener {
             insert()
@@ -73,7 +73,7 @@ class DisciplinesFragment : Fragment() {
 
     }
 
-    private fun insert(){
+    private fun insert() {
         lifecycleScope.launch {
             model.insert()
         }
