@@ -1,27 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="?attr/materialCardViewFilledStyle"
     android:layout_width="match_parent"
     android:layout_height="100dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:elevation="@dimen/elevation_default"
-    app:cardCornerRadius="@dimen/cardCornerRadius_default"
+    android:layout_margin="@dimen/cardCornerRadius_default"
     android:clickable="true"
+    android:elevation="@dimen/elevation_default"
     android:focusable="true"
-    style="?attr/materialCardViewFilledStyle"
-    android:layout_margin="@dimen/cardCornerRadius_default">
+    app:cardCornerRadius="@dimen/cardCornerRadius_default"
+    tools:context=".ui.fragment.disciplinesFragment.DisciplinesFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <CheckBox
+        <TextView
+            android:id="@+id/disciplineItem_name"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            style="@style/textview"
+            android:gravity="center"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:layout_margin="@dimen/textview_margin_default"
+            android:textSize="@dimen/bigTextSize"/>
+
+        <CheckBox
+            android:id="@+id/disciplineItem_checkBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:button="@drawable/sl_favorite"
-            android:buttonTint="@color/white"
-            />
+            app:buttonTint="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

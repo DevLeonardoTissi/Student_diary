@@ -10,7 +10,7 @@ class StudentDiaryApplication : Application() {
         super.onCreate()
         startKoin {
             androidContext(this@StudentDiaryApplication)
-            modules(firebaseModule, repositoryModule, viewModelModule, retrofitModule, roomModule)
+            modules(firebaseModule, repositoryModule, viewModelModule, retrofitModule, roomModule, adapterModule)
         }
     }
 }

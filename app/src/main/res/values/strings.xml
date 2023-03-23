@@ -44,8 +44,8 @@
     <string name="fb_login_protocol_scheme">fb172559435542270</string>
     <string name="facebook_client_token">757d1efebbc1a4cc3932929b69d1cfd0</string>
 
-
-
+    <!-- Disciplines Fragment -->
+    <string name="fab_insert_content_desc">Floating action insert discipline</string>
 
 
 </resources>

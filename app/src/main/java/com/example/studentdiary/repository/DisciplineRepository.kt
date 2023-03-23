@@ -10,5 +10,4 @@ class DisciplineRepository(private val dao: DisciplineDao) {
     suspend fun insert(discipline: Discipline) {
         dao.insert(discipline)
     }
-
 }

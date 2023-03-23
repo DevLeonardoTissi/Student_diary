@@ -6,12 +6,15 @@ import com.example.studentdiary.repository.DictionaryRepository
 import com.example.studentdiary.repository.DisciplineRepository
 import com.example.studentdiary.repository.FirebaseAuthRepository
 import com.example.studentdiary.repository.PublicTenderRepository
+import com.example.studentdiary.ui.fragment.disciplinesFragment.DisciplinesViewModel
 import com.example.studentdiary.ui.fragment.loginFragment.LoginViewModel
 import com.example.studentdiary.ui.fragment.registerFragment.RegisterViewModel
+import com.example.studentdiary.ui.recyclerView.adapter.DisciplineListAdapter
 import com.example.studentdiary.webClient.services.DicioApiService
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -54,6 +57,11 @@ val repositoryModule = module {
 }
 
 val viewModelModule = module {
-    single { RegisterViewModel(get()) }
-    single { LoginViewModel(get()) }
+    viewModel { RegisterViewModel(get()) }
+    viewModel { LoginViewModel(get()) }
+    viewModel { DisciplinesViewModel(get()) }
+}
+
+val adapterModule = module {
+    single { DisciplineListAdapter() }
 }
