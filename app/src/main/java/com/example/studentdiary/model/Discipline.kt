@@ -9,8 +9,9 @@ class Discipline(
     @PrimaryKey
     val id: String = UUID.randomUUID().toString(),
     var name: String,
-    var description: String,
-    var startTime: String,
-    var endTime: String,
-    var favorite: Boolean
+    var description: String ="",
+    var startTime: String ="",
+    var endTime: String ="",
+    var favorite: Boolean = false,
+    var img: String = ""
 )

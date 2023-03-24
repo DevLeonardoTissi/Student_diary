@@ -7,5 +7,16 @@
     <dimen name="fab_margin_default">16dp</dimen>
     <dimen name= "textview_margin_default">8dp</dimen>
 
-    <dimen name="bigTextSize">40sp</dimen>
+    <dimen name="bigTextSize">20sp</dimen>
+    <dimen name="defaultTextSize">14sp</dimen>
+
+    <dimen name="shapeableImageView_default_width">80dp</dimen>
+    <dimen name="shapeableImageView_default_height">80dp</dimen>
+    <dimen name="shapeableImageView_default_margin">8dp</dimen>
+
+    <dimen name="imageView_big_width">200dp</dimen>
+    <dimen name="imageView_big_height">200dp</dimen>
+
+    <dimen name="marginTop_textView_student">20dp</dimen>
+
 </resources>

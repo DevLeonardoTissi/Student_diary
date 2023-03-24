@@ -7,12 +7,15 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.studentdiary.R
 import com.example.studentdiary.databinding.FragmentDisciplinesBinding
+import com.example.studentdiary.model.Discipline
 import com.example.studentdiary.ui.recyclerView.adapter.DisciplineListAdapter
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.util.*
 
 
 class DisciplinesFragment : Fragment() {
@@ -34,15 +37,20 @@ class DisciplinesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         configureDiscilpineObserver()
         configureRecyclerView()
-        searchDisciplines()
         configureFab()
     }
 
     private fun configureDiscilpineObserver() {
         model.disciplineList.observe(viewLifecycleOwner) { list ->
-            list?.let {
-                adapter.submitList(list)
+            val visibility =if (list.isEmpty()) {
+                View.VISIBLE
+            } else {
+                View.GONE
             }
+            binding.disciplinesFragmentImageViewStudent.visibility = visibility
+            binding.disciplinesFragmentTextViewStudent.visibility = visibility
+
+            adapter.submitList(list)
         }
     }
 
@@ -50,32 +58,30 @@ class DisciplinesFragment : Fragment() {
         val recycler = binding.disciplinesFragmentRecyclerView
         recycler.adapter = adapter
         context?.let {
-            recycler.layoutManager = LinearLayoutManager(context)
+            recycler.layoutManager = LinearLayoutManager(it)
             val divider = MaterialDividerItemDecoration(it, LinearLayoutManager.VERTICAL)
             recycler.addItemDecoration(divider)
-            divider.isLastItemDecorated = false
+            divider.dividerColor= it.getColor(R.color.secondary)
         }
-
-
     }
 
     private fun configureFab() {
         val fab = binding.disciplinesFragmentFabInsert
         fab.setOnClickListener {
-            insert()
+            insert(
+                Discipline(
+                    name = UUID.randomUUID().toString(),
+                    favorite = true,
+                    img = "https://www.facebook.com/photo/?fbid=2611089512365404&set=a.112877185519995"
+                )
+            )
         }
     }
 
-    private fun searchDisciplines() {
-        lifecycleScope.launch {
-            model.searchAll()
-        }
 
-    }
-
-    private fun insert() {
+    private fun insert(discipline: Discipline) {
         lifecycleScope.launch {
-            model.insert()
+            model.insert(discipline)
         }
     }
 

@@ -29,8 +29,31 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_margin="@dimen/fab_margin_default"
-            android:contentDescription="@string/fab_insert_content_desc"
+            android:contentDescription="@string/fragment_disciplines_fab_insert_content_desc"
             android:src="@drawable/ic_add"/>
+
+        <ImageView
+            android:id="@+id/disciplinesFragment_imageView_student"
+            style="@style/imageViewStudent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:src="@drawable/student"
+            android:visibility="visible"
+            android:contentDescription="@string/fragment_disciplines_img_content_student"
+            />
+
+        <TextView
+            android:id="@+id/disciplinesFragment_textView_student"
+            android:gravity="center"
+            style="@style/textviewColorSecondary"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="@dimen/marginTop_textView_student"
+            android:textSize="@dimen/bigTextSize"
+            app:layout_constraintTop_toBottomOf="@id/disciplinesFragment_imageView_student"
+            android:text="@string/fragment_disciplines_messageStudent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

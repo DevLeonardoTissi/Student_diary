@@ -5,9 +5,13 @@ import com.example.studentdiary.model.Discipline
 
 class DisciplineRepository(private val dao: DisciplineDao) {
 
-    suspend fun searchAll(): List<Discipline> = dao.searchAll()
+     fun searchAll() = dao.searchAll()
 
     suspend fun insert(discipline: Discipline) {
         dao.insert(discipline)
+    }
+
+    suspend fun searchId(id:String){
+        dao.searchId(id)
     }
 }

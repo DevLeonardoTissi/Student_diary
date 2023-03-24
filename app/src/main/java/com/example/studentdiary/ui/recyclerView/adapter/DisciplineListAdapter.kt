@@ -1,10 +1,12 @@
 package com.example.studentdiary.ui.recyclerView.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.studentdiary.databinding.DisciplineItemBinding
+import com.example.studentdiary.extensions.tryLoadImage
 import com.example.studentdiary.model.Discipline
 
 class DisciplineListAdapter(
@@ -31,8 +33,24 @@ class DisciplineListAdapter(
         fun bind(discipline: Discipline) {
             this.discipline = discipline
             binding.disciplineItemName.text = discipline.name
-        }
 
+            binding.disciplineItemImageViewFavorite.apply {
+                visibility = if (discipline.favorite) {
+                    View.VISIBLE
+                } else {
+                    View.GONE
+                }
+            }
+
+            binding.disciplineItemShapeableImageView.apply {
+                visibility = if (discipline.img.isEmpty()) {
+                    View.GONE
+                } else {
+                    View.VISIBLE
+                }
+                tryLoadImage(discipline.img)
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DisciplineViewHolder =
@@ -47,11 +65,11 @@ class DisciplineListAdapter(
     companion object {
         private val diffCallback = object : DiffUtil.ItemCallback<Discipline>() {
             override fun areItemsTheSame(oldItem: Discipline, newItem: Discipline): Boolean {
-                return oldItem.name == newItem.name
+                return oldItem.id == newItem.id
             }
 
             override fun areContentsTheSame(oldItem: Discipline, newItem: Discipline): Boolean {
-                return oldItem.name == newItem.name
+                return oldItem.id == newItem.id
             }
 
         }

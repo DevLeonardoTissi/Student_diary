@@ -1,30 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@color/purple_500">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/principal">
 
         <TextView
             android:id="@+id/disciplineItem_name"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            style="@style/textview"
+            app:layout_constraintStart_toEndOf="@id/disciplineItem_shapeableImageView"
+            app:layout_constraintEnd_toStartOf="@id/disciplineItem_imageView_favorite"
+            style="@style/textviewColorWhite"
             android:gravity="center"
             android:ellipsize="end"
             android:maxLines="2"
             android:layout_margin="@dimen/textview_margin_default"
             android:textSize="@dimen/bigTextSize"/>
 
-        <CheckBox
-            android:id="@+id/disciplineItem_checkBox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:button="@drawable/sl_favorite"
-            app:buttonTint="@color/white"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+<!--        <CheckBox-->
+<!--            android:id="@+id/disciplineItem_checkBox"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:button="@drawable/sl_favorite"-->
+<!--            app:buttonTint="@color/white"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
+
+    <ImageView
+        android:id="@+id/disciplineItem_imageView_favorite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_favorite_filled"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/disciplineItem_name"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_margin="@dimen/margin_default"
+        android:contentDescription="@string/fragment_disciplines_img_content_desc_favorite" />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/disciplineItem_shapeableImageView"
+        style="@style/shapeableImageView"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:src="@tools:sample/backgrounds/scenic"
+        app:layout_constraintEnd_toStartOf="@id/disciplineItem_name"
+        app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Large"
+        android:contentDescription="@string/fragment_disciplines_img_content_desc_discipline"
+        />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
