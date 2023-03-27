@@ -42,7 +42,7 @@ class DisciplinesFragment : Fragment() {
 
     private fun configureDiscilpineObserver() {
         model.disciplineList.observe(viewLifecycleOwner) { list ->
-            val visibility =if (list.isEmpty()) {
+            val visibility = if (list.isEmpty()) {
                 View.VISIBLE
             } else {
                 View.GONE
@@ -61,7 +61,7 @@ class DisciplinesFragment : Fragment() {
             recycler.layoutManager = LinearLayoutManager(it)
             val divider = MaterialDividerItemDecoration(it, LinearLayoutManager.VERTICAL)
             recycler.addItemDecoration(divider)
-            divider.dividerColor= it.getColor(R.color.secondary)
+            divider.dividerColor = it.getColor(R.color.secondary)
         }
     }
 

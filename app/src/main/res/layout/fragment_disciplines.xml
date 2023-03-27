@@ -40,7 +40,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:src="@drawable/student"
-            android:visibility="visible"
+            android:visibility="gone"
             android:contentDescription="@string/fragment_disciplines_img_content_student"
             />
 
@@ -56,5 +56,4 @@
             android:text="@string/fragment_disciplines_messageStudent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </ScrollView>
