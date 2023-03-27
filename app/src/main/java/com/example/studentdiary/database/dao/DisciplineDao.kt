@@ -17,6 +17,6 @@ interface DisciplineDao {
     @Insert(onConflict = REPLACE)
     suspend fun insert(discipline: Discipline)
 
-    @Query("SELECT * FROM DISCIPLINE WHERE id =:id")
+    @Query("SELECT * FROM Discipline WHERE id =:id")
     suspend fun searchId(id:String): Discipline
 }

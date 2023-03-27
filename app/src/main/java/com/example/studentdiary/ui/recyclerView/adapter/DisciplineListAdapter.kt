@@ -35,19 +35,12 @@ class DisciplineListAdapter(
             binding.disciplineItemName.text = discipline.name
 
             binding.disciplineItemImageViewFavorite.apply {
-                visibility = if (discipline.favorite) {
-                    View.VISIBLE
-                } else {
-                    View.GONE
-                }
+                visibility = if (discipline.favorite) View.VISIBLE else View.GONE
+
             }
 
             binding.disciplineItemShapeableImageView.apply {
-                visibility = if (discipline.img.isEmpty()) {
-                    View.GONE
-                } else {
-                    View.VISIBLE
-                }
+                visibility = if (discipline.img.isEmpty()) View.GONE else View.VISIBLE
                 tryLoadImage(discipline.img)
             }
         }
