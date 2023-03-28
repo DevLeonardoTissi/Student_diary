@@ -19,4 +19,6 @@
 
     <dimen name="marginTop_textView_student">20dp</dimen>
 
+    <dimen name="switch_magtin">8dp</dimen>
+
 </resources>

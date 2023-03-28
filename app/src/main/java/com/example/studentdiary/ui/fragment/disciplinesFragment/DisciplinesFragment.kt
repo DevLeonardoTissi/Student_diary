@@ -50,7 +50,27 @@ class DisciplinesFragment : Fragment() {
             binding.disciplinesFragmentImageViewStudent.visibility = visibility
             binding.disciplinesFragmentTextViewStudent.visibility = visibility
 
+            configureSwitchFavorite(list)
+        }
+    }
+
+    private fun configureSwitchFavorite(list: List<Discipline>) {
+        val switchFavorite = binding.disciplineFragmentSwitchFavorite
+        val filterList = list.filter { it.favorite }
+
+
+        if (switchFavorite.isChecked) {
+            adapter.submitList(filterList)
+        } else {
             adapter.submitList(list)
+        }
+
+        switchFavorite.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                adapter.submitList(filterList)
+            } else {
+                adapter.submitList(list)
+            }
         }
     }
 
@@ -72,7 +92,7 @@ class DisciplinesFragment : Fragment() {
                 Discipline(
                     name = UUID.randomUUID().toString(),
                     favorite = true,
-                    img = "https://www.facebook.com/photo/?fbid=2611089512365404&set=a.112877185519995"
+                    img = "https://st2.depositphotos.com/1594308/12210/i/450/depositphotos_122104490-stock-photo-smiing-female-college-student.jpg"
                 )
             )
         }

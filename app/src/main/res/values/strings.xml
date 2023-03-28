@@ -50,6 +50,7 @@
     <string name="fragment_disciplines_img_content_desc_discipline">Discipline image</string>
     <string name="fragment_disciplines_messageStudent">O que vamos estudar hoje?</string>
     <string name="fragment_disciplines_img_content_student">student image</string>
+    <string name="fragment_discipline_switch_favorite_label">Apenas Favoritas</string>
 
 
 </resources>

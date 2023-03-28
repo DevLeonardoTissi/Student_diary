@@ -13,10 +13,12 @@ interface DisciplineDao {
     @Query("SELECT * FROM Discipline")
     fun searchAll(): LiveData<List<Discipline>>
 
-
     @Insert(onConflict = REPLACE)
     suspend fun insert(discipline: Discipline)
 
     @Query("SELECT * FROM Discipline WHERE id =:id")
     suspend fun searchId(id:String): Discipline
+
+//    @Query("SELECT * FROM Discipline WHERE favorite = true")
+//    fun searchFavorites(): LiveData<List<Discipline>>
 }
