@@ -64,7 +64,8 @@
             android:layout_marginTop="@dimen/marginTop_textView_student"
             android:textSize="@dimen/bigTextSize"
             app:layout_constraintTop_toBottomOf="@id/disciplinesFragment_imageView_student"
-            android:text="@string/fragment_disciplines_messageStudent"/>
+            android:text="@string/fragment_disciplines_messageStudent"
+            android:visibility="gone"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

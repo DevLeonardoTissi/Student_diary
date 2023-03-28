@@ -42,33 +42,39 @@ class DisciplinesFragment : Fragment() {
 
     private fun configureDiscilpineObserver() {
         model.disciplineList.observe(viewLifecycleOwner) { list ->
-            val visibility = if (list.isEmpty()) {
-                View.VISIBLE
-            } else {
-                View.GONE
-            }
-            binding.disciplinesFragmentImageViewStudent.visibility = visibility
-            binding.disciplinesFragmentTextViewStudent.visibility = visibility
-
             configureSwitchFavorite(list)
         }
+    }
+
+    private fun messageEmptyList(list: List<Discipline>) {
+        val visibility = if (list.isEmpty()) {
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
+        binding.disciplinesFragmentImageViewStudent.visibility = visibility
+        binding.disciplinesFragmentTextViewStudent.visibility = visibility
     }
 
     private fun configureSwitchFavorite(list: List<Discipline>) {
         val switchFavorite = binding.disciplineFragmentSwitchFavorite
         val filterList = list.filter { it.favorite }
 
-
         if (switchFavorite.isChecked) {
             adapter.submitList(filterList)
+            messageEmptyList(filterList)
         } else {
             adapter.submitList(list)
+            messageEmptyList(list)
         }
 
         switchFavorite.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
+                messageEmptyList(filterList)
                 adapter.submitList(filterList)
+
             } else {
+                messageEmptyList(list)
                 adapter.submitList(list)
             }
         }
