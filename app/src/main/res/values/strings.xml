@@ -9,11 +9,14 @@
 
 
     <!--Menu drawer -->
+    <string name="header_drawer_subtitle">Desenvolvido por Leonardo Tissi</string>
     <string name="drawer_menu_item_disciplines">Disciplinas</string>
+    <string name="drawer_menu_item_other">Outros</string>
     <string name="drawer_menu_item_dictionary">Dicionário</string>
     <string name="drawer_menu_item_public_tender">Concursos abertos</string>
-    <string name="drawer_menu_item_other">Outros</string>
-    <string name="header_drawer_subtitle">Desenvolvido por Leonardo Tissi</string>
+    <string name="drawer_menu_item_pomodoro">Pomodoro</string>
+
+
 
 
     <!-- Register Fragment -->

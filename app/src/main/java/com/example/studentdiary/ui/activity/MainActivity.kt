@@ -11,7 +11,7 @@ import com.example.studentdiary.R
 import com.example.studentdiary.databinding.ActivityMainBinding
 import com.google.android.material.navigation.NavigationView
 
-class MainActivity() : AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
 
     private val binding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
@@ -22,18 +22,22 @@ class MainActivity() : AppCompatActivity() {
         setContentView(binding.root)
 
 
+        //CONFIGURANDO NAV VIEW
         val navController = findNavController(R.id.nav_host_fragment)
         binding.navView
             .setupWithNavController(navController)
 
-        //CONFIGURANDO A NAVEGAÇÃO NA TOOLBAR
+//        CONFIGURANDO A NAVEGAÇÃO NA TOOLBAR
+        //Deixar por conta no navGraph adicionar o topLevel de cada fragment
 //        val appBarConfiguration = AppBarConfiguration(navController.graph, binding.drawerLayout)
-//        binding.activityMainToolbar.setupWithNavController(navController, appBarConfiguration)
+        val appBarConfiguration = AppBarConfiguration(
+            topLevelDestinationIds = setOf(
+                R.id.disciplinesFragment,
+                R.id.loginFragment
+            ), drawerLayout = binding.drawerLayout
+        )
 
-        //NAVEGAÇÃO NO DRAWER NO APP
-        binding.activityMainToolbar.setNavigationOnClickListener {
-            binding.drawerLayout.open()
-        }
+        binding.activityMainToolbar.setupWithNavController(navController, appBarConfiguration)
 
     }
 

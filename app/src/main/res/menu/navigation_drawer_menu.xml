@@ -2,32 +2,40 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-
             <item
                 android:id="@+id/disciplinesFragment"
                 android:checkable="true"
                 android:icon="@drawable/ic_book"
                 android:title="@string/drawer_menu_item_disciplines"
-                app:showAsAction="ifRoom" />
+                app:showAsAction="ifRoom"/>
 
     <item android:id="@+id/other_item"
         android:title="@string/drawer_menu_item_other">
+
         <menu>
             <item
-                android:id="@+id/dictionaryFragment"
+                android:id="@+id/loginFragment"
                 android:checkable="true"
                 android:icon="@drawable/ic_dictionary"
                 android:title="@string/drawer_menu_item_dictionary"
+                app:showAsAction="ifRoom"
+                />
+
+            <item
+                android:id="@+id/pomodoroFragment"
+                android:checkable="true"
+                android:icon="@drawable/ic_time"
+                android:title="@string/drawer_menu_item_pomodoro"
                 app:showAsAction="ifRoom" />
 
             <item
-                android:id="@+id/publicTenderFragment"
+                android:id="@+id/registerFragment"
                 android:checkable="true"
                 android:icon="@drawable/ic_exam"
                 android:title="@string/drawer_menu_item_public_tender"
                 app:showAsAction="ifRoom" />
-
         </menu>
+
     </item>
 
 </menu>
