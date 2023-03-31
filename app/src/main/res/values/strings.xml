@@ -8,6 +8,14 @@
     <string name="googleSignInClient_serverClientId">291261739017-8vrqq5dc7vb5gahio769oeq61rnb366a.apps.googleusercontent.com</string>
 
 
+    <!--Menu drawer -->
+    <string name="drawer_menu_item_disciplines">Disciplinas</string>
+    <string name="drawer_menu_item_dictionary">Dicionário</string>
+    <string name="drawer_menu_item_public_tender">Concursos abertos</string>
+    <string name="drawer_menu_item_other">Outros</string>
+    <string name="header_drawer_subtitle">Desenvolvido por Leonardo Tissi</string>
+
+
     <!-- Register Fragment -->
     <string name="register_fragment_snackbar_message_firebase_auth_weak_password_exception">Sua senha precisa de, no mínimo 6 dígitos</string>
     <string name="register_fragment_snackbar_message_firebase_auth_Invalid_credentials_Exception">Email inválido</string>

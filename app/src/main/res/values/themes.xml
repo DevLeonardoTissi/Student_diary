@@ -1,11 +1,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Theme.StudentDiary" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Primary brand color. -->
+         Primary brand color.
         <item name="colorPrimary">@color/purple_500</item>
-
-        <item name="colorSurface">@color/purple_700</item>
-
         <item name="colorOnPrimary">#FFFFFF</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
@@ -14,12 +11,38 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
-        <item name="colorOnSurface">@color/black</item>
+
 
         <item name="colorPrimaryContainer">@color/colorPrimaryContainer</item>
         <item name="colorOnPrimaryContainer">@color/colorOnPrimaryContainer</item>
 
 
+
+<!--        <item name="android:windowTranslucentStatus">true</item>-->
+
+
+        colorSecondaryContainer
+        colorOnSurfaceVariant
+
+<!--    </style>-->
+        <item name="colorSecondaryContainer">#50AE5D</item>
+        <item name="colorOnSecondaryContainer">#3B77CF</item>
+        <item name="colorTertiaryContainer">#962DC3</item>
+        <item name="colorOnTertiaryContainer">#D3BF06</item>
+        <item name="colorSurface">#E86942</item>
+        <item name="colorOnSurface">#0041E3</item>
+        <item name="colorOnSurfaceVariant">#640F6A</item>
+        <item name="colorOutline">#19D5C5</item>
+
     </style>
+
+
+
+    <style name="Widget.App.NavigationView" parent="Widget.Material3.NavigationView">
+        <item name="itemIconTint">#AC7E22</item>
+        <item name="itemTextColor">#9E971C</item>
+        <item name="itemShapeFillColor">#35CD4A</item>
+    </style>
+
 
 </resources>

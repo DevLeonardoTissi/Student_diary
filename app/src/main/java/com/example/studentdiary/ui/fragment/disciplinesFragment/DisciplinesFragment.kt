@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.studentdiary.R
 import com.example.studentdiary.databinding.FragmentDisciplinesBinding
 import com.example.studentdiary.model.Discipline
 import com.example.studentdiary.ui.recyclerView.adapter.DisciplineListAdapter
@@ -91,7 +90,7 @@ class DisciplinesFragment : Fragment() {
             recycler.layoutManager = LinearLayoutManager(it)
             val divider = MaterialDividerItemDecoration(it, LinearLayoutManager.VERTICAL)
             recycler.addItemDecoration(divider)
-            divider.dividerColor = it.getColor(R.color.secondary)
+//            divider.dividerColor = it.getColor(R.color.secondary)
         }
     }
 

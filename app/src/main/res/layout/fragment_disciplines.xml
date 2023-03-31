@@ -11,7 +11,7 @@
         android:id="@+id/disciplineFragment_switch_favorite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/switch_magtin"
+        android:layout_margin="@dimen/switch_margin"
         android:checked="false"
         android:text="@string/fragment_discipline_switch_favorite_label"
         app:layout_constraintBottom_toTopOf="@id/disciplinesFragment_recyclerView"

@@ -7,7 +7,7 @@
     <dimen name="fab_margin_default">16dp</dimen>
     <dimen name= "textview_margin_default">8dp</dimen>
 
-    <dimen name="bigTextSize">20sp</dimen>
+    <dimen name="bigTextSize">24sp</dimen>
     <dimen name="defaultTextSize">14sp</dimen>
 
     <dimen name="shapeableImageView_default_width">80dp</dimen>
@@ -19,6 +19,8 @@
 
     <dimen name="marginTop_textView_student">20dp</dimen>
 
-    <dimen name="switch_magtin">8dp</dimen>
+    <dimen name="switch_margin">8dp</dimen>
+
+    <dimen name="default_margin_itens_header_drawer">24dp</dimen>
 
 </resources>
