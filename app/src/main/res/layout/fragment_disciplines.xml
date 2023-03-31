@@ -1,71 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    style="?attr/materialCardViewFilledStyle"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragment.disciplinesFragment.DisciplinesFragment"
-    android:fillViewport="true">
+    tools:context=".ui.fragment.disciplinesFragment.DisciplinesFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+
+    <com.google.android.material.materialswitch.MaterialSwitch
+        android:id="@+id/disciplineFragment_switch_favorite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/switch_magtin"
+        android:checked="false"
+        android:text="@string/fragment_discipline_switch_favorite_label"
+        app:layout_constraintBottom_toTopOf="@id/disciplinesFragment_recyclerView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/disciplinesFragment_recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/disciplineFragment_switch_favorite"
+        tools:listitem="@layout/discipline_item" />
 
-        <com.google.android.material.materialswitch.MaterialSwitch
-            android:id="@+id/disciplineFragment_switch_favorite"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="false"
-            android:text="@string/fragment_discipline_switch_favorite_label"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_margin="@dimen/switch_magtin"
-            app:layout_constraintBottom_toTopOf="@id/disciplinesFragment_recyclerView"/>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/disciplinesFragment_fab_insert"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/fab_margin_default"
+        android:contentDescription="@string/fragment_disciplines_fab_insert_content_desc"
+        android:src="@drawable/ic_add"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/disciplinesFragment_recyclerView"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@id/disciplineFragment_switch_favorite"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            tools:listitem="@layout/discipline_item"/>
+    <ImageView
+        android:id="@+id/disciplinesFragment_imageView_student"
+        style="@style/imageViewStudent"
+        android:contentDescription="@string/fragment_disciplines_img_content_student"
+        android:src="@drawable/student"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/disciplinesFragment_fab_insert"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_margin="@dimen/fab_margin_default"
-            android:contentDescription="@string/fragment_disciplines_fab_insert_content_desc"
-            android:src="@drawable/ic_add"/>
+    <TextView
+        android:id="@+id/disciplinesFragment_textView_student"
+        style="@style/textviewColorSecondary"
+        android:layout_marginTop="@dimen/marginTop_textView_student"
+        android:gravity="center"
+        android:text="@string/fragment_disciplines_messageStudent"
+        android:textSize="@dimen/bigTextSize"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/disciplinesFragment_imageView_student" />
 
-        <ImageView
-            android:id="@+id/disciplinesFragment_imageView_student"
-            style="@style/imageViewStudent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:src="@drawable/student"
-            android:visibility="gone"
-            android:contentDescription="@string/fragment_disciplines_img_content_student"
-            />
 
-        <TextView
-            android:id="@+id/disciplinesFragment_textView_student"
-            android:gravity="center"
-            style="@style/textviewColorSecondary"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="@dimen/marginTop_textView_student"
-            android:textSize="@dimen/bigTextSize"
-            app:layout_constraintTop_toBottomOf="@id/disciplinesFragment_imageView_student"
-            android:text="@string/fragment_disciplines_messageStudent"
-            android:visibility="gone"/>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.studentdiary.R
 import com.example.studentdiary.databinding.FragmentDisciplinesBinding
@@ -24,6 +25,9 @@ class DisciplinesFragment : Fragment() {
     private val binding get() = _binding!!
     private val adapter: DisciplineListAdapter by inject()
     private val model: DisciplinesViewModel by viewModel()
+    private val controller by lazy {
+        findNavController()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
