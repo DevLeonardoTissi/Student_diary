@@ -21,7 +21,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:navigationIcon="@drawable/ic_add" />
+            app:navigationIcon="@drawable/ic_dehaze" />
 
         <fragment
             android:id="@+id/nav_host_fragment"
