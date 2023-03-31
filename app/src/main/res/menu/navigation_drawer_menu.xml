@@ -14,7 +14,7 @@
 
         <menu>
             <item
-                android:id="@+id/loginFragment"
+                android:id="@+id/dictionaryFragment"
                 android:checkable="true"
                 android:icon="@drawable/ic_dictionary"
                 android:title="@string/drawer_menu_item_dictionary"
@@ -29,7 +29,7 @@
                 app:showAsAction="ifRoom" />
 
             <item
-                android:id="@+id/registerFragment"
+                android:id="@+id/publicTenderFragment"
                 android:checkable="true"
                 android:icon="@drawable/ic_exam"
                 android:title="@string/drawer_menu_item_public_tender"
