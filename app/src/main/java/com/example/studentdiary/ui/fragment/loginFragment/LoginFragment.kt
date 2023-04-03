@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.studentdiary.R
 import com.example.studentdiary.databinding.FragmentLoginBinding
 import com.example.studentdiary.extensions.googleSignInClient
@@ -30,6 +31,9 @@ class LoginFragment : Fragment() {
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
     private val model: LoginViewModel by viewModel()
+    private val controller by lazy {
+        findNavController()
+    }
 
 
     override fun onCreateView(
@@ -50,6 +54,7 @@ class LoginFragment : Fragment() {
         configureLoginGoogleAccountButton()
         configureLoginFacebookAccountButton()
         botaoSairContaGoogle()
+        registerButton()
     }
 
     private fun configureObserverLogin() {
@@ -210,15 +215,21 @@ class LoginFragment : Fragment() {
         binding.fragmentLoginTextfieldPassword.error = null
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
     private fun botaoSairContaGoogle() {
         binding.fragmentLoginSairGoogle.setOnClickListener {
             context?.googleSignInClient()?.signOut()
             view?.snackBar("Saiu da conta google")
         }
+    }
+
+    private fun registerButton(){
+        binding.fragmentLoginRegisterButton.setOnClickListener {
+            controller.navigate(R.id.action_loginFragment_to_registerFragment)
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
