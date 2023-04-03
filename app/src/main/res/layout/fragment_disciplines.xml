@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/switch_margin"
         android:checked="false"
-        android:text="@string/fragment_discipline_switch_favorite_label"
+        android:text="@string/discipline_fragment_switch_favorite_label"
         app:layout_constraintBottom_toTopOf="@id/disciplinesFragment_recyclerView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -33,7 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin_default"
-        android:contentDescription="@string/fragment_disciplines_fab_insert_content_desc"
+        android:contentDescription="@string/disciplines_fragment_fab_insert_content_desc"
         android:src="@drawable/ic_add"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -41,7 +41,7 @@
     <ImageView
         android:id="@+id/disciplinesFragment_imageView_student"
         style="@style/imageViewStudent"
-        android:contentDescription="@string/fragment_disciplines_img_content_student"
+        android:contentDescription="@string/disciplines_fragment_img_content_student"
         android:src="@drawable/student"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -54,7 +54,7 @@
         style="@style/textviewColorSecondary"
         android:layout_marginTop="@dimen/marginTop_textView_student"
         android:gravity="center"
-        android:text="@string/fragment_disciplines_messageStudent"
+        android:text="@string/disciplines_fragment_messageStudent"
         android:textSize="@dimen/bigTextSize"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"

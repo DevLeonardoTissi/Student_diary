@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/loginFragment">
+    app:startDestination="@id/disciplinesFragment">
 
     <fragment
         android:id="@+id/registerFragment"
@@ -22,8 +22,8 @@
     <fragment
         android:id="@+id/disciplinesFragment"
         android:name="com.example.studentdiary.ui.fragment.disciplinesFragment.DisciplinesFragment"
-        android:label="fragment_disciplines"
-        tools:layout="@layout/fragment_disciplines" >
+        android:label="@string/disciplines_fragment_toolbat_title"
+        tools:layout="@layout/fragment_disciplines">
         <action
             android:id="@+id/action_disciplinesFragment_to_disciplineFormFragment"
             app:destination="@id/disciplineFormFragment" />
@@ -34,12 +34,12 @@
     <fragment
         android:id="@+id/publicTenderFragment"
         android:name="com.example.studentdiary.ui.fragment.publicTenderFragment.PublicTenderFragment"
-        android:label="fragment_public_tender"
+        android:label="@string/public_tender_fragment_toolbar_title"
         tools:layout="@layout/fragment_public_tender" />
     <fragment
         android:id="@+id/dictionaryFragment"
         android:name="com.example.studentdiary.ui.fragment.dictionaryFragment.DictionaryFragment"
-        android:label="fragment_dictionary"
+        android:label="@string/dictionary_fragment_toolbar_title"
         tools:layout="@layout/fragment_dictionary" />
     <fragment
         android:id="@+id/disciplineFormFragment"
@@ -49,7 +49,7 @@
     <fragment
         android:id="@+id/pomodoroFragment"
         android:name="com.example.studentdiary.ui.fragment.pomodoroFragment.PomodoroFragment"
-        android:label="fragment_pomodoro"
+        android:label="@string/pomodoro_fragment_toolbar_title"
         tools:layout="@layout/fragment_pomodoro" />
     <action android:id="@+id/action_global_loginFragment" app:destination="@id/loginFragment" />
     <fragment

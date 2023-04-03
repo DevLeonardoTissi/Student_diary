@@ -36,7 +36,7 @@
         app:layout_constraintStart_toEndOf="@id/disciplineItem_name"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_margin="@dimen/margin_default"
-        android:contentDescription="@string/fragment_disciplines_img_content_desc_favorite" />
+        android:contentDescription="@string/disciplines_fragment_img_content_desc_favorite" />
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/disciplineItem_shapeableImageView"
@@ -48,7 +48,7 @@
         tools:src="@tools:sample/backgrounds/scenic"
         app:layout_constraintEnd_toStartOf="@id/disciplineItem_name"
         app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Large"
-        android:contentDescription="@string/fragment_disciplines_img_content_desc_discipline"
+        android:contentDescription="@string/disciplines_fragment_img_content_desc_discipline"
         />
 
 
