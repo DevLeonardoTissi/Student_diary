@@ -163,16 +163,16 @@ class LoginFragment : Fragment() {
                 view?.snackBar(" nao foi, cancelado")
             }
 
-            override fun onError(exception: FacebookException) {
+            override fun onError(error: FacebookException) {
                 view?.snackBar(" nao foi ")
-                Log.e("TAG", "onError: facebook ", exception)
+                Log.e("TAG", "onError: facebook ", error)
             }
         })
     }
 
     private fun searchFacebookUser() {
         val acessToken = AccessToken.getCurrentAccessToken()
-        val request = GraphRequest.newMeRequest(acessToken) { jsonObject, response ->
+        val request = GraphRequest.newMeRequest(acessToken) { jsonObject, _ ->
             try {
                 val name = jsonObject?.getString("name")
                 name?.let {
