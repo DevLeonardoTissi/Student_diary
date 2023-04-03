@@ -14,10 +14,51 @@
         android:id="@+id/loginFragment"
         android:name="com.example.studentdiary.ui.fragment.loginFragment.LoginFragment"
         android:label="fragment_login"
-        tools:layout="@layout/fragment_login" />
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
+    </fragment>
     <fragment
         android:id="@+id/disciplinesFragment"
         android:name="com.example.studentdiary.ui.fragment.disciplinesFragment.DisciplinesFragment"
         android:label="fragment_disciplines"
-        tools:layout="@layout/fragment_disciplines" />
+        tools:layout="@layout/fragment_disciplines" >
+        <action
+            android:id="@+id/action_disciplinesFragment_to_disciplineFormFragment"
+            app:destination="@id/disciplineFormFragment" />
+        <action
+            android:id="@+id/action_disciplinesFragment_to_disciplineDetailsFragment"
+            app:destination="@id/disciplineDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/publicTenderFragment"
+        android:name="com.example.studentdiary.ui.fragment.publicTenderFragment.PublicTenderFragment"
+        android:label="fragment_public_tender"
+        tools:layout="@layout/fragment_public_tender" />
+    <fragment
+        android:id="@+id/dictionaryFragment"
+        android:name="com.example.studentdiary.ui.fragment.dictionaryFragment.DictionaryFragment"
+        android:label="fragment_dictionary"
+        tools:layout="@layout/fragment_dictionary" />
+    <fragment
+        android:id="@+id/disciplineFormFragment"
+        android:name="com.example.studentdiary.ui.fragment.disciplineFormFragment.DisciplineFormFragment"
+        android:label="fragment_discipline_form"
+        tools:layout="@layout/fragment_discipline_form" />
+    <fragment
+        android:id="@+id/pomodoroFragment"
+        android:name="com.example.studentdiary.ui.fragment.pomodoroFragment.PomodoroFragment"
+        android:label="fragment_pomodoro"
+        tools:layout="@layout/fragment_pomodoro" />
+    <action android:id="@+id/action_global_loginFragment" app:destination="@id/loginFragment" />
+    <fragment
+        android:id="@+id/disciplineDetailsFragment"
+        android:name="com.example.studentdiary.ui.fragment.disciplineDetailsFragment.DisciplineDetailsFragment"
+        android:label="fragment_discipline_details"
+        tools:layout="@layout/fragment_discipline_details" >
+        <argument
+            android:name="disciplineId"
+            app:argType="string" />
+    </fragment>
 </navigation>

@@ -6,6 +6,9 @@ plugins {
     //Ksp Annotation Processor
     id 'com.google.devtools.ksp'
 
+    //SafeArgs
+    id 'androidx.navigation.safeargs.kotlin'
+
 }
 
 android {
@@ -56,7 +59,6 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
 
     //Navigation
-    def nav_version = "2.5.3"
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
 

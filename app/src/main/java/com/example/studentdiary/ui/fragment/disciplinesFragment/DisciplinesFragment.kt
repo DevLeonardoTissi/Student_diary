@@ -5,17 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.studentdiary.R
 import com.example.studentdiary.databinding.FragmentDisciplinesBinding
 import com.example.studentdiary.model.Discipline
 import com.example.studentdiary.ui.recyclerView.adapter.DisciplineListAdapter
 import com.google.android.material.divider.MaterialDividerItemDecoration
-import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.util.*
 
 
 class DisciplinesFragment : Fragment() {
@@ -50,11 +48,7 @@ class DisciplinesFragment : Fragment() {
     }
 
     private fun messageEmptyList(list: List<Discipline>) {
-        val visibility = if (list.isEmpty()) {
-            View.VISIBLE
-        } else {
-            View.GONE
-        }
+        val visibility = if (list.isEmpty()) View.VISIBLE else View.GONE
         binding.disciplinesFragmentImageViewStudent.visibility = visibility
         binding.disciplinesFragmentTextViewStudent.visibility = visibility
     }
@@ -90,27 +84,23 @@ class DisciplinesFragment : Fragment() {
             recycler.layoutManager = LinearLayoutManager(it)
             val divider = MaterialDividerItemDecoration(it, LinearLayoutManager.VERTICAL)
             recycler.addItemDecoration(divider)
+            adapter.onItemClick=  {disciplineId ->
+                goToDisciplineDetails(disciplineId)
+
+            }
 //            divider.dividerColor = it.getColor(R.color.secondary)
         }
+    }
+
+    private fun goToDisciplineDetails(disciplineId: String) {
+        val direction = DisciplinesFragmentDirections.actionDisciplinesFragmentToDisciplineDetailsFragment(disciplineId)
+        controller.navigate(direction)
     }
 
     private fun configureFab() {
         val fab = binding.disciplinesFragmentFabInsert
         fab.setOnClickListener {
-            insert(
-                Discipline(
-                    name = UUID.randomUUID().toString(),
-                    favorite = true,
-                    img = "https://st2.depositphotos.com/1594308/12210/i/450/depositphotos_122104490-stock-photo-smiing-female-college-student.jpg"
-                )
-            )
-        }
-    }
-
-
-    private fun insert(discipline: Discipline) {
-        lifecycleScope.launch {
-            model.insert(discipline)
+            controller.navigate(R.id.action_disciplinesFragment_to_disciplineFormFragment)
         }
     }
 

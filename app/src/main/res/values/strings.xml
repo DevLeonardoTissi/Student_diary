@@ -17,8 +17,6 @@
     <string name="drawer_menu_item_pomodoro">Pomodoro</string>
 
 
-
-
     <!-- Register Fragment -->
     <string name="register_fragment_snackbar_message_firebase_auth_weak_password_exception">Sua senha precisa de, no mínimo 6 dígitos</string>
     <string name="register_fragment_snackbar_message_firebase_auth_Invalid_credentials_Exception">Email inválido</string>
