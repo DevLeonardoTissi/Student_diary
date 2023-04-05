@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.studentdiary.R
 import com.example.studentdiary.databinding.FragmentDisciplinesBinding
 import com.example.studentdiary.model.Discipline
 import com.example.studentdiary.ui.recyclerView.adapter.DisciplineListAdapter
@@ -41,8 +40,10 @@ class DisciplinesFragment : Fragment() {
         configureFab()
     }
 
+
     private fun configureDiscilpineObserver() {
         model.disciplineList.observe(viewLifecycleOwner) { list ->
+            adapter.submitList(list)
             configureSwitchFavorite(list)
         }
     }
@@ -95,14 +96,17 @@ class DisciplinesFragment : Fragment() {
     private fun goToDisciplineDetails(disciplineId: String) {
 //        val direction = DisciplinesFragmentDirections.actionDisciplinesFragmentToDisciplineDetailsFragment(disciplineId)
 //        controller.navigate(direction)
+
         val direction = DisciplinesFragmentDirections.actionDisciplinesFragmentToDisciplineFormFragment(disciplineId)
         controller.navigate(direction)
+
     }
 
     private fun configureFab() {
         val fab = binding.disciplinesFragmentFabInsert
         fab.setOnClickListener {
-            controller.navigate(R.id.action_disciplinesFragment_to_disciplineFormFragment)
+            val direction = DisciplinesFragmentDirections.actionDisciplinesFragmentToDisciplineFormFragment(null)
+            controller.navigate(direction)
         }
     }
 

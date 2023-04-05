@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 import java.util.*
 
 @Entity
-class Discipline(
+data class Discipline(
     @PrimaryKey
     val id: String = UUID.randomUUID().toString(),
     var name: String,

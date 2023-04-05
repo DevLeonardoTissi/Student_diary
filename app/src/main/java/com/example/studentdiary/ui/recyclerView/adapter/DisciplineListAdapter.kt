@@ -62,9 +62,8 @@ class DisciplineListAdapter(
             }
 
             override fun areContentsTheSame(oldItem: Discipline, newItem: Discipline): Boolean {
-                return oldItem.id == newItem.id
+                return oldItem == newItem
             }
-
         }
     }
 

@@ -10,7 +10,7 @@ class DisciplineFormViewModel(private val repository: DisciplineRepository) : Vi
         repository.insert(discipline)
     }
 
-    suspend fun searDisciplideForId(id: String): Discipline =
+    suspend fun searchDisciplideForId(id: String): Discipline =
         repository.searchId(id)
 
 

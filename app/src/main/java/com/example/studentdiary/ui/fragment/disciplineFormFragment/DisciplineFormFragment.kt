@@ -44,7 +44,6 @@ class DisciplineFormFragment : Fragment() {
     private var favorite: Boolean = false
 
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -72,7 +71,7 @@ class DisciplineFormFragment : Fragment() {
     }
 
     private suspend fun searchData(it: String) {
-        val discipline = model.searDisciplideForId(it)
+        val discipline = model.searchDisciplideForId(it)
         initialMinute = discipline.initialMinute
         initialHour = discipline.initialHourt
         finalHour = discipline.finalHour
@@ -85,8 +84,14 @@ class DisciplineFormFragment : Fragment() {
             binding.disciplineFormFragmentImageView.tryLoadImage(url)
             this@DisciplineFormFragment.url = url
         }
-        binding.disciplineFormFragmentStartTime.text = formatTime(initialHour, initialMinute)
-        binding.disciplineFormFragmentEndTime.text = formatTime(finalHour, finalMinute)
+
+        if (initialHour != null && initialMinute != null) {
+            binding.disciplineFormFragmentStartTime.text = formatTime(initialHour, initialMinute)
+        }
+        if (finalHour != null && finalMinute != null) {
+            binding.disciplineFormFragmentEndTime.text = formatTime(finalHour, finalMinute)
+        }
+
     }
 
     private fun checkBoxFavorite() {
@@ -164,11 +169,11 @@ class DisciplineFormFragment : Fragment() {
         doneButton.setOnClickListener {
             cleanField()
             val name = binding.disciplineFormFragmentTextfieldName.editText?.text.toString()
-            val isvalid = validate(name)
-            if (isvalid) {
+            val isValid = validate(name)
+            if (isValid) {
                 val discipline = createDiscipline()
                 insert(discipline)
-                controller.popBackStack()
+
             }
         }
     }
@@ -220,6 +225,7 @@ class DisciplineFormFragment : Fragment() {
     private fun insert(discipline: Discipline) {
         lifecycleScope.launch {
             model.insert(discipline)
+            controller.popBackStack()
         }
     }
 
@@ -227,6 +233,4 @@ class DisciplineFormFragment : Fragment() {
         super.onDestroy()
         _binding = null
     }
-
-
 }
