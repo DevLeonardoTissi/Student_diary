@@ -7,6 +7,7 @@ import com.example.studentdiary.repository.DisciplineRepository
 import com.example.studentdiary.repository.FirebaseAuthRepository
 import com.example.studentdiary.repository.PublicTenderRepository
 import com.example.studentdiary.ui.fragment.dictionaryFragment.DictionaryViewModel
+import com.example.studentdiary.ui.fragment.disciplineFormFragment.DisciplineFormViewModel
 import com.example.studentdiary.ui.fragment.disciplinesFragment.DisciplinesViewModel
 import com.example.studentdiary.ui.fragment.loginFragment.LoginViewModel
 import com.example.studentdiary.ui.fragment.registerFragment.RegisterViewModel
@@ -62,6 +63,7 @@ val viewModelModule = module {
     viewModel { LoginViewModel(get()) }
     viewModel { DisciplinesViewModel(get()) }
     viewModel {DictionaryViewModel(get())}
+    viewModel{DisciplineFormViewModel(get())}
 }
 
 val adapterModule = module {

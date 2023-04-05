@@ -9,9 +9,11 @@ class Discipline(
     @PrimaryKey
     val id: String = UUID.randomUUID().toString(),
     var name: String,
-    var description: String ="",
-    var startTime: String ="",
-    var endTime: String ="",
+    var description: String? = null,
+    var initialHourt: Int? = null,
+    var initialMinute: Int? = null,
+    var finalHour: Int? = null,
+    var finalMinute: Int?= null,
     var favorite: Boolean = false,
-    var img: String = ""
+    var img: String? = null
 )

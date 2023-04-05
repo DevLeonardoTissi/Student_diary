@@ -45,7 +45,12 @@
         android:id="@+id/disciplineFormFragment"
         android:name="com.example.studentdiary.ui.fragment.disciplineFormFragment.DisciplineFormFragment"
         android:label="fragment_discipline_form"
-        tools:layout="@layout/fragment_discipline_form" />
+        tools:layout="@layout/fragment_discipline_form" >
+        <argument
+            android:name="testeId"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
     <fragment
         android:id="@+id/pomodoroFragment"
         android:name="com.example.studentdiary.ui.fragment.pomodoroFragment.PomodoroFragment"

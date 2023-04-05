@@ -93,7 +93,9 @@ class DisciplinesFragment : Fragment() {
     }
 
     private fun goToDisciplineDetails(disciplineId: String) {
-        val direction = DisciplinesFragmentDirections.actionDisciplinesFragmentToDisciplineDetailsFragment(disciplineId)
+//        val direction = DisciplinesFragmentDirections.actionDisciplinesFragmentToDisciplineDetailsFragment(disciplineId)
+//        controller.navigate(direction)
+        val direction = DisciplinesFragmentDirections.actionDisciplinesFragmentToDisciplineFormFragment(disciplineId)
         controller.navigate(direction)
     }
 

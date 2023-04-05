@@ -40,8 +40,8 @@ class DisciplineListAdapter(
             }
 
             binding.disciplineItemShapeableImageView.apply {
-                visibility = if (discipline.img.isEmpty()) View.GONE else View.VISIBLE
-                tryLoadImage(discipline.img)
+                    visibility = if (discipline.img == null) View.GONE else View.VISIBLE
+                    tryLoadImage(discipline.img)
             }
         }
     }

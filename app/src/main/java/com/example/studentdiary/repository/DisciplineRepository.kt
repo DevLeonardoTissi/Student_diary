@@ -13,9 +13,8 @@ class DisciplineRepository(private val dao: DisciplineDao) {
         dao.insert(discipline)
     }
 
-    suspend fun searchId(id: String) {
-        dao.searchId(id)
-    }
+    suspend fun searchId(id: String): Discipline = dao.searchId(id)
+
 
 
 }

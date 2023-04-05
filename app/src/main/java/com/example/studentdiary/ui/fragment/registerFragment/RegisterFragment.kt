@@ -35,14 +35,14 @@ class RegisterFragment : Fragment() {
 
 
     private fun configureRegistrationButton() {
-        val registrationButton = binding.fragmentRegisterRegisterButton
+        val registrationButton = binding.registerFragmentRegisterButton
         registrationButton.setOnClickListener {
             cleanFields()
 
-            val email = binding.fragmentRegisterTextfieldEmail.editText?.text.toString()
-            val password = binding.fragmentRegisterTextfieldPassword.editText?.text.toString()
+            val email = binding.registerFragmentTextfieldEmail.editText?.text.toString()
+            val password = binding.registerFragmentTextfieldPassword.editText?.text.toString()
             val passwordChecker =
-                binding.fragmentRegisterTextfieldPasswordChecker.editText?.text.toString()
+                binding.registerFragmentTextfieldPasswordChecker.editText?.text.toString()
 
             val isvalid = validateData(email, password, passwordChecker)
             if (isvalid) {
@@ -53,28 +53,28 @@ class RegisterFragment : Fragment() {
     }
 
     private fun cleanFields() {
-        binding.fragmentRegisterTextfieldEmail.error = null
-        binding.fragmentRegisterTextfieldPassword.error = null
-        binding.fragmentRegisterTextfieldPasswordChecker.error = null
+        binding.registerFragmentTextfieldEmail.error = null
+        binding.registerFragmentTextfieldPassword.error = null
+        binding.registerFragmentTextfieldPasswordChecker.error = null
     }
 
     private fun validateData(email: String, password: String, passwordChecker: String): Boolean {
         var valid = true
 
         if (email.isBlank()) {
-            binding.fragmentRegisterTextfieldEmail.error =
+            binding.registerFragmentTextfieldEmail.error =
                 context?.getString(R.string.register_fragment_text_field_error_email_required)
             valid = false
         }
 
         if (password.isBlank()) {
-            binding.fragmentRegisterTextfieldPassword.error =
+            binding.registerFragmentTextfieldPassword.error =
                 context?.getString(R.string.register_fragment_text_field_error_password_required)
             valid = false
         }
 
         if (passwordChecker != password) {
-            binding.fragmentRegisterTextfieldPasswordChecker.error =
+            binding.registerFragmentTextfieldPasswordChecker.error =
                 context?.getString(R.string.register_fragment_text_field_error_different_password)
             valid = false
         }
