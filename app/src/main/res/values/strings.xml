@@ -83,19 +83,28 @@
     <string name="discipline_form_fragment_startTimeButton">Horário Inicial</string>
     <string name="discipline_form_fragment_endTimeButton">Horário Final</string>
     <string name="discipline_form_fragment_fab_img_content_desc">Floating action insert photo</string>
+    <string name="discipline_form_fragment_fab_calendar_content_desc">Floating action insert calendar</string>
+    <string name="discipline_form_fragment_fab_calendar_title">Selecionar data</string>
     <string name="discipline_form_fragment_fab_done_content_desc">done</string>
     <string name="discipline_form_fragment_title_timePicker_start">Selecione a hora de começar</string>
     <string name="discipline_form_fragment_title_timePicker_end">Selecione a hora de encerrar</string>
+    <string name="discipline_form_fragment_title_dataPicker">Selecione o(s) dia(s) que deseja estudar</string>
 
 
 
 
-    <!-- Discipline Form Dialog -->
-    <string name="discipline_form_dialog_button_load">Carregar</string>
-    <string name="discipline_form_dialog_text_field_hint_url">URL da imagem</string>
+    <!-- Discipline Form Image Dialog -->
+    <string name="discipline_form_image_dialog_button_load">Carregar</string>
+    <string name="discipline_form_image_dialog_text_field_hint_url">URL da imagem</string>
+
+
+    <!-- Discipline Form Confirm Dialog  -->
+    <string name="discipline_form_confirm_dialog_title">Confirmar disciplina</string>
+    <string name="discipline_form_confirm_dialog_message">Confirmar adição de uma nova disciplina?</string>
 
     <!-- Common -->
     <string name="common_confirm">Confirmar</string>
     <string name="common_cancel">Cancelar</string>
+    <string name="common_decline">Rejeitar</string>
 
 </resources>

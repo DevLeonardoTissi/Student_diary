@@ -16,19 +16,19 @@ class DisciplineFormDialog(private val context: Context) {
 
         DisciplineFormDialogBinding.inflate(LayoutInflater.from(context)).apply {
             url?.let {
-                disciplineFormDialogImageView.tryLoadImage(it)
-                disciplineFormTextInputLayoutUrl.editText?.setText(it)
+                disciplineFormImageDialogImageView.tryLoadImage(it)
+                disciplineFormImageDialogTextInputLayoutUrl.editText?.setText(it)
             }
 
-            disciplineFormDialogButtonLoad.setOnClickListener {
-                val url = disciplineFormTextInputLayoutUrl.editText?.text.toString()
-                disciplineFormDialogImageView.tryLoadImage(url)
+            disciplineFormImageDialogButtonLoad.setOnClickListener {
+                val url = disciplineFormImageDialogTextInputLayoutUrl.editText?.text.toString()
+                disciplineFormImageDialogImageView.tryLoadImage(url)
             }
 
             AlertDialog.Builder(context)
                 .setView(root)
                 .setPositiveButton(context.getString(R.string.common_confirm)) { _, _ ->
-                    val url = disciplineFormTextInputLayoutUrl.editText?.text.toString()
+                    val url = disciplineFormImageDialogTextInputLayoutUrl.editText?.text.toString()
                     onImageClick(url)
                 }
                 .setNegativeButton(context.getString(R.string.common_cancel)){_, _ ->

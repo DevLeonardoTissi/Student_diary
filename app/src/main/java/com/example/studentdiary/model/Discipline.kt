@@ -8,7 +8,7 @@ import java.util.*
 data class Discipline(
     @PrimaryKey
     val id: String = UUID.randomUUID().toString(),
-    var name: String,
+    var name: String? = null,
     var description: String? = null,
     var initialHourt: Int? = null,
     var initialMinute: Int? = null,

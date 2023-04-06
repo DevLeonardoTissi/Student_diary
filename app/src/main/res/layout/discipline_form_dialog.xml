@@ -9,7 +9,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/discipline_form_dialog_imageView"
+            android:id="@+id/discipline_form_image_dialog_imageView"
             android:layout_width="0dp"
             android:layout_height="@dimen/imageView_big_height"
             android:scaleType="centerCrop"
@@ -19,30 +19,30 @@
             android:src="@drawable/placeholder"/>
 
         <Button
-            android:id="@+id/discipline_form_dialog_button_load"
+            android:id="@+id/discipline_form_image_dialog_button_load"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:icon="@drawable/ic_refresh"
-            android:text="@string/discipline_form_dialog_button_load"
-            app:layout_constraintBottom_toBottomOf="@id/discipline_form_dialog_imageView"
-            app:layout_constraintTop_toBottomOf="@id/discipline_form_dialog_imageView"
+            android:text="@string/discipline_form_image_dialog_button_load"
+            app:layout_constraintBottom_toBottomOf="@id/discipline_form_image_dialog_imageView"
+            app:layout_constraintTop_toBottomOf="@id/discipline_form_image_dialog_imageView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/discipline_form_textInputLayout_url"
+            android:id="@+id/discipline_form_image_dialog_textInputLayout_url"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/textField"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/discipline_form_dialog_button_load"
+            app:layout_constraintTop_toBottomOf="@id/discipline_form_image_dialog_button_load"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/discipline_form_dialog_text_field_hint_url"
+                android:hint="@string/discipline_form_image_dialog_text_field_hint_url"
                 android:inputType="textUri" />
 
         </com.google.android.material.textfield.TextInputLayout>
