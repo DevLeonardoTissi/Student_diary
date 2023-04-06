@@ -53,6 +53,8 @@ class DisciplineFormFragment : Fragment() {
     private var finalMinute: Int? = null
     private var favorite: Boolean = false
     private var date: Pair<Long, Long>? = null
+    private var name: String? = null
+    private var description: String? = null
 
 
     override fun onCreateView(
@@ -73,7 +75,6 @@ class DisciplineFormFragment : Fragment() {
         saveTextFieldsValue()
         doneButton()
         calendarButton()
-
     }
 
     private fun searchDisciplineId() {
@@ -91,31 +92,46 @@ class DisciplineFormFragment : Fragment() {
     private fun updateUi() {
         model.discipline.observe(viewLifecycleOwner) { discipline ->
             discipline?.let {
-                initialMinute = discipline.initialMinute
-                initialHour = discipline.initialHourt
-                finalHour = discipline.finalHour
-                finalMinute = discipline.finalMinute
+
                 favorite = discipline.favorite
+                binding.disciplineFormCheckBox.isChecked = favorite
+
+                discipline.initialHourt?.let { initialHour ->
+                    this@DisciplineFormFragment.initialHour = initialHour
+                }
+
+                discipline.initialMinute?.let { initialMinute ->
+                    this@DisciplineFormFragment.initialMinute = initialMinute
+                }
+
+                discipline.finalHour?.let { finalHour ->
+                    this@DisciplineFormFragment.finalHour = finalHour
+                }
+
+                discipline.finalMinute?.let { finalMinute ->
+                    this@DisciplineFormFragment.finalMinute = finalMinute
+                }
+
 
                 discipline.date?.let { date ->
                     binding.disciplineFormFabCalendar.text = concatenateDateValues(date)
                     this@DisciplineFormFragment.date = date
                 }
 
-                discipline.name?.let {
+                discipline.name?.let { name ->
                     val textInputLayoutName = binding.disciplineFormFragmentTextfieldName
-                    textInputLayoutName.editText?.setText(discipline.name)
-                    textInputLayoutName.editText?.setSelection(it.length)
+                    textInputLayoutName.editText?.setText(name)
+                    textInputLayoutName.editText?.setSelection(name.length)
+                    this@DisciplineFormFragment.name = name
                 }
-                discipline.description?.let {
+                discipline.description?.let { description ->
                     val textInputLayoutDescription =
                         binding.disciplineFormFragmentTextfieldDescription
-                    textInputLayoutDescription.editText?.setText(discipline.description)
-                    textInputLayoutDescription.editText?.setSelection(it.length)
+                    textInputLayoutDescription.editText?.setText(description)
+                    textInputLayoutDescription.editText?.setSelection(description.length)
+                    this@DisciplineFormFragment.description = description
                 }
 
-
-                binding.disciplineFormCheckBox.isChecked = favorite
 
                 discipline.img?.let { url ->
                     binding.disciplineFormFragmentImageView.tryLoadImage(url)
@@ -207,22 +223,22 @@ class DisciplineFormFragment : Fragment() {
 
     private fun saveTextFieldsValue() {
         val textFieldName = binding.disciplineFormFragmentTextfieldName.editText
-        val textFieldDescription = binding.disciplineFormFragmentTextfieldDescription.editText
+        val textFieldDescription =
+            binding.disciplineFormFragmentTextfieldDescription.editText
 
 
         textFieldName?.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
-                val name = textFieldName?.text.toString()
-                model.setName(name)
+                model.setName(textFieldName?.text.toString())
             }
         }
 
-        textFieldDescription?.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
-            if (!hasFocus) {
-                val description = textFieldDescription?.text.toString()
-                model.setDescription(description)
+        textFieldDescription?.onFocusChangeListener =
+            View.OnFocusChangeListener { _, hasFocus ->
+                if (!hasFocus) {
+                    model.setDescription(textFieldDescription?.text.toString())
+                }
             }
-        }
     }
 
     private fun doneButton() {
@@ -230,25 +246,22 @@ class DisciplineFormFragment : Fragment() {
         doneButton.setOnClickListener {
             clearFocusTextFields()
             cleanErrorField()
-            val name = binding.disciplineFormFragmentTextfieldName.editText?.text.toString()
-            val isValid = validate(name)
+            val isValid = validate()
             if (isValid) {
                 alertDialog()
-
             }
         }
     }
 
-    private fun validate(name: String): Boolean {
+    private fun validate(): Boolean {
         var valid = true
+        val name = binding.disciplineFormFragmentTextfieldName.editText?.text.toString()
         if (name.isBlank()) {
             val textFieldName = binding.disciplineFormFragmentTextfieldName
             textFieldName.error =
-               getString(R.string.discipline_form_fragment_text_field_name_error)
+                getString(R.string.discipline_form_fragment_text_field_name_error)
             textFieldName.requestFocus()
             valid = false
-
-
         }
 
         if (date == null) {
@@ -263,9 +276,6 @@ class DisciplineFormFragment : Fragment() {
     }
 
     private fun createDiscipline(): Discipline {
-        val name = binding.disciplineFormFragmentTextfieldName.editText?.text.toString()
-        val description =
-            binding.disciplineFormFragmentTextfieldDescription.editText?.text.toString()
 
         val url = url
         return disciplineId?.let { id ->
@@ -351,7 +361,6 @@ class DisciplineFormFragment : Fragment() {
             }
         }
     }
-
 
     override fun onDestroy() {
         super.onDestroy()
