@@ -2,6 +2,7 @@ package com.example.studentdiary.extensions
 
 import androidx.fragment.app.Fragment
 import com.example.studentdiary.R
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
@@ -18,4 +19,20 @@ fun Fragment.identifiesErrorFirebaseAuth(exception: java.lang.Exception): String
         }
     }
     return errorMessage
+}
+
+fun Fragment.snackBar(
+    message: String,
+    duration: Int = Snackbar.LENGTH_SHORT
+) {
+    view?.let {
+        Snackbar.make(
+            it,
+            message,
+            duration
+        ).setAction(resources.getString(R.string.common_ok)) {
+
+        }
+            .show()
+    }
 }

@@ -57,8 +57,12 @@ class DisciplineFormViewModel(private val repository: DisciplineRepository) : Vi
         _discipline.value?.let {
             _discipline.postValue(it.copy(favorite = favorite))
         }
+    }
 
-
+    fun setDate(date:androidx.core.util.Pair<Long, Long>){
+        _discipline.value?.let {
+            _discipline.postValue(it.copy(date = date))
+        }
     }
     fun getDiscipline():Discipline? = discipline.value
 

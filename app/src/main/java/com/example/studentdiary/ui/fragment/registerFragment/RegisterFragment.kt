@@ -90,12 +90,12 @@ class RegisterFragment : Fragment() {
             model.firebaseAuthLiveData.observe(viewLifecycleOwner) { resource ->
                 resource?.let {
                     if (resource.data) {
-                        view?.snackBar(context.getString(R.string.register_fragment_snackbar_message_registration_done))
+                        snackBar(context.getString(R.string.register_fragment_snackbar_message_registration_done))
 
                     } else {
                         resource.exception?.let { exception ->
                             val errorMessage = identifiesErrorFirebaseAuth(exception)
-                            view?.snackBar(errorMessage)
+                            snackBar(errorMessage)
                         }
                     }
                 }

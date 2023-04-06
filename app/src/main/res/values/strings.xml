@@ -89,6 +89,7 @@
     <string name="discipline_form_fragment_title_timePicker_start">Selecione a hora de começar</string>
     <string name="discipline_form_fragment_title_timePicker_end">Selecione a hora de encerrar</string>
     <string name="discipline_form_fragment_title_dataPicker">Selecione o(s) dia(s) que deseja estudar</string>
+    <string name="discipline_form_fragment_snackBarMessage_emptyDate">Data vazia</string>
 
 
 
@@ -106,5 +107,6 @@
     <string name="common_confirm">Confirmar</string>
     <string name="common_cancel">Cancelar</string>
     <string name="common_decline">Rejeitar</string>
+    <string name="common_ok">OK</string>
 
 </resources>

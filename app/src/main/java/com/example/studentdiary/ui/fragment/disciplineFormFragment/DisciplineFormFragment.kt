@@ -2,7 +2,6 @@ package com.example.studentdiary.ui.fragment.disciplineFormFragment
 
 import android.os.Bundle
 import android.text.format.DateFormat.is24HourFormat
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,12 +12,14 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.studentdiary.R
 import com.example.studentdiary.databinding.FragmentDisciplineFormBinding
+import com.example.studentdiary.extensions.snackBar
 import com.example.studentdiary.extensions.tryLoadImage
 import com.example.studentdiary.model.Discipline
 import com.example.studentdiary.ui.TAG_DATA_PICKER
 import com.example.studentdiary.ui.TAG_TIME_PICKER
 import com.example.studentdiary.ui.dialog.DisciplineFormDialog
-import com.example.studentdiary.utils.formatTime
+import com.example.studentdiary.utils.concatenateDateValues
+import com.example.studentdiary.utils.concatenateTimeValues
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -51,6 +52,7 @@ class DisciplineFormFragment : Fragment() {
     private var finalHour: Int? = null
     private var finalMinute: Int? = null
     private var favorite: Boolean = false
+    private var date: Pair<Long, Long>? = null
 
 
     override fun onCreateView(
@@ -95,6 +97,11 @@ class DisciplineFormFragment : Fragment() {
                 finalMinute = discipline.finalMinute
                 favorite = discipline.favorite
 
+                discipline.date?.let { date ->
+                    binding.disciplineFormFabCalendar.text = concatenateDateValues(date)
+                    this@DisciplineFormFragment.date = date
+                }
+
                 discipline.name?.let {
                     val textInputLayoutName = binding.disciplineFormFragmentTextfieldName
                     textInputLayoutName.editText?.setText(discipline.name)
@@ -117,11 +124,12 @@ class DisciplineFormFragment : Fragment() {
 
                 if (initialHour != null && initialMinute != null) {
                     binding.disciplineFormFragmentStartTime.text =
-                        formatTime(initialHour, initialMinute)
+                        concatenateTimeValues(initialHour, initialMinute)
                 }
 
                 if (finalHour != null && finalMinute != null) {
-                    binding.disciplineFormFragmentEndTime.text = formatTime(finalHour, finalMinute)
+                    binding.disciplineFormFragmentEndTime.text =
+                        concatenateTimeValues(finalHour, finalMinute)
                 }
             }
         }
@@ -141,7 +149,7 @@ class DisciplineFormFragment : Fragment() {
                 timePicker(
                     hour = initialHour,
                     minute = initialMinute,
-                    message = resources.getString(R.string.discipline_form_fragment_title_timePicker_start)
+                    message = getString(R.string.discipline_form_fragment_title_timePicker_start)
                 )
             picker.show(childFragmentManager, TAG_TIME_PICKER)
             picker.addOnPositiveButtonClickListener {
@@ -158,7 +166,7 @@ class DisciplineFormFragment : Fragment() {
                 timePicker(
                     hour = finalHour,
                     minute = finalMinute,
-                    message = resources.getString(R.string.discipline_form_fragment_title_timePicker_end)
+                    message = getString(R.string.discipline_form_fragment_title_timePicker_end)
                 )
             picker.show(childFragmentManager, TAG_TIME_PICKER)
             picker.addOnPositiveButtonClickListener {
@@ -236,9 +244,16 @@ class DisciplineFormFragment : Fragment() {
         if (name.isBlank()) {
             val textFieldName = binding.disciplineFormFragmentTextfieldName
             textFieldName.error =
-                resources.getString(R.string.discipline_form_fragment_text_field_name_error)
+               getString(R.string.discipline_form_fragment_text_field_name_error)
             textFieldName.requestFocus()
             valid = false
+
+
+        }
+
+        if (date == null) {
+            valid = false
+            snackBar(getString(R.string.discipline_form_fragment_snackBarMessage_emptyDate))
         }
         return valid
     }
@@ -263,7 +278,8 @@ class DisciplineFormFragment : Fragment() {
                 finalHour = finalHour,
                 finalMinute = finalMinute,
                 img = url,
-                favorite = favorite
+                favorite = favorite,
+                date = date
             )
         } ?: Discipline(
             name = name,
@@ -273,7 +289,8 @@ class DisciplineFormFragment : Fragment() {
             finalHour = finalHour,
             finalMinute = finalMinute,
             img = url,
-            favorite = favorite
+            favorite = favorite,
+            date = date
         )
     }
 
@@ -286,15 +303,15 @@ class DisciplineFormFragment : Fragment() {
     private fun alertDialog() {
         context?.let { context ->
             MaterialAlertDialogBuilder(context)
-                .setTitle(resources.getString(R.string.discipline_form_confirm_dialog_title))
-                .setMessage(resources.getString(R.string.discipline_form_confirm_dialog_message))
-                .setNeutralButton(resources.getString(R.string.common_cancel)) { _, _ ->
+                .setTitle(getString(R.string.discipline_form_confirm_dialog_title))
+                .setMessage(getString(R.string.discipline_form_confirm_dialog_message))
+                .setNeutralButton(getString(R.string.common_cancel)) { _, _ ->
 
                 }
-                .setNegativeButton(resources.getString(R.string.common_decline)) { _, _ ->
+                .setNegativeButton(getString(R.string.common_decline)) { _, _ ->
 
                 }
-                .setPositiveButton(resources.getString(R.string.common_confirm)) { _, _ ->
+                .setPositiveButton(getString(R.string.common_confirm)) { _, _ ->
                     val discipline = createDiscipline()
                     insert(discipline)
                     controller.navigate(R.id.action_disciplineFormFragment_to_disciplinesFragment)
@@ -313,9 +330,9 @@ class DisciplineFormFragment : Fragment() {
 
             val picker =
                 MaterialDatePicker.Builder.dateRangePicker()
-                    .setTitleText(resources.getString(R.string.discipline_form_fragment_title_dataPicker))
+                    .setTitleText(getString(R.string.discipline_form_fragment_title_dataPicker))
                     .setSelection(
-                        Pair(
+                        date ?: Pair(
                             MaterialDatePicker.todayInUtcMilliseconds(),
                             MaterialDatePicker.todayInUtcMilliseconds()
                         )
@@ -328,19 +345,10 @@ class DisciplineFormFragment : Fragment() {
 
             picker.show(childFragmentManager, TAG_DATA_PICKER)
             picker.addOnPositiveButtonClickListener {
-                Log.i("TAG", "calendarButton: ${picker.selection}")
+                picker.selection?.let {
+                    model.setDate(it)
+                }
             }
-            picker.addOnNegativeButtonClickListener {
-                // Respond to negative button click.
-            }
-            picker.addOnCancelListener {
-                // Respond to cancel button click.
-            }
-            picker.addOnDismissListener {
-                // Respond to dismiss events.
-            }
-
-
         }
     }
 

@@ -13,7 +13,8 @@ data class Discipline(
     var initialHourt: Int? = null,
     var initialMinute: Int? = null,
     var finalHour: Int? = null,
-    var finalMinute: Int?= null,
+    var finalMinute: Int? = null,
     var favorite: Boolean = false,
-    var img: String? = null
+    var img: String? = null,
+    val date: androidx.core.util.Pair<Long, Long>? = null
 )

@@ -62,7 +62,7 @@ class LoginFragment : Fragment() {
             model.firebaseAuthLiveData.observe(viewLifecycleOwner) { resource ->
                 resource?.let {
                     if (resource.data) {
-                        view?.snackBar(context.getString(R.string.login_fragment_snackbar_message_login_success))
+                       snackBar(context.getString(R.string.login_fragment_snackbar_message_login_success))
                     } else {
                         resource.exception?.let { exception ->
                             val errorMessage = when (exception) {
@@ -70,7 +70,7 @@ class LoginFragment : Fragment() {
                                 is FirebaseAuthInvalidUserException -> context.getString(R.string.login_fragment_snackbar_message_firebase_auth_Invalid_user_Exception)
                                 else -> context.getString(R.string.login_fragment_snackbar_message_unknown_error)
                             }
-                            view?.snackBar(errorMessage)
+                            snackBar(errorMessage)
                         }
                     }
                 }
@@ -83,9 +83,9 @@ class LoginFragment : Fragment() {
             model.googleAccountLiveData.observe(viewLifecycleOwner) { resource ->
                 resource?.let {
                     if (resource.data) {
-                        view?.snackBar(context.getString(R.string.login_fragment_snackbar_message_login_success_googleAccount))
+                        snackBar(context.getString(R.string.login_fragment_snackbar_message_login_success_googleAccount))
                     } else {
-                        view?.snackBar(context.getString(R.string.login_fragment_snackbar_message_login_error_googleAccount))
+                       snackBar(context.getString(R.string.login_fragment_snackbar_message_login_error_googleAccount))
                     }
                 }
             }
@@ -97,9 +97,9 @@ class LoginFragment : Fragment() {
             model.facebookAccountLiveData.observe(viewLifecycleOwner) { resource ->
                 resource?.let {
                     if (resource.data) {
-                        view?.snackBar("Sucesso login com facebook")
+                        snackBar("Sucesso login com facebook")
                     } else {
-                        view?.snackBar("erro login facebook")
+                        snackBar("erro login facebook")
                     }
                 }
             }
@@ -151,7 +151,7 @@ class LoginFragment : Fragment() {
                 val credential =
                     FacebookAuthProvider.getCredential(result.accessToken.token)
                 model.linkFacebookAccount(credential)
-                view?.snackBar("foi")
+                snackBar("foi")
                 searchFacebookUser()
 
                 //sair da conta facebook
@@ -160,11 +160,11 @@ class LoginFragment : Fragment() {
             }
 
             override fun onCancel() {
-                view?.snackBar(" nao foi, cancelado")
+                snackBar(" nao foi, cancelado")
             }
 
             override fun onError(error: FacebookException) {
-                view?.snackBar(" nao foi ")
+                snackBar(" nao foi ")
                 Log.e("TAG", "onError: facebook ", error)
             }
         })
@@ -176,7 +176,7 @@ class LoginFragment : Fragment() {
             try {
                 val name = jsonObject?.getString("name")
                 name?.let {
-                    view?.snackBar(name)
+                    snackBar(name)
                 }
 
             } catch (e: JSONException) {
@@ -218,7 +218,7 @@ class LoginFragment : Fragment() {
     private fun botaoSairContaGoogle() {
         binding.fragmentLoginSairGoogle.setOnClickListener {
             context?.googleSignInClient()?.signOut()
-            view?.snackBar("Saiu da conta google")
+            snackBar("Saiu da conta google")
         }
     }
 
