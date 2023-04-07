@@ -5,6 +5,7 @@ import android.text.format.DateFormat.is24HourFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import androidx.core.util.Pair
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -153,8 +154,8 @@ class DisciplineFormFragment : Fragment() {
     }
 
     private fun checkBoxFavorite() {
-        binding.disciplineFormCheckBox.setOnCheckedChangeListener { _, isChecked ->
-            model.setFavorite(isChecked)
+        binding.disciplineFormCheckBox.setOnClickListener {
+            if (it is CheckBox) model.setFavorite(it.isChecked)
         }
     }
 
