@@ -96,6 +96,7 @@ class DisciplineFormFragment : Fragment() {
                 favorite = discipline.favorite
                 binding.disciplineFormCheckBox.isChecked = favorite
 
+
                 discipline.initialHourt?.let { initialHour ->
                     this@DisciplineFormFragment.initialHour = initialHour
                 }

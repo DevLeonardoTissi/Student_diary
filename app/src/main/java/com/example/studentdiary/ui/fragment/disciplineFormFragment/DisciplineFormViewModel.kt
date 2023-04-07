@@ -55,7 +55,7 @@ class DisciplineFormViewModel(private val repository: DisciplineRepository) : Vi
 
     fun setFavorite(favorite: Boolean) {
         _discipline.value?.let {
-            _discipline.postValue(it.copy(favorite = favorite))
+           it.favorite = favorite
         }
     }
 
