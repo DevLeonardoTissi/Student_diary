@@ -1,12 +1,15 @@
 package com.example.studentdiary.ui.fragment.disciplineFormFragment
 
+import android.content.Intent
 import android.os.Bundle
+import android.provider.CalendarContract
 import android.text.format.DateFormat.is24HourFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import androidx.core.util.Pair
+import androidx.core.util.component1
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -29,6 +32,7 @@ import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.util.*
 
 class DisciplineFormFragment : Fragment() {
 
@@ -247,6 +251,7 @@ class DisciplineFormFragment : Fragment() {
                 .setPositiveButton(getString(R.string.common_confirm)) { _, _ ->
                     val discipline = createDiscipline()
                     insert(discipline)
+                    adicionarLembreteNoCalendario()
                     controller.navigate(R.id.action_disciplineFormFragment_to_disciplinesFragment)
                 }
                 .show()
@@ -301,10 +306,10 @@ class DisciplineFormFragment : Fragment() {
         model.discipline.observe(viewLifecycleOwner) { discipline ->
             discipline?.let {
 
-                 discipline.favorite.let {
-                     this@DisciplineFormFragment.favorite = it
-                     binding.disciplineFormCheckBox.isChecked = favorite
-                 }
+                discipline.favorite.let {
+                    this@DisciplineFormFragment.favorite = it
+                    binding.disciplineFormCheckBox.isChecked = favorite
+                }
 
                 discipline.initialHour?.let { initialHour ->
                     this@DisciplineFormFragment.initialHour = initialHour
@@ -360,6 +365,45 @@ class DisciplineFormFragment : Fragment() {
             }
         }
     }
+
+    fun adicionarLembreteNoCalendario() {
+
+
+        date?.let {
+
+            val calendario = Calendar.getInstance().apply {
+                timeInMillis = it.component1()
+
+            }
+            val ano = calendario.get(Calendar.YEAR)
+            val mes = calendario.get(Calendar.MONTH)
+            val dia = calendario.get(Calendar.DAY_OF_MONTH)
+
+
+            val startMillis: Long = Calendar.getInstance().run {
+                set(ano, mes, dia, 7, 30)
+                timeInMillis
+            }
+            val endMillis: Long = Calendar.getInstance().run {
+                set(ano, mes, dia, 7, 30)
+                timeInMillis
+            }
+            val intent = Intent(Intent.ACTION_INSERT)
+                .setData(CalendarContract.Events.CONTENT_URI)
+                .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startMillis)
+                .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endMillis)
+                .putExtra(CalendarContract.Events.TITLE, "Yoga")
+                .putExtra(CalendarContract.Events.DESCRIPTION, "Group class")
+                .putExtra(CalendarContract.Events.EVENT_LOCATION, "The gym")
+                .putExtra(
+                    CalendarContract.Events.AVAILABILITY,
+                    CalendarContract.Events.AVAILABILITY_BUSY
+                )
+                .putExtra(Intent.EXTRA_EMAIL, "rowan@example.com,trevor@example.com")
+            startActivity(intent)
+        }
+    }
+
 
     override fun onDestroy() {
         super.onDestroy()
