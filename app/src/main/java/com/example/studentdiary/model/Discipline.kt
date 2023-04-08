@@ -10,7 +10,7 @@ data class Discipline(
     val id: String = UUID.randomUUID().toString(),
     var name: String? = null,
     var description: String? = null,
-    var initialHourt: Int? = null,
+    var initialHour: Int? = null,
     var initialMinute: Int? = null,
     var finalHour: Int? = null,
     var finalMinute: Int? = null,

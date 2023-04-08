@@ -17,7 +17,7 @@ class DisciplineFormViewModel(private val repository: DisciplineRepository) : Vi
         repository.insert(discipline)
     }
 
-    fun searchDisciplideForId(id: String) {
+    fun searchDisciplineForId(id: String) {
         viewModelScope.launch {
             _discipline.value = repository.searchId(id)
         }
@@ -25,7 +25,7 @@ class DisciplineFormViewModel(private val repository: DisciplineRepository) : Vi
 
     fun setInitialHour(hour: Int, minute: Int) {
         _discipline.value?.let {
-            _discipline.postValue(it.copy(initialHourt = hour, initialMinute = minute))
+            _discipline.postValue(it.copy(initialHour = hour, initialMinute = minute))
         }
     }
 
@@ -53,20 +53,21 @@ class DisciplineFormViewModel(private val repository: DisciplineRepository) : Vi
         }
     }
 
-        fun setFavorite(favorite: Boolean) {
+    fun setFavorite(favorite: Boolean) {
         _discipline.value?.let {
             _discipline.postValue(it.copy(favorite = favorite))
         }
     }
 
-    fun setDate(date:androidx.core.util.Pair<Long, Long>){
+    fun setDate(date: androidx.core.util.Pair<Long, Long>) {
         _discipline.value?.let {
             _discipline.postValue(it.copy(date = date))
         }
     }
-    fun getDiscipline():Discipline? = discipline.value
 
-    fun setDiscipline(discipline:Discipline){
-        _discipline.postValue(discipline)
+    fun getDiscipline(): Discipline? = discipline.value
+
+    fun setDiscipline() {
+        _discipline.postValue(Discipline())
     }
 }
