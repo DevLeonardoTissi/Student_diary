@@ -18,7 +18,6 @@ import com.example.studentdiary.R
 import com.example.studentdiary.databinding.FragmentDisciplineFormBinding
 import com.example.studentdiary.extensions.snackBar
 import com.example.studentdiary.extensions.tryLoadImage
-import com.example.studentdiary.model.Discipline
 import com.example.studentdiary.ui.TAG_DATA_PICKER
 import com.example.studentdiary.ui.TAG_TIME_PICKER
 import com.example.studentdiary.ui.dialog.DisciplineFormDialog
@@ -47,17 +46,6 @@ class DisciplineFormFragment : Fragment() {
         findNavController()
     }
 
-    private var url: String? = null
-    private var initialMinute: Int? = null
-    private var initialHour: Int? = null
-    private var finalHour: Int? = null
-    private var finalMinute: Int? = null
-    private var favorite: Boolean = false
-    private var date: Pair<Long, Long>? = null
-    private var name: String? = null
-    private var description: String? = null
-
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -81,7 +69,6 @@ class DisciplineFormFragment : Fragment() {
         super.onStart()
         updateUi()
         searchDisciplineId()
-
     }
 
     private fun checkBoxFavorite() {
@@ -95,7 +82,7 @@ class DisciplineFormFragment : Fragment() {
             clearFocusTextFields()
             context?.let {
                 DisciplineFormDialog(it)
-                    .show(url) { url ->
+                    .show(model.getImg()) { url ->
                         binding.disciplineFormFragmentImageView.tryLoadImage(url)
                         model.setImg(url)
                     }
@@ -134,13 +121,12 @@ class DisciplineFormFragment : Fragment() {
             clearFocusTextFields()
             val picker =
                 timePicker(
-                    hour = initialHour,
-                    minute = initialMinute,
+                    time = model.getStartTime(),
                     message = getString(R.string.discipline_form_fragment_title_timePicker_start)
                 )
             picker.show(childFragmentManager, TAG_TIME_PICKER)
             picker.addOnPositiveButtonClickListener {
-                model.setInitialHour(picker.hour, picker.minute)
+                model.setStartTime(picker.hour, picker.minute)
             }
         }
     }
@@ -151,25 +137,24 @@ class DisciplineFormFragment : Fragment() {
             clearFocusTextFields()
             val picker =
                 timePicker(
-                    hour = finalHour,
-                    minute = finalMinute,
+                    time = model.getEndTime(),
                     message = getString(R.string.discipline_form_fragment_title_timePicker_end)
                 )
             picker.show(childFragmentManager, TAG_TIME_PICKER)
             picker.addOnPositiveButtonClickListener {
-                model.setFinalHour(picker.hour, picker.minute)
+                model.setEndTime(picker.hour, picker.minute)
             }
         }
     }
 
-    private fun timePicker(hour: Int?, minute: Int?, message: String): MaterialTimePicker {
+    private fun timePicker(time: kotlin.Pair<Int, Int>?, message: String): MaterialTimePicker {
         val isSystem24Hour = is24HourFormat(context)
         val clockFormat = if (isSystem24Hour) TimeFormat.CLOCK_24H else TimeFormat.CLOCK_12H
 
         return MaterialTimePicker.Builder()
             .setTimeFormat(clockFormat)
-            .setHour(hour ?: 12)
-            .setMinute(minute ?: 0)
+            .setHour(time?.component1() ?: 12)
+            .setMinute(time?.component2() ?: 0)
             .setTitleText(message)
             .build()
     }
@@ -186,7 +171,7 @@ class DisciplineFormFragment : Fragment() {
                 MaterialDatePicker.Builder.dateRangePicker()
                     .setTitleText(getString(R.string.discipline_form_fragment_title_dataPicker))
                     .setSelection(
-                        date ?: Pair(
+                        model.getDate() ?: Pair(
                             MaterialDatePicker.todayInUtcMilliseconds(),
                             MaterialDatePicker.todayInUtcMilliseconds()
                         )
@@ -230,7 +215,8 @@ class DisciplineFormFragment : Fragment() {
             valid = false
         }
 
-        if (date == null) {
+
+        if (model.getDate() == null) {
             valid = false
             snackBar(getString(R.string.discipline_form_fragment_snackBarMessage_emptyDate))
         }
@@ -249,48 +235,15 @@ class DisciplineFormFragment : Fragment() {
 
                 }
                 .setPositiveButton(getString(R.string.common_confirm)) { _, _ ->
-                    val discipline = createDiscipline()
-                    insert(discipline)
-                    adicionarLembreteNoCalendario()
+                    insert()
+//                  adicionarLembreteNoCalendario()
                     controller.navigate(R.id.action_disciplineFormFragment_to_disciplinesFragment)
                 }
                 .show()
         }
     }
 
-    private fun createDiscipline(): Discipline {
-
-        return disciplineId?.let { id ->
-            Discipline(
-                id = id,
-                name = name,
-                description = description,
-                initialHour = initialHour,
-                initialMinute = initialMinute,
-                finalHour = finalHour,
-                finalMinute = finalMinute,
-                img = url,
-                favorite = favorite,
-                date = date
-            )
-        } ?: Discipline(
-            name = name,
-            description = description,
-            initialHour = initialHour,
-            initialMinute = initialMinute,
-            finalHour = finalHour,
-            finalMinute = finalMinute,
-            img = url,
-            favorite = favorite,
-            date = date
-        )
-    }
-
-    private fun insert(discipline: Discipline) {
-        lifecycleScope.launch {
-            model.insert(discipline)
-        }
-    }
+    private fun insert() = model.insert()
 
     private fun searchDisciplineId() {
         lifecycleScope.launch {
@@ -306,61 +259,42 @@ class DisciplineFormFragment : Fragment() {
         model.discipline.observe(viewLifecycleOwner) { discipline ->
             discipline?.let {
 
-                discipline.favorite.let {
-                    this@DisciplineFormFragment.favorite = it
-                    binding.disciplineFormCheckBox.isChecked = favorite
+                discipline.favorite.let { favorite ->
+                    if (binding.disciplineFormCheckBox.isChecked != favorite) {
+                        binding.disciplineFormCheckBox.isChecked = favorite
+                    }
                 }
 
-                discipline.initialHour?.let { initialHour ->
-                    this@DisciplineFormFragment.initialHour = initialHour
+                discipline.startTime?.let { startTime ->
+                    binding.disciplineFormFragmentStartTime.text =
+                        concatenateTimeValues(startTime)
+
                 }
 
-                discipline.initialMinute?.let { initialMinute ->
-                    this@DisciplineFormFragment.initialMinute = initialMinute
+                discipline.endTime?.let { endTime ->
+                    binding.disciplineFormFragmentEndTime.text =
+                        concatenateTimeValues(endTime)
                 }
-
-                discipline.finalHour?.let { finalHour ->
-                    this@DisciplineFormFragment.finalHour = finalHour
-                }
-
-                discipline.finalMinute?.let { finalMinute ->
-                    this@DisciplineFormFragment.finalMinute = finalMinute
-                }
-
 
                 discipline.date?.let { date ->
                     binding.disciplineFormFabCalendar.text = concatenateDateValues(date)
-                    this@DisciplineFormFragment.date = date
                 }
 
                 discipline.name?.let { name ->
                     val textInputLayoutName = binding.disciplineFormFragmentTextfieldName
                     textInputLayoutName.editText?.setText(name)
                     textInputLayoutName.editText?.setSelection(name.length)
-                    this@DisciplineFormFragment.name = name
                 }
+
                 discipline.description?.let { description ->
                     val textInputLayoutDescription =
                         binding.disciplineFormFragmentTextfieldDescription
                     textInputLayoutDescription.editText?.setText(description)
                     textInputLayoutDescription.editText?.setSelection(description.length)
-                    this@DisciplineFormFragment.description = description
                 }
-
 
                 discipline.img?.let { url ->
                     binding.disciplineFormFragmentImageView.tryLoadImage(url)
-                    this@DisciplineFormFragment.url = url
-                }
-
-                if (initialHour != null && initialMinute != null) {
-                    binding.disciplineFormFragmentStartTime.text =
-                        concatenateTimeValues(initialHour, initialMinute)
-                }
-
-                if (finalHour != null && finalMinute != null) {
-                    binding.disciplineFormFragmentEndTime.text =
-                        concatenateTimeValues(finalHour, finalMinute)
                 }
             }
         }
@@ -369,7 +303,7 @@ class DisciplineFormFragment : Fragment() {
     fun adicionarLembreteNoCalendario() {
 
 
-        date?.let {
+        model.getDate()?.let {
 
             val calendario = Calendar.getInstance().apply {
                 timeInMillis = it.component1()

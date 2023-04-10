@@ -1,5 +1,7 @@
 package com.example.studentdiary.utils
 
- fun concatenateTimeValues(hour: Int?, minute: Int?): String {
-    return  "${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}"
+fun concatenateTimeValues(time: Pair<Int, Int>): String {
+    return "${time.component1().toString().padStart(2, '0')}:${
+        time.component2().toString().padStart(2, '0')
+    }"
 }

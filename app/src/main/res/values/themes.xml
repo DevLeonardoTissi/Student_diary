@@ -37,12 +37,4 @@
     </style>
 
 
-
-    <style name="Widget.App.NavigationView" parent="Widget.Material3.NavigationView">
-        <item name="itemIconTint">#AC7E22</item>
-        <item name="itemTextColor">#9E971C</item>
-        <item name="itemShapeFillColor">#35CD4A</item>
-    </style>
-
-
 </resources>

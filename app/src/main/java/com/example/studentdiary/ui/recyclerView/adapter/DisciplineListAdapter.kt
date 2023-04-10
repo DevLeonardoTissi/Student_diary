@@ -59,6 +59,7 @@ class DisciplineListAdapter(
         private val diffCallback = object : DiffUtil.ItemCallback<Discipline>() {
             override fun areItemsTheSame(oldItem: Discipline, newItem: Discipline): Boolean {
                 return oldItem.id == newItem.id
+
             }
 
             override fun areContentsTheSame(oldItem: Discipline, newItem: Discipline): Boolean {
