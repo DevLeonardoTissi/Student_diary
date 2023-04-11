@@ -29,6 +29,8 @@ class DisciplineFormViewModel(private val repository: DisciplineRepository) : Vi
     fun setDiscipline() {
         _discipline.postValue(Discipline())
     }
+
+    fun getEventId(): Long? = discipline.value?.eventId
     fun setStartTime(hour: Int, minute: Int) {
         _discipline.value?.let {
             _discipline.postValue(it.copy(startTime = Pair(hour, minute)))
@@ -46,11 +48,15 @@ class DisciplineFormViewModel(private val repository: DisciplineRepository) : Vi
             _discipline.postValue(it.copy(name = name))
         }
     }
+
+    fun getName():String? = discipline.value?.name
     fun setDescription(description: String) {
         _discipline.value?.let {
             _discipline.postValue(it.copy(description = description))
         }
     }
+
+    fun getDescription():String? = discipline.value?.description
     fun setImg(url: String) {
         _discipline.value?.let {
             _discipline.postValue(it.copy(img = url))
@@ -68,5 +74,10 @@ class DisciplineFormViewModel(private val repository: DisciplineRepository) : Vi
         }
     }
     fun getDate(): androidx.core.util.Pair<Long, Long>? = discipline.value?.date
+    fun setEventId(id:Long?) {
+        _discipline.value?.let {
+           _discipline.postValue(it.copy(eventId = id))
+        }
+    }
 
 }

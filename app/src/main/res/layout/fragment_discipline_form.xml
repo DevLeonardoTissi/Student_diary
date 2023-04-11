@@ -1,133 +1,157 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:fillViewport="true"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-tools:context=".ui.fragment.disciplineFormFragment.DisciplineFormFragment">
-
-<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:focusableInTouchMode="true"
-    android:focusable="true"
-    android:clickable="true">
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    tools:context=".ui.fragment.disciplineFormFragment.DisciplineFormFragment">
 
-    <ImageView
-        android:id="@+id/disciplineForm_fragment_imageView"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/imageView_big_height"
-        android:scaleType="centerCrop"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/placeholder"/>
-
-    <CheckBox
-        android:id="@+id/discipline_form_checkBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:button="@drawable/sl_favorite"
-        app:buttonTint="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/disciplineForm_fragment_imageView"
-        android:layout_margin="@dimen/margin_default"/>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/discipline_form_fab_img"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/fab_margin_default"
-        android:contentDescription="@string/discipline_form_fragment_fab_img_content_desc"
-        android:src="@drawable/ic_photo"
-        app:layout_constraintBottom_toBottomOf="@id/disciplineForm_fragment_imageView"
-        app:layout_constraintEnd_toEndOf="parent"
-        />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/disciplineForm_fragment_textfield_name"
-        style="@style/textField"
-        app:layout_constraintTop_toBottomOf="@id/disciplineForm_fragment_imageView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:hint="@string/discipline_form_fragment_text_field_hint_name"
-        app:endIconMode="clear_text"
-        app:startIconDrawable="@drawable/ic_email">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textAutoComplete" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/disciplineForm_fragment_textfield_description"
-        style="@style/textField"
-        app:layout_constraintTop_toBottomOf="@id/disciplineForm_fragment_textfield_name"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:hint="@string/discipline_form_fragment_text_field_hint_description"
-        app:endIconMode="clear_text"
-        app:helperTextEnabled="true"
-        app:helperText="@string/discipline_form_fragment_text_field_description_helper"
-        app:counterEnabled="true"
-        app:counterMaxLength="100">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textAutoComplete"
-            android:maxLength="100"/>
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <Button
-        android:id="@+id/disciplineForm_fragment_start_time"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/disciplineForm_fragment_end_time"
-        app:layout_constraintTop_toBottomOf="@id/disciplineForm_fragment_textfield_description"
-        style="@style/elevationButton"
-        android:text="@string/discipline_form_fragment_startTimeButton" />
-
-    <Button
-        android:id="@+id/disciplineForm_fragment_end_time"
-        app:layout_constraintTop_toTopOf="@id/disciplineForm_fragment_start_time"
-        app:layout_constraintBottom_toBottomOf="@id/disciplineForm_fragment_start_time"
-        app:layout_constraintStart_toEndOf="@id/disciplineForm_fragment_start_time"
-        app:layout_constraintEnd_toEndOf="parent"
-        style="@style/elevationButton"
-        android:text="@string/discipline_form_fragment_endTimeButton"
-        />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/discipline_form_fab_done"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/fab_margin_default"
-        android:contentDescription="@string/discipline_form_fragment_fab_img_content_desc"
-        android:src="@drawable/ic_done"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/discipline_form_fab_calendar"
-        app:layout_constraintVertical_bias="1"/>
-
-
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/discipline_form_fab_calendar"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/fab_margin_default"
-        android:contentDescription="@string/discipline_form_fragment_fab_calendar_content_desc"
-        app:icon="@drawable/ic_calendar"
-        app:layout_constraintTop_toBottomOf="@id/disciplineForm_fragment_end_time"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:text="@string/discipline_form_fragment_fab_calendar_title"
-        />
+        android:clickable="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
+
+        <ImageView
+            android:id="@+id/disciplineForm_fragment_imageView"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/imageView_big_height"
+            android:scaleType="centerCrop"
+            android:src="@drawable/placeholder"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <CheckBox
+            android:id="@+id/discipline_form_fragment_checkBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_default"
+            android:button="@drawable/sl_favorite"
+            app:buttonTint="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/disciplineForm_fragment_imageView" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/discipline_form_fragment_fab_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/fab_margin_default"
+            android:contentDescription="@string/discipline_form_fragment_fab_img_content_desc"
+            android:src="@drawable/ic_photo"
+            app:layout_constraintBottom_toBottomOf="@id/disciplineForm_fragment_imageView"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/discipline_form_fragment_switch_addReminder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:text="@string/discipline_form_fragment_addReminder_switch"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/disciplineForm_fragment_imageView" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/discipline_form_fragment_textfield_name"
+            style="@style/textField"
+            android:hint="@string/discipline_form_fragment_text_field_name_hint"
+            app:endIconMode="clear_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/discipline_form_fragment_switch_addReminder"
+            app:startIconDrawable="@drawable/ic_email">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textAutoComplete" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/discipline_form_fragment_textfield_description"
+            style="@style/textField"
+            android:hint="@string/discipline_form_fragment_text_field_description_hint"
+            app:counterEnabled="true"
+            app:counterMaxLength="100"
+            app:endIconMode="clear_text"
+            app:helperText="@string/discipline_form_fragment_text_field_description_helper"
+            app:helperTextEnabled="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/discipline_form_fragment_textfield_name">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textAutoComplete"
+                android:maxLength="100" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/discipline_form_fragment_textfield_guests"
+            style="@style/textField"
+            android:hint="@string/discipline_form_fragment_text_field_guests_hint"
+            app:endIconMode="clear_text"
+            app:helperText="@string/discipline_form_fragment_text_field_guests_helper"
+            app:helperTextEnabled="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/discipline_form_fragment_textfield_description">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textAutoComplete"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/discipline_form_fragment_start_time"
+            style="@style/elevationButton"
+            android:text="@string/discipline_form_fragment_startTimeButton"
+            app:layout_constraintEnd_toStartOf="@id/discipline_form_fragment_end_time"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/discipline_form_fragment_textfield_guests" />
+
+        <Button
+            android:id="@+id/discipline_form_fragment_end_time"
+            style="@style/elevationButton"
+            android:text="@string/discipline_form_fragment_endTimeButton"
+            app:layout_constraintBottom_toBottomOf="@id/discipline_form_fragment_start_time"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/discipline_form_fragment_start_time"
+            app:layout_constraintTop_toTopOf="@id/discipline_form_fragment_start_time" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/discipline_form_fab_done"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/fab_margin_default"
+            android:contentDescription="@string/discipline_form_fragment_fab_img_content_desc"
+            android:src="@drawable/ic_done"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/discipline_form_fab_calendar"
+            app:layout_constraintVertical_bias="1" />
 
 
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/discipline_form_fab_calendar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/fab_margin_default"
+            android:contentDescription="@string/discipline_form_fragment_fab_calendar_content_desc"
+            android:text="@string/discipline_form_fragment_fab_calendar_title"
+            app:icon="@drawable/ic_calendar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/discipline_form_fragment_end_time" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

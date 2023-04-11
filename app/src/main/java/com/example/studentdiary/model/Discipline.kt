@@ -10,9 +10,10 @@ data class Discipline(
     val id: String = UUID.randomUUID().toString(),
     var name: String? = null,
     var description: String? = null,
-    var startTime : Pair<Int, Int>? = null,
-    var endTime : Pair<Int, Int>? = null,
+    var startTime: Pair<Int, Int>? = null,
+    var endTime: Pair<Int, Int>? = null,
     var favorite: Boolean = false,
     var img: String? = null,
-    val date: androidx.core.util.Pair<Long, Long>? = null
+    val date: androidx.core.util.Pair<Long, Long>? = null,
+    var eventId: Long? = null
 )

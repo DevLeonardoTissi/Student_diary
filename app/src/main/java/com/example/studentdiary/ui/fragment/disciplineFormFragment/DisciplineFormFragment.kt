@@ -1,15 +1,22 @@
 package com.example.studentdiary.ui.fragment.disciplineFormFragment
 
+import android.app.Activity.RESULT_OK
+import android.content.ContentUris
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.provider.CalendarContract
 import android.text.format.DateFormat.is24HourFormat
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.util.Pair
 import androidx.core.util.component1
+import androidx.core.util.component2
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -20,6 +27,7 @@ import com.example.studentdiary.extensions.snackBar
 import com.example.studentdiary.extensions.tryLoadImage
 import com.example.studentdiary.ui.TAG_DATA_PICKER
 import com.example.studentdiary.ui.TAG_TIME_PICKER
+import com.example.studentdiary.ui.TIME_ZONE_ID
 import com.example.studentdiary.ui.dialog.DisciplineFormDialog
 import com.example.studentdiary.utils.concatenateDateValues
 import com.example.studentdiary.utils.concatenateTimeValues
@@ -46,6 +54,8 @@ class DisciplineFormFragment : Fragment() {
         findNavController()
     }
 
+    private lateinit var createEventLauncher: ActivityResultLauncher<Intent>
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -63,6 +73,8 @@ class DisciplineFormFragment : Fragment() {
         saveTextFieldsValue()
         doneButton()
         calendarButton()
+        switchAddReminder()
+        Log.i("TAG", "onViewCreated: ${model.getEventId()}")
     }
 
     override fun onStart() {
@@ -71,14 +83,32 @@ class DisciplineFormFragment : Fragment() {
         searchDisciplineId()
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        createEventLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                Log.i("TAG", "onCreate: entrei no onresult")
+                if (result.resultCode == RESULT_OK) {
+                    Log.i("TAG", "onCreate: criado com sucesso")
+                    val eventUri: Uri? = result.data?.data
+                    val eventId: Long? = eventUri?.lastPathSegment?.toLong()
+                    model.setEventId(eventId)
+
+                } else{
+                    Log.i("TAG", "onCreate: erro")
+                }
+            }
+    }
+
     private fun checkBoxFavorite() {
-        binding.disciplineFormCheckBox.setOnClickListener {
+        binding.disciplineFormFragmentCheckBox.setOnClickListener {
             if (it is CheckBox) model.setFavorite(it.isChecked)
         }
     }
 
     private fun fabInsetImage() {
-        binding.disciplineFormFabImg.setOnClickListener {
+        binding.disciplineFormFragmentFabImg.setOnClickListener {
             clearFocusTextFields()
             context?.let {
                 DisciplineFormDialog(it)
@@ -87,6 +117,16 @@ class DisciplineFormFragment : Fragment() {
                         model.setImg(url)
                     }
             }
+        }
+    }
+
+    private fun switchAddReminder() {
+        val switchAddReminder = binding.disciplineFormFragmentSwitchAddReminder
+
+        binding.disciplineFormFragmentTextfieldGuests.isEnabled = switchAddReminder.isChecked
+
+        switchAddReminder.setOnCheckedChangeListener { _, isChecked ->
+            binding.disciplineFormFragmentTextfieldGuests.isEnabled = isChecked
         }
     }
 
@@ -195,7 +235,7 @@ class DisciplineFormFragment : Fragment() {
             cleanErrorField()
             val isValid = validate()
             if (isValid) {
-                alertDialog()
+                alertDialogConfirm()
             }
         }
     }
@@ -223,7 +263,7 @@ class DisciplineFormFragment : Fragment() {
         return valid
     }
 
-    private fun alertDialog() {
+    private fun alertDialogConfirm() {
         context?.let { context ->
             MaterialAlertDialogBuilder(context)
                 .setTitle(getString(R.string.discipline_form_confirm_dialog_title))
@@ -236,7 +276,12 @@ class DisciplineFormFragment : Fragment() {
                 }
                 .setPositiveButton(getString(R.string.common_confirm)) { _, _ ->
                     insert()
-//                  adicionarLembreteNoCalendario()
+                    val switchAddReminder = binding.disciplineFormFragmentSwitchAddReminder
+                    if (switchAddReminder.isChecked) {
+                        val guests =
+                            binding.disciplineFormFragmentTextfieldGuests.editText?.text.toString()
+                        addReminder(guests)
+                    }
                     controller.navigate(R.id.action_disciplineFormFragment_to_disciplinesFragment)
                 }
                 .show()
@@ -260,8 +305,8 @@ class DisciplineFormFragment : Fragment() {
             discipline?.let {
 
                 discipline.favorite.let { favorite ->
-                    if (binding.disciplineFormCheckBox.isChecked != favorite) {
-                        binding.disciplineFormCheckBox.isChecked = favorite
+                    if (binding.disciplineFormFragmentCheckBox.isChecked != favorite) {
+                        binding.disciplineFormFragmentCheckBox.isChecked = favorite
                     }
                 }
 
@@ -300,44 +345,86 @@ class DisciplineFormFragment : Fragment() {
         }
     }
 
-    fun adicionarLembreteNoCalendario() {
-
-
-        model.getDate()?.let {
-
-            val calendario = Calendar.getInstance().apply {
-                timeInMillis = it.component1()
-
-            }
-            val ano = calendario.get(Calendar.YEAR)
-            val mes = calendario.get(Calendar.MONTH)
-            val dia = calendario.get(Calendar.DAY_OF_MONTH)
-
+    private fun addReminder(guests: String? = null) {
+        model.getDate()?.let { date ->
 
             val startMillis: Long = Calendar.getInstance().run {
-                set(ano, mes, dia, 7, 30)
+                val (year, month, day) = converterLongToDate(date.component1())
+                model.getStartTime()?.let {
+                    set(year, month, day, it.component1(), it.component2())
+                    timeInMillis
+                }
+                set(year, month, day)
                 timeInMillis
             }
+
             val endMillis: Long = Calendar.getInstance().run {
-                set(ano, mes, dia, 7, 30)
+                val (year, month, day) = converterLongToDate(date.component2())
+                model.getEndTime()?.let {
+                    set(year, month, day, it.component1(), it.component2())
+                    timeInMillis
+                } ?: set(year, month, day)
                 timeInMillis
+
             }
-            val intent = Intent(Intent.ACTION_INSERT)
-                .setData(CalendarContract.Events.CONTENT_URI)
-                .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startMillis)
-                .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endMillis)
-                .putExtra(CalendarContract.Events.TITLE, "Yoga")
-                .putExtra(CalendarContract.Events.DESCRIPTION, "Group class")
-                .putExtra(CalendarContract.Events.EVENT_LOCATION, "The gym")
-                .putExtra(
-                    CalendarContract.Events.AVAILABILITY,
-                    CalendarContract.Events.AVAILABILITY_BUSY
-                )
-                .putExtra(Intent.EXTRA_EMAIL, "rowan@example.com,trevor@example.com")
-            startActivity(intent)
+
+            model.getEventId()?.let {
+                addedit(startMillis, endMillis, guests)
+            } ?: addeventooo(startMillis, endMillis, guests)
+
         }
     }
 
+    private fun addedit(startMillis: Long, endMillis: Long, guests: String?) {
+        Log.i("TAG", "addedit: entoru em editar")
+
+        val id = model.getEventId()!!
+        Log.i("TAG", "addedit: entoru em editar $id")
+        val uri =
+            ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, id)
+        val intentEdit = Intent(Intent.ACTION_EDIT)
+            .setData(uri)
+            .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startMillis)
+            .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endMillis)
+            .putExtra(CalendarContract.Events.TITLE, model.getName())
+            .putExtra(CalendarContract.Events.DESCRIPTION, model.getDescription())
+            .putExtra(CalendarContract.Events.EVENT_LOCATION, "The gym")
+            .putExtra(Intent.EXTRA_EMAIL, guests)
+        startActivity(intentEdit)
+    }
+
+    private fun addeventooo(startMillis: Long, endMillis: Long, guests: String?) {
+
+
+        val intent = Intent(Intent.ACTION_INSERT)
+            .setData(CalendarContract.Events.CONTENT_URI)
+            .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startMillis)
+            .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endMillis)
+            .putExtra(CalendarContract.Events.TITLE, model.getName())
+            .putExtra(CalendarContract.Events.DESCRIPTION, model.getDescription())
+            .putExtra(CalendarContract.Events.EVENT_LOCATION, "The gym")
+            .putExtra(
+                CalendarContract.Events.AVAILABILITY,
+                CalendarContract.Events.AVAILABILITY_BUSY
+            )
+            .putExtra(Intent.EXTRA_EMAIL, guests)
+
+
+        createEventLauncher.launch(intent)
+
+    }
+
+    private fun converterLongToDate(time: Long): Triple<Int, Int, Int> {
+        val calendar = Calendar.getInstance().apply {
+            timeInMillis = time
+            timeZone = TimeZone.getTimeZone(TIME_ZONE_ID)
+        }
+
+        val ano = calendar.get(Calendar.YEAR)
+        val mes = calendar.get(Calendar.MONTH)
+        val dia = calendar.get(Calendar.DAY_OF_MONTH)
+        return Triple(ano, mes, dia)
+    }
 
     override fun onDestroy() {
         super.onDestroy()
