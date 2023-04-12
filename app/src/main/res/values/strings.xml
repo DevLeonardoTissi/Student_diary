@@ -80,6 +80,7 @@
     <string name="discipline_form_fragment_text_field_description_hint">Descrição</string>
     <string name="discipline_form_fragment_text_field_description_helper">Opcional</string>
     <string name="discipline_form_fragment_text_field_name_error">Campo vazio</string>
+    <string name="discipline_form_fragment_text_field_email_error">Email necessário</string>
     <string name="discipline_form_fragment_text_field_guests_hint">Convidados</string>
     <string name="discipline_form_fragment_text_field_guests_helper">Adicionar e-mails de convidados separados por vírgula</string>
     <string name="discipline_form_fragment_startTimeButton">Horário Inicial</string>

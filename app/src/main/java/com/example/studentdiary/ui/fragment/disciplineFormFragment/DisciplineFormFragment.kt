@@ -1,8 +1,9 @@
 package com.example.studentdiary.ui.fragment.disciplineFormFragment
 
-import android.app.Activity.RESULT_OK
 import android.content.ContentUris
+import android.content.ContentValues
 import android.content.Intent
+import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
 import android.provider.CalendarContract
@@ -12,8 +13,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.util.Pair
 import androidx.core.util.component1
 import androidx.core.util.component2
@@ -25,9 +24,7 @@ import com.example.studentdiary.R
 import com.example.studentdiary.databinding.FragmentDisciplineFormBinding
 import com.example.studentdiary.extensions.snackBar
 import com.example.studentdiary.extensions.tryLoadImage
-import com.example.studentdiary.ui.TAG_DATA_PICKER
-import com.example.studentdiary.ui.TAG_TIME_PICKER
-import com.example.studentdiary.ui.TIME_ZONE_ID
+import com.example.studentdiary.ui.*
 import com.example.studentdiary.ui.dialog.DisciplineFormDialog
 import com.example.studentdiary.utils.concatenateDateValues
 import com.example.studentdiary.utils.concatenateTimeValues
@@ -54,7 +51,8 @@ class DisciplineFormFragment : Fragment() {
         findNavController()
     }
 
-    private lateinit var createEventLauncher: ActivityResultLauncher<Intent>
+     private var calID: Long = 0
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -83,23 +81,6 @@ class DisciplineFormFragment : Fragment() {
         searchDisciplineId()
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        createEventLauncher =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-                Log.i("TAG", "onCreate: entrei no onresult")
-                if (result.resultCode == RESULT_OK) {
-                    Log.i("TAG", "onCreate: criado com sucesso")
-                    val eventUri: Uri? = result.data?.data
-                    val eventId: Long? = eventUri?.lastPathSegment?.toLong()
-                    model.setEventId(eventId)
-
-                } else{
-                    Log.i("TAG", "onCreate: erro")
-                }
-            }
-    }
 
     private fun checkBoxFavorite() {
         binding.disciplineFormFragmentCheckBox.setOnClickListener {
@@ -123,10 +104,10 @@ class DisciplineFormFragment : Fragment() {
     private fun switchAddReminder() {
         val switchAddReminder = binding.disciplineFormFragmentSwitchAddReminder
 
-        binding.disciplineFormFragmentTextfieldGuests.isEnabled = switchAddReminder.isChecked
+        binding.disciplineFormFragmentTextfieldEmail.isEnabled = switchAddReminder.isChecked
 
         switchAddReminder.setOnCheckedChangeListener { _, isChecked ->
-            binding.disciplineFormFragmentTextfieldGuests.isEnabled = isChecked
+            binding.disciplineFormFragmentTextfieldEmail.isEnabled = isChecked
         }
     }
 
@@ -255,6 +236,16 @@ class DisciplineFormFragment : Fragment() {
             valid = false
         }
 
+        val email = binding.disciplineFormFragmentTextfieldEmail.editText?.text.toString()
+        if (email.isBlank()) {
+            val textFieldEmail = binding.disciplineFormFragmentTextfieldEmail
+            textFieldEmail.error =
+                getString(R.string.discipline_form_fragment_text_field_email_error)
+            if (name.isNotBlank()) {
+                textFieldEmail.requestFocus()
+            }
+            valid = false
+        }
 
         if (model.getDate() == null) {
             valid = false
@@ -278,11 +269,11 @@ class DisciplineFormFragment : Fragment() {
                     insert()
                     val switchAddReminder = binding.disciplineFormFragmentSwitchAddReminder
                     if (switchAddReminder.isChecked) {
-                        val guests =
-                            binding.disciplineFormFragmentTextfieldGuests.editText?.text.toString()
-                        addReminder(guests)
+                        val email =
+                            binding.disciplineFormFragmentTextfieldEmail.editText?.text.toString().trim()
+                        addReminder(email)
                     }
-                    controller.navigate(R.id.action_disciplineFormFragment_to_disciplinesFragment)
+//                    controller.navigate(R.id.action_disciplineFormFragment_to_disciplinesFragment)
                 }
                 .show()
         }
@@ -345,7 +336,7 @@ class DisciplineFormFragment : Fragment() {
         }
     }
 
-    private fun addReminder(guests: String? = null) {
+    private fun addReminder(email: String) {
         model.getDate()?.let { date ->
 
             val startMillis: Long = Calendar.getInstance().run {
@@ -369,49 +360,104 @@ class DisciplineFormFragment : Fragment() {
             }
 
             model.getEventId()?.let {
-                addedit(startMillis, endMillis, guests)
-            } ?: addeventooo(startMillis, endMillis, guests)
+                addedit(startMillis, endMillis, it)
+            } ?: addeventooo(startMillis, endMillis, email)
 
         }
     }
 
-    private fun addedit(startMillis: Long, endMillis: Long, guests: String?) {
-        Log.i("TAG", "addedit: entoru em editar")
+    private fun addedit(startMillis: Long, endMillis: Long, eventId:Long) {
 
-        val id = model.getEventId()!!
-        Log.i("TAG", "addedit: entoru em editar $id")
-        val uri =
-            ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, id)
-        val intentEdit = Intent(Intent.ACTION_EDIT)
-            .setData(uri)
-            .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startMillis)
-            .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endMillis)
-            .putExtra(CalendarContract.Events.TITLE, model.getName())
-            .putExtra(CalendarContract.Events.DESCRIPTION, model.getDescription())
-            .putExtra(CalendarContract.Events.EVENT_LOCATION, "The gym")
-            .putExtra(Intent.EXTRA_EMAIL, guests)
-        startActivity(intentEdit)
+//        val urii: Uri = CalendarContract.Calendars.CONTENT_URI
+//        val selection: String = "((${CalendarContract.Calendars.ACCOUNT_NAME} = ?) AND (" +
+//                "${CalendarContract.Calendars.ACCOUNT_TYPE} = ?) AND (" +
+//                "${CalendarContract.Calendars.OWNER_ACCOUNT} = ?))"
+//        val selectionArgs: Array<String> =
+//            arrayOf("leonardo.tissi.si@gmail.com", GOOGLE_EMAIL_TYPE, "leonardo.tissi.si@gmail.com")
+//        Log.i("TAG", "addedit: $eventId")
+//
+//
+//        activity?.let {
+//            val cut: Cursor? =
+//                it.contentResolver.query(
+//                    urii,
+//                    EVENT_PROJECTION,
+//                    selection,
+//                    selectionArgs,
+//                    null
+//                )
+//
+//            cut?.let { cursor ->
+//                while (cursor.moveToNext()) {
+//                    calID = cursor.getLong(PROJECTION_ID_INDEX)
+//                }
+//                cut.close()
+//            }
+//        }
+
+        val values = ContentValues().apply {
+//            put(CalendarContract.Events.DTSTART, startMillis)
+//            put(CalendarContract.Events.DTEND, endMillis)
+            put(CalendarContract.Events.TITLE, model.getName())
+//            put(CalendarContract.Events.DESCRIPTION, model.getDescription())
+//            put(CalendarContract.Events.CALENDAR_ID, calID)
+//            put(CalendarContract.Events.EVENT_TIMEZONE, TIME_ZONE_ID)
+        }
+
+        activity?.let {activity ->
+        val updateUri: Uri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, eventId)
+
+         activity.contentResolver.update(updateUri, values, null, null)
+            Log.i("TAG", "addedit: $updateUri")
+
+        }
     }
 
-    private fun addeventooo(startMillis: Long, endMillis: Long, guests: String?) {
+    private fun addeventooo(startMillis: Long, endMillis: Long, email: String) {
+
+        val urii: Uri = CalendarContract.Calendars.CONTENT_URI
+        val selection: String = "((${CalendarContract.Calendars.ACCOUNT_NAME} = ?) AND (" +
+                "${CalendarContract.Calendars.ACCOUNT_TYPE} = ?) AND (" +
+                "${CalendarContract.Calendars.OWNER_ACCOUNT} = ?))"
+        val selectionArgs: Array<String> =
+            arrayOf(email, GOOGLE_EMAIL_TYPE, email)
 
 
-        val intent = Intent(Intent.ACTION_INSERT)
-            .setData(CalendarContract.Events.CONTENT_URI)
-            .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startMillis)
-            .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endMillis)
-            .putExtra(CalendarContract.Events.TITLE, model.getName())
-            .putExtra(CalendarContract.Events.DESCRIPTION, model.getDescription())
-            .putExtra(CalendarContract.Events.EVENT_LOCATION, "The gym")
-            .putExtra(
-                CalendarContract.Events.AVAILABILITY,
-                CalendarContract.Events.AVAILABILITY_BUSY
-            )
-            .putExtra(Intent.EXTRA_EMAIL, guests)
+        activity?.let {
+            val cut: Cursor? =
+                it.contentResolver.query(
+                    urii,
+                    EVENT_PROJECTION,
+                    selection,
+                    selectionArgs,
+                    null
+                )
 
+            cut?.let { cursor ->
+                while (cursor.moveToNext()) {
+                    calID = cursor.getLong(PROJECTION_ID_INDEX)
+                }
+                cut.close()
+            }
 
-        createEventLauncher.launch(intent)
+            val values = ContentValues().apply {
+                put(CalendarContract.Events.DTSTART, startMillis)
+                put(CalendarContract.Events.DTEND, endMillis)
+                put(CalendarContract.Events.TITLE, model.getName())
+                put(CalendarContract.Events.DESCRIPTION, model.getDescription())
+                put(CalendarContract.Events.CALENDAR_ID, calID)
+                put(CalendarContract.Events.EVENT_TIMEZONE, TIME_ZONE_ID)
+            }
 
+            val contentResolver = it.contentResolver
+            val uri: Uri? = contentResolver.insert(CalendarContract.Events.CONTENT_URI, values)
+
+            uri?.lastPathSegment?.let {id ->
+                val eventID: Long = id.toLong()
+                model.setEventId(eventID)
+                Log.i("TAG", "addeventooo: $eventID")
+            }
+        }
     }
 
     private fun converterLongToDate(time: Long): Triple<Int, Int, Int> {
