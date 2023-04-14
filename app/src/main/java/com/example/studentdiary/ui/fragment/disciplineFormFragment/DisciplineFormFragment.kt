@@ -174,7 +174,7 @@ class DisciplineFormFragment : Fragment() {
         val textFieldEmailType = binding.disciplineFormFragmentTextfieldEmailType.editText
 
         (textFieldEmailType as? MaterialAutoCompleteTextView)?.setSimpleItems(
-            ITENS_EMAIL_TYPE
+            ITEMS_EMAIL_TYPE
         )
 
         textFieldEmailType?.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
