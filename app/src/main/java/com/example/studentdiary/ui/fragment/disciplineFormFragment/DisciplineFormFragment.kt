@@ -1,18 +1,20 @@
 package com.example.studentdiary.ui.fragment.disciplineFormFragment
 
+import android.Manifest
 import android.content.ContentUris
 import android.content.ContentValues
-import android.content.Intent
+import android.content.pm.PackageManager
 import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
 import android.provider.CalendarContract
 import android.text.format.DateFormat.is24HourFormat
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.core.util.Pair
 import androidx.core.util.component1
 import androidx.core.util.component2
@@ -32,6 +34,7 @@ import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import kotlinx.coroutines.launch
@@ -51,7 +54,15 @@ class DisciplineFormFragment : Fragment() {
         findNavController()
     }
 
-     private var calID: Long = 0
+
+    private val requestPermission =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                binding.disciplineFormFragmentSwitchAddReminder.isChecked = true
+            } else {
+                snackBar(getString(R.string.discipline_form_fragment_snackbar_message_permitionNotGranted))
+            }
+        }
 
 
     override fun onCreateView(
@@ -65,14 +76,14 @@ class DisciplineFormFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         checkBoxFavorite()
+        checkBoxCompleted()
+        fabInsetImage()
+        switchAddReminder()
+        saveTextFieldsValue()
         startTimeButton()
         endTimeButton()
-        fabInsetImage()
-        saveTextFieldsValue()
-        doneButton()
         calendarButton()
-        switchAddReminder()
-        Log.i("TAG", "onViewCreated: ${model.getEventId()}")
+        doneButton()
     }
 
     override fun onStart() {
@@ -81,10 +92,15 @@ class DisciplineFormFragment : Fragment() {
         searchDisciplineId()
     }
 
-
     private fun checkBoxFavorite() {
-        binding.disciplineFormFragmentCheckBox.setOnClickListener {
+        binding.disciplineFormFragmentCheckBoxFavorite.setOnClickListener {
             if (it is CheckBox) model.setFavorite(it.isChecked)
+        }
+    }
+
+    private fun checkBoxCompleted() {
+        binding.disciplineFormFragmentCheckBoxCompleted.setOnClickListener {
+            if (it is CheckBox) model.setCompleted(it.isChecked)
         }
     }
 
@@ -94,7 +110,6 @@ class DisciplineFormFragment : Fragment() {
             context?.let {
                 DisciplineFormDialog(it)
                     .show(model.getImg()) { url ->
-                        binding.disciplineFormFragmentImageView.tryLoadImage(url)
                         model.setImg(url)
                     }
             }
@@ -103,11 +118,51 @@ class DisciplineFormFragment : Fragment() {
 
     private fun switchAddReminder() {
         val switchAddReminder = binding.disciplineFormFragmentSwitchAddReminder
-
-        binding.disciplineFormFragmentTextfieldEmail.isEnabled = switchAddReminder.isChecked
+        val textInputEmail = binding.disciplineFormFragmentTextfieldEmail
+        val textInputEmailType = binding.disciplineFormFragmentTextfieldEmailType
+        switchAddReminder.isChecked = false
+        textInputEmail.isEnabled = switchAddReminder.isChecked
+        textInputEmailType.isEnabled = switchAddReminder.isChecked
 
         switchAddReminder.setOnCheckedChangeListener { _, isChecked ->
-            binding.disciplineFormFragmentTextfieldEmail.isEnabled = isChecked
+            if (isChecked) {
+                checkCalendarPermission { isGranted ->
+                    if (isGranted) {
+                        textInputEmailType.isEnabled = true
+                        textInputEmail.isEnabled = true
+                        snackBar(getString(R.string.discipline_form_fragment_snackbar_message_addReminder))
+                    } else {
+                        textInputEmail.isEnabled = false
+                        switchAddReminder.isChecked = false
+                        textInputEmailType.isEnabled = false
+                    }
+                }
+            } else {
+                textInputEmail.isEnabled = false
+                textInputEmailType.isEnabled = false
+            }
+        }
+    }
+
+    private fun checkCalendarPermission(granted: (isGranted: Boolean) -> Unit) {
+
+        context?.let {
+
+            val permission = Manifest.permission.READ_CALENDAR
+            if (ContextCompat.checkSelfPermission(
+                    it,
+                    permission
+                ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
+                    it,
+                    Manifest.permission.WRITE_CALENDAR
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                granted(true)
+            } else {
+                granted(false)
+                requestPermission.launch(permission)
+                requestPermission.launch(Manifest.permission.WRITE_CALENDAR)
+            }
         }
     }
 
@@ -115,7 +170,28 @@ class DisciplineFormFragment : Fragment() {
         val textFieldName = binding.disciplineFormFragmentTextfieldName.editText
         val textFieldDescription =
             binding.disciplineFormFragmentTextfieldDescription.editText
+        val textFieldEmail = binding.disciplineFormFragmentTextfieldEmail.editText
+        val textFieldEmailType = binding.disciplineFormFragmentTextfieldEmailType.editText
 
+        (textFieldEmailType as? MaterialAutoCompleteTextView)?.setSimpleItems(
+            ITENS_EMAIL_TYPE
+        )
+
+        textFieldEmailType?.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) {
+                if (textFieldEmailType?.isEnabled == true) {
+                    model.setUserEmailType(textFieldEmailType.text.toString())
+                }
+            }
+        }
+
+        textFieldEmail?.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) {
+                if (textFieldEmail?.isEnabled == true) {
+                    model.setUserCalendarEmail(textFieldEmail.text.toString())
+                }
+            }
+        }
 
         textFieldName?.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
@@ -134,6 +210,8 @@ class DisciplineFormFragment : Fragment() {
     private fun clearFocusTextFields() {
         binding.disciplineFormFragmentTextfieldName.editText?.clearFocus()
         binding.disciplineFormFragmentTextfieldDescription.editText?.clearFocus()
+        binding.disciplineFormFragmentTextfieldEmail.editText?.clearFocus()
+        binding.disciplineFormFragmentTextfieldEmailType.editText?.clearFocus()
     }
 
     private fun startTimeButton() {
@@ -213,7 +291,7 @@ class DisciplineFormFragment : Fragment() {
         val doneButton = binding.disciplineFormFabDone
         doneButton.setOnClickListener {
             clearFocusTextFields()
-            cleanErrorField()
+            clearErrorField()
             val isValid = validate()
             if (isValid) {
                 alertDialogConfirm()
@@ -221,8 +299,10 @@ class DisciplineFormFragment : Fragment() {
         }
     }
 
-    private fun cleanErrorField() {
+    private fun clearErrorField() {
         binding.disciplineFormFragmentTextfieldName.error = null
+        binding.disciplineFormFragmentTextfieldEmail.error = null
+        binding.disciplineFormFragmentTextfieldEmailType.error = null
     }
 
     private fun validate(): Boolean {
@@ -236,16 +316,31 @@ class DisciplineFormFragment : Fragment() {
             valid = false
         }
 
-        val email = binding.disciplineFormFragmentTextfieldEmail.editText?.text.toString()
-        if (email.isBlank()) {
-            val textFieldEmail = binding.disciplineFormFragmentTextfieldEmail
-            textFieldEmail.error =
-                getString(R.string.discipline_form_fragment_text_field_email_error)
-            if (name.isNotBlank()) {
-                textFieldEmail.requestFocus()
+
+        val textFieldEmail = binding.disciplineFormFragmentTextfieldEmail
+        if (textFieldEmail.isEnabled) {
+            val email = textFieldEmail.editText?.text.toString()
+            if (email.isBlank()) {
+                textFieldEmail.error =
+                    getString(R.string.discipline_form_fragment_text_field_email_error)
+                valid = false
+                if (name.isNotBlank()) {
+                    textFieldEmail.requestFocus()
+                }
             }
-            valid = false
         }
+
+
+        val textFieldEmailType = binding.disciplineFormFragmentTextfieldEmailType
+        if (textFieldEmailType.isEnabled) {
+            val emailType = textFieldEmailType.editText?.text.toString()
+            if (emailType.isBlank()) {
+                textFieldEmailType.error =
+                    getString(R.string.discipline_form_fragment_text_field_email_type_error)
+                valid = false
+            }
+        }
+
 
         if (model.getDate() == null) {
             valid = false
@@ -266,21 +361,159 @@ class DisciplineFormFragment : Fragment() {
 
                 }
                 .setPositiveButton(getString(R.string.common_confirm)) { _, _ ->
-                    insert()
                     val switchAddReminder = binding.disciplineFormFragmentSwitchAddReminder
                     if (switchAddReminder.isChecked) {
-                        val email =
-                            binding.disciplineFormFragmentTextfieldEmail.editText?.text.toString().trim()
-                        addReminder(email)
+                        addReminder()
                     }
-//                    controller.navigate(R.id.action_disciplineFormFragment_to_disciplinesFragment)
+                    insert()
+                    controller.navigate(R.id.action_disciplineFormFragment_to_disciplinesFragment)
                 }
                 .show()
         }
     }
 
-    private fun insert() = model.insert()
+    private fun addReminder() {
+        model.getDate()?.let { date ->
 
+            val startMillis: Long = Calendar.getInstance().run {
+                val (year, month, day) = converterLongToDate(date.component1())
+                model.getStartTime()?.let {
+                    set(year, month, day, it.component1(), it.component2())
+                    timeInMillis
+                }
+                set(year, month, day)
+                timeInMillis
+            }
+
+            val endMillis: Long = Calendar.getInstance().run {
+                val (year, month, day) = converterLongToDate(date.component2())
+                model.getEndTime()?.let {
+                    set(year, month, day, it.component1(), it.component2())
+                    timeInMillis
+                } ?: set(year, month, day)
+                timeInMillis
+
+            }
+
+            model.getEventId()?.let { eventId ->
+                editCalendarEvent(startMillis, endMillis, eventId)
+            } ?: createEventInCalendar(startMillis, endMillis)
+
+        }
+    }
+
+    private fun converterLongToDate(time: Long): Triple<Int, Int, Int> {
+        val calendar = Calendar.getInstance().apply {
+            timeInMillis = time
+            timeZone = TimeZone.getTimeZone(TIME_ZONE_ID)
+        }
+
+        val ano = calendar.get(Calendar.YEAR)
+        val mes = calendar.get(Calendar.MONTH)
+        val dia = calendar.get(Calendar.DAY_OF_MONTH)
+        return Triple(ano, mes, dia)
+    }
+
+    private fun createEventInCalendar(startMillis: Long, endMillis: Long) {
+        lifecycleScope.launch {
+            context?.let { context ->
+                var calID: Long = 0
+                val email = model.getUserCalendarEmail()
+                email?.let { userEmail ->
+                    val contentUri: Uri = CalendarContract.Calendars.CONTENT_URI
+                    val selection: String = "((${CalendarContract.Calendars.ACCOUNT_NAME} = ?) AND (" +
+                            "${CalendarContract.Calendars.ACCOUNT_TYPE} = ?) AND (" +
+                            "${CalendarContract.Calendars.OWNER_ACCOUNT} = ?))"
+
+
+                    val emailType = when (model.getUseremailType()) {
+
+                        GOOGLE_EMAIL_TYPE_DESCRIPTION -> GOOGLE_EMAIL_TYPE
+                        YAHOO_EMAIL_TYPE_DESCRIPTION -> YAHOO_EMAIL_TYPE
+
+
+                        else -> {
+                            OUTLOOK_EMAIL_TYPE
+                        }
+                    }
+
+                    val selectionArgs: Array<String> =
+                        arrayOf(userEmail, emailType, userEmail)
+
+
+                    val cursor: Cursor? =
+                        context.contentResolver.query(
+                            contentUri,
+                            EVENT_PROJECTION,
+                            selection,
+                            selectionArgs,
+                            null
+                        )
+
+                    cursor?.let {
+                        while (it.moveToNext()) {
+                            calID = it.getLong(PROJECTION_ID_INDEX)
+                        }
+                        cursor.close()
+                    }
+
+                    val values = ContentValues().apply {
+                        put(CalendarContract.Events.DTSTART, startMillis)
+                        put(CalendarContract.Events.DTEND, endMillis)
+                        put(CalendarContract.Events.TITLE, model.getName())
+                        put(CalendarContract.Events.DESCRIPTION, model.getDescription())
+                        put(CalendarContract.Events.CALENDAR_ID, calID)
+                        put(CalendarContract.Events.EVENT_TIMEZONE, TIME_ZONE_ID)
+                    }
+
+                    val contentResolver = context.contentResolver
+                    val uri: Uri? = contentResolver.insert(CalendarContract.Events.CONTENT_URI, values)
+
+                    uri?.lastPathSegment?.let { id ->
+                        val eventID: Long = id.toLong()
+                        model.setEventId(eventID)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun editCalendarEvent(startMillis: Long, endMillis: Long, eventId: Long) {
+        lifecycleScope.launch {
+            val values = ContentValues().apply {
+                put(CalendarContract.Events.DTSTART, startMillis)
+                put(CalendarContract.Events.DTEND, endMillis)
+                put(CalendarContract.Events.TITLE, model.getName())
+                put(CalendarContract.Events.DESCRIPTION, model.getDescription())
+            }
+            context?.let { context ->
+                val updateUri: Uri =
+                    ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, eventId)
+
+                val projection = arrayOf(CalendarContract.Events._ID)
+                val selection = "${CalendarContract.Events._ID} = ?"
+                val selectionArgs = arrayOf(eventId.toString())
+
+                val cursor = context.contentResolver.query(
+                    updateUri,
+                    projection,
+                    selection,
+                    selectionArgs,
+                    null
+                )
+                val eventExists = (cursor?.count ?: 0) > 0
+                cursor?.close()
+
+                if (eventExists) {
+                    context.contentResolver.update(updateUri, values, null, null)
+                } else {
+                    createEventInCalendar(startMillis, endMillis)
+                }
+            }
+        }
+    }
+
+    private fun insert() = model.insert()
     private fun searchDisciplineId() {
         lifecycleScope.launch {
             disciplineId?.let {
@@ -290,16 +523,28 @@ class DisciplineFormFragment : Fragment() {
             }
         }
     }
-
     private fun updateUi() {
         model.discipline.observe(viewLifecycleOwner) { discipline ->
             discipline?.let {
 
                 discipline.favorite.let { favorite ->
-                    if (binding.disciplineFormFragmentCheckBox.isChecked != favorite) {
-                        binding.disciplineFormFragmentCheckBox.isChecked = favorite
+                    if (binding.disciplineFormFragmentCheckBoxFavorite.isChecked != favorite) {
+                        binding.disciplineFormFragmentCheckBoxFavorite.isChecked = favorite
                     }
                 }
+
+                discipline.completed.let { completed ->
+                    if (binding.disciplineFormFragmentCheckBoxCompleted.isChecked != completed) {
+                        binding.disciplineFormFragmentCheckBoxCompleted.isChecked = completed
+                    }
+                }
+
+                discipline.userCalendarEmail?.let { userCalendarEmail ->
+                    val textInputLayoutEmail = binding.disciplineFormFragmentTextfieldEmail
+                    textInputLayoutEmail.editText?.setText(userCalendarEmail)
+                    textInputLayoutEmail.editText?.setSelection(userCalendarEmail.length)
+                }
+
 
                 discipline.startTime?.let { startTime ->
                     binding.disciplineFormFragmentStartTime.text =
@@ -334,142 +579,6 @@ class DisciplineFormFragment : Fragment() {
                 }
             }
         }
-    }
-
-    private fun addReminder(email: String) {
-        model.getDate()?.let { date ->
-
-            val startMillis: Long = Calendar.getInstance().run {
-                val (year, month, day) = converterLongToDate(date.component1())
-                model.getStartTime()?.let {
-                    set(year, month, day, it.component1(), it.component2())
-                    timeInMillis
-                }
-                set(year, month, day)
-                timeInMillis
-            }
-
-            val endMillis: Long = Calendar.getInstance().run {
-                val (year, month, day) = converterLongToDate(date.component2())
-                model.getEndTime()?.let {
-                    set(year, month, day, it.component1(), it.component2())
-                    timeInMillis
-                } ?: set(year, month, day)
-                timeInMillis
-
-            }
-
-            model.getEventId()?.let {
-                addedit(startMillis, endMillis, it)
-            } ?: addeventooo(startMillis, endMillis, email)
-
-        }
-    }
-
-    private fun addedit(startMillis: Long, endMillis: Long, eventId:Long) {
-
-//        val urii: Uri = CalendarContract.Calendars.CONTENT_URI
-//        val selection: String = "((${CalendarContract.Calendars.ACCOUNT_NAME} = ?) AND (" +
-//                "${CalendarContract.Calendars.ACCOUNT_TYPE} = ?) AND (" +
-//                "${CalendarContract.Calendars.OWNER_ACCOUNT} = ?))"
-//        val selectionArgs: Array<String> =
-//            arrayOf("leonardo.tissi.si@gmail.com", GOOGLE_EMAIL_TYPE, "leonardo.tissi.si@gmail.com")
-//        Log.i("TAG", "addedit: $eventId")
-//
-//
-//        activity?.let {
-//            val cut: Cursor? =
-//                it.contentResolver.query(
-//                    urii,
-//                    EVENT_PROJECTION,
-//                    selection,
-//                    selectionArgs,
-//                    null
-//                )
-//
-//            cut?.let { cursor ->
-//                while (cursor.moveToNext()) {
-//                    calID = cursor.getLong(PROJECTION_ID_INDEX)
-//                }
-//                cut.close()
-//            }
-//        }
-
-        val values = ContentValues().apply {
-//            put(CalendarContract.Events.DTSTART, startMillis)
-//            put(CalendarContract.Events.DTEND, endMillis)
-            put(CalendarContract.Events.TITLE, model.getName())
-//            put(CalendarContract.Events.DESCRIPTION, model.getDescription())
-//            put(CalendarContract.Events.CALENDAR_ID, calID)
-//            put(CalendarContract.Events.EVENT_TIMEZONE, TIME_ZONE_ID)
-        }
-
-        activity?.let {activity ->
-        val updateUri: Uri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, eventId)
-
-         activity.contentResolver.update(updateUri, values, null, null)
-            Log.i("TAG", "addedit: $updateUri")
-
-        }
-    }
-
-    private fun addeventooo(startMillis: Long, endMillis: Long, email: String) {
-
-        val urii: Uri = CalendarContract.Calendars.CONTENT_URI
-        val selection: String = "((${CalendarContract.Calendars.ACCOUNT_NAME} = ?) AND (" +
-                "${CalendarContract.Calendars.ACCOUNT_TYPE} = ?) AND (" +
-                "${CalendarContract.Calendars.OWNER_ACCOUNT} = ?))"
-        val selectionArgs: Array<String> =
-            arrayOf(email, GOOGLE_EMAIL_TYPE, email)
-
-
-        activity?.let {
-            val cut: Cursor? =
-                it.contentResolver.query(
-                    urii,
-                    EVENT_PROJECTION,
-                    selection,
-                    selectionArgs,
-                    null
-                )
-
-            cut?.let { cursor ->
-                while (cursor.moveToNext()) {
-                    calID = cursor.getLong(PROJECTION_ID_INDEX)
-                }
-                cut.close()
-            }
-
-            val values = ContentValues().apply {
-                put(CalendarContract.Events.DTSTART, startMillis)
-                put(CalendarContract.Events.DTEND, endMillis)
-                put(CalendarContract.Events.TITLE, model.getName())
-                put(CalendarContract.Events.DESCRIPTION, model.getDescription())
-                put(CalendarContract.Events.CALENDAR_ID, calID)
-                put(CalendarContract.Events.EVENT_TIMEZONE, TIME_ZONE_ID)
-            }
-
-            val contentResolver = it.contentResolver
-            val uri: Uri? = contentResolver.insert(CalendarContract.Events.CONTENT_URI, values)
-
-            uri?.lastPathSegment?.let {id ->
-                val eventID: Long = id.toLong()
-                model.setEventId(eventID)
-                Log.i("TAG", "addeventooo: $eventID")
-            }
-        }
-    }
-
-    private fun converterLongToDate(time: Long): Triple<Int, Int, Int> {
-        val calendar = Calendar.getInstance().apply {
-            timeInMillis = time
-            timeZone = TimeZone.getTimeZone(TIME_ZONE_ID)
-        }
-
-        val ano = calendar.get(Calendar.YEAR)
-        val mes = calendar.get(Calendar.MONTH)
-        val dia = calendar.get(Calendar.DAY_OF_MONTH)
-        return Triple(ano, mes, dia)
     }
 
     override fun onDestroy() {

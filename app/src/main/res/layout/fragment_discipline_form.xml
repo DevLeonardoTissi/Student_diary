@@ -25,7 +25,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <CheckBox
-            android:id="@+id/discipline_form_fragment_checkBox"
+            android:id="@+id/discipline_form_fragment_checkBox_favorite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_default"
@@ -33,6 +33,16 @@
             app:buttonTint="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/disciplineForm_fragment_imageView" />
+
+        <CheckBox
+            android:id="@+id/discipline_form_fragment_checkBox_completed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@drawable/sl_completed"
+            app:buttonTint="@color/white"
+            app:layout_constraintTop_toBottomOf="@id/discipline_form_fragment_checkBox_favorite"
+            app:layout_constraintEnd_toEndOf="@id/discipline_form_fragment_checkBox_favorite"/>
+
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/discipline_form_fragment_fab_img"
@@ -95,9 +105,9 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/discipline_form_fragment_textfield_email"
             style="@style/textField"
-            android:hint="@string/discipline_form_fragment_text_field_guests_hint"
+            android:hint="@string/discipline_form_fragment_text_field_email_hint"
             app:endIconMode="clear_text"
-            app:helperText="@string/discipline_form_fragment_text_field_guests_helper"
+            app:helperText="@string/discipline_form_fragment_text_field_email_helper"
             app:helperTextEnabled="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -110,13 +120,35 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/discipline_form_fragment_textfield_email_type"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_margin="@dimen/margin_default"
+            style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
+            android:hint="@string/discipline_form_fragment_text_field_email_type_hint"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/discipline_form_fragment_textfield_email"
+           >
+
+            <AutoCompleteTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
         <Button
             android:id="@+id/discipline_form_fragment_start_time"
             style="@style/elevationButton"
             android:text="@string/discipline_form_fragment_startTimeButton"
             app:layout_constraintEnd_toStartOf="@id/discipline_form_fragment_end_time"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/discipline_form_fragment_textfield_email" />
+            app:layout_constraintTop_toBottomOf="@id/discipline_form_fragment_textfield_email_type" />
 
         <Button
             android:id="@+id/discipline_form_fragment_end_time"

@@ -81,8 +81,10 @@
     <string name="discipline_form_fragment_text_field_description_helper">Opcional</string>
     <string name="discipline_form_fragment_text_field_name_error">Campo vazio</string>
     <string name="discipline_form_fragment_text_field_email_error">Email necessário</string>
-    <string name="discipline_form_fragment_text_field_guests_hint">Convidados</string>
-    <string name="discipline_form_fragment_text_field_guests_helper">Adicionar e-mails de convidados separados por vírgula</string>
+    <string name="discipline_form_fragment_text_field_email_hint">Email</string>
+    <string name="discipline_form_fragment_text_field_email_helper">Email vinculado a sua agenda</string>
+    <string name="discipline_form_fragment_text_field_email_type_hint">Selecione o seu tipo de email</string>
+    <string name="discipline_form_fragment_text_field_email_type_error">Tipo de Conta necessário</string>
     <string name="discipline_form_fragment_startTimeButton">Horário Inicial</string>
     <string name="discipline_form_fragment_endTimeButton">Horário Final</string>
     <string name="discipline_form_fragment_fab_img_content_desc">Floating action insert photo</string>
@@ -94,6 +96,8 @@
     <string name="discipline_form_fragment_title_dataPicker">Selecione o(s) dia(s) que deseja estudar</string>
     <string name="discipline_form_fragment_snackBarMessage_emptyDate">Data vazia</string>
     <string name="discipline_form_fragment_addReminder_switch">Adicionar como evento na agenda?</string>
+    <string name="discipline_form_fragment_snackbar_message_permitionNotGranted">Permissão não concedida</string>
+    <string name="discipline_form_fragment_snackbar_message_addReminder">"Preencha os campos corretamente para que o lembrete seja criado em sua agenda"</string>
 
 
 

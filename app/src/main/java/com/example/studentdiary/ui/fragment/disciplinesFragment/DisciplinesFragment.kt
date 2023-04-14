@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.studentdiary.R
 import com.example.studentdiary.databinding.FragmentDisciplinesBinding
 import com.example.studentdiary.model.Discipline
 import com.example.studentdiary.ui.recyclerView.adapter.DisciplineListAdapter
@@ -35,16 +36,15 @@ class DisciplinesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        configureDiscilpineObserver()
+        configureDisciplineObserver()
         configureRecyclerView()
         configureFab()
     }
 
 
-    private fun configureDiscilpineObserver() {
+    private fun configureDisciplineObserver() {
         model.disciplineList.observe(viewLifecycleOwner) { list ->
-            adapter.submitList(list)
-            configureSwitchFavorite(list)
+            buttonToggleGroupFilterList(list)
         }
     }
 
@@ -54,26 +54,33 @@ class DisciplinesFragment : Fragment() {
         binding.disciplinesFragmentTextViewStudent.visibility = visibility
     }
 
-    private fun configureSwitchFavorite(list: List<Discipline>) {
-        val switchFavorite = binding.disciplineFragmentSwitchFavorite
-        val filterList = list.filter { it.favorite }
+    private fun buttonToggleGroupFilterList(list: List<Discipline>) {
+        val toggleButton = binding.disciplinesFragmentButtonToggleGroup
 
-        if (switchFavorite.isChecked) {
-            adapter.submitList(filterList)
-            messageEmptyList(filterList)
-        } else {
-            adapter.submitList(list)
-            messageEmptyList(list)
-        }
+        checkButtonCheckedAndUpdateList(toggleButton.checkedButtonId, list)
 
-        switchFavorite.setOnCheckedChangeListener { _, isChecked ->
+        toggleButton.addOnButtonCheckedListener { _, checkedId, isChecked ->
             if (isChecked) {
-                messageEmptyList(filterList)
-                adapter.submitList(filterList)
+                checkButtonCheckedAndUpdateList(checkedId, list)
+            }
+        }
+    }
 
-            } else {
-                messageEmptyList(list)
+    private fun checkButtonCheckedAndUpdateList(checkedId: Int, list: List<Discipline>) {
+        when (checkedId) {
+            R.id.disciplinesFragment_toggle_button_all -> {
                 adapter.submitList(list)
+                messageEmptyList(list)
+            }
+            R.id.disciplinesFragment_toggle_button_favorites -> {
+                val favoriteList = list.filter { it.favorite }
+                adapter.submitList(favoriteList)
+                messageEmptyList(favoriteList)
+            }
+            R.id.disciplinesFragment_toggle_button_completed -> {
+                val completedList = list.filter { it.completed }
+                adapter.submitList(completedList)
+                messageEmptyList(completedList)
             }
         }
     }
@@ -85,7 +92,7 @@ class DisciplinesFragment : Fragment() {
             recycler.layoutManager = LinearLayoutManager(it)
             val divider = MaterialDividerItemDecoration(it, LinearLayoutManager.VERTICAL)
             recycler.addItemDecoration(divider)
-            adapter.onItemClick=  {disciplineId ->
+            adapter.onItemClick = { disciplineId ->
                 goToDisciplineDetails(disciplineId)
 
             }
@@ -97,7 +104,10 @@ class DisciplinesFragment : Fragment() {
 //        val direction = DisciplinesFragmentDirections.actionDisciplinesFragmentToDisciplineDetailsFragment(disciplineId)
 //        controller.navigate(direction)
 
-        val direction = DisciplinesFragmentDirections.actionDisciplinesFragmentToDisciplineFormFragment(disciplineId)
+        val direction =
+            DisciplinesFragmentDirections.actionDisciplinesFragmentToDisciplineFormFragment(
+                disciplineId
+            )
         controller.navigate(direction)
 
     }
@@ -105,7 +115,8 @@ class DisciplinesFragment : Fragment() {
     private fun configureFab() {
         val fab = binding.disciplinesFragmentFabInsert
         fab.setOnClickListener {
-            val direction = DisciplinesFragmentDirections.actionDisciplinesFragmentToDisciplineFormFragment(null)
+            val direction =
+                DisciplinesFragmentDirections.actionDisciplinesFragmentToDisciplineFormFragment(null)
             controller.navigate(direction)
         }
     }

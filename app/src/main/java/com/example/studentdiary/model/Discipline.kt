@@ -15,5 +15,8 @@ data class Discipline(
     var favorite: Boolean = false,
     var img: String? = null,
     val date: androidx.core.util.Pair<Long, Long>? = null,
-    var eventId: Long? = null
+    var eventId: Long? = null,
+    var userCalendarEmail: String? = null,
+    var userEmailType:String? = null,
+    var completed: Boolean = false
 )
