@@ -55,6 +55,8 @@ class DisciplineFormFragment : Fragment() {
     }
 
 
+
+
     private val requestPermission =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
@@ -90,7 +92,12 @@ class DisciplineFormFragment : Fragment() {
         super.onStart()
         updateUi()
         searchDisciplineId()
+
+      model.getView()?.requestFocus()
+
     }
+
+
 
     private fun checkBoxFavorite() {
         binding.disciplineFormFragmentCheckBoxFavorite.setOnClickListener {
@@ -173,11 +180,12 @@ class DisciplineFormFragment : Fragment() {
         val textFieldEmail = binding.disciplineFormFragmentTextfieldEmail.editText
         val textFieldEmailType = binding.disciplineFormFragmentTextfieldEmailType.editText
 
+
         (textFieldEmailType as? MaterialAutoCompleteTextView)?.setSimpleItems(
             ITEMS_EMAIL_TYPE
         )
 
-        textFieldEmailType?.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+        textFieldEmailType?.onFocusChangeListener = View.OnFocusChangeListener { view, hasFocus ->
             if (!hasFocus) {
                 if (textFieldEmailType?.isEnabled == true) {
                     model.setUserEmailType(textFieldEmailType.text.toString())
@@ -185,7 +193,7 @@ class DisciplineFormFragment : Fragment() {
             }
         }
 
-        textFieldEmail?.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+        textFieldEmail?.onFocusChangeListener = View.OnFocusChangeListener { view, hasFocus ->
             if (!hasFocus) {
                 if (textFieldEmail?.isEnabled == true) {
                     model.setUserCalendarEmail(textFieldEmail.text.toString())
@@ -193,19 +201,22 @@ class DisciplineFormFragment : Fragment() {
             }
         }
 
-        textFieldName?.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+        textFieldName?.onFocusChangeListener = View.OnFocusChangeListener { view, hasFocus ->
             if (!hasFocus) {
                 model.setName(textFieldName?.text.toString())
+            } else {
+                model.setView(view)
             }
         }
 
         textFieldDescription?.onFocusChangeListener =
-            View.OnFocusChangeListener { _, hasFocus ->
+            View.OnFocusChangeListener { view, hasFocus ->
                 if (!hasFocus) {
                     model.setDescription(textFieldDescription?.text.toString())
                 }
             }
     }
+
 
     private fun clearFocusTextFields() {
         binding.disciplineFormFragmentTextfieldName.editText?.clearFocus()
@@ -421,9 +432,10 @@ class DisciplineFormFragment : Fragment() {
                 val email = model.getUserCalendarEmail()
                 email?.let { userEmail ->
                     val contentUri: Uri = CalendarContract.Calendars.CONTENT_URI
-                    val selection: String = "((${CalendarContract.Calendars.ACCOUNT_NAME} = ?) AND (" +
-                            "${CalendarContract.Calendars.ACCOUNT_TYPE} = ?) AND (" +
-                            "${CalendarContract.Calendars.OWNER_ACCOUNT} = ?))"
+                    val selection: String =
+                        "((${CalendarContract.Calendars.ACCOUNT_NAME} = ?) AND (" +
+                                "${CalendarContract.Calendars.ACCOUNT_TYPE} = ?) AND (" +
+                                "${CalendarContract.Calendars.OWNER_ACCOUNT} = ?))"
 
 
                     val emailType = when (model.getUseremailType()) {
@@ -467,7 +479,8 @@ class DisciplineFormFragment : Fragment() {
                     }
 
                     val contentResolver = context.contentResolver
-                    val uri: Uri? = contentResolver.insert(CalendarContract.Events.CONTENT_URI, values)
+                    val uri: Uri? =
+                        contentResolver.insert(CalendarContract.Events.CONTENT_URI, values)
 
                     uri?.lastPathSegment?.let { id ->
                         val eventID: Long = id.toLong()
@@ -523,6 +536,7 @@ class DisciplineFormFragment : Fragment() {
             }
         }
     }
+
     private fun updateUi() {
         model.discipline.observe(viewLifecycleOwner) { discipline ->
             discipline?.let {

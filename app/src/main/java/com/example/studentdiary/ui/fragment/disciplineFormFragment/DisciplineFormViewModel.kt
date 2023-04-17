@@ -1,5 +1,6 @@
 package com.example.studentdiary.ui.fragment.disciplineFormFragment
 
+import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,6 +13,14 @@ class DisciplineFormViewModel(private val repository: DisciplineRepository) : Vi
 
     private val _discipline = MutableLiveData<Discipline?>(null)
     val discipline: LiveData<Discipline?> = _discipline
+
+    private val _mFocusedview = MutableLiveData<View?>(null)
+    var mFocusedView : LiveData<View?> = _mFocusedview
+
+    fun getView():View? = mFocusedView.value
+    fun setView(view:View){
+        _mFocusedview.postValue(view)
+    }
 
     fun insert() {
         viewModelScope.launch {
