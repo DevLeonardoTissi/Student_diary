@@ -9,9 +9,12 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.CalendarContract
 import android.text.format.DateFormat.is24HourFormat
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.CheckBox
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
@@ -28,6 +31,7 @@ import com.example.studentdiary.extensions.snackBar
 import com.example.studentdiary.extensions.tryLoadImage
 import com.example.studentdiary.ui.*
 import com.example.studentdiary.ui.dialog.DisciplineFormDialog
+import com.example.studentdiary.utils.EmailType
 import com.example.studentdiary.utils.concatenateDateValues
 import com.example.studentdiary.utils.concatenateTimeValues
 import com.google.android.material.datepicker.CalendarConstraints
@@ -53,8 +57,6 @@ class DisciplineFormFragment : Fragment() {
     private val controller by lazy {
         findNavController()
     }
-
-
 
 
     private val requestPermission =
@@ -86,17 +88,14 @@ class DisciplineFormFragment : Fragment() {
         endTimeButton()
         calendarButton()
         doneButton()
+        Log.i("TAG", "onViewCreated: ${model.getEventId()}")
     }
 
     override fun onStart() {
         super.onStart()
         updateUi()
         searchDisciplineId()
-
-      model.getView()?.requestFocus()
-
     }
-
 
 
     private fun checkBoxFavorite() {
@@ -181,19 +180,43 @@ class DisciplineFormFragment : Fragment() {
         val textFieldEmailType = binding.disciplineFormFragmentTextfieldEmailType.editText
 
 
-        (textFieldEmailType as? MaterialAutoCompleteTextView)?.setSimpleItems(
-            ITEMS_EMAIL_TYPE
-        )
-
-        textFieldEmailType?.onFocusChangeListener = View.OnFocusChangeListener { view, hasFocus ->
-            if (!hasFocus) {
-                if (textFieldEmailType?.isEnabled == true) {
-                    model.setUserEmailType(textFieldEmailType.text.toString())
-                }
-            }
+        val adapter = context?.let {
+            ArrayAdapter(
+                it, R.layout.dropdown_menu_item,
+                enumValues<EmailType>()
+            )
         }
 
-        textFieldEmail?.onFocusChangeListener = View.OnFocusChangeListener { view, hasFocus ->
+
+        (textFieldEmailType as? MaterialAutoCompleteTextView)?.setAdapter(adapter)
+        (textFieldEmailType as? MaterialAutoCompleteTextView)?.onItemClickListener =
+            AdapterView.OnItemClickListener { _, _, position, _ ->
+                model.setMenuPosition(position)
+                adapter?.getItem(position)?.let { model.setUserEmailType(it.getEmailType()) }
+            }
+
+
+//        val spinner = binding.spinner
+//        spinner.adapter = adapter
+//        spinner.onItemSelectedListener  = object : AdapterView.OnItemSelectedListener {
+//            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+//                model.setMenuPosition(position)
+//           Log.i("TAG", "saveTextFieldsValue: $position")
+//            }
+//
+//            override fun onNothingSelected(parent: AdapterView<*>?) {
+//
+//            }
+//        }
+//        textFieldEmailType?.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+//            if (!hasFocus) {
+//                if (textFieldEmailType?.isEnabled == true) {
+//                    model.setUserEmailType(textFieldEmailType.text.toString())
+//                }
+//            }
+//        }
+
+        textFieldEmail?.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
                 if (textFieldEmail?.isEnabled == true) {
                     model.setUserCalendarEmail(textFieldEmail.text.toString())
@@ -201,16 +224,14 @@ class DisciplineFormFragment : Fragment() {
             }
         }
 
-        textFieldName?.onFocusChangeListener = View.OnFocusChangeListener { view, hasFocus ->
+        textFieldName?.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
                 model.setName(textFieldName?.text.toString())
-            } else {
-                model.setView(view)
             }
         }
 
         textFieldDescription?.onFocusChangeListener =
-            View.OnFocusChangeListener { view, hasFocus ->
+            View.OnFocusChangeListener { _, hasFocus ->
                 if (!hasFocus) {
                     model.setDescription(textFieldDescription?.text.toString())
                 }
@@ -407,6 +428,7 @@ class DisciplineFormFragment : Fragment() {
             }
 
             model.getEventId()?.let { eventId ->
+                Log.i("TAG", "addReminder: $eventId")
                 editCalendarEvent(startMillis, endMillis, eventId)
             } ?: createEventInCalendar(startMillis, endMillis)
 
@@ -438,53 +460,45 @@ class DisciplineFormFragment : Fragment() {
                                 "${CalendarContract.Calendars.OWNER_ACCOUNT} = ?))"
 
 
-                    val emailType = when (model.getUseremailType()) {
+                    model.getUserEmailType()?.let { emailType ->
+                        val selectionArgs: Array<String> =
+                            arrayOf(userEmail, emailType, userEmail)
+                        Log.i("TAG", "createEventInCalendar: Entrou em criar")
 
-                        GOOGLE_EMAIL_TYPE_DESCRIPTION -> GOOGLE_EMAIL_TYPE
-                        YAHOO_EMAIL_TYPE_DESCRIPTION -> YAHOO_EMAIL_TYPE
 
+                        val cursor: Cursor? =
+                            context.contentResolver.query(
+                                contentUri,
+                                EVENT_PROJECTION,
+                                selection,
+                                selectionArgs,
+                                null
+                            )
 
-                        else -> {
-                            OUTLOOK_EMAIL_TYPE
+                        cursor?.let {
+                            while (it.moveToNext()) {
+                                calID = it.getLong(PROJECTION_ID_INDEX)
+                            }
+                            cursor.close()
                         }
-                    }
 
-                    val selectionArgs: Array<String> =
-                        arrayOf(userEmail, emailType, userEmail)
-
-
-                    val cursor: Cursor? =
-                        context.contentResolver.query(
-                            contentUri,
-                            EVENT_PROJECTION,
-                            selection,
-                            selectionArgs,
-                            null
-                        )
-
-                    cursor?.let {
-                        while (it.moveToNext()) {
-                            calID = it.getLong(PROJECTION_ID_INDEX)
+                        val values = ContentValues().apply {
+                            put(CalendarContract.Events.DTSTART, startMillis)
+                            put(CalendarContract.Events.DTEND, endMillis)
+                            put(CalendarContract.Events.TITLE, model.getName())
+                            put(CalendarContract.Events.DESCRIPTION, model.getDescription())
+                            put(CalendarContract.Events.CALENDAR_ID, calID)
+                            put(CalendarContract.Events.EVENT_TIMEZONE, TIME_ZONE_ID)
                         }
-                        cursor.close()
-                    }
 
-                    val values = ContentValues().apply {
-                        put(CalendarContract.Events.DTSTART, startMillis)
-                        put(CalendarContract.Events.DTEND, endMillis)
-                        put(CalendarContract.Events.TITLE, model.getName())
-                        put(CalendarContract.Events.DESCRIPTION, model.getDescription())
-                        put(CalendarContract.Events.CALENDAR_ID, calID)
-                        put(CalendarContract.Events.EVENT_TIMEZONE, TIME_ZONE_ID)
-                    }
+                        val contentResolver = context.contentResolver
+                        val uri: Uri? =
+                            contentResolver.insert(CalendarContract.Events.CONTENT_URI, values)
 
-                    val contentResolver = context.contentResolver
-                    val uri: Uri? =
-                        contentResolver.insert(CalendarContract.Events.CONTENT_URI, values)
-
-                    uri?.lastPathSegment?.let { id ->
-                        val eventID: Long = id.toLong()
-                        model.setEventId(eventID)
+                        uri?.lastPathSegment?.let { id ->
+                            val eventID: Long = id.toLong()
+                            model.setEventId(eventID)
+                        }
                     }
                 }
             }
@@ -538,8 +552,33 @@ class DisciplineFormFragment : Fragment() {
     }
 
     private fun updateUi() {
-        model.discipline.observe(viewLifecycleOwner) { discipline ->
+        model.discipline.observe(this@DisciplineFormFragment) { discipline ->
             discipline?.let {
+
+//                model.getMenuPosition()?.let {
+//                    val autoCompleteTextView = binding.disciplineFormFragmentTextfieldEmailType.editText
+//
+//                    (autoCompleteTextView as? MaterialAutoCompleteTextView)?.setText(autoCompleteTextView.adapter.getItem(it).toString(),false)
+//                }
+
+                discipline.userEmailType?.let { userEmailType ->
+
+                    val value = enumValues<EmailType>().find { it.getEmailType() == userEmailType }
+                    value?.let {
+                        val position = enumValues<EmailType>().indexOf(value)
+                        val autoCompleteTextView =
+                            binding.disciplineFormFragmentTextfieldEmailType.editText
+                        (autoCompleteTextView as? MaterialAutoCompleteTextView)?.setText(
+                            autoCompleteTextView.adapter.getItem(position).toString(),
+                            false
+                        )
+                    }
+                }
+
+//                model.getMenuPosition()?.let {position ->
+//                    Log.i("TAG", "updateUi: $position")
+//                    binding.spinner.setSelection(position)
+//                }
 
                 discipline.favorite.let { favorite ->
                     if (binding.disciplineFormFragmentCheckBoxFavorite.isChecked != favorite) {

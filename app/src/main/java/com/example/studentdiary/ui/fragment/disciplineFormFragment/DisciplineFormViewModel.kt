@@ -1,6 +1,5 @@
 package com.example.studentdiary.ui.fragment.disciplineFormFragment
 
-import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -14,13 +13,17 @@ class DisciplineFormViewModel(private val repository: DisciplineRepository) : Vi
     private val _discipline = MutableLiveData<Discipline?>(null)
     val discipline: LiveData<Discipline?> = _discipline
 
-    private val _mFocusedview = MutableLiveData<View?>(null)
-    var mFocusedView : LiveData<View?> = _mFocusedview
 
-    fun getView():View? = mFocusedView.value
-    fun setView(view:View){
-        _mFocusedview.postValue(view)
+    private val _menuposition = MutableLiveData<Int>(null)
+     val menuPosition: LiveData<Int> = _menuposition
+
+    fun setMenuPosition(position: Int) {
+        _menuposition.value = position
     }
+
+    fun getMenuPosition(): Int? =
+        menuPosition.value
+
 
     fun insert() {
         viewModelScope.launch {
@@ -91,9 +94,9 @@ class DisciplineFormViewModel(private val repository: DisciplineRepository) : Vi
     fun getDate(): androidx.core.util.Pair<Long, Long>? = discipline.value?.date
 
     fun setEventId(id: Long?) {
-        _discipline.value?.let {
-            _discipline.postValue(it.copy(eventId = id))
-        }
+
+            _discipline.value?.eventId = id
+
     }
 
     fun getEventId(): Long? = discipline.value?.eventId
@@ -104,13 +107,13 @@ class DisciplineFormViewModel(private val repository: DisciplineRepository) : Vi
         }
     }
 
-    fun setUserEmailType(emailType:String){
+    fun setUserEmailType(emailType: String) {
         _discipline.value?.let {
             _discipline.postValue(it.copy(userEmailType = emailType))
         }
     }
 
-    fun getUseremailType(): String? = discipline.value?.userEmailType
+    fun getUserEmailType(): String? = discipline.value?.userEmailType
     fun setCompleted(completed: Boolean) {
         _discipline.value?.let {
             _discipline.postValue(it.copy(completed = completed))
