@@ -13,18 +13,6 @@ class DisciplineFormViewModel(private val repository: DisciplineRepository) : Vi
     private val _discipline = MutableLiveData<Discipline?>(null)
     val discipline: LiveData<Discipline?> = _discipline
 
-
-    private val _menuposition = MutableLiveData<Int>(null)
-     val menuPosition: LiveData<Int> = _menuposition
-
-    fun setMenuPosition(position: Int) {
-        _menuposition.value = position
-    }
-
-    fun getMenuPosition(): Int? =
-        menuPosition.value
-
-
     fun insert() {
         viewModelScope.launch {
             discipline.value?.let {

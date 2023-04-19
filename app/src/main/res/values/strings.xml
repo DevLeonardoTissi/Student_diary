@@ -53,10 +53,16 @@
     <string name="fb_login_protocol_scheme">fb172559435542270</string>
     <string name="facebook_client_token">757d1efebbc1a4cc3932929b69d1cfd0</string>
 
+    <!-- Discipline Item -->
+    <string name="discipline_item_img_content_desc_favorite">Favorite flag</string>
+    <string name="discipline_item_img_content_desc_completed">Completed flag</string>
+    <string name="discipline_item_textView_empty_time">--:--</string>
+
+
     <!-- Disciplines Fragment -->
     <string name="disciplines_fragment_toolbat_title">Disciplinas</string>
     <string name="disciplines_fragment_fab_insert_content_desc">Floating action insert discipline</string>
-    <string name="disciplines_fragment_img_content_desc_favorite">Favorite flag</string>
+
     <string name="disciplines_fragment_img_content_desc_discipline">Discipline image</string>
     <string name="disciplines_fragment_messageStudent">O que vamos estudar hoje?</string>
     <string name="disciplines_fragment_img_content_student">student image</string>

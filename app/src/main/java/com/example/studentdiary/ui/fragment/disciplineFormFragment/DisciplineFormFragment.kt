@@ -9,7 +9,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.CalendarContract
 import android.text.format.DateFormat.is24HourFormat
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -63,8 +62,6 @@ class DisciplineFormFragment : Fragment() {
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
                 binding.disciplineFormFragmentSwitchAddReminder.isChecked = true
-            } else {
-                snackBar(getString(R.string.discipline_form_fragment_snackbar_message_permitionNotGranted))
             }
         }
 
@@ -79,16 +76,15 @@ class DisciplineFormFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        checkBoxFavorite()
-        checkBoxCompleted()
+        setupFavoriteCheckbox()
+        setupCompleteCheckbox()
         fabInsetImage()
         switchAddReminder()
-        saveTextFieldsValue()
+        configureAndSaveTextFields()
         startTimeButton()
         endTimeButton()
         calendarButton()
         doneButton()
-        Log.i("TAG", "onViewCreated: ${model.getEventId()}")
     }
 
     override fun onStart() {
@@ -98,13 +94,13 @@ class DisciplineFormFragment : Fragment() {
     }
 
 
-    private fun checkBoxFavorite() {
+    private fun setupFavoriteCheckbox() {
         binding.disciplineFormFragmentCheckBoxFavorite.setOnClickListener {
             if (it is CheckBox) model.setFavorite(it.isChecked)
         }
     }
 
-    private fun checkBoxCompleted() {
+    private fun setupCompleteCheckbox() {
         binding.disciplineFormFragmentCheckBoxCompleted.setOnClickListener {
             if (it is CheckBox) model.setCompleted(it.isChecked)
         }
@@ -136,7 +132,6 @@ class DisciplineFormFragment : Fragment() {
                     if (isGranted) {
                         textInputEmailType.isEnabled = true
                         textInputEmail.isEnabled = true
-                        snackBar(getString(R.string.discipline_form_fragment_snackbar_message_addReminder))
                     } else {
                         textInputEmail.isEnabled = false
                         switchAddReminder.isChecked = false
@@ -172,7 +167,7 @@ class DisciplineFormFragment : Fragment() {
         }
     }
 
-    private fun saveTextFieldsValue() {
+    private fun configureAndSaveTextFields() {
         val textFieldName = binding.disciplineFormFragmentTextfieldName.editText
         val textFieldDescription =
             binding.disciplineFormFragmentTextfieldDescription.editText
@@ -191,48 +186,27 @@ class DisciplineFormFragment : Fragment() {
         (textFieldEmailType as? MaterialAutoCompleteTextView)?.setAdapter(adapter)
         (textFieldEmailType as? MaterialAutoCompleteTextView)?.onItemClickListener =
             AdapterView.OnItemClickListener { _, _, position, _ ->
-                model.setMenuPosition(position)
                 adapter?.getItem(position)?.let { model.setUserEmailType(it.getEmailType()) }
             }
 
 
-//        val spinner = binding.spinner
-//        spinner.adapter = adapter
-//        spinner.onItemSelectedListener  = object : AdapterView.OnItemSelectedListener {
-//            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-//                model.setMenuPosition(position)
-//           Log.i("TAG", "saveTextFieldsValue: $position")
-//            }
-//
-//            override fun onNothingSelected(parent: AdapterView<*>?) {
-//
-//            }
-//        }
-//        textFieldEmailType?.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
-//            if (!hasFocus) {
-//                if (textFieldEmailType?.isEnabled == true) {
-//                    model.setUserEmailType(textFieldEmailType.text.toString())
-//                }
-//            }
-//        }
-
         textFieldEmail?.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
-                if (textFieldEmail?.isEnabled == true) {
+                if (textFieldEmail?.isEnabled == true && textFieldEmail.text.toString().isNotBlank())  {
                     model.setUserCalendarEmail(textFieldEmail.text.toString())
                 }
             }
         }
 
         textFieldName?.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
-            if (!hasFocus) {
-                model.setName(textFieldName?.text.toString())
+            if (!hasFocus && textFieldName?.text.toString().isNotBlank()) {
+                    model.setName(textFieldName?.text.toString())
             }
         }
 
         textFieldDescription?.onFocusChangeListener =
             View.OnFocusChangeListener { _, hasFocus ->
-                if (!hasFocus) {
+                if (!hasFocus && textFieldDescription?.text.toString().isNotBlank()) {
                     model.setDescription(textFieldDescription?.text.toString())
                 }
             }
@@ -243,7 +217,6 @@ class DisciplineFormFragment : Fragment() {
         binding.disciplineFormFragmentTextfieldName.editText?.clearFocus()
         binding.disciplineFormFragmentTextfieldDescription.editText?.clearFocus()
         binding.disciplineFormFragmentTextfieldEmail.editText?.clearFocus()
-        binding.disciplineFormFragmentTextfieldEmailType.editText?.clearFocus()
     }
 
     private fun startTimeButton() {
@@ -428,7 +401,6 @@ class DisciplineFormFragment : Fragment() {
             }
 
             model.getEventId()?.let { eventId ->
-                Log.i("TAG", "addReminder: $eventId")
                 editCalendarEvent(startMillis, endMillis, eventId)
             } ?: createEventInCalendar(startMillis, endMillis)
 
@@ -441,10 +413,10 @@ class DisciplineFormFragment : Fragment() {
             timeZone = TimeZone.getTimeZone(TIME_ZONE_ID)
         }
 
-        val ano = calendar.get(Calendar.YEAR)
-        val mes = calendar.get(Calendar.MONTH)
-        val dia = calendar.get(Calendar.DAY_OF_MONTH)
-        return Triple(ano, mes, dia)
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH)
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+        return Triple(year, month, day)
     }
 
     private fun createEventInCalendar(startMillis: Long, endMillis: Long) {
@@ -463,8 +435,6 @@ class DisciplineFormFragment : Fragment() {
                     model.getUserEmailType()?.let { emailType ->
                         val selectionArgs: Array<String> =
                             arrayOf(userEmail, emailType, userEmail)
-                        Log.i("TAG", "createEventInCalendar: Entrou em criar")
-
 
                         val cursor: Cursor? =
                             context.contentResolver.query(
@@ -555,12 +525,6 @@ class DisciplineFormFragment : Fragment() {
         model.discipline.observe(this@DisciplineFormFragment) { discipline ->
             discipline?.let {
 
-//                model.getMenuPosition()?.let {
-//                    val autoCompleteTextView = binding.disciplineFormFragmentTextfieldEmailType.editText
-//
-//                    (autoCompleteTextView as? MaterialAutoCompleteTextView)?.setText(autoCompleteTextView.adapter.getItem(it).toString(),false)
-//                }
-
                 discipline.userEmailType?.let { userEmailType ->
 
                     val value = enumValues<EmailType>().find { it.getEmailType() == userEmailType }
@@ -575,10 +539,6 @@ class DisciplineFormFragment : Fragment() {
                     }
                 }
 
-//                model.getMenuPosition()?.let {position ->
-//                    Log.i("TAG", "updateUi: $position")
-//                    binding.spinner.setSelection(position)
-//                }
 
                 discipline.favorite.let { favorite ->
                     if (binding.disciplineFormFragmentCheckBoxFavorite.isChecked != favorite) {

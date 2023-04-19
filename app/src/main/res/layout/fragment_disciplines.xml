@@ -4,29 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragment.disciplinesFragment.DisciplinesFragment">
+    tools:context=".ui.fragment.disciplinesFragment.DisciplinesFragment"
+    android:background="@drawable/background_gradient">
 
-
-<!--    <com.google.android.material.materialswitch.MaterialSwitch-->
-<!--        android:id="@+id/disciplineFragment_switch_favorite"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_margin="@dimen/switch_margin"-->
-<!--        android:checked="false"-->
-<!--        android:text="@string/discipline_fragment_switch_favorite_label"-->
-<!--        app:layout_constraintBottom_toTopOf="@id/disciplinesFragment_recyclerView"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent" />-->
 
     <com.google.android.material.button.MaterialButtonToggleGroup
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         android:id="@+id/disciplinesFragment_buttonToggleGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:singleSelection="true"
         app:selectionRequired="true"
+        app:layout_constraintBottom_toTopOf="@id/disciplinesFragment_recyclerView"
+        android:layout_margin="@dimen/margin_default"
         app:checkedButton="@id/disciplinesFragment_toggle_button_all">
 
         <Button
@@ -87,7 +78,8 @@
 
     <TextView
         android:id="@+id/disciplinesFragment_textView_student"
-        style="@style/textviewColorSecondary"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/marginTop_textView_student"
         android:gravity="center"
         android:text="@string/disciplines_fragment_messageStudent"

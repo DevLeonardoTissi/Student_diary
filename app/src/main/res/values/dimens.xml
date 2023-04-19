@@ -21,6 +21,8 @@
 
     <dimen name="switch_margin">8dp</dimen>
 
-    <dimen name="default_margin_itens_header_drawer">24dp</dimen>
+    <dimen name="default_margin_items_header_drawer">24dp</dimen>
+
+    <dimen name="discipline_item_height">100dp</dimen>
 
 </resources>

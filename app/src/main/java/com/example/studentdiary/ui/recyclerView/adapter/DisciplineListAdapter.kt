@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.studentdiary.databinding.DisciplineItemBinding
 import com.example.studentdiary.extensions.tryLoadImage
 import com.example.studentdiary.model.Discipline
+import com.example.studentdiary.utils.concatenateDateValues
+import com.example.studentdiary.utils.concatenateTimeValues
 
 class DisciplineListAdapter(
     var onItemClick: (disciplineId: String) -> Unit = {}
@@ -32,16 +34,37 @@ class DisciplineListAdapter(
 
         fun bind(discipline: Discipline) {
             this.discipline = discipline
-            binding.disciplineItemName.text = discipline.name
+            binding.disciplineItemTextViewName.text = discipline.name
 
             binding.disciplineItemImageViewFavorite.apply {
                 visibility = if (discipline.favorite) View.VISIBLE else View.GONE
 
             }
 
+            binding.disciplineItemImageViewCompleted.apply {
+                visibility = if (discipline.completed)  View.VISIBLE else View.GONE
+            }
+
             binding.disciplineItemShapeableImageView.apply {
                     visibility = if (discipline.img == null) View.GONE else View.VISIBLE
                     tryLoadImage(discipline.img)
+            }
+
+            discipline.startTime?.let {
+                binding.disciplineItemTextViewStartTime.text = concatenateTimeValues(it)
+            }
+
+            discipline.endTime?.let {
+                binding.disciplineItemTextViewEndTime.text = concatenateTimeValues(it)
+            }
+
+            binding.disciplineItemTextViewDate.apply {
+                discipline.date?.let {
+                    this.visibility = View.VISIBLE
+                    this.text= concatenateDateValues(it)
+                }?: kotlin.run {
+                    visibility = View.GONE
+                }
             }
         }
     }
