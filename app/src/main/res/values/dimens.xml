@@ -10,7 +10,7 @@
     <dimen name="bigTextSize">24sp</dimen>
     <dimen name="defaultTextSize">14sp</dimen>
 
-    <dimen name="shapeableImageView_default_width">80dp</dimen>
+    <dimen name="shapeableImageView_default_width">0dp</dimen>
     <dimen name="shapeableImageView_default_height">80dp</dimen>
     <dimen name="shapeableImageView_default_margin">8dp</dimen>
 
@@ -25,5 +25,8 @@
 
     <dimen name="discipline_item_height">130dp</dimen>
     <dimen name="small_margin">8dp</dimen>
+
+    <dimen name="discipline_item_guideline_end_percent">0.87</dimen>
+    <dimen name="discipline_item_guideline_start_percent">0.23</dimen>
 
 </resources>

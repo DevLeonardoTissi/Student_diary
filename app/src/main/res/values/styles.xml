@@ -14,7 +14,7 @@
 
     </style>
 
-    <style name="popupMenuStyle" parent="Widget.Material3.PopupMenu.Overflow">
+    <style name="popupMenuStyle" parent="Widget.Material3.PopupMenu">
         <item name="android:popupBackground">@drawable/popup_menu_background</item>
     </style>
 
