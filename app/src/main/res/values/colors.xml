@@ -14,4 +14,7 @@
 
     <color name="colorPrimaryContainer">#7f3556</color>
     <color name="colorOnPrimaryContainer">#FFFFFF</color>
+
+    <color name="customRed">#B42B51</color>
+    <color name="customGreen">#87CBB9</color>
 </resources>

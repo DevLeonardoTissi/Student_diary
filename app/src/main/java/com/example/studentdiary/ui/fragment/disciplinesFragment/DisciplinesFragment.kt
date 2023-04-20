@@ -72,11 +72,13 @@ class DisciplinesFragment : Fragment() {
                 adapter.submitList(list)
                 messageEmptyList(list)
             }
+
             R.id.disciplinesFragment_toggle_button_favorites -> {
                 val favoriteList = list.filter { it.favorite }
                 adapter.submitList(favoriteList)
                 messageEmptyList(favoriteList)
             }
+
             R.id.disciplinesFragment_toggle_button_completed -> {
                 val completedList = list.filter { it.completed }
                 adapter.submitList(completedList)
@@ -92,18 +94,26 @@ class DisciplinesFragment : Fragment() {
             recycler.layoutManager = LinearLayoutManager(it)
             val divider = MaterialDividerItemDecoration(it, LinearLayoutManager.VERTICAL)
             recycler.addItemDecoration(divider)
+            divider.dividerColor = it.getColor(R.color.secondary)
             adapter.onItemClick = { disciplineId ->
+                goToDisciplineDetails(disciplineId)
+            }
+            adapter.onClickingOnOptionEdit = { disciplineId ->
+                goToDisciplineForm(disciplineId)
+            }
+
+            adapter.onClickingOnOptionDetails = { disciplineId ->
                 goToDisciplineDetails(disciplineId)
 
             }
-//            divider.dividerColor = it.getColor(R.color.secondary)
+
+            adapter.onClickingOnOptionDelete = {disciplineId ->
+                    model.delete(disciplineId)
+            }
         }
     }
 
-    private fun goToDisciplineDetails(disciplineId: String) {
-//        val direction = DisciplinesFragmentDirections.actionDisciplinesFragmentToDisciplineDetailsFragment(disciplineId)
-//        controller.navigate(direction)
-
+    private fun goToDisciplineForm(disciplineId: String?) {
         val direction =
             DisciplinesFragmentDirections.actionDisciplinesFragmentToDisciplineFormFragment(
                 disciplineId
@@ -112,12 +122,20 @@ class DisciplinesFragment : Fragment() {
 
     }
 
+
+    private fun goToDisciplineDetails(disciplineId: String) {
+        val direction =
+            DisciplinesFragmentDirections.actionDisciplinesFragmentToDisciplineDetailsFragment(
+                disciplineId
+            )
+        controller.navigate(direction)
+    }
+
+
     private fun configureFab() {
         val fab = binding.disciplinesFragmentFabInsert
         fab.setOnClickListener {
-            val direction =
-                DisciplinesFragmentDirections.actionDisciplinesFragmentToDisciplineFormFragment(null)
-            controller.navigate(direction)
+            goToDisciplineForm(null)
         }
     }
 

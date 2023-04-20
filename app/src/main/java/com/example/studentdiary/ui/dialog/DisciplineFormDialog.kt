@@ -22,14 +22,19 @@ class DisciplineFormDialog(private val context: Context) {
 
             disciplineFormImageDialogButtonLoad.setOnClickListener {
                 val url = disciplineFormImageDialogTextInputLayoutUrl.editText?.text.toString()
-                disciplineFormImageDialogImageView.tryLoadImage(url)
+                if (url.isNotBlank()){
+                    disciplineFormImageDialogImageView.tryLoadImage(url)
+                }
+
             }
 
             AlertDialog.Builder(context)
                 .setView(root)
                 .setPositiveButton(context.getString(R.string.common_confirm)) { _, _ ->
                     val url = disciplineFormImageDialogTextInputLayoutUrl.editText?.text.toString()
-                    onImageClick(url)
+                    if (url.isNotBlank()){
+                        onImageClick(url)
+                    }
                 }
                 .setNegativeButton(context.getString(R.string.common_cancel)){_, _ ->
 

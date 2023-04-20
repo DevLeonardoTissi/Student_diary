@@ -8,6 +8,11 @@
     <string name="googleSignInClient_serverClientId">291261739017-8vrqq5dc7vb5gahio769oeq61rnb366a.apps.googleusercontent.com</string>
 
 
+    <!--Menu OnLongClick Item -->
+    <string name="menuPopup_item_details_title">Detalhes</string>
+    <string name="menuPopup_item_delete_title">Deletar</string>
+    <string name="menuPopup_item_edit_title">Editar</string>
+
     <!--Menu drawer -->
     <string name="header_drawer_subtitle">Desenvolvido por Leonardo Tissi</string>
     <string name="drawer_menu_item_disciplines">Disciplinas</string>

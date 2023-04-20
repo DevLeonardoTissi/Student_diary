@@ -1,10 +1,13 @@
 package com.example.studentdiary.ui.recyclerView.adapter
 
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.example.studentdiary.R
 import com.example.studentdiary.databinding.DisciplineItemBinding
 import com.example.studentdiary.extensions.tryLoadImage
 import com.example.studentdiary.model.Discipline
@@ -12,7 +15,10 @@ import com.example.studentdiary.utils.concatenateDateValues
 import com.example.studentdiary.utils.concatenateTimeValues
 
 class DisciplineListAdapter(
-    var onItemClick: (disciplineId: String) -> Unit = {}
+    var onItemClick: (disciplineId: String) -> Unit = {},
+    var onClickingOnOptionDetails: (disciplineId:String) -> Unit = {},
+    var onClickingOnOptionDelete: (disciplineId:String) -> Unit = {},
+    var onClickingOnOptionEdit: (disciplineId:String) -> Unit = {},
 ) : androidx.recyclerview.widget.ListAdapter<Discipline, DisciplineListAdapter.DisciplineViewHolder>(
     diffCallback
 ) {
@@ -20,7 +26,7 @@ class DisciplineListAdapter(
 
     inner class DisciplineViewHolder(
         private val binding: DisciplineItemBinding
-    ) : ViewHolder(binding.root) {
+    ) : ViewHolder(binding.root),PopupMenu.OnMenuItemClickListener {
 
         private lateinit var discipline: Discipline
 
@@ -29,6 +35,14 @@ class DisciplineListAdapter(
                 if (::discipline.isInitialized) {
                     onItemClick(discipline.id)
                 }
+            }
+
+            itemView.setOnLongClickListener {
+                PopupMenu(binding.root.context, itemView ).apply {
+                    menuInflater.inflate(R.menu.on_long_click_item_menu, menu)
+                    setOnMenuItemClickListener(this@DisciplineViewHolder)
+                }.show()
+                true
             }
         }
 
@@ -66,6 +80,27 @@ class DisciplineListAdapter(
                     visibility = View.GONE
                 }
             }
+        }
+
+        override fun onMenuItemClick(item: MenuItem?): Boolean {
+            item?.let {
+                when (it.itemId){
+                    R.id.menuPopup_MenuItem_details -> {
+                        onClickingOnOptionDetails(discipline.id)
+                    }
+
+                    R.id.menuPopup_MenuItem_edit -> {
+                        onClickingOnOptionEdit(discipline.id)
+                    }
+
+                    R.id.menuPopup_MenuItem_remove -> {
+                        onClickingOnOptionDelete(discipline.id)
+                    }
+
+                    else -> {}
+                }
+            }
+            return true
         }
     }
 

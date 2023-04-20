@@ -19,6 +19,7 @@ interface DisciplineDao {
     @Query("SELECT * FROM Discipline WHERE id =:id")
     suspend fun searchId(id:String): Discipline
 
-//    @Query("SELECT * FROM Discipline WHERE favorite = true")
-//    fun searchFavorites(): LiveData<List<Discipline>>
+    @Query("DELETE FROM Discipline WHERE id = :id")
+    suspend fun delete(id:String)
+
 }
