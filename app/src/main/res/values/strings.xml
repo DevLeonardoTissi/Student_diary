@@ -122,6 +122,10 @@
     <string name="discipline_form_confirm_dialog_title">Confirmar disciplina</string>
     <string name="discipline_form_confirm_dialog_message">Confirmar adição de uma nova disciplina?</string>
 
+
+    <!-- Discipline Fragment Delete Dialog -->
+    <string name="discipline_fragment_delete_dialog_title">Confirmar exclusão</string>
+    <string name="discipline_fragment_delete_dialog_message">Confirmar a exclusão dessa disciplina?</string>
     <!-- Common -->
     <string name="common_confirm">Confirmar</string>
     <string name="common_cancel">Cancelar</string>

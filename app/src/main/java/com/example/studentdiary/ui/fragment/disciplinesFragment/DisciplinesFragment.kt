@@ -11,6 +11,7 @@ import com.example.studentdiary.R
 import com.example.studentdiary.databinding.FragmentDisciplinesBinding
 import com.example.studentdiary.model.Discipline
 import com.example.studentdiary.ui.recyclerView.adapter.DisciplineListAdapter
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -108,7 +109,7 @@ class DisciplinesFragment : Fragment() {
             }
 
             adapter.onClickingOnOptionDelete = {disciplineId ->
-                    model.delete(disciplineId)
+                    alertdialogDelete(disciplineId)
             }
         }
     }
@@ -136,6 +137,25 @@ class DisciplinesFragment : Fragment() {
         val fab = binding.disciplinesFragmentFabInsert
         fab.setOnClickListener {
             goToDisciplineForm(null)
+        }
+    }
+
+    private fun alertdialogDelete(id:String){
+        context?.let { context ->
+            MaterialAlertDialogBuilder(context)
+                .setTitle(getString(R.string.discipline_fragment_delete_dialog_title))
+                .setMessage(getString(R.string.discipline_fragment_delete_dialog_message))
+                .setNeutralButton(getString(R.string.common_cancel)) { _, _ ->
+
+                }
+                .setNegativeButton(getString(R.string.common_decline)) { _, _ ->
+
+                }
+                .setPositiveButton(getString(R.string.common_confirm)) { _, _ ->
+                    model.delete(id)
+
+                }
+                .show()
         }
     }
 
