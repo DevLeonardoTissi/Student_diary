@@ -1,7 +1,6 @@
 package com.example.studentdiary.ui.recyclerView.adapter
 
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
@@ -26,7 +25,7 @@ class DisciplineListAdapter(
 
     inner class DisciplineViewHolder(
         private val binding: DisciplineItemBinding
-    ) : ViewHolder(binding.root),PopupMenu.OnMenuItemClickListener {
+    ) : ViewHolder(binding.root) {
 
         private lateinit var discipline: Discipline
 
@@ -40,7 +39,26 @@ class DisciplineListAdapter(
             itemView.setOnLongClickListener {
                 PopupMenu(binding.root.context, itemView ).apply {
                     menuInflater.inflate(R.menu.on_long_click_item_menu, menu)
-                    setOnMenuItemClickListener(this@DisciplineViewHolder)
+                    setOnMenuItemClickListener { item ->
+                        item?.let {
+                            when (it.itemId) {
+                                R.id.menuPopup_MenuItem_details -> {
+                                    onClickingOnOptionDetails(discipline.id)
+                                }
+
+                                R.id.menuPopup_MenuItem_edit -> {
+                                    onClickingOnOptionEdit(discipline.id)
+                                }
+
+                                R.id.menuPopup_MenuItem_remove -> {
+                                    onClickingOnOptionDelete(discipline.id)
+                                }
+
+                                else -> {}
+                            }
+                        }
+                        true
+                    }
                 }.show()
                 true
             }
@@ -82,26 +100,7 @@ class DisciplineListAdapter(
             }
         }
 
-        override fun onMenuItemClick(item: MenuItem?): Boolean {
-            item?.let {
-                when (it.itemId){
-                    R.id.menuPopup_MenuItem_details -> {
-                        onClickingOnOptionDetails(discipline.id)
-                    }
 
-                    R.id.menuPopup_MenuItem_edit -> {
-                        onClickingOnOptionEdit(discipline.id)
-                    }
-
-                    R.id.menuPopup_MenuItem_remove -> {
-                        onClickingOnOptionDelete(discipline.id)
-                    }
-
-                    else -> {}
-                }
-            }
-            return true
-        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DisciplineViewHolder =
