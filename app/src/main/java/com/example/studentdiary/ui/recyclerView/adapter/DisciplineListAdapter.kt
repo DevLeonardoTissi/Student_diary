@@ -1,5 +1,6 @@
 package com.example.studentdiary.ui.recyclerView.adapter
 
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,9 +16,9 @@ import com.example.studentdiary.utils.concatenateTimeValues
 
 class DisciplineListAdapter(
     var onItemClick: (disciplineId: String) -> Unit = {},
-    var onClickingOnOptionDetails: (disciplineId:String) -> Unit = {},
-    var onClickingOnOptionDelete: (disciplineId:String) -> Unit = {},
-    var onClickingOnOptionEdit: (disciplineId:String) -> Unit = {},
+    var onClickingOnOptionDetails: (disciplineId: String) -> Unit = {},
+    var onClickingOnOptionDelete: (disciplineId: String) -> Unit = {},
+    var onClickingOnOptionEdit: (disciplineId: String) -> Unit = {},
 ) : androidx.recyclerview.widget.ListAdapter<Discipline, DisciplineListAdapter.DisciplineViewHolder>(
     diffCallback
 ) {
@@ -37,7 +38,7 @@ class DisciplineListAdapter(
             }
 
             itemView.setOnLongClickListener {
-                PopupMenu(binding.root.context, itemView ).apply {
+                PopupMenu(binding.root.context, itemView, Gravity.END).apply {
                     menuInflater.inflate(R.menu.on_long_click_item_menu, menu)
                     setOnMenuItemClickListener { item ->
                         item?.let {
@@ -74,12 +75,12 @@ class DisciplineListAdapter(
             }
 
             binding.disciplineItemImageViewCompleted.apply {
-                visibility = if (discipline.completed)  View.VISIBLE else View.GONE
+                visibility = if (discipline.completed) View.VISIBLE else View.GONE
             }
 
             binding.disciplineItemShapeableImageView.apply {
-                    visibility = if (discipline.img == null) View.GONE else View.VISIBLE
-                    tryLoadImage(discipline.img)
+                visibility = if (discipline.img == null) View.GONE else View.VISIBLE
+                tryLoadImage(discipline.img)
             }
 
             discipline.startTime?.let {
@@ -93,8 +94,8 @@ class DisciplineListAdapter(
             binding.disciplineItemTextViewDate.apply {
                 discipline.date?.let {
                     this.visibility = View.VISIBLE
-                    this.text= concatenateDateValues(it)
-                }?: kotlin.run {
+                    this.text = concatenateDateValues(it)
+                } ?: kotlin.run {
                     visibility = View.GONE
                 }
             }

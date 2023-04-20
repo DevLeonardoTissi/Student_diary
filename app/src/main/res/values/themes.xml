@@ -21,6 +21,8 @@
 
 
         <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:popupMenuStyle">@style/popupMenuStyle</item>
+<!--        <item name="android:textColor">@color/white</item>-->
 
 
         colorSecondaryContainer
@@ -49,6 +51,8 @@
         <item name="colorOutline">#396b81</item>
 
     </style>
+
+
 
 
 </resources>

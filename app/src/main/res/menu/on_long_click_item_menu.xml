@@ -2,6 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:icon="@drawable/ic_check_circle_filled"
         android:id="@+id/menuPopup_MenuItem_details"
         android:title="@string/menuPopup_item_details_title"
         app:showAsAction="ifRoom"/>
