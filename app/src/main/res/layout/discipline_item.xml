@@ -27,15 +27,15 @@
         android:layout_margin="@dimen/margin_default"
         android:contentDescription="@string/discipline_item_img_content_desc_favorite"
         android:src="@drawable/ic_favorite_filled"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/disciplineItem_textView_name"
-       app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/disciplineItem_imageView_completed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-       android:layout_margin="@dimen/margin_default"
+        android:layout_margin="@dimen/margin_default"
         android:contentDescription="@string/discipline_item_img_content_desc_completed"
         android:src="@drawable/ic_check_circle_filled"
         app:layout_constraintEnd_toEndOf="parent"
@@ -43,21 +43,21 @@
 
     <TextView
         android:id="@+id/disciplineItem_textView_Date"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/textview_margin_default"
         android:gravity="center"
         android:maxLines="1"
         android:textSize="@dimen/defaultTextSize"
-        app:layout_constraintEnd_toEndOf="@id/disciplineItem_textView_name"
-        app:layout_constraintStart_toStartOf="@id/disciplineItem_textView_name"
+        app:layout_constraintEnd_toStartOf="@id/disciplineItem_imageView_favorite"
+        app:layout_constraintStart_toEndOf="@id/disciplineItem_shapeableImageView"
         app:layout_constraintTop_toBottomOf="@id/disciplineItem_textView_name"
-        tools:text="14 de fevereiro até a de março" />
+        tools:text="14 de fevereiro de 2023 até a de março" />
 
 
     <TextView
         android:id="@+id/disciplineItem_textView_startTime"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/textview_margin_default"
         android:text="@string/discipline_item_textView_empty_time"
@@ -70,8 +70,8 @@
         android:id="@+id/disciplineItem_imageView_clock"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_clock"
         android:layout_margin="@dimen/small_margin"
+        android:src="@drawable/ic_clock"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/disciplineItem_textView_name"
         app:layout_constraintStart_toStartOf="@id/disciplineItem_textView_name"
@@ -80,7 +80,7 @@
 
     <TextView
         android:id="@+id/disciplineItem_textView_endTime"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/textview_margin_default"
         android:text="@string/discipline_item_textView_empty_time"
