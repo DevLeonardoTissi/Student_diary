@@ -20,7 +20,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.util.Pair
 import androidx.core.util.component1
 import androidx.core.util.component2
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -28,8 +27,15 @@ import com.example.studentdiary.R
 import com.example.studentdiary.databinding.FragmentDisciplineFormBinding
 import com.example.studentdiary.extensions.snackBar
 import com.example.studentdiary.extensions.tryLoadImage
-import com.example.studentdiary.ui.*
+import com.example.studentdiary.ui.AppViewModel
+import com.example.studentdiary.ui.EVENT_PROJECTION
+import com.example.studentdiary.ui.NavigationComponents
+import com.example.studentdiary.ui.PROJECTION_ID_INDEX
+import com.example.studentdiary.ui.TAG_DATA_PICKER
+import com.example.studentdiary.ui.TAG_TIME_PICKER
+import com.example.studentdiary.ui.TIME_ZONE_ID
 import com.example.studentdiary.ui.dialog.DisciplineFormDialog
+import com.example.studentdiary.ui.fragment.baseFragment.BaseFragment
 import com.example.studentdiary.utils.EmailType
 import com.example.studentdiary.utils.concatenateDateValues
 import com.example.studentdiary.utils.concatenateTimeValues
@@ -43,9 +49,10 @@ import com.google.android.material.timepicker.TimeFormat
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.util.*
+import java.util.Calendar
+import java.util.TimeZone
 
-class DisciplineFormFragment : Fragment() {
+class DisciplineFormFragment : BaseFragment() {
 
     private var _binding: FragmentDisciplineFormBinding? = null
     private val binding get() = _binding!!

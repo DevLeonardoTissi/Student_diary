@@ -2,10 +2,10 @@ package com.example.studentdiary.ui.fragment.loginFragment
 
 import android.app.Activity.RESULT_OK
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -52,70 +52,66 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupNavigationComponents()
+        logout()
         configureObserverLogin()
-        configureObserverGoogleAccount()
-        observerFacebookAccount()
         configureLoginButton()
         configureLoginGoogleAccountButton()
         configureLoginFacebookAccountButton()
-        botaoSairContaGoogle()
         registerButton()
+        overridePopBackStack()
+
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        clearErrorFields()
+    }
+
+    private fun overridePopBackStack() {
+        activity?.let { activity ->
+            activity.onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+                activity.finish()
+            }
+        }
     }
 
     private fun setupNavigationComponents() {
-        appViewModel.hasNavigationComponents = NavigationComponents(navigationIcon = false, menuDrawer = false)
+        appViewModel.hasNavigationComponents =
+            NavigationComponents(navigationIcon = false, menuDrawer = false)
     }
 
     private fun configureObserverLogin() {
-            model.firebaseAuthLiveData.observe(viewLifecycleOwner) { resource ->
-                resource?.let {
-                    if (resource.data) {
-                       snackBar(getString(R.string.login_fragment_snackbar_message_login_success))
-                    } else {
-                        resource.exception?.let { exception ->
-                            val errorMessage = when (exception) {
-                                is FirebaseAuthInvalidCredentialsException -> getString(R.string.login_fragment_snackbar_message_firebase_auth_Invalid_credentials_Exception)
-                                is FirebaseAuthInvalidUserException -> getString(R.string.login_fragment_snackbar_message_firebase_auth_Invalid_user_Exception)
-                                else -> getString(R.string.login_fragment_snackbar_message_unknown_error)
-                            }
-                            snackBar(errorMessage)
+        model.firebaseAuthLiveData.observe(viewLifecycleOwner) { resource ->
+            resource?.let {
+                if (resource.data) {
+                    goToDisciplinesFragment()
+                    snackBar(getString(R.string.login_fragment_snackbar_message_login_success))
+                } else {
+                    resource.exception?.let { exception ->
+                        val errorMessage = when (exception) {
+                            is FirebaseAuthInvalidCredentialsException -> getString(R.string.login_fragment_snackbar_message_firebase_auth_Invalid_credentials_Exception)
+                            is FirebaseAuthInvalidUserException -> getString(R.string.login_fragment_snackbar_message_firebase_auth_Invalid_user_Exception)
+                            else -> getString(R.string.login_fragment_snackbar_message_unknown_error)
                         }
-                    }
-                }
-            }
-
-    }
-
-    private fun configureObserverGoogleAccount() {
-            model.googleAccountLiveData.observe(viewLifecycleOwner) { resource ->
-                resource?.let {
-                    if (resource.data) {
-                        snackBar(getString(R.string.login_fragment_snackbar_message_login_success_googleAccount))
-                    } else {
-                       snackBar(getString(R.string.login_fragment_snackbar_message_login_error_googleAccount))
-                    }
-                }
-        }
-    }
-
-    private fun observerFacebookAccount() {
-        context?.let {
-            model.facebookAccountLiveData.observe(viewLifecycleOwner) { resource ->
-                resource?.let {
-                    if (resource.data) {
-                        snackBar("Sucesso login com facebook")
-                    } else {
-                        snackBar("erro login facebook")
+                        exitGoogleAndFacebookAccount()
+                        snackBar(errorMessage)
                     }
                 }
             }
         }
     }
+
+    private fun goToDisciplinesFragment() {
+        val direction = LoginFragmentDirections.actionLoginFragmentToDisciplinesFragment()
+        controller.navigate(direction)
+    }
+
 
     private fun configureLoginButton() {
         val loginButton = binding.fragmentLoginLoginButton
         loginButton.setOnClickListener {
-            cleanFields()
+            clearErrorFields()
             val email = binding.fragmentLoginTextfieldEmail.editText?.text.toString()
             val password = binding.fragmentLoginTextfieldPassword.editText?.text.toString()
 
@@ -148,7 +144,10 @@ class LoginFragment : Fragment() {
     private fun configureLoginFacebookAccountButton() {
         val callbackManager = CallbackManager.Factory.create()
         val loginButton = binding.fragmentLoginSigninFacebookButton
-        loginButton.setPermissions(getString(R.string.facebook_permission_email), getString(R.string.facebook_permission_profile))
+        loginButton.setPermissions(
+            getString(R.string.facebook_permission_email),
+            getString(R.string.facebook_permission_profile)
+        )
         loginButton.setFragment(this)
 
         loginButton.registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
@@ -157,28 +156,22 @@ class LoginFragment : Fragment() {
                 val credential =
                     FacebookAuthProvider.getCredential(result.accessToken.token)
                 model.linkFacebookAccount(credential)
-                snackBar("foi")
                 searchFacebookUser()
-
-                //sair da conta facebook
-                //AccessToken.setCurrentAccessToken(null)
-
             }
 
             override fun onCancel() {
-                snackBar(" nao foi, cancelado")
+                snackBar(getString(R.string.login_fragment_snackbar_message_login_facebook_cancel))
             }
 
             override fun onError(error: FacebookException) {
-                snackBar(" nao foi ")
-                Log.e("TAG", "onError: facebook ", error)
+
             }
         })
     }
 
     private fun searchFacebookUser() {
-        val acessToken = AccessToken.getCurrentAccessToken()
-        val request = GraphRequest.newMeRequest(acessToken) { jsonObject, _ ->
+        val accessToken = AccessToken.getCurrentAccessToken()
+        val request = GraphRequest.newMeRequest(accessToken) { jsonObject, _ ->
             try {
                 val name = jsonObject?.getString("name")
                 name?.let {
@@ -195,7 +188,6 @@ class LoginFragment : Fragment() {
 
     private fun configureLoginGoogleAccountButton() {
         val loginGoogleButton = binding.fragmentLoginSigninGoogleButton
-
         val openGoogleLogin =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == RESULT_OK) {
@@ -216,25 +208,31 @@ class LoginFragment : Fragment() {
         }
     }
 
-    private fun cleanFields() {
+    private fun clearErrorFields() {
         binding.fragmentLoginTextfieldEmail.error = null
         binding.fragmentLoginTextfieldPassword.error = null
     }
 
-    private fun botaoSairContaGoogle() {
-        binding.fragmentLoginSairGoogle.setOnClickListener {
-            context?.googleSignInClient()?.signOut()
-            snackBar("Saiu da conta google")
-        }
+
+    private fun logout() {
+        exitGoogleAndFacebookAccount()
+        model.logout()
     }
 
-    private fun registerButton(){
+    private fun exitGoogleAndFacebookAccount() {
+        context?.googleSignInClient()?.signOut()
+        AccessToken.setCurrentAccessToken(null)
+    }
+
+    private fun registerButton() {
         binding.fragmentLoginRegisterButton.setOnClickListener {
-            controller.navigate(R.id.action_loginFragment_to_registerFragment)
+            goToRegisterFragment()
         }
     }
 
-
+    private fun goToRegisterFragment() {
+        controller.navigate(R.id.action_loginFragment_to_registerFragment)
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

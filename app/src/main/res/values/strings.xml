@@ -52,8 +52,7 @@
     <string name="login_fragment_snackbar_message_firebase_auth_Invalid_credentials_Exception">Email ou senha incorretos</string>
     <string name="login_fragment_snackbar_message_unknown_error">Erro desconhecido</string>
     <string name="login_fragment_snackbar_message_login_success">Sucesso ao entrar</string>
-    <string name="login_fragment_snackbar_message_login_success_googleAccount">Sucesso ao entrar com conta Google</string>
-    <string name="login_fragment_snackbar_message_login_error_googleAccount">Erro ao entrar com conta Google</string>
+    <string name="login_fragment_snackbar_message_login_facebook_cancel">Cancelado pelo usuário</string>
     <string name="login_fragment_registerButton">Cadastrar</string>
 
 

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.studentdiary.R
 import com.example.studentdiary.databinding.FragmentRegisterBinding
 import com.example.studentdiary.extensions.identifiesErrorFirebaseAuth
@@ -20,6 +21,9 @@ class RegisterFragment : Fragment() {
     private val binding get() = _binding!!
     private val model: RegisterViewModel by viewModel()
     private val appViewModel:AppViewModel by activityViewModel()
+    private val controller by lazy {
+        findNavController()
+    }
 
 
 
@@ -99,6 +103,7 @@ class RegisterFragment : Fragment() {
             model.firebaseAuthLiveData.observe(viewLifecycleOwner) { resource ->
                 resource?.let {
                     if (resource.data) {
+                        controller.popBackStack()
                         snackBar(context.getString(R.string.register_fragment_snackbar_message_registration_done))
 
                     } else {

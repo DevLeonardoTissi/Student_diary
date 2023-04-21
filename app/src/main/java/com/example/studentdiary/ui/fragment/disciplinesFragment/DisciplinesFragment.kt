@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.studentdiary.R
@@ -12,6 +11,7 @@ import com.example.studentdiary.databinding.FragmentDisciplinesBinding
 import com.example.studentdiary.model.Discipline
 import com.example.studentdiary.ui.AppViewModel
 import com.example.studentdiary.ui.NavigationComponents
+import com.example.studentdiary.ui.fragment.baseFragment.BaseFragment
 import com.example.studentdiary.ui.recyclerView.adapter.DisciplineListAdapter
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.divider.MaterialDividerItemDecoration
@@ -20,7 +20,7 @@ import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class DisciplinesFragment : Fragment() {
+class DisciplinesFragment : BaseFragment() {
 
     private var _binding: FragmentDisciplinesBinding? = null
     private val binding get() = _binding!!

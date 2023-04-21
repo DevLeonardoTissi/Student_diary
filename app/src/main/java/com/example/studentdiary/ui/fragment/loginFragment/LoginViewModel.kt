@@ -12,12 +12,6 @@ class LoginViewModel(private val firebaseAuthRepository: FirebaseAuthRepository)
     private val _firebaseAuthLiveData = MutableLiveData<Resource<Boolean>>()
     val firebaseAuthLiveData = _firebaseAuthLiveData
 
-    private val _googleAccountLiveData = MutableLiveData<Resource<Boolean>>()
-    val googleAccountLiveData = _googleAccountLiveData
-
-    private val _facebookAccountLiveData = MutableLiveData<Resource<Boolean>>()
-    val facebookAccountLiveData = _facebookAccountLiveData
-
     fun authenticate(user: User): MutableLiveData<Resource<Boolean>> {
         try {
             val task = firebaseAuthRepository.authenticate(user)
@@ -32,23 +26,27 @@ class LoginViewModel(private val firebaseAuthRepository: FirebaseAuthRepository)
     fun linkGoogleAccount(credential: AuthCredential): MutableLiveData<Resource<Boolean>> {
         try {
             val task = firebaseAuthRepository.linkGoogleAccount(credential)
-            task.addOnSuccessListener { _googleAccountLiveData.value = Resource(true) }
-            task.addOnFailureListener { _googleAccountLiveData.value = Resource(false, it) }
+            task.addOnSuccessListener { _firebaseAuthLiveData.value = Resource(true) }
+            task.addOnFailureListener {_firebaseAuthLiveData.value = Resource(false, it) }
         } catch (e: Exception) {
             Resource(false, e)
         }
-        return googleAccountLiveData
+        return firebaseAuthLiveData
     }
 
     fun linkFacebookAccount(credential: AuthCredential): MutableLiveData<Resource<Boolean>> {
         try {
             val task = firebaseAuthRepository.linkFacebookAccount(credential)
-            task.addOnSuccessListener { _facebookAccountLiveData.value = Resource(true) }
-            task.addOnFailureListener { _facebookAccountLiveData.value = Resource(false, it) }
+            task.addOnSuccessListener { _firebaseAuthLiveData.value = Resource(true) }
+            task.addOnFailureListener { _firebaseAuthLiveData.value = Resource(false, it) }
         } catch (e: Exception) {
             Resource(false, e)
         }
-        return facebookAccountLiveData
+        return firebaseAuthLiveData
     }
+
+    fun logout() = firebaseAuthRepository.logout()
+
+    fun isAuthenticated() = firebaseAuthRepository.isAuthenticated()
 
 }

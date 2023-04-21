@@ -62,13 +62,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/fragment_login_loginButton"/>
 
-        <Button
-            android:id="@+id/fragment_login_sair_google"
-            style="@style/elevationButton"
-            android:text="Sair"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/fragment_login_signin_FacebookButton" />
 
         <com.google.android.gms.common.SignInButton
             android:id="@+id/fragment_login_signin_googleButton"

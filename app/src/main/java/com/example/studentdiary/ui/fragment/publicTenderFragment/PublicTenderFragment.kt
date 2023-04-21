@@ -4,13 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import com.example.studentdiary.databinding.FragmentPublicTenderBinding
 import com.example.studentdiary.ui.AppViewModel
 import com.example.studentdiary.ui.NavigationComponents
+import com.example.studentdiary.ui.fragment.baseFragment.BaseFragment
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
-class PublicTenderFragment : Fragment() {
+class PublicTenderFragment : BaseFragment() {
 
   private var _binding: FragmentPublicTenderBinding? = null
     private val binding get() = _binding!!

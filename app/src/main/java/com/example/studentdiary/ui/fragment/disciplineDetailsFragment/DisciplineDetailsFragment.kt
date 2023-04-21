@@ -4,13 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import com.example.studentdiary.databinding.FragmentDisciplineDetailsBinding
 import com.example.studentdiary.ui.AppViewModel
 import com.example.studentdiary.ui.NavigationComponents
+import com.example.studentdiary.ui.fragment.baseFragment.BaseFragment
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
-class DisciplineDetailsFragment : Fragment() {
+class DisciplineDetailsFragment : BaseFragment() {
 
     private var _binding: FragmentDisciplineDetailsBinding? = null
     private val binding get() = _binding!!

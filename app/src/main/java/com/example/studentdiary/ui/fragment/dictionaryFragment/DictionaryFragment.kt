@@ -1,18 +1,18 @@
 package com.example.studentdiary.ui.fragment.dictionaryFragment
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.studentdiary.databinding.FragmentDictionaryBinding
 import com.example.studentdiary.ui.AppViewModel
 import com.example.studentdiary.ui.NavigationComponents
+import com.example.studentdiary.ui.fragment.baseFragment.BaseFragment
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class DictionaryFragment : Fragment() {
+class DictionaryFragment : BaseFragment() {
 
     private var _binding: FragmentDictionaryBinding? = null
     private val binding get() = _binding!!
