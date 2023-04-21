@@ -10,12 +10,16 @@ import com.example.studentdiary.databinding.FragmentRegisterBinding
 import com.example.studentdiary.extensions.identifiesErrorFirebaseAuth
 import com.example.studentdiary.extensions.snackBar
 import com.example.studentdiary.model.User
+import com.example.studentdiary.ui.AppViewModel
+import com.example.studentdiary.ui.NavigationComponents
+import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class RegisterFragment : Fragment() {
     private var _binding: FragmentRegisterBinding? = null
     private val binding get() = _binding!!
     private val model: RegisterViewModel by viewModel()
+    private val appViewModel:AppViewModel by activityViewModel()
 
 
 
@@ -29,8 +33,13 @@ class RegisterFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupNavigationComponents()
         configureObserverRegister()
         configureRegistrationButton()
+    }
+
+    private fun setupNavigationComponents() {
+        appViewModel.hasNavigationComponents = NavigationComponents(navigationIcon = true, menuDrawer = false)
     }
 
 

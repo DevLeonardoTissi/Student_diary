@@ -20,9 +20,11 @@
     <string name="drawer_menu_item_dictionary">Dicionário</string>
     <string name="drawer_menu_item_public_tender">Concursos abertos</string>
     <string name="drawer_menu_item_pomodoro">Pomodoro</string>
+    <string name="drawer_menu_item_exit">Sair</string>
 
 
-    <!-- Register Fragment -->
+    <!-- register Fragment -->
+    <string name="register_fragment_toolbar_title">Cadastrar</string>
     <string name="register_fragment_snackbar_message_firebase_auth_weak_password_exception">Sua senha precisa de, no mínimo 6 dígitos</string>
     <string name="register_fragment_snackbar_message_firebase_auth_Invalid_credentials_Exception">Email inválido</string>
     <string name="register_fragment_snackbar_message_firebase_auth_user_collision_exception">Email já cadastrado</string>
@@ -38,7 +40,9 @@
     <string name="register_fragment_text_field_error_different_password">Senhas diferentes</string>
 
 
+
     <!-- Login Fragment -->
+    <string name="login_fragment_toolbar_title">Login</string>
     <string name="login_fragment_text_field_hint_email">Email</string>
     <string name="login_fragment_text_field_hint_password">Senha</string>
     <string name="login_fragment_loginButton">Acessar</string>
@@ -57,6 +61,8 @@
     <string name="facebook_app_id">172559435542270</string>
     <string name="fb_login_protocol_scheme">fb172559435542270</string>
     <string name="facebook_client_token">757d1efebbc1a4cc3932929b69d1cfd0</string>
+    <string name="facebook_permission_email">email</string>
+    <string name="facebook_permission_profile">public_profile</string>
 
     <!-- Discipline Item -->
     <string name="discipline_item_img_content_desc_favorite">Favorite flag</string>
@@ -65,7 +71,7 @@
 
 
     <!-- Disciplines Fragment -->
-    <string name="disciplines_fragment_toolbat_title">Disciplinas</string>
+    <string name="disciplines_fragment_toolbar_title">Disciplinas</string>
     <string name="disciplines_fragment_fab_insert_content_desc">Floating action insert discipline</string>
 
     <string name="disciplines_fragment_img_content_desc_discipline">Discipline image</string>
@@ -75,6 +81,10 @@
 
     <!-- Dictionary Fragment -->
     <string name="dictionary_fragment_toolbar_title">Dicionário</string>
+
+
+
+
 
 
     <!-- Pomodoro Fragment -->
@@ -126,6 +136,7 @@
     <!-- Discipline Fragment Delete Dialog -->
     <string name="discipline_fragment_delete_dialog_title">Confirmar exclusão</string>
     <string name="discipline_fragment_delete_dialog_message">Confirmar a exclusão dessa disciplina?</string>
+
     <!-- Common -->
     <string name="common_confirm">Confirmar</string>
     <string name="common_cancel">Cancelar</string>

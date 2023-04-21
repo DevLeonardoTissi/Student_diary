@@ -41,6 +41,7 @@ import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
 
@@ -56,7 +57,7 @@ class DisciplineFormFragment : Fragment() {
     private val controller by lazy {
         findNavController()
     }
-
+    private val appViewModel: AppViewModel by activityViewModel()
 
     private val requestPermission =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
@@ -76,6 +77,7 @@ class DisciplineFormFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupNavigationComponents()
         setupFavoriteCheckbox()
         setupCompleteCheckbox()
         fabInsetImage()
@@ -91,6 +93,10 @@ class DisciplineFormFragment : Fragment() {
         super.onStart()
         updateUi()
         searchDisciplineId()
+    }
+
+    private fun setupNavigationComponents() {
+        appViewModel.hasNavigationComponents = NavigationComponents(navigationIcon = true, menuDrawer = true)
     }
 
 

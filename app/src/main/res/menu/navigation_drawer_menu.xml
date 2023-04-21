@@ -34,8 +34,23 @@
                 android:icon="@drawable/ic_exam"
                 android:title="@string/drawer_menu_item_public_tender"
                 app:showAsAction="ifRoom" />
+
+            <item
+                android:id="@+id/loginFragment"
+                android:checkable="true"
+                android:icon="@drawable/ic_exit"
+                android:title="@string/drawer_menu_item_exit"
+                app:showAsAction="ifRoom" />
         </menu>
 
     </item>
+
+
+
+
+
+
+
+
 
 </menu>

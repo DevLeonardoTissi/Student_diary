@@ -10,10 +10,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.studentdiary.R
 import com.example.studentdiary.databinding.FragmentDisciplinesBinding
 import com.example.studentdiary.model.Discipline
+import com.example.studentdiary.ui.AppViewModel
+import com.example.studentdiary.ui.NavigationComponents
 import com.example.studentdiary.ui.recyclerView.adapter.DisciplineListAdapter
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -26,6 +29,7 @@ class DisciplinesFragment : Fragment() {
     private val controller by lazy {
         findNavController()
     }
+    private val appViewModel: AppViewModel by activityViewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,9 +41,14 @@ class DisciplinesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupNavigationComponents()
         configureDisciplineObserver()
         configureRecyclerView()
         configureFab()
+    }
+
+    private fun setupNavigationComponents() {
+        appViewModel.hasNavigationComponents = NavigationComponents(navigationIcon = true, menuDrawer = true)
     }
 
 

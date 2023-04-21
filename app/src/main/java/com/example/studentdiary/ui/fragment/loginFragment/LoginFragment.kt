@@ -14,6 +14,8 @@ import com.example.studentdiary.databinding.FragmentLoginBinding
 import com.example.studentdiary.extensions.googleSignInClient
 import com.example.studentdiary.extensions.snackBar
 import com.example.studentdiary.model.User
+import com.example.studentdiary.ui.AppViewModel
+import com.example.studentdiary.ui.NavigationComponents
 import com.facebook.*
 import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -23,6 +25,7 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.GoogleAuthProvider
 import org.json.JSONException
+import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -34,6 +37,7 @@ class LoginFragment : Fragment() {
     private val controller by lazy {
         findNavController()
     }
+    private val appViewModel: AppViewModel by activityViewModel()
 
 
     override fun onCreateView(
@@ -47,6 +51,7 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupNavigationComponents()
         configureObserverLogin()
         configureObserverGoogleAccount()
         observerFacebookAccount()
@@ -57,38 +62,39 @@ class LoginFragment : Fragment() {
         registerButton()
     }
 
+    private fun setupNavigationComponents() {
+        appViewModel.hasNavigationComponents = NavigationComponents(navigationIcon = false, menuDrawer = false)
+    }
+
     private fun configureObserverLogin() {
-        context?.let { context ->
             model.firebaseAuthLiveData.observe(viewLifecycleOwner) { resource ->
                 resource?.let {
                     if (resource.data) {
-                       snackBar(context.getString(R.string.login_fragment_snackbar_message_login_success))
+                       snackBar(getString(R.string.login_fragment_snackbar_message_login_success))
                     } else {
                         resource.exception?.let { exception ->
                             val errorMessage = when (exception) {
-                                is FirebaseAuthInvalidCredentialsException -> context.getString(R.string.login_fragment_snackbar_message_firebase_auth_Invalid_credentials_Exception)
-                                is FirebaseAuthInvalidUserException -> context.getString(R.string.login_fragment_snackbar_message_firebase_auth_Invalid_user_Exception)
-                                else -> context.getString(R.string.login_fragment_snackbar_message_unknown_error)
+                                is FirebaseAuthInvalidCredentialsException -> getString(R.string.login_fragment_snackbar_message_firebase_auth_Invalid_credentials_Exception)
+                                is FirebaseAuthInvalidUserException -> getString(R.string.login_fragment_snackbar_message_firebase_auth_Invalid_user_Exception)
+                                else -> getString(R.string.login_fragment_snackbar_message_unknown_error)
                             }
                             snackBar(errorMessage)
                         }
                     }
                 }
             }
-        }
+
     }
 
     private fun configureObserverGoogleAccount() {
-        context?.let { context ->
             model.googleAccountLiveData.observe(viewLifecycleOwner) { resource ->
                 resource?.let {
                     if (resource.data) {
-                        snackBar(context.getString(R.string.login_fragment_snackbar_message_login_success_googleAccount))
+                        snackBar(getString(R.string.login_fragment_snackbar_message_login_success_googleAccount))
                     } else {
-                       snackBar(context.getString(R.string.login_fragment_snackbar_message_login_error_googleAccount))
+                       snackBar(getString(R.string.login_fragment_snackbar_message_login_error_googleAccount))
                     }
                 }
-            }
         }
     }
 
@@ -113,8 +119,8 @@ class LoginFragment : Fragment() {
             val email = binding.fragmentLoginTextfieldEmail.editText?.text.toString()
             val password = binding.fragmentLoginTextfieldPassword.editText?.text.toString()
 
-            val isvalid = validateData(email, password)
-            if (isvalid) {
+            val isValid = validateData(email, password)
+            if (isValid) {
                 authenticate(User(email, password))
             }
         }
@@ -142,7 +148,7 @@ class LoginFragment : Fragment() {
     private fun configureLoginFacebookAccountButton() {
         val callbackManager = CallbackManager.Factory.create()
         val loginButton = binding.fragmentLoginSigninFacebookButton
-        loginButton.setPermissions("email", "public_profile")
+        loginButton.setPermissions(getString(R.string.facebook_permission_email), getString(R.string.facebook_permission_profile))
         loginButton.setFragment(this)
 
         loginButton.registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
@@ -193,11 +199,11 @@ class LoginFragment : Fragment() {
         val openGoogleLogin =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == RESULT_OK) {
-                    val contaGoogle =
+                    val googleAccount =
                         GoogleSignIn.getSignedInAccountFromIntent(result.data).result
-                    val credencial =
-                        GoogleAuthProvider.getCredential(contaGoogle.idToken, null)
-                    model.linkGoogleAccount(credencial)
+                    val credential =
+                        GoogleAuthProvider.getCredential(googleAccount.idToken, null)
+                    model.linkGoogleAccount(credential)
 
                 }
             }
