@@ -1,5 +1,6 @@
 package com.example.studentdiary.ui.fragment.loginFragment
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.studentdiary.model.User
@@ -10,9 +11,27 @@ import com.google.firebase.auth.AuthCredential
 class LoginViewModel(private val firebaseAuthRepository: FirebaseAuthRepository) : ViewModel() {
 
     private val _firebaseAuthLiveData = MutableLiveData<Resource<Boolean>>()
-    val firebaseAuthLiveData = _firebaseAuthLiveData
+    val firebaseAuthLiveData: LiveData<Resource<Boolean>> = _firebaseAuthLiveData
 
-    fun authenticate(user: User): MutableLiveData<Resource<Boolean>> {
+    private val _fieldEmail = MutableLiveData<String>()
+    val fieldEmail : LiveData<String> = _fieldEmail
+
+    private val _fieldPassword = MutableLiveData<String>()
+    val fieldPassword : LiveData<String> = _fieldPassword
+
+    fun setEmail(email:String){
+        _fieldEmail.value = email
+    }
+
+    fun setPassword(password:String){
+        _fieldPassword.value = password
+    }
+
+    fun clearLiveData() {
+        _firebaseAuthLiveData.value = Resource(false, null)
+    }
+
+    fun authenticate(user: User): LiveData<Resource<Boolean>> {
         try {
             val task = firebaseAuthRepository.authenticate(user)
             task.addOnSuccessListener { _firebaseAuthLiveData.value = Resource(true) }
@@ -23,7 +42,7 @@ class LoginViewModel(private val firebaseAuthRepository: FirebaseAuthRepository)
         return firebaseAuthLiveData
     }
 
-    fun linkGoogleAccount(credential: AuthCredential): MutableLiveData<Resource<Boolean>> {
+    fun linkGoogleAccount(credential: AuthCredential): LiveData<Resource<Boolean>> {
         try {
             val task = firebaseAuthRepository.linkGoogleAccount(credential)
             task.addOnSuccessListener { _firebaseAuthLiveData.value = Resource(true) }
@@ -34,7 +53,7 @@ class LoginViewModel(private val firebaseAuthRepository: FirebaseAuthRepository)
         return firebaseAuthLiveData
     }
 
-    fun linkFacebookAccount(credential: AuthCredential): MutableLiveData<Resource<Boolean>> {
+    fun linkFacebookAccount(credential: AuthCredential): LiveData<Resource<Boolean>> {
         try {
             val task = firebaseAuthRepository.linkFacebookAccount(credential)
             task.addOnSuccessListener { _firebaseAuthLiveData.value = Resource(true) }

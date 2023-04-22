@@ -2,6 +2,7 @@ package com.example.studentdiary.ui.fragment.loginFragment
 
 import android.app.Activity.RESULT_OK
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -52,7 +53,6 @@ class LoginFragment : Fragment() {
         return binding.root
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupNavigationComponents()
@@ -63,11 +63,54 @@ class LoginFragment : Fragment() {
         textViewRegister()
         overridePopBackStack()
         logout()
+        configureAndSaveTextFields()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        fillFields()
     }
 
     override fun onResume() {
         super.onResume()
         clearErrorFields()
+    }
+
+    private fun configureAndSaveTextFields(){
+        val textFieldEmail = binding.fragmentLoginTextfieldEmail.editText
+        val textFieldPassword = binding.fragmentLoginTextfieldPassword.editText
+
+        textFieldEmail?.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus && textFieldEmail?.text.toString().isNotBlank()){
+                    model.setEmail(textFieldEmail?.text.toString())
+            }
+        }
+
+        textFieldPassword?.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus && textFieldPassword?.text.toString().isNotBlank()){
+                    model.setPassword(textFieldPassword?.text.toString())
+            }
+        }
+    }
+
+    private fun fillFields(){
+        Log.i("TAG", "fillFields: ${model.fieldPassword.value}")
+        model.fieldEmail.observe(this@LoginFragment){email ->
+            email?.let {
+                val textFieldEmail = binding.fragmentLoginTextfieldEmail
+                textFieldEmail.editText?.setText(it)
+                textFieldEmail.editText?.setSelection(it.length)
+            }
+        }
+
+        model.fieldPassword.observe(this@LoginFragment){password ->
+            password?.let {
+                val textFieldPassword = binding.fragmentLoginTextfieldPassword.editText
+                textFieldPassword?.setText(it)
+                Log.i("TAG", "fillFields: $it")
+                textFieldPassword?.setSelection(it.length)
+            }
+        }
     }
 
     private fun overridePopBackStack() {
@@ -113,7 +156,6 @@ class LoginFragment : Fragment() {
         val direction = LoginFragmentDirections.actionLoginFragmentToDisciplinesFragment()
         controller.navigate(direction)
     }
-
 
     private fun configureLoginButton() {
         val loginButton = binding.fragmentLoginLoginButton
@@ -218,20 +260,30 @@ class LoginFragment : Fragment() {
         binding.fragmentLoginTextfieldPassword.error = null
     }
 
-
     private fun logout() {
-        exitGoogleAndFacebookAccount()
-        model.logout()
+        if (model.isAuthenticated()){
+            model.logout()
+            exitGoogleAndFacebookAccount()
+        }
     }
 
     private fun exitGoogleAndFacebookAccount() {
         context?.googleSignInClient()?.signOut()
-        AccessToken.setCurrentAccessToken(null)
+        checkAndLogoutIfLoggedInFacebook()
+    }
+
+    private fun checkAndLogoutIfLoggedInFacebook() {
+        val accessToken = AccessToken.getCurrentAccessToken()
+        val isLoggedIn = accessToken != null && !accessToken.isExpired
+        if (isLoggedIn) {
+            AccessToken.setCurrentAccessToken(null)
+        }
     }
 
     private fun textViewRegister() {
         binding.fragmentLoginTextViewRegister.setOnClickListener {
             goToRegisterFragment()
+            model.clearLiveData()
         }
     }
 
