@@ -16,7 +16,11 @@ import com.example.studentdiary.extensions.snackBar
 import com.example.studentdiary.model.User
 import com.example.studentdiary.ui.AppViewModel
 import com.example.studentdiary.ui.NavigationComponents
-import com.facebook.*
+import com.facebook.AccessToken
+import com.facebook.CallbackManager
+import com.facebook.FacebookCallback
+import com.facebook.FacebookException
+import com.facebook.GraphRequest
 import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.SignInButton
@@ -27,6 +31,7 @@ import com.google.firebase.auth.GoogleAuthProvider
 import org.json.JSONException
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.lang.Exception
 
 
 class LoginFragment : Fragment() {
@@ -52,15 +57,13 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupNavigationComponents()
-        logout()
         configureObserverLogin()
         configureLoginButton()
         configureLoginGoogleAccountButton()
         configureLoginFacebookAccountButton()
         registerButton()
         overridePopBackStack()
-
-
+        logout()
     }
 
     override fun onResume() {
@@ -89,17 +92,22 @@ class LoginFragment : Fragment() {
                     snackBar(getString(R.string.login_fragment_snackbar_message_login_success))
                 } else {
                     resource.exception?.let { exception ->
-                        val errorMessage = when (exception) {
-                            is FirebaseAuthInvalidCredentialsException -> getString(R.string.login_fragment_snackbar_message_firebase_auth_Invalid_credentials_Exception)
-                            is FirebaseAuthInvalidUserException -> getString(R.string.login_fragment_snackbar_message_firebase_auth_Invalid_user_Exception)
-                            else -> getString(R.string.login_fragment_snackbar_message_unknown_error)
-                        }
+                        val errorMessage = identifiesErrorFirebaseAuthOnLogin(exception)
                         exitGoogleAndFacebookAccount()
                         snackBar(errorMessage)
                     }
                 }
             }
         }
+    }
+
+    private fun identifiesErrorFirebaseAuthOnLogin(exception: Exception): String {
+        val errorMessage = when (exception) {
+            is FirebaseAuthInvalidCredentialsException -> getString(R.string.login_fragment_snackbar_message_firebase_auth_Invalid_credentials_Exception)
+            is FirebaseAuthInvalidUserException -> getString(R.string.login_fragment_snackbar_message_firebase_auth_Invalid_user_Exception)
+            else -> getString(R.string.login_fragment_snackbar_message_unknown_error)
+        }
+        return errorMessage
     }
 
     private fun goToDisciplinesFragment() {
@@ -149,7 +157,6 @@ class LoginFragment : Fragment() {
             getString(R.string.facebook_permission_profile)
         )
         loginButton.setFragment(this)
-
         loginButton.registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
             override fun onSuccess(result: LoginResult) {
 
@@ -239,3 +246,5 @@ class LoginFragment : Fragment() {
         _binding = null
     }
 }
+
+

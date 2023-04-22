@@ -8,11 +8,13 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.studentdiary.R
 import com.example.studentdiary.databinding.FragmentRegisterBinding
-import com.example.studentdiary.extensions.identifiesErrorFirebaseAuth
 import com.example.studentdiary.extensions.snackBar
 import com.example.studentdiary.model.User
 import com.example.studentdiary.ui.AppViewModel
 import com.example.studentdiary.ui.NavigationComponents
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -20,11 +22,10 @@ class RegisterFragment : Fragment() {
     private var _binding: FragmentRegisterBinding? = null
     private val binding get() = _binding!!
     private val model: RegisterViewModel by viewModel()
-    private val appViewModel:AppViewModel by activityViewModel()
+    private val appViewModel: AppViewModel by activityViewModel()
     private val controller by lazy {
         findNavController()
     }
-
 
 
     override fun onCreateView(
@@ -43,7 +44,8 @@ class RegisterFragment : Fragment() {
     }
 
     private fun setupNavigationComponents() {
-        appViewModel.hasNavigationComponents = NavigationComponents(navigationIcon = true, menuDrawer = false)
+        appViewModel.hasNavigationComponents =
+            NavigationComponents(navigationIcon = true, menuDrawer = false)
     }
 
 
@@ -95,7 +97,7 @@ class RegisterFragment : Fragment() {
     }
 
     private fun register(user: User) {
-            model.register(user)
+        model.register(user)
     }
 
     private fun configureObserverRegister() {
@@ -108,13 +110,27 @@ class RegisterFragment : Fragment() {
 
                     } else {
                         resource.exception?.let { exception ->
-                            val errorMessage = identifiesErrorFirebaseAuth(exception)
+                            val errorMessage = identifiesErrorFirebaseAuthOnRegister(exception)
                             snackBar(errorMessage)
                         }
                     }
                 }
             }
         }
+    }
+
+    private fun identifiesErrorFirebaseAuthOnRegister(exception: Exception): String {
+        lateinit var errorMessage: String
+        context?.let { context ->
+            errorMessage = when (exception) {
+                is FirebaseAuthWeakPasswordException -> context.getString(R.string.register_fragment_snackbar_message_firebase_auth_weak_password_exception)
+                is FirebaseAuthInvalidCredentialsException -> context.getString(R.string.register_fragment_snackbar_message_firebase_auth_Invalid_credentials_Exception)
+                is FirebaseAuthUserCollisionException -> context.getString(R.string.register_fragment_snackbar_message_firebase_auth_user_collision_exception)
+                is IllegalArgumentException -> context.getString(R.string.register_fragment_snackbar_message_firebase_auth_illegal_argument_exception)
+                else -> context.getString(R.string.register_fragment_snackbar_message_unknown_error)
+            }
+        }
+        return errorMessage
     }
 
     override fun onDestroyView() {
