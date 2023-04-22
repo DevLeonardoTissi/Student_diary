@@ -29,4 +29,7 @@
     <dimen name="discipline_item_guideline_end_percent">0.87</dimen>
     <dimen name="discipline_item_guideline_start_percent">0.23</dimen>
 
+    <dimen name="fragment_login_guideline_horizontal_bottom_percent">0.95</dimen>
+    <dimen name="fragment_login_guideline_vertical_center_percent">0.5</dimen>
+
 </resources>

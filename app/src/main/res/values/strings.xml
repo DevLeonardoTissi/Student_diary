@@ -54,6 +54,8 @@
     <string name="login_fragment_snackbar_message_login_success">Sucesso ao entrar</string>
     <string name="login_fragment_snackbar_message_login_facebook_cancel">Cancelado pelo usuário</string>
     <string name="login_fragment_registerButton">Cadastrar</string>
+    <string name="login_fragment_textView_label_not_have_an_account_question">Não possui uma conta?</string>
+    <string name="login_fragment_textView_label_register">Registre-se</string>
 
 
     <!-- Facebook -->
@@ -141,5 +143,6 @@
     <string name="common_cancel">Cancelar</string>
     <string name="common_decline">Rejeitar</string>
     <string name="common_ok">OK</string>
+    <string name="common_or">Ou</string>
 
 </resources>

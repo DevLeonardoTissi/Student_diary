@@ -44,7 +44,6 @@ class LoginFragment : Fragment() {
     }
     private val appViewModel: AppViewModel by activityViewModel()
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -61,7 +60,7 @@ class LoginFragment : Fragment() {
         configureLoginButton()
         configureLoginGoogleAccountButton()
         configureLoginFacebookAccountButton()
-        registerButton()
+        textViewRegister()
         overridePopBackStack()
         logout()
     }
@@ -159,7 +158,6 @@ class LoginFragment : Fragment() {
         loginButton.setFragment(this)
         loginButton.registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
             override fun onSuccess(result: LoginResult) {
-
                 val credential =
                     FacebookAuthProvider.getCredential(result.accessToken.token)
                 model.linkFacebookAccount(credential)
@@ -188,8 +186,8 @@ class LoginFragment : Fragment() {
             } catch (e: JSONException) {
                 e.printStackTrace()
             }
-
         }
+
         request.executeAsync()
     }
 
@@ -231,8 +229,8 @@ class LoginFragment : Fragment() {
         AccessToken.setCurrentAccessToken(null)
     }
 
-    private fun registerButton() {
-        binding.fragmentLoginRegisterButton.setOnClickListener {
+    private fun textViewRegister() {
+        binding.fragmentLoginTextViewRegister.setOnClickListener {
             goToRegisterFragment()
         }
     }
