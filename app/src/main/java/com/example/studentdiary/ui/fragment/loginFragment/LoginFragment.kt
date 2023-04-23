@@ -94,12 +94,13 @@ class LoginFragment : Fragment() {
     }
 
     private fun fillFields(){
-        Log.i("TAG", "fillFields: ${model.fieldPassword.value}")
+
         model.fieldEmail.observe(this@LoginFragment){email ->
             email?.let {
                 val textFieldEmail = binding.fragmentLoginTextfieldEmail
                 textFieldEmail.editText?.setText(it)
                 textFieldEmail.editText?.setSelection(it.length)
+                Log.i("TAG", "fillFields: ${model.fieldPassword.value}")
             }
         }
 
@@ -107,7 +108,6 @@ class LoginFragment : Fragment() {
             password?.let {
                 val textFieldPassword = binding.fragmentLoginTextfieldPassword.editText
                 textFieldPassword?.setText(it)
-                Log.i("TAG", "fillFields: $it")
                 textFieldPassword?.setSelection(it.length)
             }
         }

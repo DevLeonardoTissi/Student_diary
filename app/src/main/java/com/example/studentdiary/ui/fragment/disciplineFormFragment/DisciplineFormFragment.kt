@@ -609,6 +609,7 @@ class DisciplineFormFragment : BaseFragment() {
 
     override fun onDestroy() {
         super.onDestroy()
+        model.discipline.removeObservers(this@DisciplineFormFragment)
         _binding = null
     }
 }

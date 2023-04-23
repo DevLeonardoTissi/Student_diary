@@ -19,9 +19,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private val appViewModel: AppViewModel by viewModel()
-    private val controller by lazy {
-        findNavController(R.id.nav_host_fragment)
-    }
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,15 +72,4 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
-//    private fun hideNavigationIcon() {
-//        controller.addOnDestinationChangedListener { _, destination, _ ->
-//            when (destination.id) {
-//                R.id.loginFragment -> {
-//                    binding.activityMainToolbar.navigationIcon = null
-//                }
-//            }
-//        }
-//    }
-
 }
