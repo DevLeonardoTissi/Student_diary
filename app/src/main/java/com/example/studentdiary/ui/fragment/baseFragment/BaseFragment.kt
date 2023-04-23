@@ -1,5 +1,7 @@
 package com.example.studentdiary.ui.fragment.baseFragment
 
+import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.studentdiary.NavGraphDirections
@@ -12,13 +14,8 @@ abstract class BaseFragment : Fragment() {
         findNavController()
     }
 
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        checkIfItIsAuthenticated()
-//    }
-
-    override fun onResume() {
-        super.onResume()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         checkIfItIsAuthenticated()
     }
 

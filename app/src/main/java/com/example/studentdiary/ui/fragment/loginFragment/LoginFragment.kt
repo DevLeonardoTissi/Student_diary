@@ -2,7 +2,6 @@ package com.example.studentdiary.ui.fragment.loginFragment
 
 import android.app.Activity.RESULT_OK
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,7 +31,6 @@ import com.google.firebase.auth.GoogleAuthProvider
 import org.json.JSONException
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.lang.Exception
 
 
 class LoginFragment : Fragment() {
@@ -64,10 +62,6 @@ class LoginFragment : Fragment() {
         overridePopBackStack()
         logout()
         configureAndSaveTextFields()
-    }
-
-    override fun onStart() {
-        super.onStart()
         fillFields()
     }
 
@@ -95,16 +89,15 @@ class LoginFragment : Fragment() {
 
     private fun fillFields(){
 
-        model.fieldEmail.observe(this@LoginFragment){email ->
+        model.fieldEmail.observe(viewLifecycleOwner){email ->
             email?.let {
                 val textFieldEmail = binding.fragmentLoginTextfieldEmail
                 textFieldEmail.editText?.setText(it)
                 textFieldEmail.editText?.setSelection(it.length)
-                Log.i("TAG", "fillFields: ${model.fieldPassword.value}")
             }
         }
 
-        model.fieldPassword.observe(this@LoginFragment){password ->
+        model.fieldPassword.observe(viewLifecycleOwner){password ->
             password?.let {
                 val textFieldPassword = binding.fragmentLoginTextfieldPassword.editText
                 textFieldPassword?.setText(it)
