@@ -8,12 +8,12 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.studentdiary.R
 import com.example.studentdiary.databinding.FragmentDisciplinesBinding
+import com.example.studentdiary.extensions.alertDialog
 import com.example.studentdiary.model.Discipline
 import com.example.studentdiary.ui.AppViewModel
 import com.example.studentdiary.ui.NavigationComponents
 import com.example.studentdiary.ui.fragment.baseFragment.BaseFragment
 import com.example.studentdiary.ui.recyclerView.adapter.DisciplineListAdapter
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
@@ -48,7 +48,8 @@ class DisciplinesFragment : BaseFragment() {
     }
 
     private fun setupNavigationComponents() {
-        appViewModel.hasNavigationComponents = NavigationComponents(navigationIcon = true, menuDrawer = true)
+        appViewModel.hasNavigationComponents =
+            NavigationComponents(navigationIcon = true, menuDrawer = true)
     }
 
 
@@ -117,8 +118,15 @@ class DisciplinesFragment : BaseFragment() {
 
             }
 
-            adapter.onClickingOnOptionDelete = {disciplineId ->
-                    alertdialogDelete(disciplineId)
+            adapter.onClickingOnOptionDelete = { disciplineId ->
+                context?.let { context ->
+                    context.alertDialog(
+                        title = getString(R.string.discipline_fragment_delete_dialog_title),
+                        message = getString(R.string.discipline_fragment_delete_dialog_message), onClickingOnPositiveButton = {
+                            model.delete(disciplineId)
+                        }
+                    )
+                }
             }
         }
     }
@@ -149,24 +157,7 @@ class DisciplinesFragment : BaseFragment() {
         }
     }
 
-    private fun alertdialogDelete(id:String){
-        context?.let { context ->
-            MaterialAlertDialogBuilder(context)
-                .setTitle(getString(R.string.discipline_fragment_delete_dialog_title))
-                .setMessage(getString(R.string.discipline_fragment_delete_dialog_message))
-                .setNeutralButton(getString(R.string.common_cancel)) { _, _ ->
 
-                }
-                .setNegativeButton(getString(R.string.common_decline)) { _, _ ->
-
-                }
-                .setPositiveButton(getString(R.string.common_confirm)) { _, _ ->
-                    model.delete(id)
-
-                }
-                .show()
-        }
-    }
 
     override fun onDestroy() {
         super.onDestroy()

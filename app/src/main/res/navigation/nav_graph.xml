@@ -49,10 +49,10 @@
     <fragment
         android:id="@+id/disciplineFormFragment"
         android:name="com.example.studentdiary.ui.fragment.disciplineFormFragment.DisciplineFormFragment"
-        android:label="fragment_discipline_form"
-        tools:layout="@layout/fragment_discipline_form" >
+        android:label="@string/discipline_form_fragment_toolbar_title"
+        tools:layout="@layout/fragment_discipline_form">
         <argument
-            android:name="testeId"
+            android:name="disciplineId"
             app:argType="string"
             app:nullable="true" />
         <action
@@ -71,10 +71,13 @@
     <fragment
         android:id="@+id/disciplineDetailsFragment"
         android:name="com.example.studentdiary.ui.fragment.disciplineDetailsFragment.DisciplineDetailsFragment"
-        android:label="fragment_discipline_details"
-        tools:layout="@layout/fragment_discipline_details" >
+        android:label="@string/discipline_details_fragment_toolbar_title"
+        tools:layout="@layout/fragment_discipline_details">
         <argument
             android:name="disciplineId"
             app:argType="string" />
+        <action
+            android:id="@+id/action_disciplineDetailsFragment_to_disciplineFormFragment"
+            app:destination="@id/disciplineFormFragment" />
     </fragment>
 </navigation>

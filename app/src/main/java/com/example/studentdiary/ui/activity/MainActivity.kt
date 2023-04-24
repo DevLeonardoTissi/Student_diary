@@ -21,7 +21,6 @@ class MainActivity : AppCompatActivity() {
     private val appViewModel: AppViewModel by viewModel()
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -46,7 +45,8 @@ class MainActivity : AppCompatActivity() {
                 R.id.publicTenderFragment,
             ), drawerLayout = binding.drawerLayout
         )
-
+        setSupportActionBar(binding.activityMainToolbar)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
         binding.activityMainToolbar.setupWithNavController(navController, appBarConfiguration)
 
 
@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity() {
             binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
         }
 
-        if (!hasNavigationComponents.navigationIcon){
+        if (!hasNavigationComponents.navigationIcon) {
             binding.activityMainToolbar.navigationIcon = null
         }
     }

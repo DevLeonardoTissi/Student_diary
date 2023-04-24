@@ -79,9 +79,20 @@
     <string name="disciplines_fragment_messageStudent">O que vamos estudar hoje?</string>
     <string name="disciplines_fragment_img_content_student">student image</string>
     <string name="discipline_fragment_switch_favorite_label">Apenas Favoritas</string>
+    <string name="discipline_fragment_delete_dialog_title">Confirmar exclusão</string>
+    <string name="discipline_fragment_delete_dialog_message">Confirmar a exclusão dessa disciplina?</string>
 
     <!-- Dictionary Fragment -->
     <string name="dictionary_fragment_toolbar_title">Dicionário</string>
+
+    <!-- Discipline Details Fragment -->
+    <string name="discipline_details_fragment_toolbar_title">Detalhes</string>
+    <string name="discipline_form_fragment_delete_dialog_title">Confirmar exclusão</string>
+    <string name="discipline_form_fragment_delete_dialog_message">Confirmar a exclusão dessa disciplina?</string>
+
+    <!-- Discipline Details Menu -->
+    <string name="discipline_details_menu_menuItem_delete_title">Deletar</string>
+    <string name="discipline_details_menu_menuItem_edit_title">Editar</string>
 
 
 
@@ -98,6 +109,7 @@
 
 
     <!-- Discipline Form Fragment -->
+    <string name="discipline_form_fragment_toolbar_title">Formulário</string>
     <string name="discipline_form_fragment_text_field_name_hint">Nome da Disciplina</string>
     <string name="discipline_form_fragment_text_field_description_hint">Descrição</string>
     <string name="discipline_form_fragment_text_field_description_helper">Opcional</string>
@@ -133,10 +145,6 @@
     <string name="discipline_form_confirm_dialog_title">Confirmar disciplina</string>
     <string name="discipline_form_confirm_dialog_message">Confirmar adição de uma nova disciplina?</string>
 
-
-    <!-- Discipline Fragment Delete Dialog -->
-    <string name="discipline_fragment_delete_dialog_title">Confirmar exclusão</string>
-    <string name="discipline_fragment_delete_dialog_message">Confirmar a exclusão dessa disciplina?</string>
 
     <!-- Common -->
     <string name="common_confirm">Confirmar</string>

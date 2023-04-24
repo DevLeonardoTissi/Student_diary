@@ -25,6 +25,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.studentdiary.R
 import com.example.studentdiary.databinding.FragmentDisciplineFormBinding
+import com.example.studentdiary.extensions.alertDialog
 import com.example.studentdiary.extensions.snackBar
 import com.example.studentdiary.extensions.tryLoadImage
 import com.example.studentdiary.ui.AppViewModel
@@ -42,7 +43,6 @@ import com.example.studentdiary.utils.concatenateTimeValues
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
@@ -59,7 +59,7 @@ class DisciplineFormFragment : BaseFragment() {
     private val model: DisciplineFormViewModel by viewModel()
     private val arguments by navArgs<DisciplineFormFragmentArgs>()
     private val disciplineId by lazy {
-        arguments.testeId
+        arguments.disciplineId
     }
     private val controller by lazy {
         findNavController()
@@ -103,7 +103,8 @@ class DisciplineFormFragment : BaseFragment() {
     }
 
     private fun setupNavigationComponents() {
-        appViewModel.hasNavigationComponents = NavigationComponents(navigationIcon = true, menuDrawer = true)
+        appViewModel.hasNavigationComponents =
+            NavigationComponents(navigationIcon = true, menuDrawer = true)
     }
 
 
@@ -205,7 +206,9 @@ class DisciplineFormFragment : BaseFragment() {
 
         textFieldEmail?.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
-                if (textFieldEmail?.isEnabled == true && textFieldEmail.text.toString().isNotBlank())  {
+                if (textFieldEmail?.isEnabled == true && textFieldEmail.text.toString()
+                        .isNotBlank()
+                ) {
                     model.setUserCalendarEmail(textFieldEmail.text.toString())
                 }
             }
@@ -213,7 +216,7 @@ class DisciplineFormFragment : BaseFragment() {
 
         textFieldName?.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
             if (!hasFocus && textFieldName?.text.toString().isNotBlank()) {
-                    model.setName(textFieldName?.text.toString())
+                model.setName(textFieldName?.text.toString())
             }
         }
 
@@ -369,24 +372,17 @@ class DisciplineFormFragment : BaseFragment() {
 
     private fun alertDialogConfirm() {
         context?.let { context ->
-            MaterialAlertDialogBuilder(context)
-                .setTitle(getString(R.string.discipline_form_confirm_dialog_title))
-                .setMessage(getString(R.string.discipline_form_confirm_dialog_message))
-                .setNeutralButton(getString(R.string.common_cancel)) { _, _ ->
-
-                }
-                .setNegativeButton(getString(R.string.common_decline)) { _, _ ->
-
-                }
-                .setPositiveButton(getString(R.string.common_confirm)) { _, _ ->
+            context.alertDialog(
+                title = getString(R.string.discipline_form_confirm_dialog_title),
+                message = getString(R.string.discipline_form_confirm_dialog_message),
+                onClickingOnPositiveButton = {
                     val switchAddReminder = binding.disciplineFormFragmentSwitchAddReminder
                     if (switchAddReminder.isChecked) {
                         addReminder()
                     }
                     insert()
                     controller.navigate(R.id.action_disciplineFormFragment_to_disciplinesFragment)
-                }
-                .show()
+                })
         }
     }
 
