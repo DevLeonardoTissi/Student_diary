@@ -32,7 +32,6 @@ import org.json.JSONException
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-
 class LoginFragment : Fragment() {
 
     private var _binding: FragmentLoginBinding? = null

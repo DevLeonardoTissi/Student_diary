@@ -2,7 +2,7 @@
 <resources>
     <dimen name="margin_default">16dp</dimen>
     <dimen name="elevation_default">8dp</dimen>
-    <dimen name="cardCornerRadius_default">8dp</dimen>
+    <dimen name="cornerRadius_default">8dp</dimen>
     <dimen name="cardView_margin_default">8dp</dimen>
     <dimen name="fab_margin_default">16dp</dimen>
     <dimen name= "textview_margin_default">8dp</dimen>

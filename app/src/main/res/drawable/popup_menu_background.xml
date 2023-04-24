@@ -3,6 +3,7 @@
     <solid android:color="@color/lightBlue"/>
 
     <corners
-        android:radius="@dimen/cardCornerRadius_default"/>
+        android:radius="@dimen/cornerRadius_default"/>
+
 
 </shape>
