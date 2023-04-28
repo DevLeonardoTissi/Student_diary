@@ -241,13 +241,6 @@ class LoginFragment : Fragment() {
         binding.fragmentLoginTextfieldPassword.error = null
     }
 
-//    private fun logout() {
-//        if (model.isAuthenticated()){
-//            model.logout()
-//            exitGoogleAndFacebookAccount()
-//        }
-//    }
-
     private fun exitGoogleAndFacebookAccount() {
         context?.googleSignInClient()?.signOut()
         checkAndLogoutIfLoggedInFacebook()

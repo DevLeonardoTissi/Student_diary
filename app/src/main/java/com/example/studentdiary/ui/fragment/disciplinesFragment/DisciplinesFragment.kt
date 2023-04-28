@@ -105,7 +105,7 @@ class DisciplinesFragment : BaseFragment() {
             recycler.layoutManager = LinearLayoutManager(it)
             val divider = MaterialDividerItemDecoration(it, LinearLayoutManager.VERTICAL)
             recycler.addItemDecoration(divider)
-            divider.dividerColor = it.getColor(R.color.secondary)
+            divider.dividerColor = it.getColor(R.color.colorOnSurface)
             adapter.onItemClick = { disciplineId ->
                 goToDisciplineDetails(disciplineId)
             }

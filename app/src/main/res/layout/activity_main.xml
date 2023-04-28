@@ -21,7 +21,8 @@
             app:layout_constraintBottom_toTopOf="@id/nav_host_fragment"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"
+            style="@style/toolbarStyle" />
 
         <fragment
             android:id="@+id/nav_host_fragment"

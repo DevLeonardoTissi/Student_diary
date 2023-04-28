@@ -158,7 +158,7 @@
             android:layout_margin="@dimen/textview_margin_default"
             android:textSize="@dimen/defaultTextSize"
             android:textStyle="bold"
-            android:textColor="@color/darkBlue"
+            android:textColor="@color/colorOnSurface"
            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

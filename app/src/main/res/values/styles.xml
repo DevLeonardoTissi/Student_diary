@@ -22,6 +22,11 @@
         <item name="android:popupBackground">@drawable/popup_menu_background</item>
     </style>
 
+    <style name="toolbarStyle" parent="Widget.Material3.Toolbar.OnSurface">
+        <item name="android:background">@color/extraLightBrown</item>
+    </style>
+
+
 <!--    <style name="textviewColorWhite">-->
 <!--        <item name="android:layout_width">0dp</item>-->
 <!--        <item name="android:layout_height">wrap_content</item>-->

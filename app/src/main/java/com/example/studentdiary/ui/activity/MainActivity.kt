@@ -70,8 +70,7 @@ class MainActivity : AppCompatActivity() {
                         getString(R.string.main_activity_alert_dialog_exit_message),
                         onClickingOnPositiveButton = {
                             logout()
-                            val direction = NavGraphDirections.actionGlobalLoginFragment()
-                            controller.navigate(direction)
+                            goToLogin()
                         })
 
                     false
@@ -100,8 +99,11 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(binding.activityMainToolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
         binding.activityMainToolbar.setupWithNavController(navController, appBarConfiguration)
+    }
 
-
+    private fun goToLogin() {
+        val direction = NavGraphDirections.actionGlobalLoginFragment()
+        controller.navigate(direction)
     }
 
 
