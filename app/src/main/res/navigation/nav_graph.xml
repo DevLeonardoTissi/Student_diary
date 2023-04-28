@@ -67,7 +67,11 @@
         android:name="com.example.studentdiary.ui.fragment.pomodoroFragment.PomodoroFragment"
         android:label="@string/pomodoro_fragment_toolbar_title"
         tools:layout="@layout/fragment_pomodoro" />
-    <action android:id="@+id/action_global_loginFragment" app:destination="@id/loginFragment" />
+    <action
+        android:id="@+id/action_global_loginFragment"
+        app:destination="@id/loginFragment"
+        app:popUpTo="@id/disciplinesFragment"
+        app:popUpToInclusive="true" />
     <fragment
         android:id="@+id/disciplineDetailsFragment"
         android:name="com.example.studentdiary.ui.fragment.disciplineDetailsFragment.DisciplineDetailsFragment"

@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.addCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -58,8 +57,6 @@ class LoginFragment : Fragment() {
         configureLoginGoogleAccountButton()
         configureLoginFacebookAccountButton()
         textViewRegister()
-        overridePopBackStack()
-        logout()
         configureAndSaveTextFields()
         fillFields()
     }
@@ -101,14 +98,6 @@ class LoginFragment : Fragment() {
                 val textFieldPassword = binding.fragmentLoginTextfieldPassword.editText
                 textFieldPassword?.setText(it)
                 textFieldPassword?.setSelection(it.length)
-            }
-        }
-    }
-
-    private fun overridePopBackStack() {
-        activity?.let { activity ->
-            activity.onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-                activity.finish()
             }
         }
     }
@@ -252,12 +241,12 @@ class LoginFragment : Fragment() {
         binding.fragmentLoginTextfieldPassword.error = null
     }
 
-    private fun logout() {
-        if (model.isAuthenticated()){
-            model.logout()
-            exitGoogleAndFacebookAccount()
-        }
-    }
+//    private fun logout() {
+//        if (model.isAuthenticated()){
+//            model.logout()
+//            exitGoogleAndFacebookAccount()
+//        }
+//    }
 
     private fun exitGoogleAndFacebookAccount() {
         context?.googleSignInClient()?.signOut()

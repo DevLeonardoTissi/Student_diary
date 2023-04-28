@@ -36,7 +36,7 @@
                 app:showAsAction="ifRoom" />
 
             <item
-                android:id="@+id/loginFragment"
+                android:id="@+id/menuItem_drawer_exit"
                 android:checkable="true"
                 android:icon="@drawable/ic_exit"
                 android:title="@string/drawer_menu_item_exit"

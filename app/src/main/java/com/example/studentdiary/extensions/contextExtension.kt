@@ -25,10 +25,7 @@ fun Context.alertDialog(
     MaterialAlertDialogBuilder(this)
         .setTitle(title)
         .setMessage(message)
-        .setNeutralButton(getString(R.string.common_cancel)) { _, _ ->
-
-        }
-        .setNegativeButton(getString(R.string.common_decline)) { _, _ ->
+        .setNegativeButton(getString(R.string.common_cancel)) { _, _ ->
             onClickingOnNegativeButton()
         }
         .setPositiveButton(getString(R.string.common_confirm)) { _, _ ->

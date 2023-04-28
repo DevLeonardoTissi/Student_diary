@@ -22,6 +22,10 @@
     <string name="drawer_menu_item_pomodoro">Pomodoro</string>
     <string name="drawer_menu_item_exit">Sair</string>
 
+    <!-- Main Activity Dialog exit -->
+    <string name="main_activity_alert_dialog_exit_title">Sair</string>
+    <string name="main_activity_alert_dialog_exit_message">Deseja encerrar sessão e sair do aplicativo?</string>
+
 
     <!-- register Fragment -->
     <string name="register_fragment_toolbar_title">Cadastrar</string>

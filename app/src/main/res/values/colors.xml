@@ -17,6 +17,10 @@
 
     <color name="customRed">#B42B51</color>
     <color name="customGreen">#87CBB9</color>
-    <color name="lightBlue">#dcedf1</color>
+    <color name="lightBlue">#91c1cf</color>
     <color name="darkBlue">#396b81</color>
+    <color name="beige">#e0d7c8</color>
+    <color name="darkBrown">#594545</color>
+    <color name="extraLightBrown">#f5f2f1</color>
+
 </resources>
