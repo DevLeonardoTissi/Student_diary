@@ -13,7 +13,7 @@ fun concatenateDateValues(data : androidx.core.util.Pair<Long,Long>): String{
     val endData = format.format(data.component2())
 
     return if (startData!= endData){
-        "$startData-$endData"
+        "$startData - $endData"
     }else{
         startData
     }

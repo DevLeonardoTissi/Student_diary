@@ -30,7 +30,7 @@ class DisciplineFormDialog(private val context: Context) {
                 if (url.isNotBlank()){
                     disciplineFormImageDialogImageView.tryLoadImage(url)
                 }else{
-                    disciplineFormImageDialogImageView.tryLoadImage(null)
+                    disciplineFormImageDialogImageView.tryLoadImage()
                 }
             }
 

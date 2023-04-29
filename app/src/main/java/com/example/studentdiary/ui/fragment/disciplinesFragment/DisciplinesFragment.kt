@@ -80,22 +80,38 @@ class DisciplinesFragment : BaseFragment() {
     private fun checkButtonCheckedAndUpdateList(checkedId: Int, list: List<Discipline>) {
         when (checkedId) {
             R.id.disciplinesFragment_toggle_button_all -> {
-                adapter.submitList(list)
-                messageEmptyList(list)
+                updateList(list)
             }
 
             R.id.disciplinesFragment_toggle_button_favorites -> {
                 val favoriteList = list.filter { it.favorite }
-                adapter.submitList(favoriteList)
-                messageEmptyList(favoriteList)
+                updateList(favoriteList)
             }
 
             R.id.disciplinesFragment_toggle_button_completed -> {
                 val completedList = list.filter { it.completed }
-                adapter.submitList(completedList)
-                messageEmptyList(completedList)
+                updateList(completedList)
+            }
+
+            R.id.disciplinesFragment_toggle_button_descending -> {
+                val descendingList = list.sortedByDescending { it.name }
+                updateList(descendingList)
+            }
+
+            R.id.disciplinesFragment_toggle_button_growing -> {
+                val growing = list.sortedBy { it.name }
+                updateList(growing)
+            }
+            R.id.disciplinesFragment_toggle_button_date -> {
+                val growingDate = list.sortedBy { it.date?.first }
+                updateList(growingDate)
             }
         }
+    }
+
+    private fun updateList(list: List<Discipline>) {
+        adapter.submitList(list)
+        messageEmptyList(list)
     }
 
     private fun configureRecyclerView() {

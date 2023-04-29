@@ -17,6 +17,7 @@
         app:layout_constraintBottom_toTopOf="@id/disciplinesFragment_recyclerView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:selectionRequired="true"
         app:singleSelection="true">
 
@@ -39,7 +40,29 @@
             style="@style/Widget.App.Button.OutlinedButton.IconOnly"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:icon="@drawable/ic_check_list" />
+            app:icon="@drawable/ic_check_list"/>
+
+        <Button
+            android:id="@+id/disciplinesFragment_toggle_button_date"
+            style="@style/Widget.App.Button.OutlinedButton.IconOnly"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:icon="@drawable/ic_calendar"/>
+
+        <Button
+            android:id="@+id/disciplinesFragment_toggle_button_growing"
+            style="@style/Widget.App.Button.OutlinedButton.IconOnly"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:icon="@drawable/ic_growing"/>
+
+        <Button
+            android:id="@+id/disciplinesFragment_toggle_button_descending"
+            style="@style/Widget.App.Button.OutlinedButton.IconOnly"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:icon="@drawable/ic_descending"/>
+
 
     </com.google.android.material.button.MaterialButtonToggleGroup>
 
