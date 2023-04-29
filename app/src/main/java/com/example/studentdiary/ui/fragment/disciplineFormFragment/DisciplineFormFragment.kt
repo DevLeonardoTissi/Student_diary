@@ -123,7 +123,7 @@ class DisciplineFormFragment : BaseFragment() {
         }
     }
 
-    private fun onclickImageView(){
+    private fun onclickImageView() {
         binding.disciplineFormFragmentImageView.setOnClickListener {
             clearFocusTextFields()
             openAlertDialogAndSaveImg()
@@ -207,24 +207,20 @@ class DisciplineFormFragment : BaseFragment() {
             }
 
         textFieldEmail?.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
-            if (!hasFocus) {
-                if (textFieldEmail?.isEnabled == true && textFieldEmail.text.toString()
-                        .isNotBlank()
-                ) {
-                    model.setUserCalendarEmail(textFieldEmail.text.toString())
-                }
+            if (!hasFocus && textFieldEmail?.isEnabled == true) {
+                model.setUserCalendarEmail(textFieldEmail.text.toString())
             }
         }
 
         textFieldName?.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
-            if (!hasFocus && textFieldName?.text.toString().isNotBlank()) {
+            if (!hasFocus) {
                 model.setName(textFieldName?.text.toString())
             }
         }
 
         textFieldDescription?.onFocusChangeListener =
             View.OnFocusChangeListener { _, hasFocus ->
-                if (!hasFocus && textFieldDescription?.text.toString().isNotBlank()) {
+                if (!hasFocus) {
                     model.setDescription(textFieldDescription?.text.toString())
                 }
             }
