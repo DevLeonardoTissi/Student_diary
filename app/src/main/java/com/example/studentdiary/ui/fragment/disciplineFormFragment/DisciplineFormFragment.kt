@@ -590,9 +590,7 @@ class DisciplineFormFragment : BaseFragment() {
                     textInputLayoutDescription.editText?.setSelection(description.length)
                 }
 
-                discipline.img?.let { url ->
-                    binding.disciplineFormFragmentImageView.tryLoadImage(url)
-                }
+                binding.disciplineFormFragmentImageView.tryLoadImage(discipline.img)
             }
         }
     }

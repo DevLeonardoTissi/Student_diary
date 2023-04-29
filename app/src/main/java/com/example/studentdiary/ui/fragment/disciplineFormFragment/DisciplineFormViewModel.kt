@@ -66,7 +66,7 @@ class DisciplineFormViewModel(private val repository: DisciplineRepository) : Vi
         }
     }
 
-    fun setImg(url: String) {
+    fun setImg(url: String? = null) {
         _discipline.value?.let {
             _discipline.postValue(it.copy(img = url))
         }

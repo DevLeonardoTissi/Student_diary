@@ -11,7 +11,7 @@ class DisciplineFormDialog(private val context: Context) {
 
     fun show(
         url: String? = null,
-        onImageClick: (imageUrl: String) -> Unit
+        onImageClick: (imageUrl: String?) -> Unit
     ) {
 
         DisciplineFormDialogBinding.inflate(LayoutInflater.from(context)).apply {
@@ -20,12 +20,18 @@ class DisciplineFormDialog(private val context: Context) {
                 disciplineFormImageDialogTextInputLayoutUrl.editText?.setText(it)
             }
 
+            disciplineFormImageDialogButtonRemove.setOnClickListener {
+                disciplineFormImageDialogImageView.tryLoadImage()
+                disciplineFormImageDialogTextInputLayoutUrl.editText?.text = null
+            }
+
             disciplineFormImageDialogButtonLoad.setOnClickListener {
                 val url = disciplineFormImageDialogTextInputLayoutUrl.editText?.text.toString()
                 if (url.isNotBlank()){
                     disciplineFormImageDialogImageView.tryLoadImage(url)
+                }else{
+                    disciplineFormImageDialogImageView.tryLoadImage(null)
                 }
-
             }
 
             AlertDialog.Builder(context)
@@ -34,6 +40,8 @@ class DisciplineFormDialog(private val context: Context) {
                     val url = disciplineFormImageDialogTextInputLayoutUrl.editText?.text.toString()
                     if (url.isNotBlank()){
                         onImageClick(url)
+                    } else{
+                        onImageClick(null)
                     }
                 }
                 .setNegativeButton(context.getString(R.string.common_cancel)){_, _ ->
@@ -41,6 +49,5 @@ class DisciplineFormDialog(private val context: Context) {
                 }
                 .show()
         }
-
     }
 }

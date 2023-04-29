@@ -143,6 +143,7 @@
     <!-- Discipline Form Image Dialog -->
     <string name="discipline_form_image_dialog_button_load">Carregar</string>
     <string name="discipline_form_image_dialog_text_field_hint_url">URL da imagem</string>
+    <string name="discipline_form_image_dialog_button_remove">Remover</string>
 
 
     <!-- Discipline Form Confirm Dialog  -->

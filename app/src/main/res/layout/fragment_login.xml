@@ -60,6 +60,7 @@
             android:layout_marginHorizontal="@dimen/defaultTextSize"
             android:layout_marginVertical="@dimen/margin_default"
             android:text="@string/common_or"
+            android:textColor="@color/colorOnSurface"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/fragment_login_loginButton" />
@@ -134,6 +135,7 @@
             android:layout_height="wrap_content"
             android:text="@string/login_fragment_textView_label_not_have_an_account_question"
             android:textSize="@dimen/defaultTextSize"
+            android:textColor="@color/colorOnSurface"
             app:layout_constraintBottom_toBottomOf="@id/fragment_login_textView_register"
             app:layout_constraintEnd_toStartOf="@id/fragment_login_textView_register"
             app:layout_constraintStart_toStartOf="@id/fragment_login_guideline_vertical_center"
