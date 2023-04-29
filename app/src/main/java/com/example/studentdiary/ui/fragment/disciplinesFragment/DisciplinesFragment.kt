@@ -174,7 +174,6 @@ class DisciplinesFragment : BaseFragment() {
     }
 
 
-
     override fun onDestroy() {
         super.onDestroy()
         _binding = null

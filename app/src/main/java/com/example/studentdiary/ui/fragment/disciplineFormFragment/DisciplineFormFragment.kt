@@ -73,7 +73,6 @@ class DisciplineFormFragment : BaseFragment() {
             }
         }
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -88,6 +87,7 @@ class DisciplineFormFragment : BaseFragment() {
         setupFavoriteCheckbox()
         setupCompleteCheckbox()
         fabInsetImage()
+        onclickImageView()
         switchAddReminder()
         configureAndSaveTextFields()
         startTimeButton()
@@ -119,12 +119,23 @@ class DisciplineFormFragment : BaseFragment() {
     private fun fabInsetImage() {
         binding.disciplineFormFragmentFabImg.setOnClickListener {
             clearFocusTextFields()
-            context?.let {
-                DisciplineFormDialog(it)
-                    .show(model.getImg()) { url ->
-                        model.setImg(url)
-                    }
-            }
+            openAlertDialogAndSaveImg()
+        }
+    }
+
+    private fun onclickImageView(){
+        binding.disciplineFormFragmentImageView.setOnClickListener {
+            clearFocusTextFields()
+            openAlertDialogAndSaveImg()
+        }
+    }
+
+    private fun openAlertDialogAndSaveImg() {
+        context?.let {
+            DisciplineFormDialog(it)
+                .show(model.getImg()) { url ->
+                    model.setImg(url)
+                }
         }
     }
 

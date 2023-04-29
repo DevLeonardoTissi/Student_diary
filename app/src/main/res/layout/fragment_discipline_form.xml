@@ -4,17 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
-    tools:context=".ui.fragment.disciplineFormFragment.DisciplineFormFragment"
     android:background="@drawable/background_gradient"
-    >
+    android:fillViewport="true"
+    tools:context=".ui.fragment.disciplineFormFragment.DisciplineFormFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:clickable="true"
-        android:focusable="true"
-        android:focusableInTouchMode="true">
+        android:focusable="true">
 
         <ImageView
             android:id="@+id/disciplineForm_fragment_imageView"
@@ -42,8 +39,8 @@
             android:layout_height="wrap_content"
             android:button="@drawable/sl_completed"
             app:buttonTint="@color/customGreen"
-            app:layout_constraintTop_toBottomOf="@id/discipline_form_fragment_checkBox_favorite"
-            app:layout_constraintEnd_toEndOf="@id/discipline_form_fragment_checkBox_favorite"/>
+            app:layout_constraintEnd_toEndOf="@id/discipline_form_fragment_checkBox_favorite"
+            app:layout_constraintTop_toBottomOf="@id/discipline_form_fragment_checkBox_favorite" />
 
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -118,39 +115,36 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textAutoComplete"/>
+                android:inputType="textAutoComplete" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
-<!--        <Spinner-->
-<!--            android:id="@+id/spinner"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/discipline_form_fragment_textfield_email"-->
-<!--            android:layout_margin="@dimen/margin_default"/>-->
+        <!--        <Spinner-->
+        <!--            android:id="@+id/spinner"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toBottomOf="@id/discipline_form_fragment_textfield_email"-->
+        <!--            android:layout_margin="@dimen/margin_default"/>-->
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/discipline_form_fragment_textfield_email_type"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:layout_margin="@dimen/margin_default"
             style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_default"
             android:hint="@string/discipline_form_fragment_text_field_email_type_hint"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/discipline_form_fragment_textfield_email"
-           >
+            app:layout_constraintTop_toBottomOf="@id/discipline_form_fragment_textfield_email">
 
             <AutoCompleteTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="none"/>
+                android:inputType="none" />
 
         </com.google.android.material.textfield.TextInputLayout>
-
-
 
 
         <Button
