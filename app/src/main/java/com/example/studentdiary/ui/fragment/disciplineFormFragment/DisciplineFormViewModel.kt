@@ -82,9 +82,7 @@ class DisciplineFormViewModel(private val repository: DisciplineRepository) : Vi
     fun getDate(): androidx.core.util.Pair<Long, Long>? = discipline.value?.date
 
     fun setEventId(id: Long?) {
-
             _discipline.value?.eventId = id
-
     }
 
     fun getEventId(): Long? = discipline.value?.eventId

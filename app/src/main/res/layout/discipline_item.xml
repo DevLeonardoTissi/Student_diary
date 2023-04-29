@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#E1D7C6">
+    android:background="@color/colorSurface">
 
     <TextView
         android:id="@+id/disciplineItem_textView_name"
@@ -18,7 +18,8 @@
         app:layout_constraintEnd_toStartOf="@id/disciplineItem_guideline_end"
         app:layout_constraintStart_toEndOf="@id/disciplineItem_guideline_start"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="bbc fdgf gfdgfdgfg gfd g gfg fg gfdg  " />
+        tools:text="bbc fdgf gfdgfdgfg gfd g gfg fg gfdg  "
+        android:textColor="@color/colorPrimary"/>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/disciplineItem_guideline_end"
@@ -60,7 +61,8 @@
         app:layout_constraintEnd_toStartOf="@id/disciplineItem_guideline_end"
         app:layout_constraintStart_toEndOf="@id/disciplineItem_guideline_start"
         app:layout_constraintTop_toBottomOf="@id/disciplineItem_textView_name"
-        tools:text="14 de fevereiro de 2023 até a de março" />
+        tools:text="14 de fevereiro de 2023 até a de março"
+        android:textColor="@color/colorPrimary"/>
 
 
     <TextView
@@ -71,7 +73,8 @@
         android:text="@string/discipline_item_textView_empty_time"
         app:layout_constraintBottom_toBottomOf="@id/disciplineItem_imageView_clock"
         app:layout_constraintEnd_toStartOf="@id/disciplineItem_imageView_clock"
-        app:layout_constraintTop_toTopOf="@id/disciplineItem_imageView_clock" />
+        app:layout_constraintTop_toTopOf="@id/disciplineItem_imageView_clock"
+        android:textColor="@color/colorPrimary"/>
 
     <ImageView
         android:id="@+id/disciplineItem_imageView_clock"
@@ -93,7 +96,8 @@
         android:text="@string/discipline_item_textView_empty_time"
         app:layout_constraintBottom_toBottomOf="@id/disciplineItem_imageView_clock"
         app:layout_constraintStart_toEndOf="@id/disciplineItem_imageView_clock"
-        app:layout_constraintTop_toTopOf="@id/disciplineItem_imageView_clock" />
+        app:layout_constraintTop_toTopOf="@id/disciplineItem_imageView_clock"
+        android:textColor="@color/colorPrimary"/>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/disciplineItem_guideline_start"

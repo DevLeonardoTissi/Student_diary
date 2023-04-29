@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_default"
             android:button="@drawable/sl_favorite"
-            app:buttonTint="@color/white"
+            app:buttonTint="@color/customRed"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/disciplineForm_fragment_imageView" />
 
@@ -41,7 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:button="@drawable/sl_completed"
-            app:buttonTint="@color/white"
+            app:buttonTint="@color/customGreen"
             app:layout_constraintTop_toBottomOf="@id/discipline_form_fragment_checkBox_favorite"
             app:layout_constraintEnd_toEndOf="@id/discipline_form_fragment_checkBox_favorite"/>
 

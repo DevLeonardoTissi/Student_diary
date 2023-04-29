@@ -72,7 +72,6 @@ class MainActivity : AppCompatActivity() {
                             logout()
                             goToLogin()
                         })
-
                     false
                 }
 

@@ -94,10 +94,6 @@ class DisciplineFormFragment : BaseFragment() {
         endTimeButton()
         calendarButton()
         doneButton()
-    }
-
-    override fun onStart() {
-        super.onStart()
         updateUi()
         searchDisciplineId()
     }
@@ -160,9 +156,7 @@ class DisciplineFormFragment : BaseFragment() {
     }
 
     private fun checkCalendarPermission(granted: (isGranted: Boolean) -> Unit) {
-
         context?.let {
-
             val permission = Manifest.permission.READ_CALENDAR
             if (ContextCompat.checkSelfPermission(
                     it,
@@ -188,7 +182,6 @@ class DisciplineFormFragment : BaseFragment() {
         val textFieldEmail = binding.disciplineFormFragmentTextfieldEmail.editText
         val textFieldEmailType = binding.disciplineFormFragmentTextfieldEmailType.editText
 
-
         val adapter = context?.let {
             ArrayAdapter(
                 it, R.layout.dropdown_menu_item,
@@ -196,13 +189,11 @@ class DisciplineFormFragment : BaseFragment() {
             )
         }
 
-
         (textFieldEmailType as? MaterialAutoCompleteTextView)?.setAdapter(adapter)
         (textFieldEmailType as? MaterialAutoCompleteTextView)?.onItemClickListener =
             AdapterView.OnItemClickListener { _, _, position, _ ->
                 adapter?.getItem(position)?.let { model.setUserEmailType(it.getEmailType()) }
             }
-
 
         textFieldEmail?.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
@@ -362,7 +353,6 @@ class DisciplineFormFragment : BaseFragment() {
             }
         }
 
-
         if (model.getDate() == null) {
             valid = false
             snackBar(getString(R.string.discipline_form_fragment_snackBarMessage_emptyDate))
@@ -381,9 +371,15 @@ class DisciplineFormFragment : BaseFragment() {
                         addReminder()
                     }
                     insert()
-                    controller.navigate(R.id.action_disciplineFormFragment_to_disciplinesFragment)
+                    goToDisciplinesFragment()
                 })
         }
+    }
+
+    private fun goToDisciplinesFragment() {
+        val direction =
+            DisciplineFormFragmentDirections.actionDisciplineFormFragmentToDisciplinesFragment()
+        controller.navigate(direction)
     }
 
     private fun addReminder() {
@@ -412,7 +408,6 @@ class DisciplineFormFragment : BaseFragment() {
             model.getEventId()?.let { eventId ->
                 editCalendarEvent(startMillis, endMillis, eventId)
             } ?: createEventInCalendar(startMillis, endMillis)
-
         }
     }
 
@@ -531,7 +526,7 @@ class DisciplineFormFragment : BaseFragment() {
     }
 
     private fun updateUi() {
-        model.discipline.observe(this@DisciplineFormFragment) { discipline ->
+        model.discipline.observe(viewLifecycleOwner) { discipline ->
             discipline?.let {
 
                 discipline.userEmailType?.let { userEmailType ->
@@ -547,7 +542,6 @@ class DisciplineFormFragment : BaseFragment() {
                         )
                     }
                 }
-
 
                 discipline.favorite.let { favorite ->
                     if (binding.disciplineFormFragmentCheckBoxFavorite.isChecked != favorite) {
