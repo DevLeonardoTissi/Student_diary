@@ -40,10 +40,13 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        configureMenuDrawer()
+        setupMenuDrawer()
         navigationComponentsVisibility()
+        registerReceiver()
 
+    }
 
+    private fun registerReceiver() {
         val filter = IntentFilter(ACTION_AIRPLANE_MODE_CHANGED)
         val listenToBroadcastsFromOtherApps = false
         val receiverFlags = if (listenToBroadcastsFromOtherApps) {
@@ -52,10 +55,9 @@ class MainActivity : AppCompatActivity() {
             ContextCompat.RECEIVER_NOT_EXPORTED
         }
         registerReceiver(receiver, filter, receiverFlags)
-
     }
-    private fun configureMenuDrawer() {
-        //CONFIGURANDO NAV VIEW
+
+    private fun setupMenuDrawer() {
         val navController = findNavController(R.id.nav_host_fragment)
         binding.navView
             .setupWithNavController(navController)
@@ -73,19 +75,17 @@ class MainActivity : AppCompatActivity() {
                         })
                     false
                 }
-
                 else -> {
                     NavigationUI.onNavDestinationSelected(it, navController)
                 }
             }
         }
+
         navController.addOnDestinationChangedListener { _, _, _ ->
             binding.drawerLayout.closeDrawer(GravityCompat.START)
         }
 
-        //        CONFIGURANDO A NAVEGAÇÃO NA TOOLBAR
-        //Deixar por conta no navGraph adicionar o topLevel de cada fragment
-        //        val appBarConfiguration = AppBarConfiguration(navController.graph, binding.drawerLayout)
+
         val appBarConfiguration = AppBarConfiguration(
             topLevelDestinationIds = setOf(
                 R.id.disciplinesFragment,
@@ -98,10 +98,12 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowTitleEnabled(false)
         binding.activityMainToolbar.setupWithNavController(navController, appBarConfiguration)
     }
+
     private fun goToLogin() {
         val direction = NavGraphDirections.actionGlobalLoginFragment()
         controller.navigate(direction)
     }
+
     private fun showNavigationComponents(hasNavigationComponents: NavigationComponents) {
         if (hasNavigationComponents.menuDrawer) {
             binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
@@ -113,6 +115,7 @@ class MainActivity : AppCompatActivity() {
             binding.activityMainToolbar.navigationIcon = null
         }
     }
+
     private fun navigationComponentsVisibility() {
         appViewModel.navigationComponents.observe(this) {
             it?.let { hasNavigationComponents ->
@@ -120,16 +123,19 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
     private fun logout() {
         if (loginViewModel.isAuthenticated()) {
             loginViewModel.logout()
             exitGoogleAndFacebookAccount()
         }
     }
+
     private fun exitGoogleAndFacebookAccount() {
         googleSignInClient().signOut()
         checkAndLogoutIfLoggedInFacebook()
     }
+
     private fun checkAndLogoutIfLoggedInFacebook() {
         val accessToken = AccessToken.getCurrentAccessToken()
         val isLoggedIn = accessToken != null && !accessToken.isExpired
@@ -137,6 +143,7 @@ class MainActivity : AppCompatActivity() {
             AccessToken.setCurrentAccessToken(null)
         }
     }
+
     override fun onDestroy() {
         super.onDestroy()
         unregisterReceiver(receiver)
