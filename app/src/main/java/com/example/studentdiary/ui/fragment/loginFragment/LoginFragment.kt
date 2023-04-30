@@ -11,7 +11,9 @@ import androidx.navigation.fragment.findNavController
 import com.example.studentdiary.R
 import com.example.studentdiary.databinding.FragmentLoginBinding
 import com.example.studentdiary.extensions.googleSignInClient
+import com.example.studentdiary.extensions.isOnline
 import com.example.studentdiary.extensions.snackBar
+import com.example.studentdiary.extensions.toast
 import com.example.studentdiary.model.User
 import com.example.studentdiary.ui.AppViewModel
 import com.example.studentdiary.ui.NavigationComponents
@@ -66,26 +68,26 @@ class LoginFragment : Fragment() {
         clearErrorFields()
     }
 
-    private fun configureAndSaveTextFields(){
+    private fun configureAndSaveTextFields() {
         val textFieldEmail = binding.fragmentLoginTextfieldEmail.editText
         val textFieldPassword = binding.fragmentLoginTextfieldPassword.editText
 
         textFieldEmail?.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
-            if (!hasFocus && textFieldEmail?.text.toString().isNotBlank()){
-                    model.setEmail(textFieldEmail?.text.toString())
+            if (!hasFocus) {
+                model.setEmail(textFieldEmail?.text.toString())
             }
         }
 
         textFieldPassword?.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
-            if (!hasFocus && textFieldPassword?.text.toString().isNotBlank()){
-                    model.setPassword(textFieldPassword?.text.toString())
+            if (!hasFocus) {
+                model.setPassword(textFieldPassword?.text.toString())
             }
         }
     }
 
-    private fun fillFields(){
+    private fun fillFields() {
 
-        model.fieldEmail.observe(viewLifecycleOwner){email ->
+        model.fieldEmail.observe(viewLifecycleOwner) { email ->
             email?.let {
                 val textFieldEmail = binding.fragmentLoginTextfieldEmail
                 textFieldEmail.editText?.setText(it)
@@ -93,7 +95,7 @@ class LoginFragment : Fragment() {
             }
         }
 
-        model.fieldPassword.observe(viewLifecycleOwner){password ->
+        model.fieldPassword.observe(viewLifecycleOwner) { password ->
             password?.let {
                 val textFieldPassword = binding.fragmentLoginTextfieldPassword.editText
                 textFieldPassword?.setText(it)
@@ -108,16 +110,22 @@ class LoginFragment : Fragment() {
     }
 
     private fun configureObserverLogin() {
-        model.firebaseAuthLiveData.observe(viewLifecycleOwner) { resource ->
-            resource?.let {
-                if (resource.data) {
-                    goToDisciplinesFragment()
-                    snackBar(getString(R.string.login_fragment_snackbar_message_login_success))
-                } else {
-                    resource.exception?.let { exception ->
-                        val errorMessage = identifiesErrorFirebaseAuthOnLogin(exception)
-                        exitGoogleAndFacebookAccount()
-                        snackBar(errorMessage)
+        context?.let { context ->
+            model.firebaseAuthLiveData.observe(viewLifecycleOwner) { resource ->
+                resource?.let {
+                    if (resource.data) {
+                        goToDisciplinesFragment()
+                        snackBar(getString(R.string.login_fragment_snackbar_message_login_success))
+                    } else {
+                        resource.exception?.let { exception ->
+                            if (context.isOnline()) {
+                                val errorMessage = identifiesErrorFirebaseAuthOnLogin(exception)
+                                exitGoogleAndFacebookAccount()
+                                snackBar(errorMessage)
+                            } else {
+                                context.toast(getString(R.string.default_message_noConnection))
+                            }
+                        }
                     }
                 }
             }

@@ -1,6 +1,9 @@
 package com.example.studentdiary.extensions
 
 import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.widget.Toast
 import com.example.studentdiary.R
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -33,4 +36,21 @@ fun Context.alertDialog(
 
         }
         .show()
+}
+
+
+fun Context.isOnline(): Boolean {
+    val connectivityManager = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    val network = connectivityManager.activeNetwork ?: return false
+    val networkCapabilities = connectivityManager.getNetworkCapabilities(network) ?: return false
+    return networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+}
+
+fun Context.toast(message: String, duration :Int = Toast.LENGTH_SHORT) {
+        Toast.makeText(
+            this,
+            message,
+            duration
+        ).show()
+
 }

@@ -29,7 +29,7 @@
 
     <!-- register Fragment -->
     <string name="register_fragment_toolbar_title">Cadastrar</string>
-    <string name="register_fragment_snackbar_message_firebase_auth_weak_password_exception">Sua senha precisa de, no mínimo 6 dígitos</string>
+    <string name="register_fragment_snackbar_message_firebase_auth_weak_password_exception">Sua senha precisa de, no mínimo, 6 dígitos</string>
     <string name="register_fragment_snackbar_message_firebase_auth_Invalid_credentials_Exception">Email inválido</string>
     <string name="register_fragment_snackbar_message_firebase_auth_user_collision_exception">Email já cadastrado</string>
     <string name="register_fragment_snackbar_message_firebase_auth_illegal_argument_exception">Existem campos vazios</string>
@@ -158,5 +158,9 @@
     <string name="common_decline">Rejeitar</string>
     <string name="common_ok">OK</string>
     <string name="common_or">Ou</string>
+    <string name="default_message_noConnection">Sem conexão com a internet. Verifique sua conexão e tente novamente</string>
+
+    <string name="message_airplane_mode_on">O modo avião está ativado. Algumas funções do app podem não funcionar</string>
+    <string name="message_airplane_mode_off">Modo avião desativado</string>
 
 </resources>

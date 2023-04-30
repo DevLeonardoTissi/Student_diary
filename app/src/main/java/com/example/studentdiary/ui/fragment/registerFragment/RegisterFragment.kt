@@ -8,7 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.studentdiary.R
 import com.example.studentdiary.databinding.FragmentRegisterBinding
+import com.example.studentdiary.extensions.isOnline
 import com.example.studentdiary.extensions.snackBar
+import com.example.studentdiary.extensions.toast
 import com.example.studentdiary.model.User
 import com.example.studentdiary.ui.AppViewModel
 import com.example.studentdiary.ui.NavigationComponents
@@ -106,18 +108,22 @@ class RegisterFragment : Fragment() {
                 resource?.let {
                     if (resource.data) {
                         controller.popBackStack()
-                        snackBar(context.getString(R.string.register_fragment_snackbar_message_registration_done))
-
+//                        snackBar(getString(R.string.register_fragment_snackbar_message_registration_done))
                     } else {
                         resource.exception?.let { exception ->
-                            val errorMessage = identifiesErrorFirebaseAuthOnRegister(exception)
-                            snackBar(errorMessage)
+                            if (context.isOnline()) {
+                                val errorMessage = identifiesErrorFirebaseAuthOnRegister(exception)
+                                snackBar(errorMessage)
+                            } else {
+                                context.toast(getString(R.string.default_message_noConnection))
+                            }
                         }
                     }
                 }
             }
         }
     }
+
 
     private fun identifiesErrorFirebaseAuthOnRegister(exception: Exception): String {
         lateinit var errorMessage: String
