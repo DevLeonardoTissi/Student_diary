@@ -162,7 +162,7 @@ class DisciplineFormFragment : BaseFragment() {
                     }
                 }
             } else {
-                enableEmailInputs(emailInput, emailTypeInput)
+                disableEmailInputs(emailInput, emailTypeInput)
             }
         }
     }

@@ -97,7 +97,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textAutoComplete"
-                android:maxLength="@dimen/fragment_discipline_form_max_length_field_description" />
+                android:maxLength="100" />
 
         </com.google.android.material.textfield.TextInputLayout>
 

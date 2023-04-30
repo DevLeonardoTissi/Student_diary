@@ -32,6 +32,6 @@
     <dimen name="fragment_login_guideline_horizontal_bottom_percent">0.95</dimen>
     <dimen name="fragment_login_guideline_vertical_center_percent">0.5</dimen>
 
-    <dimen name="fragment_discipline_form_max_length_field_description">100</dimen>
+
 
 </resources>
