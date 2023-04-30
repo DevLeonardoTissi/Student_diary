@@ -44,6 +44,7 @@ import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
+import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import kotlinx.coroutines.launch
@@ -67,7 +68,8 @@ class DisciplineFormFragment : BaseFragment() {
     private val appViewModel: AppViewModel by activityViewModel()
 
     private val requestPermission =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+            val isGranted = permissions.all { it.value }
             if (isGranted) {
                 binding.disciplineFormFragmentSwitchAddReminder.isChecked = true
             }
@@ -88,7 +90,7 @@ class DisciplineFormFragment : BaseFragment() {
         setupCompleteCheckbox()
         fabInsetImage()
         onclickImageView()
-        switchAddReminder()
+        setupReminderSwitch()
         configureAndSaveTextFields()
         startTimeButton()
         endTimeButton()
@@ -139,59 +141,68 @@ class DisciplineFormFragment : BaseFragment() {
         }
     }
 
-    private fun switchAddReminder() {
-        val switchAddReminder = binding.disciplineFormFragmentSwitchAddReminder
-        val textInputEmail = binding.disciplineFormFragmentTextfieldEmail
-        val textInputEmailType = binding.disciplineFormFragmentTextfieldEmailType
-        switchAddReminder.isChecked = false
-        textInputEmail.isEnabled = switchAddReminder.isChecked
-        textInputEmailType.isEnabled = switchAddReminder.isChecked
+    private fun setupReminderSwitch() {
+        val reminderSwitch = binding.disciplineFormFragmentSwitchAddReminder
+        val emailInput = binding.disciplineFormFragmentTextfieldEmail
+        val emailTypeInput = binding.disciplineFormFragmentTextfieldEmailType
 
-        switchAddReminder.setOnCheckedChangeListener { _, isChecked ->
+        reminderSwitch.isChecked = false
+        emailInput.isEnabled = reminderSwitch.isChecked
+        emailTypeInput.isEnabled = reminderSwitch.isChecked
+
+        reminderSwitch.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 checkCalendarPermission { isGranted ->
                     if (isGranted) {
-                        textInputEmailType.isEnabled = true
-                        textInputEmail.isEnabled = true
+                        enableEmailInputs(emailInput, emailTypeInput)
                     } else {
-                        textInputEmail.isEnabled = false
-                        switchAddReminder.isChecked = false
-                        textInputEmailType.isEnabled = false
+                        disableEmailInputs(emailInput, emailTypeInput)
+                        reminderSwitch.isChecked = false
+
                     }
                 }
             } else {
-                textInputEmail.isEnabled = false
-                textInputEmailType.isEnabled = false
+                enableEmailInputs(emailInput, emailTypeInput)
             }
         }
+    }
+
+    private fun enableEmailInputs(emailInput: TextInputLayout, emailTypeInput: TextInputLayout) {
+        emailInput.isEnabled = true
+        emailTypeInput.isEnabled = true
+    }
+
+    private fun disableEmailInputs(emailInput: TextInputLayout, emailTypeInput: TextInputLayout) {
+        emailInput.isEnabled = false
+        emailTypeInput.isEnabled = false
     }
 
     private fun checkCalendarPermission(granted: (isGranted: Boolean) -> Unit) {
-        context?.let {
-            val permission = Manifest.permission.READ_CALENDAR
-            if (ContextCompat.checkSelfPermission(
-                    it,
-                    permission
-                ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
-                    it,
-                    Manifest.permission.WRITE_CALENDAR
-                ) == PackageManager.PERMISSION_GRANTED
-            ) {
+        context?.let {context->
+            val permissions = arrayOf(
+                Manifest.permission.READ_CALENDAR,
+                Manifest.permission.WRITE_CALENDAR
+            )
+
+            val permissionsGranted = permissions.all {
+                ContextCompat.checkSelfPermission(context, it) == PackageManager.PERMISSION_GRANTED
+            }
+
+            if (permissionsGranted) {
                 granted(true)
             } else {
                 granted(false)
-                requestPermission.launch(permission)
-                requestPermission.launch(Manifest.permission.WRITE_CALENDAR)
+                requestPermission.launch(permissions)
             }
-        }
+        } ?: return
     }
 
     private fun configureAndSaveTextFields() {
-        val textFieldName = binding.disciplineFormFragmentTextfieldName.editText
-        val textFieldDescription =
+        val nameField = binding.disciplineFormFragmentTextfieldName.editText
+        val descriptionField =
             binding.disciplineFormFragmentTextfieldDescription.editText
-        val textFieldEmail = binding.disciplineFormFragmentTextfieldEmail.editText
-        val textFieldEmailType = binding.disciplineFormFragmentTextfieldEmailType.editText
+        val emailField = binding.disciplineFormFragmentTextfieldEmail.editText
+        val emailTypeField = binding.disciplineFormFragmentTextfieldEmailType.editText
 
         val adapter = context?.let {
             ArrayAdapter(
@@ -200,28 +211,28 @@ class DisciplineFormFragment : BaseFragment() {
             )
         }
 
-        (textFieldEmailType as? MaterialAutoCompleteTextView)?.setAdapter(adapter)
-        (textFieldEmailType as? MaterialAutoCompleteTextView)?.onItemClickListener =
+        (emailTypeField as? MaterialAutoCompleteTextView)?.setAdapter(adapter)
+        (emailTypeField as? MaterialAutoCompleteTextView)?.onItemClickListener =
             AdapterView.OnItemClickListener { _, _, position, _ ->
                 adapter?.getItem(position)?.let { model.setUserEmailType(it.getEmailType()) }
             }
 
-        textFieldEmail?.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
-            if (!hasFocus && textFieldEmail?.isEnabled == true) {
-                model.setUserCalendarEmail(textFieldEmail.text.toString())
+        emailField?.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus && emailField?.isEnabled == true) {
+                model.setUserCalendarEmail(emailField.text.toString())
             }
         }
 
-        textFieldName?.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+        nameField?.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
-                model.setName(textFieldName?.text.toString())
+                model.setName(nameField?.text.toString())
             }
         }
 
-        textFieldDescription?.onFocusChangeListener =
+        descriptionField?.onFocusChangeListener =
             View.OnFocusChangeListener { _, hasFocus ->
                 if (!hasFocus) {
-                    model.setDescription(textFieldDescription?.text.toString())
+                    model.setDescription(descriptionField?.text.toString())
                 }
             }
     }
@@ -328,33 +339,33 @@ class DisciplineFormFragment : BaseFragment() {
         var valid = true
         val name = binding.disciplineFormFragmentTextfieldName.editText?.text.toString()
         if (name.isBlank()) {
-            val textFieldName = binding.disciplineFormFragmentTextfieldName
-            textFieldName.error =
+            val fieldName = binding.disciplineFormFragmentTextfieldName
+            fieldName.error =
                 getString(R.string.discipline_form_fragment_text_field_name_error)
-            textFieldName.requestFocus()
+            fieldName.requestFocus()
             valid = false
         }
 
 
-        val textFieldEmail = binding.disciplineFormFragmentTextfieldEmail
-        if (textFieldEmail.isEnabled) {
-            val email = textFieldEmail.editText?.text.toString()
+        val fieldEmail = binding.disciplineFormFragmentTextfieldEmail
+        if (fieldEmail.isEnabled) {
+            val email = fieldEmail.editText?.text.toString()
             if (email.isBlank()) {
-                textFieldEmail.error =
+                fieldEmail.error =
                     getString(R.string.discipline_form_fragment_text_field_email_error)
                 valid = false
                 if (name.isNotBlank()) {
-                    textFieldEmail.requestFocus()
+                    fieldEmail.requestFocus()
                 }
             }
         }
 
 
-        val textFieldEmailType = binding.disciplineFormFragmentTextfieldEmailType
-        if (textFieldEmailType.isEnabled) {
-            val emailType = textFieldEmailType.editText?.text.toString()
+        val fieldEmailType = binding.disciplineFormFragmentTextfieldEmailType
+        if (fieldEmailType.isEnabled) {
+            val emailType = fieldEmailType.editText?.text.toString()
             if (emailType.isBlank()) {
-                textFieldEmailType.error =
+                fieldEmailType.error =
                     getString(R.string.discipline_form_fragment_text_field_email_type_error)
                 valid = false
             }
@@ -373,8 +384,8 @@ class DisciplineFormFragment : BaseFragment() {
                 title = getString(R.string.discipline_form_confirm_dialog_title),
                 message = getString(R.string.discipline_form_confirm_dialog_message),
                 onClickingOnPositiveButton = {
-                    val switchAddReminder = binding.disciplineFormFragmentSwitchAddReminder
-                    if (switchAddReminder.isChecked) {
+                    val reminderSwitch = binding.disciplineFormFragmentSwitchAddReminder
+                    if (reminderSwitch.isChecked) {
                         addReminder()
                     }
                     insert()
@@ -391,7 +402,6 @@ class DisciplineFormFragment : BaseFragment() {
 
     private fun addReminder() {
         model.getDate()?.let { date ->
-
             val startMillis: Long = Calendar.getInstance().run {
                 val (year, month, day) = converterLongToDate(date.component1())
                 model.getStartTime()?.let {
@@ -535,9 +545,7 @@ class DisciplineFormFragment : BaseFragment() {
     private fun updateUi() {
         model.discipline.observe(viewLifecycleOwner) { discipline ->
             discipline?.let {
-
                 discipline.userEmailType?.let { userEmailType ->
-
                     val value = enumValues<EmailType>().find { it.getEmailType() == userEmailType }
                     value?.let {
                         val position = enumValues<EmailType>().indexOf(value)
