@@ -143,8 +143,8 @@ class DisciplineFormFragment : BaseFragment() {
 
     private fun setupReminderSwitch() {
         val reminderSwitch = binding.disciplineFormFragmentSwitchAddReminder
-        val emailInput = binding.disciplineFormFragmentTextfieldEmail
-        val emailTypeInput = binding.disciplineFormFragmentTextfieldEmailType
+        val emailInput = binding.disciplineFormFragmentFieldEmail
+        val emailTypeInput = binding.disciplineFormFragmentFieldEmailType
 
         reminderSwitch.isChecked = false
         emailInput.isEnabled = reminderSwitch.isChecked
@@ -198,11 +198,11 @@ class DisciplineFormFragment : BaseFragment() {
     }
 
     private fun configureAndSaveTextFields() {
-        val nameField = binding.disciplineFormFragmentTextfieldName.editText
+        val nameField = binding.disciplineFormFragmentFieldName.editText
         val descriptionField =
-            binding.disciplineFormFragmentTextfieldDescription.editText
-        val emailField = binding.disciplineFormFragmentTextfieldEmail.editText
-        val emailTypeField = binding.disciplineFormFragmentTextfieldEmailType.editText
+            binding.disciplineFormFragmentFieldDescription.editText
+        val emailField = binding.disciplineFormFragmentFieldEmail.editText
+        val emailTypeField = binding.disciplineFormFragmentFieldEmailType.editText
 
         val adapter = context?.let {
             ArrayAdapter(
@@ -239,9 +239,9 @@ class DisciplineFormFragment : BaseFragment() {
 
 
     private fun clearFocusTextFields() {
-        binding.disciplineFormFragmentTextfieldName.editText?.clearFocus()
-        binding.disciplineFormFragmentTextfieldDescription.editText?.clearFocus()
-        binding.disciplineFormFragmentTextfieldEmail.editText?.clearFocus()
+        binding.disciplineFormFragmentFieldName.editText?.clearFocus()
+        binding.disciplineFormFragmentFieldDescription.editText?.clearFocus()
+        binding.disciplineFormFragmentFieldEmail.editText?.clearFocus()
     }
 
     private fun startTimeButton() {
@@ -330,16 +330,16 @@ class DisciplineFormFragment : BaseFragment() {
     }
 
     private fun clearErrorField() {
-        binding.disciplineFormFragmentTextfieldName.error = null
-        binding.disciplineFormFragmentTextfieldEmail.error = null
-        binding.disciplineFormFragmentTextfieldEmailType.error = null
+        binding.disciplineFormFragmentFieldName.error = null
+        binding.disciplineFormFragmentFieldEmail.error = null
+        binding.disciplineFormFragmentFieldEmailType.error = null
     }
 
     private fun validate(): Boolean {
         var valid = true
-        val name = binding.disciplineFormFragmentTextfieldName.editText?.text.toString()
+        val name = binding.disciplineFormFragmentFieldName.editText?.text.toString()
         if (name.isBlank()) {
-            val fieldName = binding.disciplineFormFragmentTextfieldName
+            val fieldName = binding.disciplineFormFragmentFieldName
             fieldName.error =
                 getString(R.string.discipline_form_fragment_text_field_name_error)
             fieldName.requestFocus()
@@ -347,7 +347,7 @@ class DisciplineFormFragment : BaseFragment() {
         }
 
 
-        val fieldEmail = binding.disciplineFormFragmentTextfieldEmail
+        val fieldEmail = binding.disciplineFormFragmentFieldEmail
         if (fieldEmail.isEnabled) {
             val email = fieldEmail.editText?.text.toString()
             if (email.isBlank()) {
@@ -361,7 +361,7 @@ class DisciplineFormFragment : BaseFragment() {
         }
 
 
-        val fieldEmailType = binding.disciplineFormFragmentTextfieldEmailType
+        val fieldEmailType = binding.disciplineFormFragmentFieldEmailType
         if (fieldEmailType.isEnabled) {
             val emailType = fieldEmailType.editText?.text.toString()
             if (emailType.isBlank()) {
@@ -550,7 +550,7 @@ class DisciplineFormFragment : BaseFragment() {
                     value?.let {
                         val position = enumValues<EmailType>().indexOf(value)
                         val autoCompleteTextView =
-                            binding.disciplineFormFragmentTextfieldEmailType.editText
+                            binding.disciplineFormFragmentFieldEmailType.editText
                         (autoCompleteTextView as? MaterialAutoCompleteTextView)?.setText(
                             autoCompleteTextView.adapter.getItem(position).toString(),
                             false
@@ -571,7 +571,7 @@ class DisciplineFormFragment : BaseFragment() {
                 }
 
                 discipline.userCalendarEmail?.let { userCalendarEmail ->
-                    val textInputLayoutEmail = binding.disciplineFormFragmentTextfieldEmail
+                    val textInputLayoutEmail = binding.disciplineFormFragmentFieldEmail
                     textInputLayoutEmail.editText?.setText(userCalendarEmail)
                     textInputLayoutEmail.editText?.setSelection(userCalendarEmail.length)
                 }
@@ -593,14 +593,14 @@ class DisciplineFormFragment : BaseFragment() {
                 }
 
                 discipline.name?.let { name ->
-                    val textInputLayoutName = binding.disciplineFormFragmentTextfieldName
+                    val textInputLayoutName = binding.disciplineFormFragmentFieldName
                     textInputLayoutName.editText?.setText(name)
                     textInputLayoutName.editText?.setSelection(name.length)
                 }
 
                 discipline.description?.let { description ->
                     val textInputLayoutDescription =
-                        binding.disciplineFormFragmentTextfieldDescription
+                        binding.disciplineFormFragmentFieldDescription
                     textInputLayoutDescription.editText?.setText(description)
                     textInputLayoutDescription.editText?.setSelection(description.length)
                 }

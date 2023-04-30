@@ -13,6 +13,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
+            android:contentDescription="@string/discipline_form_fragment_discipline_image_content_desc"
             android:id="@+id/disciplineForm_fragment_imageView"
             android:layout_width="0dp"
             android:layout_height="@dimen/imageView_big_height"
@@ -63,7 +64,7 @@
             app:layout_constraintTop_toBottomOf="@id/disciplineForm_fragment_imageView" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/discipline_form_fragment_textfield_name"
+            android:id="@+id/discipline_form_fragment_field_name"
             style="@style/textField"
             android:hint="@string/discipline_form_fragment_text_field_name_hint"
             app:endIconMode="clear_text"
@@ -80,7 +81,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/discipline_form_fragment_textfield_description"
+            android:id="@+id/discipline_form_fragment_field_description"
             style="@style/textField"
             android:hint="@string/discipline_form_fragment_text_field_description_hint"
             app:counterEnabled="true"
@@ -90,18 +91,18 @@
             app:helperTextEnabled="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/discipline_form_fragment_textfield_name">
+            app:layout_constraintTop_toBottomOf="@id/discipline_form_fragment_field_name">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textAutoComplete"
-                android:maxLength="100" />
+                android:maxLength="@dimen/fragment_discipline_form_max_length_field_description" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/discipline_form_fragment_textfield_email"
+            android:id="@+id/discipline_form_fragment_field_email"
             style="@style/textField"
             android:hint="@string/discipline_form_fragment_text_field_email_hint"
             app:endIconMode="clear_text"
@@ -109,7 +110,7 @@
             app:helperTextEnabled="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/discipline_form_fragment_textfield_description">
+            app:layout_constraintTop_toBottomOf="@id/discipline_form_fragment_field_description">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
@@ -119,7 +120,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/discipline_form_fragment_textfield_email_type"
+            android:id="@+id/discipline_form_fragment_field_email_type"
             style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -127,7 +128,7 @@
             android:hint="@string/discipline_form_fragment_text_field_email_type_hint"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/discipline_form_fragment_textfield_email">
+            app:layout_constraintTop_toBottomOf="@id/discipline_form_fragment_field_email">
 
             <AutoCompleteTextView
                 android:layout_width="match_parent"
@@ -143,7 +144,7 @@
             android:text="@string/discipline_form_fragment_startTimeButton"
             app:layout_constraintEnd_toStartOf="@id/discipline_form_fragment_end_time"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/discipline_form_fragment_textfield_email_type" />
+            app:layout_constraintTop_toBottomOf="@id/discipline_form_fragment_field_email_type" />
 
         <Button
             android:id="@+id/discipline_form_fragment_end_time"

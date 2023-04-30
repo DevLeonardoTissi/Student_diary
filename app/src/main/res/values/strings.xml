@@ -129,6 +129,7 @@
     <string name="discipline_form_fragment_fab_calendar_content_desc">Floating action insert calendar</string>
     <string name="discipline_form_fragment_fab_calendar_title">Selecionar data</string>
     <string name="discipline_form_fragment_fab_done_content_desc">done</string>
+    <string name="discipline_form_fragment_discipline_image_content_desc">Imagem da disciplina</string>
     <string name="discipline_form_fragment_title_timePicker_start">Selecione a hora de começar</string>
     <string name="discipline_form_fragment_title_timePicker_end">Selecione a hora de encerrar</string>
     <string name="discipline_form_fragment_title_dataPicker">Selecione o(s) dia(s) que deseja estudar</string>
