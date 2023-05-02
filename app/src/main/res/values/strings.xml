@@ -80,11 +80,17 @@
     <string name="disciplines_fragment_fab_insert_content_desc">Floating action insert discipline</string>
 
     <string name="disciplines_fragment_img_content_desc_discipline">Discipline image</string>
-    <string name="disciplines_fragment_messageStudent">O que vamos estudar hoje?</string>
+    <string name="disciplines_fragment_messageStudent">Comece adicionando uma nova disciplina para que possamos ajudá-lo a se organizar melhor!</string>
     <string name="disciplines_fragment_img_content_student">student image</string>
     <string name="discipline_fragment_switch_favorite_label">Apenas Favoritas</string>
     <string name="discipline_fragment_delete_dialog_title">Confirmar exclusão</string>
     <string name="discipline_fragment_delete_dialog_message">Confirmar a exclusão dessa disciplina?</string>
+
+
+    <!-- Disciplines Fragment Menu -->
+    <string name="disciplines_fragment_menu_menuItem_search_title">Buscar disciplina</string>
+    <string name="disciplines_fragment_menu_menuItem_search_hint">Buscar disciplina</string>
+
 
     <!-- Dictionary Fragment -->
     <string name="dictionary_fragment_toolbar_title">Dicionário</string>
@@ -158,8 +164,8 @@
     <string name="common_decline">Rejeitar</string>
     <string name="common_ok">OK</string>
     <string name="common_or">Ou</string>
-    <string name="default_message_noConnection">Sem conexão com a internet. Verifique sua conexão e tente novamente</string>
 
+    <string name="default_message_noConnection">Sem conexão com a internet. Verifique sua conexão e tente novamente</string>
     <string name="message_airplane_mode_on">O modo avião está ativado. Algumas funções do app podem não funcionar</string>
     <string name="message_airplane_mode_off">Modo avião desativado</string>
 

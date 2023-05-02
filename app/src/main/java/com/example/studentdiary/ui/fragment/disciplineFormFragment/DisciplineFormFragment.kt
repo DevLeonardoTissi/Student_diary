@@ -158,7 +158,6 @@ class DisciplineFormFragment : BaseFragment() {
                     } else {
                         disableEmailInputs(emailInput, emailTypeInput)
                         reminderSwitch.isChecked = false
-
                     }
                 }
             } else {

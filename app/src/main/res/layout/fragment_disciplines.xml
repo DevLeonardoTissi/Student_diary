@@ -94,17 +94,19 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintVertical_bias="0.3"
+        app:layout_constraintTop_toBottomOf="@id/disciplinesFragment_buttonToggleGroup" />
 
     <TextView
         android:id="@+id/disciplinesFragment_textView_student"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/marginTop_textView_student"
+        android:layout_margin="@dimen/margin_default"
         android:gravity="center"
         android:text="@string/disciplines_fragment_messageStudent"
         android:textSize="@dimen/bigTextSize"
         android:visibility="gone"
+        android:textColor="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/disciplinesFragment_imageView_student" />

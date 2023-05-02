@@ -2,8 +2,15 @@ package com.example.studentdiary.ui.fragment.disciplinesFragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.studentdiary.R
@@ -19,7 +26,6 @@ import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-
 class DisciplinesFragment : BaseFragment() {
 
     private var _binding: FragmentDisciplinesBinding? = null
@@ -30,6 +36,7 @@ class DisciplinesFragment : BaseFragment() {
         findNavController()
     }
     private val appViewModel: AppViewModel by activityViewModel()
+     lateinit var  filterList : List<Discipline>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,6 +52,7 @@ class DisciplinesFragment : BaseFragment() {
         configureDisciplineObserver()
         configureRecyclerView()
         configureFab()
+        addMenuProvider()
     }
 
     private fun setupNavigationComponents() {
@@ -81,30 +89,36 @@ class DisciplinesFragment : BaseFragment() {
         when (checkedId) {
             R.id.disciplinesFragment_toggle_button_all -> {
                 updateList(list)
+                filterList = list
             }
 
             R.id.disciplinesFragment_toggle_button_favorites -> {
                 val favoriteList = list.filter { it.favorite }
+                filterList = favoriteList
                 updateList(favoriteList)
             }
 
             R.id.disciplinesFragment_toggle_button_completed -> {
                 val completedList = list.filter { it.completed }
+                filterList = completedList
                 updateList(completedList)
             }
 
             R.id.disciplinesFragment_toggle_button_descending -> {
                 val descendingList = list.sortedByDescending { it.name }
+                filterList = descendingList
                 updateList(descendingList)
             }
 
             R.id.disciplinesFragment_toggle_button_growing -> {
-                val growing = list.sortedBy { it.name }
-                updateList(growing)
+                val growingList = list.sortedBy { it.name }
+                filterList = growingList
+                updateList(growingList)
             }
             R.id.disciplinesFragment_toggle_button_date -> {
-                val growingDate = list.sortedBy { it.date?.first }
-                updateList(growingDate)
+                val growingDateList = list.sortedBy { it.date?.first }
+                filterList = growingDateList
+                updateList(growingDateList)
             }
         }
     }
@@ -112,8 +126,8 @@ class DisciplinesFragment : BaseFragment() {
     private fun updateList(list: List<Discipline>) {
         adapter.submitList(list)
         messageEmptyList(list)
-    }
 
+    }
     private fun configureRecyclerView() {
         val recycler = binding.disciplinesFragmentRecyclerView
         recycler.adapter = adapter
@@ -146,7 +160,6 @@ class DisciplinesFragment : BaseFragment() {
             }
         }
     }
-
     private fun goToDisciplineForm(disciplineId: String?) {
         val direction =
             DisciplinesFragmentDirections.actionDisciplinesFragmentToDisciplineFormFragment(
@@ -155,8 +168,6 @@ class DisciplinesFragment : BaseFragment() {
         controller.navigate(direction)
 
     }
-
-
     private fun goToDisciplineDetails(disciplineId: String) {
         val direction =
             DisciplinesFragmentDirections.actionDisciplinesFragmentToDisciplineDetailsFragment(
@@ -164,12 +175,55 @@ class DisciplinesFragment : BaseFragment() {
             )
         controller.navigate(direction)
     }
-
-
     private fun configureFab() {
         val fab = binding.disciplinesFragmentFabInsert
         fab.setOnClickListener {
             goToDisciplineForm(null)
+        }
+    }
+
+
+    private fun addMenuProvider() {
+        activity?.let {
+            val menuHost: MenuHost = it
+            menuHost.invalidateMenu()
+            menuHost.addMenuProvider(object : MenuProvider {
+                override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                    menuInflater.inflate(R.menu.disciplines_fragment_menu, menu)
+                }
+
+                override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                    return when (menuItem.itemId) {
+                        R.id.menuItem_disciplines_fragment_search-> {
+                            val searchView = menuItem.actionView as? SearchView
+                            setupSearchView(searchView)
+                            true
+                        }
+                        else -> false
+                    }
+                }
+
+            }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+        }
+    }
+
+    private fun setupSearchView(searchView: SearchView?) {
+        searchView?.let {
+            searchView.isSubmitButtonEnabled = false
+            searchView.queryHint =
+                getString(R.string.disciplines_fragment_menu_menuItem_search_hint)
+            searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    return false
+                }
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    newText?.let {
+                        updateList(filterList.filter { it.name?.contains(newText, ignoreCase = true) == true })
+                    }
+                    return true
+                }
+            })
         }
     }
 

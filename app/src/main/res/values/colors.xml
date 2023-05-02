@@ -15,7 +15,7 @@
     <color name="colorOnPrimary">@color/extraLightBrown</color>
     <color name="colorPrimary">@color/darkBrown</color>
     <color name="colorPrimaryVariant">@color/extraLightBrown</color>
-    <color name="colorAccent">@color/extraLightBrown</color>
+    <color name="colorAccent">@color/darkBrown</color>
     <!-- Secondary brand color. -->
     <color name="colorSecondary">@color/extraLightBrown</color>
     <color name="colorSecondaryVariant">@color/extraLightBrown</color>
