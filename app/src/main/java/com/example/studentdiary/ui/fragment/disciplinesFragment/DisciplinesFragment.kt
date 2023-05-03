@@ -36,7 +36,7 @@ class DisciplinesFragment : BaseFragment() {
         findNavController()
     }
     private val appViewModel: AppViewModel by activityViewModel()
-     lateinit var  filterList : List<Discipline>
+    lateinit var filterList: List<Discipline>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -88,37 +88,37 @@ class DisciplinesFragment : BaseFragment() {
     private fun checkButtonCheckedAndUpdateList(checkedId: Int, list: List<Discipline>) {
         when (checkedId) {
             R.id.disciplinesFragment_toggle_button_all -> {
-                updateList(list)
+                updateList(list.filter { it.name?.contains(model.getQuery(), true) == true })
                 filterList = list
             }
 
             R.id.disciplinesFragment_toggle_button_favorites -> {
                 val favoriteList = list.filter { it.favorite }
                 filterList = favoriteList
-                updateList(favoriteList)
+                updateList(favoriteList.filter { it.name?.contains(model.getQuery(), true) == true })
             }
 
             R.id.disciplinesFragment_toggle_button_completed -> {
                 val completedList = list.filter { it.completed }
                 filterList = completedList
-                updateList(completedList)
+                updateList(completedList.filter { it.name?.contains(model.getQuery(), true) == true })
             }
 
             R.id.disciplinesFragment_toggle_button_descending -> {
                 val descendingList = list.sortedByDescending { it.name }
                 filterList = descendingList
-                updateList(descendingList)
+                updateList(descendingList.filter { it.name?.contains(model.getQuery(), true) == true })
             }
 
             R.id.disciplinesFragment_toggle_button_growing -> {
                 val growingList = list.sortedBy { it.name }
                 filterList = growingList
-                updateList(growingList)
+                updateList(growingList.filter { it.name?.contains(model.getQuery(), true) == true })
             }
             R.id.disciplinesFragment_toggle_button_date -> {
                 val growingDateList = list.sortedBy { it.date?.first }
                 filterList = growingDateList
-                updateList(growingDateList)
+                updateList(growingDateList.filter { it.name?.contains(model.getQuery(), true) == true })
             }
         }
     }
@@ -220,6 +220,7 @@ class DisciplinesFragment : BaseFragment() {
                 override fun onQueryTextChange(newText: String?): Boolean {
                     newText?.let {
                         updateList(filterList.filter { it.name?.contains(newText, ignoreCase = true) == true })
+                        model.setQuery(newText)
                     }
                     return true
                 }

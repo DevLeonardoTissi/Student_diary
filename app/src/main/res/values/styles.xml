@@ -19,8 +19,8 @@
     </style>
 
     <style name="toolbarStyle" parent="Widget.Material3.Toolbar.OnSurface">
-        <item name="android:background">@color/extraLightBrown</item>
     </style>
+
     
     <style name="dividerStyle" parent="Widget.Material3.MaterialDivider">
         <item name="dividerColor">@color/colorOutline</item>

@@ -94,6 +94,7 @@
 
     <!-- Dictionary Fragment -->
     <string name="dictionary_fragment_toolbar_title">Dicionário</string>
+    <string name="dictionary_fragment_textField_hint">Digite a palavra que deseja pesquisar</string>
 
     <!-- Discipline Details Fragment -->
     <string name="discipline_details_fragment_toolbar_title">Detalhes</string>
