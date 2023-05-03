@@ -43,6 +43,56 @@ class RegisterFragment : Fragment() {
         setupNavigationComponents()
         configureObserverRegister()
         configureRegistrationButton()
+        configureAndSaveFields()
+        updateUi()
+    }
+
+    private fun updateUi() {
+        model.fieldEmail.observe(viewLifecycleOwner){email ->
+            email?.let {
+                val fieldEmail = binding.registerFragmentTextfieldEmail.editText
+                fieldEmail?.setText(it)
+                fieldEmail?.setSelection(it.length)
+            }
+        }
+        model.fieldPassword.observe(viewLifecycleOwner){password ->
+            password?.let {
+                val fieldPassword = binding.registerFragmentTextfieldPassword.editText
+                fieldPassword?.setText(it)
+                fieldPassword?.setSelection(it.length)
+            }
+        }
+        model.fieldPasswordChecker.observe(viewLifecycleOwner){ passwordChecker ->
+            passwordChecker?.let {
+                val fieldPasswordChecker = binding.registerFragmentTextfieldPasswordChecker.editText
+                fieldPasswordChecker?.setText(it)
+                fieldPasswordChecker?.setSelection(it.length)
+            }
+        }
+    }
+
+    private fun configureAndSaveFields() {
+        val fieldEmail = binding.registerFragmentTextfieldEmail.editText
+        val fieldPassword = binding.registerFragmentTextfieldPassword.editText
+        val fieldPasswordChecker = binding.registerFragmentTextfieldPasswordChecker.editText
+
+        fieldEmail?.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) {
+                model.setEmail(fieldEmail?.text.toString())
+            }
+        }
+
+        fieldPassword?.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) {
+                model.setPassword(fieldPassword?.text.toString())
+            }
+        }
+
+        fieldPasswordChecker?.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) {
+                model.setPasswordChecker(fieldPassword?.text.toString())
+            }
+        }
     }
 
     private fun setupNavigationComponents() {
@@ -61,8 +111,8 @@ class RegisterFragment : Fragment() {
             val passwordChecker =
                 binding.registerFragmentTextfieldPasswordChecker.editText?.text.toString()
 
-            val isvalid = validateData(email, password, passwordChecker)
-            if (isvalid) {
+            val isValid = validateData(email, password, passwordChecker)
+            if (isValid) {
                 register(User(email, password))
             }
 

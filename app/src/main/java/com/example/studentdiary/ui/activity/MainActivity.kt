@@ -20,7 +20,7 @@ import com.example.studentdiary.extensions.googleSignInClient
 import com.example.studentdiary.ui.AppViewModel
 import com.example.studentdiary.ui.NavigationComponents
 import com.example.studentdiary.ui.fragment.loginFragment.LoginViewModel
-import com.example.studentdiary.utils.MyBroadcastReceiver
+import com.example.studentdiary.utils.broadcastReceiver.MyBroadcastReceiver
 import com.facebook.AccessToken
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

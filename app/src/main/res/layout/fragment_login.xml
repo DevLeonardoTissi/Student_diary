@@ -11,6 +11,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/fragment_login_imageView_logo"
+            android:layout_width="@dimen/imageView_extra_big_width"
+            android:layout_height="@dimen/imageView_extra_big_height"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:src="@drawable/logo_app"
+            android:layout_margin="@dimen/margin_default"/>
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/fragment_login_textfield_email"
             style="@style/textField"
@@ -18,7 +28,7 @@
             app:endIconMode="clear_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/fragment_login_imageView_logo"
             app:startIconDrawable="@drawable/ic_email">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -56,9 +66,10 @@
             android:id="@+id/fragment_login_textView_or"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/defaultTextSize"
+            android:layout_marginHorizontal="@dimen/medium_margin"
             android:layout_marginVertical="@dimen/margin_default"
             android:text="@string/common_or"
+            android:textSize="@dimen/defaultTextSize"
             android:textColor="@color/colorOnSurface"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

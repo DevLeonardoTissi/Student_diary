@@ -59,8 +59,8 @@ class LoginFragment : Fragment() {
         configureLoginGoogleAccountButton()
         configureLoginFacebookAccountButton()
         textViewRegister()
-        configureAndSaveTextFields()
-        fillFields()
+        configureAndSaveFields()
+        updateUi()
     }
 
     override fun onResume() {
@@ -68,38 +68,38 @@ class LoginFragment : Fragment() {
         clearErrorFields()
     }
 
-    private fun configureAndSaveTextFields() {
-        val textFieldEmail = binding.fragmentLoginTextfieldEmail.editText
-        val textFieldPassword = binding.fragmentLoginTextfieldPassword.editText
+    private fun configureAndSaveFields() {
+        val fieldEmail = binding.fragmentLoginTextfieldEmail.editText
+        val fieldPassword = binding.fragmentLoginTextfieldPassword.editText
 
-        textFieldEmail?.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+        fieldEmail?.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
-                model.setEmail(textFieldEmail?.text.toString())
+                model.setEmail(fieldEmail?.text.toString())
             }
         }
 
-        textFieldPassword?.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+        fieldPassword?.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
-                model.setPassword(textFieldPassword?.text.toString())
+                model.setPassword(fieldPassword?.text.toString())
             }
         }
     }
 
-    private fun fillFields() {
+    private fun updateUi() {
 
         model.fieldEmail.observe(viewLifecycleOwner) { email ->
             email?.let {
-                val textFieldEmail = binding.fragmentLoginTextfieldEmail
-                textFieldEmail.editText?.setText(it)
-                textFieldEmail.editText?.setSelection(it.length)
+                val fieldEmail = binding.fragmentLoginTextfieldEmail
+                fieldEmail.editText?.setText(it)
+                fieldEmail.editText?.setSelection(it.length)
             }
         }
 
         model.fieldPassword.observe(viewLifecycleOwner) { password ->
             password?.let {
-                val textFieldPassword = binding.fragmentLoginTextfieldPassword.editText
-                textFieldPassword?.setText(it)
-                textFieldPassword?.setSelection(it.length)
+                val fieldPassword = binding.fragmentLoginTextfieldPassword.editText
+                fieldPassword?.setText(it)
+                fieldPassword?.setSelection(it.length)
             }
         }
     }

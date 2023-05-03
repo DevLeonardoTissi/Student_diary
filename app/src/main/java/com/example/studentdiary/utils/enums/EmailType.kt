@@ -1,4 +1,4 @@
-package com.example.studentdiary.utils
+package com.example.studentdiary.utils.enums
 
 import com.example.studentdiary.ui.GOOGLE_EMAIL_TYPE
 import com.example.studentdiary.ui.OUTLOOK_EMAIL_TYPE

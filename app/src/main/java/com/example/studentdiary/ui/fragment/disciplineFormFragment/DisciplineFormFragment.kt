@@ -37,7 +37,7 @@ import com.example.studentdiary.ui.TAG_TIME_PICKER
 import com.example.studentdiary.ui.TIME_ZONE_ID
 import com.example.studentdiary.ui.dialog.DisciplineFormDialog
 import com.example.studentdiary.ui.fragment.baseFragment.BaseFragment
-import com.example.studentdiary.utils.EmailType
+import com.example.studentdiary.utils.enums.EmailType
 import com.example.studentdiary.utils.concatenateDateValues
 import com.example.studentdiary.utils.concatenateTimeValues
 import com.google.android.material.datepicker.CalendarConstraints
@@ -91,7 +91,7 @@ class DisciplineFormFragment : BaseFragment() {
         fabInsetImage()
         onclickImageView()
         setupReminderSwitch()
-        configureAndSaveTextFields()
+        configureAndSaveFields()
         startTimeButton()
         endTimeButton()
         calendarButton()
@@ -196,7 +196,7 @@ class DisciplineFormFragment : BaseFragment() {
         } ?: return
     }
 
-    private fun configureAndSaveTextFields() {
+    private fun configureAndSaveFields() {
         val nameField = binding.disciplineFormFragmentFieldName.editText
         val descriptionField =
             binding.disciplineFormFragmentFieldDescription.editText

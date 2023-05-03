@@ -12,6 +12,27 @@ class RegisterViewModel(
 ) : ViewModel() {
     val firebaseAuthLiveData = MutableLiveData<Resource<Boolean>>()
 
+    private val _fieldEmail = MutableLiveData<String>()
+    val fieldEmail : LiveData<String> = _fieldEmail
+
+    private val _fieldPassword = MutableLiveData<String>()
+    val fieldPassword : LiveData<String> = _fieldPassword
+
+    private val _fieldPasswordChecker = MutableLiveData<String>()
+    val fieldPasswordChecker : LiveData<String> = _fieldPasswordChecker
+
+    fun setEmail(email:String){
+        _fieldEmail.value = email
+    }
+
+    fun setPassword(password:String){
+        _fieldPassword.value = password
+    }
+
+    fun setPasswordChecker(password:String){
+        _fieldPasswordChecker.value = password
+    }
+
     fun register(user: User): LiveData<Resource<Boolean>> {
 
         try {
