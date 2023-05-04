@@ -8,26 +8,34 @@ import com.example.studentdiary.model.Discipline
 import com.example.studentdiary.repository.DisciplineRepository
 import kotlinx.coroutines.launch
 
-class DisciplinesViewModel( val repository: DisciplineRepository) : ViewModel() {
+class DisciplinesViewModel(val repository: DisciplineRepository) : ViewModel() {
 
     var disciplineList: LiveData<List<Discipline>> = repository.searchAll()
 
-    private val _query = MutableLiveData<String>()
-    var query: LiveData<String> = _query
+    private val _query = MutableLiveData<String?>()
+    var query: LiveData<String?> = _query
 
-     fun delete(id:String) {
+    fun delete(id: String) {
         viewModelScope.launch {
             repository.delete(id)
         }
     }
 
-    fun getQuery():String{
+    fun getQuery(): String {
         query.value?.let {
             return it
-        }?: return ""
+        } ?: return ""
     }
 
-    fun setQuery(query:String){
+    fun setQuery(query: String) {
         _query.value = query
     }
+
+    fun clearQuery(){
+        _query.value = null
+    }
+
+
+
+
 }

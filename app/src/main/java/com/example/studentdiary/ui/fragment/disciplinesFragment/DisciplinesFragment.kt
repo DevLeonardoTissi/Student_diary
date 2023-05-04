@@ -50,9 +50,14 @@ class DisciplinesFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         setupNavigationComponents()
         configureDisciplineObserver()
+        clearQuery()
         configureRecyclerView()
         configureFab()
         addMenuProvider()
+    }
+
+    private fun clearQuery() {
+        model.clearQuery()
     }
 
     private fun setupNavigationComponents() {
@@ -95,19 +100,34 @@ class DisciplinesFragment : BaseFragment() {
             R.id.disciplinesFragment_toggle_button_favorites -> {
                 val favoriteList = list.filter { it.favorite }
                 filterList = favoriteList
-                updateList(favoriteList.filter { it.name?.contains(model.getQuery(), true) == true })
+                updateList(favoriteList.filter {
+                    it.name?.contains(
+                        model.getQuery(),
+                        true
+                    ) == true
+                })
             }
 
             R.id.disciplinesFragment_toggle_button_completed -> {
                 val completedList = list.filter { it.completed }
                 filterList = completedList
-                updateList(completedList.filter { it.name?.contains(model.getQuery(), true) == true })
+                updateList(completedList.filter {
+                    it.name?.contains(
+                        model.getQuery(),
+                        true
+                    ) == true
+                })
             }
 
             R.id.disciplinesFragment_toggle_button_descending -> {
                 val descendingList = list.sortedByDescending { it.name }
                 filterList = descendingList
-                updateList(descendingList.filter { it.name?.contains(model.getQuery(), true) == true })
+                updateList(descendingList.filter {
+                    it.name?.contains(
+                        model.getQuery(),
+                        true
+                    ) == true
+                })
             }
 
             R.id.disciplinesFragment_toggle_button_growing -> {
@@ -115,10 +135,16 @@ class DisciplinesFragment : BaseFragment() {
                 filterList = growingList
                 updateList(growingList.filter { it.name?.contains(model.getQuery(), true) == true })
             }
+
             R.id.disciplinesFragment_toggle_button_date -> {
                 val growingDateList = list.sortedBy { it.date?.first }
                 filterList = growingDateList
-                updateList(growingDateList.filter { it.name?.contains(model.getQuery(), true) == true })
+                updateList(growingDateList.filter {
+                    it.name?.contains(
+                        model.getQuery(),
+                        true
+                    ) == true
+                })
             }
         }
     }
@@ -128,6 +154,7 @@ class DisciplinesFragment : BaseFragment() {
         messageEmptyList(list)
 
     }
+
     private fun configureRecyclerView() {
         val recycler = binding.disciplinesFragmentRecyclerView
         recycler.adapter = adapter
@@ -152,7 +179,8 @@ class DisciplinesFragment : BaseFragment() {
                 context?.let { context ->
                     context.alertDialog(
                         title = getString(R.string.discipline_fragment_delete_dialog_title),
-                        message = getString(R.string.discipline_fragment_delete_dialog_message), onClickingOnPositiveButton = {
+                        message = getString(R.string.discipline_fragment_delete_dialog_message),
+                        onClickingOnPositiveButton = {
                             model.delete(disciplineId)
                         }
                     )
@@ -160,6 +188,7 @@ class DisciplinesFragment : BaseFragment() {
             }
         }
     }
+
     private fun goToDisciplineForm(disciplineId: String?) {
         val direction =
             DisciplinesFragmentDirections.actionDisciplinesFragmentToDisciplineFormFragment(
@@ -168,6 +197,7 @@ class DisciplinesFragment : BaseFragment() {
         controller.navigate(direction)
 
     }
+
     private fun goToDisciplineDetails(disciplineId: String) {
         val direction =
             DisciplinesFragmentDirections.actionDisciplinesFragmentToDisciplineDetailsFragment(
@@ -175,6 +205,7 @@ class DisciplinesFragment : BaseFragment() {
             )
         controller.navigate(direction)
     }
+
     private fun configureFab() {
         val fab = binding.disciplinesFragmentFabInsert
         fab.setOnClickListener {
@@ -194,11 +225,12 @@ class DisciplinesFragment : BaseFragment() {
 
                 override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                     return when (menuItem.itemId) {
-                        R.id.menuItem_disciplines_fragment_search-> {
+                        R.id.menuItem_disciplines_fragment_search -> {
                             val searchView = menuItem.actionView as? SearchView
                             setupSearchView(searchView)
                             true
                         }
+
                         else -> false
                     }
                 }
@@ -219,7 +251,12 @@ class DisciplinesFragment : BaseFragment() {
 
                 override fun onQueryTextChange(newText: String?): Boolean {
                     newText?.let {
-                        updateList(filterList.filter { it.name?.contains(newText, ignoreCase = true) == true })
+                        updateList(filterList.filter {
+                            it.name?.contains(
+                                newText,
+                                ignoreCase = true
+                            ) == true
+                        })
                         model.setQuery(newText)
                     }
                     return true
