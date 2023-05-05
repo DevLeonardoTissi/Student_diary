@@ -1,6 +1,7 @@
 package com.example.studentdiary.ui.fragment.dictionaryFragment
 
 import android.os.Bundle
+import android.text.style.ImageSpan
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -60,6 +61,15 @@ class DictionaryFragment : BaseFragment() {
 
             }
         }
+    }
+
+    private fun setupChips(){
+        val synonymChip = binding.fragmentDictionarySynonymChip
+        val meaningChip = binding.fragmentDictionaryMeaningChip
+        val syllabicSeparationChip = binding.fragmentDictionarySyllabicSeparationChip
+
+        synonymChip.setOnCheckedChangeListener { _, isChecked ->  }
+
     }
 
     override fun onDestroy() {

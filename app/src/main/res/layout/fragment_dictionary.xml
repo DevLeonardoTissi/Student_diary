@@ -7,18 +7,6 @@
     tools:context=".ui.fragment.dictionaryFragment.DictionaryFragment">
 
 
-    <androidx.appcompat.widget.SearchView
-        android:id="@+id/searchView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_default"
-        android:hint="Digite a palavra para buscar"
-        app:iconifiedByDefault="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:queryHint="Digite a palavra" />
-
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/fragment_dictionary_field_word"
         style="@style/textField"
@@ -26,23 +14,60 @@
         app:endIconMode="clear_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/searchView"
+        app:layout_constraintTop_toTopOf="parent"
         app:startIconDrawable="@drawable/ic_search">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textEmailAddress" />
+            android:inputType="textAutoCorrect" />
 
     </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/fragment_dictionary_chipGroup"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_default"
+        app:checkedChip="@id/fragment_dictionary_meaning_chip"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fragment_dictionary_field_word"
+        app:selectionRequired="true"
+        >
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/fragment_dictionary_meaning_chip"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/dictionary_fragment_meaning_chip" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/fragment_dictionary_synonym_chip"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/dictionary_fragment_synonym_chip" />
+
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/fragment_dictionary_syllabicSeparation_chip"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/dictionary_fragment_syllabicSeparation_chip" />
+
+    </com.google.android.material.chip.ChipGroup>
 
     <Button
         android:id="@+id/fragment_dictionary_searchButton"
         style="@style/elevationButton"
-        android:text="Buscar"
+        android:layout_margin="@dimen/margin_default"
+        android:text="@string/dictionary_fragment_search_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/fragment_dictionary_field_word" />
+        app:layout_constraintTop_toBottomOf="@id/fragment_dictionary_chipGroup" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/fragment_dictionary_textView_result"

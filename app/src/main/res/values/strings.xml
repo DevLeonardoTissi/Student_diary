@@ -95,6 +95,10 @@
     <!-- Dictionary Fragment -->
     <string name="dictionary_fragment_toolbar_title">Dicionário</string>
     <string name="dictionary_fragment_textField_hint">Digite a palavra que deseja pesquisar</string>
+    <string name="dictionary_fragment_search_button">buscar</string>
+    <string name="dictionary_fragment_meaning_chip">Significado</string>
+    <string name="dictionary_fragment_synonym_chip">Sinônimo</string>
+    <string name="dictionary_fragment_syllabicSeparation_chip">Separação silábica</string>
 
     <!-- Discipline Details Fragment -->
     <string name="discipline_details_fragment_toolbar_title">Detalhes</string>
