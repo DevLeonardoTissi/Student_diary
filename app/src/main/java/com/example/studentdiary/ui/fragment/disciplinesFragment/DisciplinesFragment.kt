@@ -79,11 +79,11 @@ class DisciplinesFragment : BaseFragment() {
     }
 
     private fun buttonToggleGroupFilterList(list: List<Discipline>) {
-        val toggleButton = binding.disciplinesFragmentButtonToggleGroup
+        val toggleGroup = binding.disciplinesFragmentButtonToggleGroup
 
-        checkButtonCheckedAndUpdateList(toggleButton.checkedButtonId, list)
+        checkButtonCheckedAndUpdateList(toggleGroup.checkedButtonId, list)
 
-        toggleButton.addOnButtonCheckedListener { _, checkedId, isChecked ->
+        toggleGroup.addOnButtonCheckedListener { _, checkedId, isChecked ->
             if (isChecked) {
                 checkButtonCheckedAndUpdateList(checkedId, list)
             }

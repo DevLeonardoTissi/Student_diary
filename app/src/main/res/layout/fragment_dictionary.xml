@@ -1,82 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true"
     tools:context=".ui.fragment.dictionaryFragment.DictionaryFragment">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/fragment_dictionary_field_word"
-        style="@style/textField"
-        android:hint="@string/dictionary_fragment_textField_hint"
-        app:endIconMode="clear_text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:startIconDrawable="@drawable/ic_search">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/fragment_dictionary_field_word"
+            style="@style/textField"
+            android:hint="@string/dictionary_fragment_textField_hint"
+            app:endIconMode="clear_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:startIconDrawable="@drawable/ic_search">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textAutoCorrect" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/fragment_dictionary_chipGroup"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_default"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/fragment_dictionary_field_word"
+            app:selectionRequired="true">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/fragment_dictionary_meaning_chip"
+                style="@style/Widget.Material3.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/dictionary_fragment_meaning_chip" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/fragment_dictionary_synonym_chip"
+                style="@style/Widget.Material3.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/dictionary_fragment_synonym_chip" />
+
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/fragment_dictionary_syllabicSeparation_chip"
+                style="@style/Widget.Material3.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/dictionary_fragment_syllabicSeparation_chip" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/fragment_dictionary_sentences_chip"
+                style="@style/Widget.Material3.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/dictionary_fragment_sentences_chip" />
+
+
+        </com.google.android.material.chip.ChipGroup>
+
+        <Button
+            android:id="@+id/fragment_dictionary_searchButton"
+            style="@style/elevationButton"
+            android:layout_margin="@dimen/margin_default"
+            android:text="@string/dictionary_fragment_search_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/fragment_dictionary_chipGroup" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/fragment_dictionary_textView_meaning_result"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textAutoCorrect" />
+            android:layout_margin="@dimen/textview_margin_default"
+            android:textColor="@color/customRed"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/fragment_dictionary_searchButton" />
 
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.chip.ChipGroup
-        android:id="@+id/fragment_dictionary_chipGroup"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_default"
-        app:checkedChip="@id/fragment_dictionary_meaning_chip"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/fragment_dictionary_field_word"
-        app:selectionRequired="true"
-        >
-
-        <com.google.android.material.chip.Chip
-            android:id="@+id/fragment_dictionary_meaning_chip"
-            style="@style/Widget.Material3.Chip.Filter"
-            android:layout_width="wrap_content"
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/fragment_dictionary_textView_synonyms_result"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/dictionary_fragment_meaning_chip" />
+            android:layout_margin="@dimen/textview_margin_default"
+            android:textColor="@color/customGreen"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/fragment_dictionary_textView_meaning_result" />
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/fragment_dictionary_synonym_chip"
-            style="@style/Widget.Material3.Chip.Filter"
-            android:layout_width="wrap_content"
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/fragment_dictionary_textView_syllables_separation_result"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/dictionary_fragment_synonym_chip" />
+            android:layout_margin="@dimen/textview_margin_default"
+            android:textColor="@color/customGreen"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/fragment_dictionary_textView_synonyms_result" />
 
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/fragment_dictionary_syllabicSeparation_chip"
-            style="@style/Widget.Material3.Chip.Filter"
-            android:layout_width="wrap_content"
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/fragment_dictionary_textView_sentences_result"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/dictionary_fragment_syllabicSeparation_chip" />
-
-    </com.google.android.material.chip.ChipGroup>
-
-    <Button
-        android:id="@+id/fragment_dictionary_searchButton"
-        style="@style/elevationButton"
-        android:layout_margin="@dimen/margin_default"
-        android:text="@string/dictionary_fragment_search_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/fragment_dictionary_chipGroup" />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/fragment_dictionary_textView_result"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/textview_margin_default"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/fragment_dictionary_searchButton" />
+            android:layout_margin="@dimen/textview_margin_default"
+            android:textColor="@color/customRed"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/fragment_dictionary_textView_syllables_separation_result" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

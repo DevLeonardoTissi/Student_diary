@@ -99,6 +99,7 @@
     <string name="dictionary_fragment_meaning_chip">Significado</string>
     <string name="dictionary_fragment_synonym_chip">Sinônimo</string>
     <string name="dictionary_fragment_syllabicSeparation_chip">Separação silábica</string>
+    <string name="dictionary_fragment_sentences_chip">Frases</string>
 
     <!-- Discipline Details Fragment -->
     <string name="discipline_details_fragment_toolbar_title">Detalhes</string>
