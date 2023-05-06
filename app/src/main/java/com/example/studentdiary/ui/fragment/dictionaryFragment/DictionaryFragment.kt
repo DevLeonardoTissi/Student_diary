@@ -31,16 +31,15 @@ class DictionaryFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupNavigationComponents()
-
     }
 
     override fun onResume() {
         super.onResume()
-        updateVisibilityBasedOnCheckedChips()
         observerResults()
-        search()
-        saveFieldValue()
         observerFieldWord()
+        saveFieldValue()
+        updateVisibilityBasedOnCheckedChips()
+        search()
     }
 
     private fun setupNavigationComponents() {
