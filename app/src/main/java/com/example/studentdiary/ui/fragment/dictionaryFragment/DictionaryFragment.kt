@@ -5,7 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.example.studentdiary.R
 import com.example.studentdiary.databinding.FragmentDictionaryBinding
+import com.example.studentdiary.extensions.isOnline
+import com.example.studentdiary.extensions.toast
 import com.example.studentdiary.ui.AppViewModel
 import com.example.studentdiary.ui.NavigationComponents
 import com.example.studentdiary.ui.fragment.baseFragment.BaseFragment
@@ -54,30 +57,34 @@ class DictionaryFragment : BaseFragment() {
                 fieldWord.error = null
                 val isValid = validate()
                 if (isValid) {
-                    val word = fieldWord.editText?.text.toString()
-                    handleResultVisibility(
-                        binding.fragmentDictionaryMeaningChip,
-                        binding.fragmentDictionaryTextViewMeaningResult
-                    ) {
-                        model.searchMeaning(word)
-                    }
-                    handleResultVisibility(
-                        binding.fragmentDictionarySynonymChip,
-                        binding.fragmentDictionaryTextViewSynonymsResult
-                    ) {
-                        model.searchSynonyms(word)
-                    }
-                    handleResultVisibility(
-                        binding.fragmentDictionarySyllabicSeparationChip,
-                        binding.fragmentDictionaryTextViewSyllablesSeparationResult
-                    ) {
-                        model.searchSyllables(word)
-                    }
-                    handleResultVisibility(
-                        binding.fragmentDictionarySentencesChip,
-                        binding.fragmentDictionaryTextViewSentencesResult
-                    ) {
-                        model.searchSentences(word)
+                    if (context.isOnline()) {
+                        val word = fieldWord.editText?.text.toString()
+                        handleResultVisibility(
+                            binding.fragmentDictionaryMeaningChip,
+                            binding.fragmentDictionaryTextViewMeaningResult
+                        ) {
+                            model.searchMeaning(word)
+                        }
+                        handleResultVisibility(
+                            binding.fragmentDictionarySynonymChip,
+                            binding.fragmentDictionaryTextViewSynonymsResult
+                        ) {
+                            model.searchSynonyms(word)
+                        }
+                        handleResultVisibility(
+                            binding.fragmentDictionarySyllabicSeparationChip,
+                            binding.fragmentDictionaryTextViewSyllablesSeparationResult
+                        ) {
+                            model.searchSyllables(word)
+                        }
+                        handleResultVisibility(
+                            binding.fragmentDictionarySentencesChip,
+                            binding.fragmentDictionaryTextViewSentencesResult
+                        ) {
+                            model.searchSentences(word)
+                        }
+                    }else{
+                        context.toast(getString(R.string.default_message_noConnection))
                     }
                 }
             }
@@ -90,7 +97,7 @@ class DictionaryFragment : BaseFragment() {
         if (fieldWord.editText?.text.toString().isBlank()) {
             fieldWord.error = "Campo vazio"
             valid = false
-        }else{
+        } else {
             if (binding.fragmentDictionaryChipGroup.checkedChipIds.isEmpty()) {
                 fieldWord.error = "Selecione pelo meno um item para pesquisa"
                 valid = false

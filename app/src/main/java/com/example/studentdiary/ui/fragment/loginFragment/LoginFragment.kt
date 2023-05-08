@@ -238,9 +238,16 @@ class LoginFragment : Fragment() {
 
         loginGoogleButton.setSize(SignInButton.SIZE_WIDE)
         loginGoogleButton.setOnClickListener {
-            val client = context?.googleSignInClient()
-            val intent = client?.signInIntent
-            openGoogleLogin.launch(intent)
+            context?.let {context ->
+                if (context.isOnline()){
+                    val client = context.googleSignInClient()
+                    val intent = client.signInIntent
+                    openGoogleLogin.launch(intent)
+                }else{
+                    context.toast(getString(R.string.default_message_noConnection))
+                }
+            }
+
         }
     }
 
