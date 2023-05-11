@@ -8,22 +8,24 @@ import com.example.studentdiary.repository.FirebaseAuthRepository
 import com.example.studentdiary.utils.Resource
 import com.google.firebase.auth.AuthCredential
 
-class LoginViewModel(private val firebaseAuthRepository: FirebaseAuthRepository) : ViewModel() {
+class LoginViewModel(
+    private val firebaseAuthRepository: FirebaseAuthRepository
+) : ViewModel() {
 
     private val _firebaseAuthLiveData = MutableLiveData<Resource<Boolean>>()
     val firebaseAuthLiveData: LiveData<Resource<Boolean>> = _firebaseAuthLiveData
 
     private val _fieldEmail = MutableLiveData<String>()
-    val fieldEmail : LiveData<String> = _fieldEmail
+    val fieldEmail: LiveData<String> = _fieldEmail
 
     private val _fieldPassword = MutableLiveData<String>()
-    val fieldPassword : LiveData<String> = _fieldPassword
+    val fieldPassword: LiveData<String> = _fieldPassword
 
-    fun setEmail(email:String){
+    fun setEmail(email: String) {
         _fieldEmail.value = email
     }
 
-    fun setPassword(password:String){
+    fun setPassword(password: String) {
         _fieldPassword.value = password
     }
 
@@ -31,7 +33,7 @@ class LoginViewModel(private val firebaseAuthRepository: FirebaseAuthRepository)
         _firebaseAuthLiveData.value = Resource(false, null)
     }
 
-    fun authenticate(user: User): LiveData<Resource<Boolean>> {
+    fun authenticate(user: User) {
         try {
             val task = firebaseAuthRepository.authenticate(user)
             task.addOnSuccessListener { _firebaseAuthLiveData.value = Resource(true) }
@@ -39,29 +41,16 @@ class LoginViewModel(private val firebaseAuthRepository: FirebaseAuthRepository)
         } catch (e: IllegalArgumentException) {
             _firebaseAuthLiveData.value = Resource(false, e)
         }
-        return firebaseAuthLiveData
     }
 
-    fun linkGoogleAccount(credential: AuthCredential): LiveData<Resource<Boolean>> {
+    fun loginWithCredential(credential: AuthCredential) {
         try {
             val task = firebaseAuthRepository.linkGoogleAccount(credential)
             task.addOnSuccessListener { _firebaseAuthLiveData.value = Resource(true) }
-            task.addOnFailureListener {_firebaseAuthLiveData.value = Resource(false, it) }
-        } catch (e: Exception) {
-            Resource(false, e)
-        }
-        return firebaseAuthLiveData
-    }
-
-    fun linkFacebookAccount(credential: AuthCredential): LiveData<Resource<Boolean>> {
-        try {
-            val task = firebaseAuthRepository.linkFacebookAccount(credential)
-            task.addOnSuccessListener { _firebaseAuthLiveData.value = Resource(true) }
             task.addOnFailureListener { _firebaseAuthLiveData.value = Resource(false, it) }
         } catch (e: Exception) {
-            Resource(false, e)
+            _firebaseAuthLiveData.value = Resource(false, e)
         }
-        return firebaseAuthLiveData
     }
 
     fun logout() = firebaseAuthRepository.logout()

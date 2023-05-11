@@ -66,8 +66,7 @@
     <string name="facebook_app_id">172559435542270</string>
     <string name="fb_login_protocol_scheme">fb172559435542270</string>
     <string name="facebook_client_token">757d1efebbc1a4cc3932929b69d1cfd0</string>
-    <string name="facebook_permission_email">email</string>
-    <string name="facebook_permission_profile">public_profile</string>
+
 
     <!-- Discipline Item -->
     <string name="discipline_item_img_content_desc_favorite">Favorite flag</string>

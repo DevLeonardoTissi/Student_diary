@@ -14,11 +14,11 @@ val EVENT_PROJECTION: Array<String> = arrayOf(
     CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,
     CalendarContract.Calendars.OWNER_ACCOUNT
 )
-const val GOOGLE_EMAIL_TYPE_DESCRIPTION = "Google/Gmail"
+
 const val GOOGLE_EMAIL_TYPE = "com.google"
-const val YAHOO_EMAIL_TYPE_DESCRIPTION = "Yahoo"
 const val YAHOO_EMAIL_TYPE = "com.yahoo"
-const val OUTLOOK_EMAIL_TYPE_DESCRIPTION = "Outlook"
 const val OUTLOOK_EMAIL_TYPE = "com.outlook"
 
-val ITEMS_EMAIL_TYPE = arrayOf(GOOGLE_EMAIL_TYPE_DESCRIPTION, YAHOO_EMAIL_TYPE_DESCRIPTION, OUTLOOK_EMAIL_TYPE_DESCRIPTION)
+
+const val FACEBOOK_PERMISSION_EMAIL = "email"
+const val FACEBOOK_PERMISSION_PROFILE = "email"

@@ -12,10 +12,13 @@ import com.example.studentdiary.R
 import com.example.studentdiary.databinding.FragmentLoginBinding
 import com.example.studentdiary.extensions.googleSignInClient
 import com.example.studentdiary.extensions.isOnline
+import com.example.studentdiary.extensions.showToastNoConnectionMessage
 import com.example.studentdiary.extensions.snackBar
 import com.example.studentdiary.extensions.toast
 import com.example.studentdiary.model.User
 import com.example.studentdiary.ui.AppViewModel
+import com.example.studentdiary.ui.FACEBOOK_PERMISSION_EMAIL
+import com.example.studentdiary.ui.FACEBOOK_PERMISSION_PROFILE
 import com.example.studentdiary.ui.NavigationComponents
 import com.facebook.AccessToken
 import com.facebook.CallbackManager
@@ -119,17 +122,21 @@ class LoginFragment : Fragment() {
                     } else {
                         resource.exception?.let { exception ->
                             if (context.isOnline()) {
-                                val errorMessage = identifiesErrorFirebaseAuthOnLogin(exception)
+                                showFirebaseAuthErrorMessage(exception)
                                 exitGoogleAndFacebookAccount()
-                                snackBar(errorMessage)
                             } else {
-                                context.toast(getString(R.string.default_message_noConnection))
+                                context.showToastNoConnectionMessage()
                             }
                         }
                     }
                 }
             }
         }
+    }
+
+    private fun showFirebaseAuthErrorMessage(exception: java.lang.Exception) {
+        val errorMessage = identifiesErrorFirebaseAuthOnLogin(exception)
+        snackBar(errorMessage)
     }
 
     private fun identifiesErrorFirebaseAuthOnLogin(exception: Exception): String {
@@ -150,6 +157,7 @@ class LoginFragment : Fragment() {
         val loginButton = binding.fragmentLoginLoginButton
         loginButton.setOnClickListener {
             clearErrorFields()
+
             val email = binding.fragmentLoginTextfieldEmail.editText?.text.toString()
             val password = binding.fragmentLoginTextfieldPassword.editText?.text.toString()
 
@@ -183,15 +191,15 @@ class LoginFragment : Fragment() {
         val callbackManager = CallbackManager.Factory.create()
         val loginButton = binding.fragmentLoginSigninFacebookButton
         loginButton.setPermissions(
-            getString(R.string.facebook_permission_email),
-            getString(R.string.facebook_permission_profile)
+            FACEBOOK_PERMISSION_EMAIL,
+            FACEBOOK_PERMISSION_PROFILE
         )
         loginButton.setFragment(this)
         loginButton.registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
             override fun onSuccess(result: LoginResult) {
                 val credential =
                     FacebookAuthProvider.getCredential(result.accessToken.token)
-                model.linkFacebookAccount(credential)
+                model.loginWithCredential(credential)
                 searchFacebookUser()
             }
 
@@ -231,19 +239,19 @@ class LoginFragment : Fragment() {
                         GoogleSignIn.getSignedInAccountFromIntent(result.data).result
                     val credential =
                         GoogleAuthProvider.getCredential(googleAccount.idToken, null)
-                    model.linkGoogleAccount(credential)
+                    model.loginWithCredential(credential)
 
                 }
             }
 
         loginGoogleButton.setSize(SignInButton.SIZE_WIDE)
         loginGoogleButton.setOnClickListener {
-            context?.let {context ->
-                if (context.isOnline()){
+            context?.let { context ->
+                if (context.isOnline()) {
                     val client = context.googleSignInClient()
                     val intent = client.signInIntent
                     openGoogleLogin.launch(intent)
-                }else{
+                } else {
                     context.toast(getString(R.string.default_message_noConnection))
                 }
             }

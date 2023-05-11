@@ -13,28 +13,27 @@ class RegisterViewModel(
     val firebaseAuthLiveData = MutableLiveData<Resource<Boolean>>()
 
     private val _fieldEmail = MutableLiveData<String>()
-    val fieldEmail : LiveData<String> = _fieldEmail
+    val fieldEmail: LiveData<String> = _fieldEmail
 
     private val _fieldPassword = MutableLiveData<String>()
-    val fieldPassword : LiveData<String> = _fieldPassword
+    val fieldPassword: LiveData<String> = _fieldPassword
 
     private val _fieldPasswordChecker = MutableLiveData<String>()
-    val fieldPasswordChecker : LiveData<String> = _fieldPasswordChecker
+    val fieldPasswordChecker: LiveData<String> = _fieldPasswordChecker
 
-    fun setEmail(email:String){
+    fun setEmail(email: String) {
         _fieldEmail.value = email
     }
 
-    fun setPassword(password:String){
+    fun setPassword(password: String) {
         _fieldPassword.value = password
     }
 
-    fun setPasswordChecker(password:String){
+    fun setPasswordChecker(password: String) {
         _fieldPasswordChecker.value = password
     }
 
-    fun register(user: User): LiveData<Resource<Boolean>> {
-
+    fun register(user: User) {
         try {
             val task = firebaseAuthRepository.register(user)
             task.addOnSuccessListener { firebaseAuthLiveData.value = Resource(true) }
@@ -42,6 +41,5 @@ class RegisterViewModel(
         } catch (e: IllegalArgumentException) {
             firebaseAuthLiveData.value = Resource(false, e)
         }
-        return firebaseAuthLiveData
     }
 }

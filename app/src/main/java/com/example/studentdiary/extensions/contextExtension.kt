@@ -54,3 +54,7 @@ fun Context.toast(message: String, duration :Int = Toast.LENGTH_SHORT) {
         ).show()
 
 }
+
+fun Context.showToastNoConnectionMessage(){
+    toast(getString(R.string.default_message_noConnection))
+}

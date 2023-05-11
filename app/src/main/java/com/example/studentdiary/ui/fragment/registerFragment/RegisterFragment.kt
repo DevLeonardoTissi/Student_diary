@@ -9,8 +9,8 @@ import androidx.navigation.fragment.findNavController
 import com.example.studentdiary.R
 import com.example.studentdiary.databinding.FragmentRegisterBinding
 import com.example.studentdiary.extensions.isOnline
+import com.example.studentdiary.extensions.showToastNoConnectionMessage
 import com.example.studentdiary.extensions.snackBar
-import com.example.studentdiary.extensions.toast
 import com.example.studentdiary.model.User
 import com.example.studentdiary.ui.AppViewModel
 import com.example.studentdiary.ui.NavigationComponents
@@ -162,16 +162,20 @@ class RegisterFragment : Fragment() {
                     } else {
                         resource.exception?.let { exception ->
                             if (context.isOnline()) {
-                                val errorMessage = identifiesErrorFirebaseAuthOnRegister(exception)
-                                snackBar(errorMessage)
+                                showFirebaseAuthErrorMessage(exception)
                             } else {
-                                context.toast(getString(R.string.default_message_noConnection))
+                                context.showToastNoConnectionMessage()
                             }
                         }
                     }
                 }
             }
         }
+    }
+
+    private fun showFirebaseAuthErrorMessage(exception: java.lang.Exception) {
+        val errorMessage = identifiesErrorFirebaseAuthOnRegister(exception)
+        snackBar(errorMessage)
     }
 
 
