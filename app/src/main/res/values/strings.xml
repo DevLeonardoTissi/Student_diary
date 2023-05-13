@@ -16,15 +16,23 @@
     <!--Menu drawer -->
     <string name="header_drawer_subtitle">Desenvolvido por Leonardo Tissi</string>
     <string name="drawer_menu_item_disciplines">Disciplinas</string>
-    <string name="drawer_menu_item_other">Outros</string>
+    <string name="drawer_menu_item_tools">Ferramentas</string>
     <string name="drawer_menu_item_dictionary">Dicionário</string>
     <string name="drawer_menu_item_public_tender">Concursos abertos</string>
     <string name="drawer_menu_item_pomodoro">Pomodoro</string>
+    <string name="drawer_menu_item_more">Mais</string>
     <string name="drawer_menu_item_exit">Sair</string>
+    <string name="drawer_menu_item_about">Sobre</string>
 
     <!-- Main Activity Dialog exit -->
     <string name="main_activity_alert_dialog_exit_title">Sair</string>
     <string name="main_activity_alert_dialog_exit_message">Deseja encerrar sessão e sair do aplicativo?</string>
+
+    <!-- Main Activity bottom Sheet Dialog -->
+    <string name="main_activity_app_info_bottom_sheet_dialog_description">Aplicativo para te auxiliar na organização dos estudos</string>
+    <string name="main_activity_app_info_bottom_sheet_dialog_chip_gitHub">Perfil no GitHub</string>
+    <string name="main_activity_app_info_bottom_sheet_dialog_chip_linkedin">Perfil no Linkedin</string>
+    <string name="main_activity_app_info_bottom_sheet_dialog_chip_gitHub_project">Repositório do Projeto</string>
 
 
     <!-- register Fragment -->

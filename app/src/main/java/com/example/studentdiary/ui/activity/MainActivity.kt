@@ -1,9 +1,12 @@
 package com.example.studentdiary.ui.activity
 
 import android.content.BroadcastReceiver
+import android.content.Intent
 import android.content.Intent.ACTION_AIRPLANE_MODE_CHANGED
 import android.content.IntentFilter
+import android.net.Uri
 import android.os.Bundle
+import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
@@ -15,13 +18,18 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.studentdiary.NavGraphDirections
 import com.example.studentdiary.R
 import com.example.studentdiary.databinding.ActivityMainBinding
+import com.example.studentdiary.databinding.AppInfoBottomSheetDialogBinding
 import com.example.studentdiary.extensions.alertDialog
 import com.example.studentdiary.extensions.googleSignInClient
 import com.example.studentdiary.ui.AppViewModel
+import com.example.studentdiary.ui.GITHUB_LINK
+import com.example.studentdiary.ui.LINKEDIN_LINK
 import com.example.studentdiary.ui.NavigationComponents
+import com.example.studentdiary.ui.STUDENT_DIARY_GITHUB_LINK
 import com.example.studentdiary.ui.fragment.loginFragment.LoginViewModel
 import com.example.studentdiary.utils.broadcastReceiver.MyBroadcastReceiver
 import com.facebook.AccessToken
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
@@ -75,9 +83,13 @@ class MainActivity : AppCompatActivity() {
                         })
                     false
                 }
-                else -> {
-                    NavigationUI.onNavDestinationSelected(it, navController)
+
+                R.id.menuItem_drawer_about -> {
+                    openAppInfoBottomSheetDialog()
+                    false
                 }
+
+                else -> NavigationUI.onNavDestinationSelected(it, navController)
             }
         }
 
@@ -97,6 +109,26 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(binding.activityMainToolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
         binding.activityMainToolbar.setupWithNavController(navController, appBarConfiguration)
+    }
+
+    private fun openAppInfoBottomSheetDialog() {
+        val bottomSheetDialog = BottomSheetDialog(this, R.style.bottonSheetDialog)
+        AppInfoBottomSheetDialogBinding.inflate(LayoutInflater.from(this)).apply {
+            appInfoBottomSheetDialogChipGitHub.setOnClickListener {
+                goToUri(GITHUB_LINK)
+            }
+
+            appInfoBottomSheetDialogChipGitHubProject.setOnClickListener {
+                goToUri(STUDENT_DIARY_GITHUB_LINK)
+            }
+
+            appInfoBottomSheetDialogChipLinkedin.setOnClickListener {
+                goToUri(LINKEDIN_LINK)
+            }
+
+            bottomSheetDialog.setContentView(root)
+            bottomSheetDialog.show()
+        }
     }
 
     private fun goToLogin() {
@@ -142,6 +174,12 @@ class MainActivity : AppCompatActivity() {
         if (isLoggedIn) {
             AccessToken.setCurrentAccessToken(null)
         }
+    }
+
+    private fun goToUri(address: String) {
+        val uri = Uri.parse(address)
+        val intent = Intent(Intent.ACTION_VIEW, uri)
+        startActivity(intent)
     }
 
     override fun onDestroy() {

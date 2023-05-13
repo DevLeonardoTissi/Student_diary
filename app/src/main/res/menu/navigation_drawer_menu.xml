@@ -2,15 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-            <item
-                android:id="@+id/disciplinesFragment"
-                android:checkable="true"
-                android:icon="@drawable/ic_book"
-                android:title="@string/drawer_menu_item_disciplines"
-                app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/disciplinesFragment"
+        android:checkable="true"
+        android:icon="@drawable/ic_book"
+        android:title="@string/drawer_menu_item_disciplines"
+        app:showAsAction="ifRoom" />
 
-    <item android:id="@+id/other_item"
-        android:title="@string/drawer_menu_item_other">
+    <item
+        android:title="@string/drawer_menu_item_tools">
 
         <menu>
             <item
@@ -18,8 +18,7 @@
                 android:checkable="true"
                 android:icon="@drawable/ic_dictionary"
                 android:title="@string/drawer_menu_item_dictionary"
-                app:showAsAction="ifRoom"
-                />
+                app:showAsAction="ifRoom" />
 
             <item
                 android:id="@+id/pomodoroFragment"
@@ -34,6 +33,17 @@
                 android:icon="@drawable/ic_exam"
                 android:title="@string/drawer_menu_item_public_tender"
                 app:showAsAction="ifRoom" />
+        </menu>
+    </item>
+
+    <item android:title="@string/drawer_menu_item_more">
+        <menu>
+            <item
+                android:id="@+id/menuItem_drawer_about"
+                android:checkable="true"
+                android:icon="@drawable/ic_info"
+                android:title="@string/drawer_menu_item_about"
+                app:showAsAction="ifRoom" />
 
             <item
                 android:id="@+id/menuItem_drawer_exit"
@@ -42,15 +52,5 @@
                 android:title="@string/drawer_menu_item_exit"
                 app:showAsAction="ifRoom" />
         </menu>
-
     </item>
-
-
-
-
-
-
-
-
-
 </menu>

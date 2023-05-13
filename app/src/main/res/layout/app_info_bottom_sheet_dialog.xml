@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/bg_app_info_bottom_sheet_dialog"
+    android:padding="32dp">
+
+    <TextView
+        android:id="@+id/app_info_bottom_sheet_dialog_text_view_app_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        android:textSize="@dimen/bigTextSize"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/app_info_bottom_sheet_dialog_text_view_app_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_default"
+        android:text="@string/main_activity_app_info_bottom_sheet_dialog_description"
+        android:textSize="@dimen/defaultTextSize"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/app_info_bottom_sheet_dialog_text_view_app_name" />
+
+
+    <com.google.android.material.chip.ChipGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_default"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/app_info_bottom_sheet_dialog_text_view_app_description"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/app_info_bottom_sheet_dialog_chipGitHub"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/main_activity_app_info_bottom_sheet_dialog_chip_gitHub"
+            app:chipIcon="@drawable/ic_link" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/app_info_bottom_sheet_dialog_chipLinkedin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/main_activity_app_info_bottom_sheet_dialog_chip_linkedin"
+            app:chipIcon="@drawable/ic_link" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/app_info_bottom_sheet_dialog_chipGitHubProject"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/main_activity_app_info_bottom_sheet_dialog_chip_gitHub_project"
+            app:chipIcon="@drawable/ic_link" />
+    </com.google.android.material.chip.ChipGroup>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
