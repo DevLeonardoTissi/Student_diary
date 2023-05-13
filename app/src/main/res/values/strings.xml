@@ -109,9 +109,13 @@
     <string name="dictionary_fragment_meaning_not_Found_message">Significado não encontrado</string>
     <string name="dictionary_fragment_synonyms_not_Found_message">Sinônimos não encontrados</string>
     <string name="dictionary_fragment_syllables_not_Found_message">Separação silábica não encontrada</string>
-    <string name="dictionary_fragment_sentences_not_Found_message">Sem resultados para aplicações em frases</string>
+    <string name="dictionary_fragment_sentences_not_Found_message">Sem resultados de aplicações em frases</string>
     <string name="dictionary_fragment_error_empty_field_message">Campo vazio</string>
     <string name="dictionary_fragment_error_no_chip_select_message">"Nenhum item selecionado. Você precisa escolher pelo menos um item antes de continuar."</string>
+    <string name="dictionary_fragment_textView_meaning_label">Significado</string>
+    <string name="dictionary_fragment_textView_synonym_label">Sinônimos</string>
+    <string name="dictionary_fragment_textView_syllabicSeparation_label">Separação silábica</string>
+    <string name="dictionary_fragment_textView_sentences_label">Exemplo em frases</string>
 
     <!-- Discipline Details Fragment -->
     <string name="discipline_details_fragment_toolbar_title">Detalhes</string>

@@ -41,7 +41,7 @@ class DictionaryFragment : BaseFragment() {
         observerResults()
         observerFieldWord()
         saveFieldValue()
-        updateVisibilityBasedOnCheckedChips()
+        updateUi()
         search()
     }
 
@@ -62,25 +62,29 @@ class DictionaryFragment : BaseFragment() {
 
                         handleResultVisibility(
                             binding.fragmentDictionaryMeaningChip,
-                            binding.fragmentDictionaryTextViewMeaningResult
+                            binding.fragmentDictionaryTextViewMeaningResult,
+                            binding.fragmentDictionaryTextViewMeaningLabel
                         ) {
                             model.searchMeaning(word)
                         }
                         handleResultVisibility(
                             binding.fragmentDictionarySynonymChip,
-                            binding.fragmentDictionaryTextViewSynonymsResult
+                            binding.fragmentDictionaryTextViewSynonymsResult,
+                            binding.fragmentDictionaryTextViewSynonymsLabel
                         ) {
                             model.searchSynonyms(word)
                         }
                         handleResultVisibility(
                             binding.fragmentDictionarySyllabicSeparationChip,
-                            binding.fragmentDictionaryTextViewSyllablesSeparationResult
+                            binding.fragmentDictionaryTextViewSyllablesSeparationResult,
+                            binding.fragmentDictionaryTextViewSyllablesSeparationLabel
                         ) {
                             model.searchSyllables(word)
                         }
                         handleResultVisibility(
                             binding.fragmentDictionarySentencesChip,
-                            binding.fragmentDictionaryTextViewSentencesResult
+                            binding.fragmentDictionaryTextViewSentencesResult,
+                            binding.fragmentDictionaryTextViewSentencesLabel
                         ) {
                             model.searchSentences(word)
                         }
@@ -108,42 +112,50 @@ class DictionaryFragment : BaseFragment() {
         return valid
     }
 
-    private inline fun handleResultVisibility(chip: Chip, textView: TextView, block: () -> Unit) {
+    private inline fun handleResultVisibility(chip: Chip, resultTextView: TextView,labelTextView: TextView, block: () -> Unit) {
         if (chip.isChecked) {
-            textView.visibility = View.VISIBLE
+            resultTextView.visibility = View.VISIBLE
+            labelTextView.visibility = View.VISIBLE
             block()
         } else {
-            textView.visibility = View.GONE
+            resultTextView.visibility = View.GONE
+            labelTextView.visibility = View.GONE
         }
     }
 
 
-    private fun updateVisibilityBasedOnCheckedChips() {
+    private fun updateUi() {
         val checkedChipIds = binding.fragmentDictionaryChipGroup.checkedChipIds
 
         setResultVisibility(
             binding.fragmentDictionaryTextViewMeaningResult,
+            binding.fragmentDictionaryTextViewMeaningLabel,
             checkedChipIds.contains(binding.fragmentDictionaryMeaningChip.id)
         )
 
         setResultVisibility(
             binding.fragmentDictionaryTextViewSynonymsResult,
+            binding.fragmentDictionaryTextViewSynonymsLabel,
             checkedChipIds.contains(binding.fragmentDictionarySynonymChip.id)
         )
 
         setResultVisibility(
             binding.fragmentDictionaryTextViewSyllablesSeparationResult,
+            binding.fragmentDictionaryTextViewSyllablesSeparationLabel,
             checkedChipIds.contains(binding.fragmentDictionarySyllabicSeparationChip.id)
         )
 
         setResultVisibility(
             binding.fragmentDictionaryTextViewSentencesResult,
+            binding.fragmentDictionaryTextViewSentencesLabel,
             checkedChipIds.contains(binding.fragmentDictionarySentencesChip.id)
         )
     }
 
-    private fun setResultVisibility(textView: TextView, isVisible: Boolean) {
-        textView.visibility = if (isVisible) View.VISIBLE else View.GONE
+    private fun setResultVisibility(resultTextView: TextView, labelTextView:TextView, isVisible: Boolean) {
+        resultTextView.visibility = if (isVisible) View.VISIBLE else View.GONE
+        labelTextView.visibility = if (isVisible) View.VISIBLE else View.GONE
+
     }
 
     private fun observerResults() {

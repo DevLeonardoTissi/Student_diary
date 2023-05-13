@@ -14,7 +14,6 @@ import com.example.studentdiary.extensions.googleSignInClient
 import com.example.studentdiary.extensions.isOnline
 import com.example.studentdiary.extensions.showToastNoConnectionMessage
 import com.example.studentdiary.extensions.snackBar
-import com.example.studentdiary.extensions.toast
 import com.example.studentdiary.model.User
 import com.example.studentdiary.ui.AppViewModel
 import com.example.studentdiary.ui.FACEBOOK_PERMISSION_EMAIL
@@ -252,7 +251,7 @@ class LoginFragment : Fragment() {
                     val intent = client.signInIntent
                     openGoogleLogin.launch(intent)
                 } else {
-                    context.toast(getString(R.string.default_message_noConnection))
+                    context.showToastNoConnectionMessage()
                 }
             }
 

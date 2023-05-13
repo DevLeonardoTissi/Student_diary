@@ -80,51 +80,114 @@
             app:layout_constraintTop_toBottomOf="@id/fragment_dictionary_chipGroup" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/fragment_dictionary_textView_meaning_result"
-            android:layout_width="match_parent"
+            android:id="@+id/fragment_dictionary_textView_meaning_label"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/textview_margin_default"
-            android:textColor="@color/customRed"
+            android:layout_margin="@dimen/margin_default"
+            android:background="@color/customYellow"
+            android:gravity="center"
+            android:text="@string/dictionary_fragment_textView_meaning_label"
+            android:textSize="@dimen/mediumTextSize"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/fragment_dictionary_searchButton" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/fragment_dictionary_textView_synonyms_result"
-            android:layout_width="match_parent"
+            android:id="@+id/fragment_dictionary_textView_meaning_result"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/textview_margin_default"
-            android:textColor="@color/darkBrown"
+            android:gravity="center"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/fragment_dictionary_textView_meaning_label"
+            tools:text="Meaning" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/fragment_dictionary_textView_synonyms_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_default"
+            android:background="@color/customYellow"
+            android:gravity="center"
+            android:text="@string/dictionary_fragment_textView_synonym_label"
+            android:textSize="@dimen/mediumTextSize"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/fragment_dictionary_textView_meaning_result" />
 
+
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/fragment_dictionary_textView_syllables_separation_result"
-            android:layout_width="match_parent"
+            android:id="@+id/fragment_dictionary_textView_synonyms_result"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/textview_margin_default"
-            android:textColor="@color/customRed"
+            android:gravity="center"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/fragment_dictionary_textView_synonyms_label"
+            tools:text="Synonyms" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/fragment_dictionary_textView_syllables_separation_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_default"
+            android:background="@color/customYellow"
+            android:gravity="center"
+            android:text="@string/dictionary_fragment_textView_syllabicSeparation_label"
+            android:textSize="@dimen/mediumTextSize"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/fragment_dictionary_textView_synonyms_result" />
 
-
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/fragment_dictionary_textView_sentences_result"
-            android:layout_width="match_parent"
+            android:id="@+id/fragment_dictionary_textView_syllables_separation_result"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/textview_margin_default"
-            android:textColor="@color/darkBrown"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:gravity="center"
             android:visibility="gone"
-            app:layout_constraintVertical_bias="0"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/fragment_dictionary_textView_syllables_separation_label"
+            tools:text="Syllables separation" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/fragment_dictionary_textView_sentences_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_default"
+            android:background="@color/customYellow"
+            android:gravity="center"
+            android:text="@string/dictionary_fragment_textView_sentences_label"
+            android:textSize="@dimen/mediumTextSize"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/fragment_dictionary_textView_syllables_separation_result" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/fragment_dictionary_textView_sentences_result"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/textview_margin_default"
+            android:gravity="center"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/fragment_dictionary_textView_sentences_label"
+            app:layout_constraintVertical_bias="0"
+            tools:text="Sentences example" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
