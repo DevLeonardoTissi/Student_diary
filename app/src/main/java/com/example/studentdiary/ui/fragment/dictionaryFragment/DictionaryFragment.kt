@@ -11,6 +11,7 @@ import com.example.studentdiary.extensions.isOnline
 import com.example.studentdiary.extensions.showToastNoConnectionMessage
 import com.example.studentdiary.ui.AppViewModel
 import com.example.studentdiary.ui.NavigationComponents
+import com.example.studentdiary.ui.dialog.LoadAlertDialog
 import com.example.studentdiary.ui.fragment.baseFragment.BaseFragment
 import com.google.android.material.chip.Chip
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
@@ -59,40 +60,47 @@ class DictionaryFragment : BaseFragment() {
                 if (isValid) {
                     if (context.isOnline()) {
                         val word = fieldWord.editText?.text.toString()
+                        val d = LoadAlertDialog(context)
+                        d.showLoadDialog()
+                        updateVisibilityAndSearch(word)
+                        d.closeLoadDialog()
 
-                        handleResultVisibility(
-                            binding.fragmentDictionaryMeaningChip,
-                            binding.fragmentDictionaryTextViewMeaningResult,
-                            binding.fragmentDictionaryTextViewMeaningLabel
-                        ) {
-                            model.searchMeaning(word)
-                        }
-                        handleResultVisibility(
-                            binding.fragmentDictionarySynonymChip,
-                            binding.fragmentDictionaryTextViewSynonymsResult,
-                            binding.fragmentDictionaryTextViewSynonymsLabel
-                        ) {
-                            model.searchSynonyms(word)
-                        }
-                        handleResultVisibility(
-                            binding.fragmentDictionarySyllabicSeparationChip,
-                            binding.fragmentDictionaryTextViewSyllablesSeparationResult,
-                            binding.fragmentDictionaryTextViewSyllablesSeparationLabel
-                        ) {
-                            model.searchSyllables(word)
-                        }
-                        handleResultVisibility(
-                            binding.fragmentDictionarySentencesChip,
-                            binding.fragmentDictionaryTextViewSentencesResult,
-                            binding.fragmentDictionaryTextViewSentencesLabel
-                        ) {
-                            model.searchSentences(word)
-                        }
                     } else {
                         context.showToastNoConnectionMessage()
                     }
                 }
             }
+        }
+    }
+
+    private fun updateVisibilityAndSearch(word: String) {
+        handleResultVisibility(
+            binding.fragmentDictionaryMeaningChip,
+            binding.fragmentDictionaryTextViewMeaningResult,
+            binding.fragmentDictionaryTextViewMeaningLabel
+        ) {
+            model.searchMeaning(word)
+        }
+        handleResultVisibility(
+            binding.fragmentDictionarySynonymChip,
+            binding.fragmentDictionaryTextViewSynonymsResult,
+            binding.fragmentDictionaryTextViewSynonymsLabel
+        ) {
+            model.searchSynonyms(word)
+        }
+        handleResultVisibility(
+            binding.fragmentDictionarySyllabicSeparationChip,
+            binding.fragmentDictionaryTextViewSyllablesSeparationResult,
+            binding.fragmentDictionaryTextViewSyllablesSeparationLabel
+        ) {
+            model.searchSyllables(word)
+        }
+        handleResultVisibility(
+            binding.fragmentDictionarySentencesChip,
+            binding.fragmentDictionaryTextViewSentencesResult,
+            binding.fragmentDictionaryTextViewSentencesLabel
+        ) {
+            model.searchSentences(word)
         }
     }
 
@@ -104,7 +112,8 @@ class DictionaryFragment : BaseFragment() {
             valid = false
         } else {
             if (binding.fragmentDictionaryChipGroup.checkedChipIds.isEmpty()) {
-                fieldWord.error = getString(R.string.dictionary_fragment_error_no_chip_select_message)
+                fieldWord.error =
+                    getString(R.string.dictionary_fragment_error_no_chip_select_message)
                 valid = false
             }
         }
@@ -112,7 +121,12 @@ class DictionaryFragment : BaseFragment() {
         return valid
     }
 
-    private inline fun handleResultVisibility(chip: Chip, resultTextView: TextView,labelTextView: TextView, block: () -> Unit) {
+    private inline fun handleResultVisibility(
+        chip: Chip,
+        resultTextView: TextView,
+        labelTextView: TextView,
+        block: () -> Unit
+    ) {
         if (chip.isChecked) {
             resultTextView.visibility = View.VISIBLE
             labelTextView.visibility = View.VISIBLE
@@ -152,7 +166,11 @@ class DictionaryFragment : BaseFragment() {
         )
     }
 
-    private fun setResultVisibility(resultTextView: TextView, labelTextView:TextView, isVisible: Boolean) {
+    private fun setResultVisibility(
+        resultTextView: TextView,
+        labelTextView: TextView,
+        isVisible: Boolean
+    ) {
         resultTextView.visibility = if (isVisible) View.VISIBLE else View.GONE
         labelTextView.visibility = if (isVisible) View.VISIBLE else View.GONE
 
