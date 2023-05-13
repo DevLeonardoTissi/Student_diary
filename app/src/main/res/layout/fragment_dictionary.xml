@@ -36,8 +36,7 @@
             android:layout_margin="@dimen/margin_default"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/fragment_dictionary_field_word"
-            app:selectionRequired="true">
+            app:layout_constraintTop_toBottomOf="@id/fragment_dictionary_field_word">
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/fragment_dictionary_meaning_chip"

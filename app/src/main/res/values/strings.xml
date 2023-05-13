@@ -52,7 +52,6 @@
     <string name="register_fragment_text_field_error_different_password">Senhas diferentes</string>
 
 
-
     <!-- Login Fragment -->
     <string name="login_fragment_toolbar_title">Login</string>
     <string name="login_fragment_text_field_hint_email">Email</string>
@@ -107,6 +106,12 @@
     <string name="dictionary_fragment_synonym_chip">Sinônimo</string>
     <string name="dictionary_fragment_syllabicSeparation_chip">Separação silábica</string>
     <string name="dictionary_fragment_sentences_chip">Frases</string>
+    <string name="dictionary_fragment_meaning_not_Found_message">Significado não encontrado</string>
+    <string name="dictionary_fragment_synonyms_not_Found_message">Sinônimos não encontrados</string>
+    <string name="dictionary_fragment_syllables_not_Found_message">Separação silábica não encontrada</string>
+    <string name="dictionary_fragment_sentences_not_Found_message">Sem resultados para aplicações em frases</string>
+    <string name="dictionary_fragment_error_empty_field_message">Campo vazio</string>
+    <string name="dictionary_fragment_error_no_chip_select_message">"Nenhum item selecionado. Você precisa escolher pelo menos um item antes de continuar."</string>
 
     <!-- Discipline Details Fragment -->
     <string name="discipline_details_fragment_toolbar_title">Detalhes</string>
@@ -118,13 +123,8 @@
     <string name="discipline_details_menu_menuItem_edit_title">Editar</string>
 
 
-
-
-
-
     <!-- Pomodoro Fragment -->
     <string name="pomodoro_fragment_toolbar_title">Pomodoro</string>
-
 
 
     <!-- Public Tender Fragment -->
@@ -156,8 +156,6 @@
     <string name="discipline_form_fragment_addReminder_switch">Adicionar como evento na agenda?</string>
     <string name="discipline_form_fragment_snackbar_message_permitionNotGranted">Permissão não concedida</string>
     <string name="discipline_form_fragment_snackbar_message_addReminder">"Preencha os campos corretamente para que o lembrete seja criado em sua agenda"</string>
-
-
 
 
     <!-- Discipline Form Image Dialog -->

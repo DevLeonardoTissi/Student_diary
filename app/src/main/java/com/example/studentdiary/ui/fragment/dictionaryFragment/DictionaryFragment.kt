@@ -8,7 +8,7 @@ import android.widget.TextView
 import com.example.studentdiary.R
 import com.example.studentdiary.databinding.FragmentDictionaryBinding
 import com.example.studentdiary.extensions.isOnline
-import com.example.studentdiary.extensions.toast
+import com.example.studentdiary.extensions.showToastNoConnectionMessage
 import com.example.studentdiary.ui.AppViewModel
 import com.example.studentdiary.ui.NavigationComponents
 import com.example.studentdiary.ui.fragment.baseFragment.BaseFragment
@@ -59,6 +59,7 @@ class DictionaryFragment : BaseFragment() {
                 if (isValid) {
                     if (context.isOnline()) {
                         val word = fieldWord.editText?.text.toString()
+
                         handleResultVisibility(
                             binding.fragmentDictionaryMeaningChip,
                             binding.fragmentDictionaryTextViewMeaningResult
@@ -83,8 +84,8 @@ class DictionaryFragment : BaseFragment() {
                         ) {
                             model.searchSentences(word)
                         }
-                    }else{
-                        context.toast(getString(R.string.default_message_noConnection))
+                    } else {
+                        context.showToastNoConnectionMessage()
                     }
                 }
             }
@@ -95,11 +96,11 @@ class DictionaryFragment : BaseFragment() {
         var valid = true
         val fieldWord = binding.fragmentDictionaryFieldWord
         if (fieldWord.editText?.text.toString().isBlank()) {
-            fieldWord.error = "Campo vazio"
+            fieldWord.error = getString(R.string.dictionary_fragment_error_empty_field_message)
             valid = false
         } else {
             if (binding.fragmentDictionaryChipGroup.checkedChipIds.isEmpty()) {
-                fieldWord.error = "Selecione pelo meno um item para pesquisa"
+                fieldWord.error = getString(R.string.dictionary_fragment_error_no_chip_select_message)
                 valid = false
             }
         }
@@ -147,19 +148,40 @@ class DictionaryFragment : BaseFragment() {
 
     private fun observerResults() {
         model.synonyms.observe(viewLifecycleOwner) {
-            binding.fragmentDictionaryTextViewSynonymsResult.text = it.toString()
+            if (it.isNullOrEmpty()) {
+                binding.fragmentDictionaryTextViewSynonymsResult.text =
+                    getString(R.string.dictionary_fragment_synonyms_not_Found_message)
+            } else {
+                binding.fragmentDictionaryTextViewSynonymsResult.text = it.toString()
+            }
         }
 
         model.meaning.observe(viewLifecycleOwner) {
-            binding.fragmentDictionaryTextViewMeaningResult.text = it.toString()
+            if (it.isNullOrEmpty()) {
+                binding.fragmentDictionaryTextViewMeaningResult.text =
+                    getString(R.string.dictionary_fragment_meaning_not_Found_message)
+            } else {
+                binding.fragmentDictionaryTextViewMeaningResult.text = it.toString()
+            }
         }
 
         model.syllables.observe(viewLifecycleOwner) {
-            binding.fragmentDictionaryTextViewSyllablesSeparationResult.text = it.toString()
+            if (it.isNullOrEmpty()) {
+                binding.fragmentDictionaryTextViewSyllablesSeparationResult.text =
+                    getString(R.string.dictionary_fragment_syllables_not_Found_message)
+            } else {
+                binding.fragmentDictionaryTextViewSyllablesSeparationResult.text = it.toString()
+            }
         }
 
-        model.senteces.observe(viewLifecycleOwner) {
-            binding.fragmentDictionaryTextViewSentencesResult.text = it.toString()
+        model.sentences.observe(viewLifecycleOwner) {
+            if (it.isNullOrEmpty()) {
+                binding.fragmentDictionaryTextViewSentencesResult.text =
+                    getString(R.string.dictionary_fragment_sentences_not_Found_message)
+            } else {
+                binding.fragmentDictionaryTextViewSentencesResult.text = it.toString()
+
+            }
         }
     }
 
