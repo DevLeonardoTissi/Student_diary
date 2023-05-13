@@ -85,7 +85,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.menuItem_drawer_about -> {
-                    openAppInfoBottomSheetDialog()
+                    setupAndOpenAppInfoBottomSheetDialog()
                     false
                 }
 
@@ -111,7 +111,7 @@ class MainActivity : AppCompatActivity() {
         binding.activityMainToolbar.setupWithNavController(navController, appBarConfiguration)
     }
 
-    private fun openAppInfoBottomSheetDialog() {
+    private fun setupAndOpenAppInfoBottomSheetDialog() {
         val bottomSheetDialog = BottomSheetDialog(this, R.style.bottonSheetDialog)
         AppInfoBottomSheetDialogBinding.inflate(LayoutInflater.from(this)).apply {
             appInfoBottomSheetDialogChipGitHub.setOnClickListener {
