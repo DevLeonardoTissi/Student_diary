@@ -19,6 +19,7 @@ import com.example.studentdiary.ui.AppViewModel
 import com.example.studentdiary.ui.FACEBOOK_PERMISSION_EMAIL
 import com.example.studentdiary.ui.FACEBOOK_PERMISSION_PROFILE
 import com.example.studentdiary.ui.NavigationComponents
+import com.example.studentdiary.utils.exitGoogleAndFacebookAccount
 import com.facebook.AccessToken
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
@@ -122,7 +123,7 @@ class LoginFragment : Fragment() {
                         resource.exception?.let { exception ->
                             if (context.isOnline()) {
                                 showFirebaseAuthErrorMessage(exception)
-                                exitGoogleAndFacebookAccount()
+                                exitGoogleAndFacebookAccount(context)
                             } else {
                                 context.showToastNoConnectionMessage()
                             }
@@ -263,18 +264,6 @@ class LoginFragment : Fragment() {
         binding.fragmentLoginTextfieldPassword.error = null
     }
 
-    private fun exitGoogleAndFacebookAccount() {
-        context?.googleSignInClient()?.signOut()
-        checkAndLogoutIfLoggedInFacebook()
-    }
-
-    private fun checkAndLogoutIfLoggedInFacebook() {
-        val accessToken = AccessToken.getCurrentAccessToken()
-        val isLoggedIn = accessToken != null && !accessToken.isExpired
-        if (isLoggedIn) {
-            AccessToken.setCurrentAccessToken(null)
-        }
-    }
 
     private fun textViewRegister() {
         binding.fragmentLoginTextViewRegister.setOnClickListener {

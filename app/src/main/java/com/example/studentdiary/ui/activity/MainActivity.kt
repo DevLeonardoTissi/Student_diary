@@ -20,7 +20,6 @@ import com.example.studentdiary.R
 import com.example.studentdiary.databinding.ActivityMainBinding
 import com.example.studentdiary.databinding.AppInfoBottomSheetDialogBinding
 import com.example.studentdiary.extensions.alertDialog
-import com.example.studentdiary.extensions.googleSignInClient
 import com.example.studentdiary.ui.AppViewModel
 import com.example.studentdiary.ui.GITHUB_LINK
 import com.example.studentdiary.ui.LINKEDIN_LINK
@@ -28,7 +27,7 @@ import com.example.studentdiary.ui.NavigationComponents
 import com.example.studentdiary.ui.STUDENT_DIARY_GITHUB_LINK
 import com.example.studentdiary.ui.fragment.loginFragment.LoginViewModel
 import com.example.studentdiary.utils.broadcastReceiver.MyBroadcastReceiver
-import com.facebook.AccessToken
+import com.example.studentdiary.utils.exitGoogleAndFacebookAccount
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -159,22 +158,10 @@ class MainActivity : AppCompatActivity() {
     private fun logout() {
         if (loginViewModel.isAuthenticated()) {
             loginViewModel.logout()
-            exitGoogleAndFacebookAccount()
+            exitGoogleAndFacebookAccount(this)
         }
     }
 
-    private fun exitGoogleAndFacebookAccount() {
-        googleSignInClient().signOut()
-        checkAndLogoutIfLoggedInFacebook()
-    }
-
-    private fun checkAndLogoutIfLoggedInFacebook() {
-        val accessToken = AccessToken.getCurrentAccessToken()
-        val isLoggedIn = accessToken != null && !accessToken.isExpired
-        if (isLoggedIn) {
-            AccessToken.setCurrentAccessToken(null)
-        }
-    }
 
     private fun goToUri(address: String) {
         val uri = Uri.parse(address)
