@@ -17,7 +17,6 @@ class LoadAlertDialog(private val context:Context) {
             .setCancelable(false)
             .create()
 
-
         alertDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         alertDialog.show()
     }

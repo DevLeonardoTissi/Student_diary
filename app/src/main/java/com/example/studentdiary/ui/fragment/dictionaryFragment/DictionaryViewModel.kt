@@ -3,11 +3,9 @@ package com.example.studentdiary.ui.fragment.dictionaryFragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.studentdiary.model.Meaning
 import com.example.studentdiary.model.Sentence
 import com.example.studentdiary.repository.DictionaryRepository
-import kotlinx.coroutines.launch
 
 class DictionaryViewModel(
     private val repository: DictionaryRepository
@@ -34,46 +32,36 @@ class DictionaryViewModel(
     }
 
 
-    fun searchMeaning(word: String) {
-        viewModelScope.launch {
-            try {
-                _meaning.value = repository.searchMeaning(word)
-            } catch (e: Exception) {
-                _meaning.value = null
-            }
-        }
-
-    }
-
-
-    fun searchSynonyms(word: String) {
-        viewModelScope.launch {
-            try {
-                _synonyms.value = repository.searchSynonyms(word)
-            } catch (e: Exception) {
-                _synonyms.value = null
-            }
+    suspend fun searchMeaning(word: String) {
+        try {
+            _meaning.value = repository.searchMeaning(word)
+        } catch (e: Exception) {
+            _meaning.value = null
         }
     }
 
-    fun searchSyllables(word: String) {
-        viewModelScope.launch {
-            try {
-                _syllables.value = repository.searchSyllables(word)
-            } catch (e: Exception) {
-                _syllables.value = null
-            }
 
+    suspend fun searchSynonyms(word: String) {
+        try {
+            _synonyms.value = repository.searchSynonyms(word)
+        } catch (e: Exception) {
+            _synonyms.value = null
         }
     }
 
-    fun searchSentences(word: String) {
-        viewModelScope.launch {
-            try {
-                _sentences.value = repository.searchSentences(word)
-            } catch (e: Exception) {
-                _sentences.value = null
-            }
+    suspend fun searchSyllables(word: String) {
+        try {
+            _syllables.value = repository.searchSyllables(word)
+        } catch (e: Exception) {
+            _syllables.value = null
+        }
+    }
+
+    suspend fun searchSentences(word: String) {
+        try {
+            _sentences.value = repository.searchSentences(word)
+        } catch (e: Exception) {
+            _sentences.value = null
         }
     }
 }

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.lifecycle.lifecycleScope
 import com.example.studentdiary.R
 import com.example.studentdiary.databinding.FragmentDictionaryBinding
 import com.example.studentdiary.extensions.isOnline
@@ -14,6 +15,7 @@ import com.example.studentdiary.ui.NavigationComponents
 import com.example.studentdiary.ui.dialog.LoadAlertDialog
 import com.example.studentdiary.ui.fragment.baseFragment.BaseFragment
 import com.google.android.material.chip.Chip
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -59,11 +61,13 @@ class DictionaryFragment : BaseFragment() {
                 val isValid = validate()
                 if (isValid) {
                     if (context.isOnline()) {
-                        val word = fieldWord.editText?.text.toString()
-                        val d = LoadAlertDialog(context)
-                        d.showLoadDialog()
-                        updateVisibilityAndSearch(word)
+                       lifecycleScope.launch {
+                           val word = fieldWord.editText?.text.toString()
+                           val d = LoadAlertDialog(context)
+                           d.showLoadDialog()
+                           updateVisibilityAndSearch(word)
                         d.closeLoadDialog()
+                       }
 
                     } else {
                         context.showToastNoConnectionMessage()
@@ -73,7 +77,7 @@ class DictionaryFragment : BaseFragment() {
         }
     }
 
-    private fun updateVisibilityAndSearch(word: String) {
+    private suspend fun updateVisibilityAndSearch(word: String) {
         handleResultVisibility(
             binding.fragmentDictionaryMeaningChip,
             binding.fragmentDictionaryTextViewMeaningResult,

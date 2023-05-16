@@ -87,12 +87,16 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <ImageView
-        android:id="@+id/disciplinesFragment_imageView_student"
-        style="@style/imageViewStudent"
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/disciplinesFragment_lottieAnimationView_ghost"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        app:lottie_rawRes="@raw/fantoma"
         android:contentDescription="@string/disciplines_fragment_img_content_student"
-        android:src="@drawable/student"
         android:visibility="gone"
+        app:lottie_loop="true"
+        app:lottie_autoPlay="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -106,12 +110,12 @@
         android:layout_margin="@dimen/margin_default"
         android:gravity="center"
         android:text="@string/disciplines_fragment_messageStudent"
-        android:textSize="@dimen/bigTextSize"
+        android:textSize="@dimen/mediumTextSize"
         android:visibility="gone"
         android:textColor="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/disciplinesFragment_imageView_student" />
+        app:layout_constraintTop_toBottomOf="@id/disciplinesFragment_lottieAnimationView_ghost" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

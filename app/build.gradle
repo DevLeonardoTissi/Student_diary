@@ -101,6 +101,10 @@ dependencies {
     def dataStore_version = '1.0.0'
     implementation "androidx.datastore:datastore-preferences:$dataStore_version"
 
+    //lottie Animation
+    def lottieVersion = "6.0.0"
+    implementation "com.airbnb.android:lottie:$lottieVersion"
+
     implementation 'androidx.core:core-ktx:1.10.1'
     implementation 'androidx.appcompat:appcompat:1.6.1'
 

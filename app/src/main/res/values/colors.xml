@@ -8,8 +8,8 @@
     <color name="customYellow">#F5E8C7</color>
 
 
-    <color name="beige">#e0d7c8</color>
-    <color name="darkBrown">#594545</color>
+    <color name="beige">#f2f7fd</color>
+    <color name="darkBrown">#184374</color>
     <color name="extraLightBrown">#f5f2f1</color>
 
     <color name="colorOnPrimary">@color/extraLightBrown</color>

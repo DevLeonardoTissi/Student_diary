@@ -74,7 +74,7 @@ class DisciplinesFragment : BaseFragment() {
 
     private fun messageEmptyList(list: List<Discipline>) {
         val visibility = if (list.isEmpty()) View.VISIBLE else View.GONE
-        binding.disciplinesFragmentImageViewStudent.visibility = visibility
+        binding.disciplinesFragmentLottieAnimationViewGhost.visibility = visibility
         binding.disciplinesFragmentTextViewStudent.visibility = visibility
     }
 
