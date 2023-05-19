@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.studentdiary.R
 import com.example.studentdiary.databinding.FragmentPublicTenderBinding
+import com.example.studentdiary.model.PublicTender
 import com.example.studentdiary.ui.AppViewModel
 import com.example.studentdiary.ui.NavigationComponents
 import com.example.studentdiary.ui.fragment.baseFragment.BaseFragment
@@ -41,15 +42,52 @@ class PublicTenderFragment : BaseFragment() {
 
     private fun updateUi() {
         model.publicTenderList.observe(viewLifecycleOwner) {
-            adapter.submitList(it)
+            buttonToggleGroupFilterList(it)
         }
+    }
+
+    private fun buttonToggleGroupFilterList(list: List<PublicTender>) {
+        val toggleGroup = binding.publicTenderFragmentButtonToggleGroup
+        checkButtonCheckedAndUpdateList(toggleGroup.checkedButtonId, list)
+
+        toggleGroup.addOnButtonCheckedListener { _, checkedId, isChecked ->
+            if (isChecked) {
+                checkButtonCheckedAndUpdateList(checkedId, list)
+            }
+        }
+    }
+
+    private fun checkButtonCheckedAndUpdateList(checkedId: Int, list: List<PublicTender>) {
+        when (checkedId) {
+            R.id.publicTenderFragment_toggle_button_contest -> {
+                updateList(list.filter { it.contest })
+
+            }
+
+            R.id.publicTenderFragment_toggle_button_courses -> {
+                updateList(list.filter {
+                    it.course
+                })
+            }
+        }
+    }
+
+    private fun updateList(list: List<PublicTender>) {
+        adapter.submitList(list)
+        messageEmptyList(list)
+    }
+
+    private fun messageEmptyList(list: List<PublicTender>) {
+        val visibility = if (list.isEmpty()) View.VISIBLE else View.GONE
+        binding.publicTenderFragmentLottieAnimationViewGhost.visibility = visibility
+        binding.publicTenterFragmentTextViewEmpty.visibility = visibility
     }
 
 
     private fun setupRecyclerview() {
-        val recyclerView = binding.disciplinesFragmentRecyclerView
+        val recyclerView = binding.publicTenterFragmentRecyclerView
         recyclerView.adapter = adapter
-        context?.let {context ->
+        context?.let { context ->
             recyclerView.layoutManager = LinearLayoutManager(context)
             val divider = MaterialDividerItemDecoration(context, LinearLayoutManager.VERTICAL)
             recyclerView.addItemDecoration(divider)

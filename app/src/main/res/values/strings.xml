@@ -133,6 +133,9 @@
 
     <!-- Public Tender Fragment -->
     <string name="public_tender_fragment_toolbar_title">Concursos</string>
+    <string name="public_tender_fragment_messageStudent">Nenhuma plataforma encontrada</string>
+    <string name="public_tender_fragment_label_toggle_button_course">Cursos preparatórios</string>
+    <string name="public_tender_fragment_label_toggle_button_contest">Sites Concursos</string>
 
 
     <!-- Discipline Form Fragment -->

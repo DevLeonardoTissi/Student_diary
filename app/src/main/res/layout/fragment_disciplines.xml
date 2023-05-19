@@ -104,7 +104,7 @@
         app:layout_constraintTop_toBottomOf="@id/disciplinesFragment_buttonToggleGroup" />
 
     <TextView
-        android:id="@+id/disciplinesFragment_textView_student"
+        android:id="@+id/disciplinesFragment_textView_empty"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_default"

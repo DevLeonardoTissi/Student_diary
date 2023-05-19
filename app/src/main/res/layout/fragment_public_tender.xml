@@ -1,20 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.fragment.publicTenderFragment.PublicTenderFragment">
 
 
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/publicTenderFragment_buttonToggleGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_default"
+        app:checkedButton="@id/publicTenderFragment_toggle_button_contest"
+        app:layout_constraintBottom_toTopOf="@id/publicTenterFragment_recyclerView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:selectionRequired="true"
+        app:singleSelection="true">
+
+        <Button
+            android:id="@+id/publicTenderFragment_toggle_button_contest"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/public_tender_fragment_label_toggle_button_contest" />
+
+        <Button
+            android:id="@+id/publicTenderFragment_toggle_button_courses"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/public_tender_fragment_label_toggle_button_course" />
+
+
+    </com.google.android.material.button.MaterialButtonToggleGroup>
+
+
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/disciplinesFragment_recyclerView"
+        android:id="@+id/publicTenterFragment_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/publicTenderFragment_buttonToggleGroup"
         tools:listitem="@layout/public_tender_item" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/publicTenderFragment_lottieAnimationView_ghost"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:contentDescription="@string/disciplines_fragment_img_content_student"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.3"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/comp" />
+
+    <TextView
+        android:id="@+id/publicTenterFragment_textView_empty"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_default"
+        android:gravity="center"
+        android:text="@string/public_tender_fragment_messageStudent"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/mediumTextSize"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/publicTenderFragment_lottieAnimationView_ghost" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
