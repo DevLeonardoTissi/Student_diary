@@ -18,7 +18,7 @@
     <string name="drawer_menu_item_disciplines">Disciplinas</string>
     <string name="drawer_menu_item_tools">Ferramentas</string>
     <string name="drawer_menu_item_dictionary">Dicionário</string>
-    <string name="drawer_menu_item_public_tender">Concursos abertos</string>
+    <string name="drawer_menu_item_public_tender">Concursos públicos</string>
     <string name="drawer_menu_item_pomodoro">Pomodoro</string>
     <string name="drawer_menu_item_more">Mais</string>
     <string name="drawer_menu_item_exit">Sair</string>
@@ -132,7 +132,7 @@
 
 
     <!-- Public Tender Fragment -->
-    <string name="public_tender_fragment_toolbar_title">Concursos</string>
+    <string name="public_tender_fragment_toolbar_title">Concursos públicos</string>
     <string name="public_tender_fragment_messageStudent">Nenhuma plataforma encontrada</string>
     <string name="public_tender_fragment_label_toggle_button_course">Cursos preparatórios</string>
     <string name="public_tender_fragment_label_toggle_button_contest">Sites Concursos</string>
