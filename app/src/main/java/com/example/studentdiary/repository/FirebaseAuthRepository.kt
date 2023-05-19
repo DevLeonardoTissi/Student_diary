@@ -18,11 +18,7 @@ class FirebaseAuthRepository(private val firebaseAuth: FirebaseAuth) {
         return firebaseAuth.signInWithEmailAndPassword(user.name, user.password)
     }
 
-    fun linkGoogleAccount(credential: AuthCredential): Task<AuthResult> {
-        return firebaseAuth.signInWithCredential(credential)
-    }
-
-    fun linkFacebookAccount(credential: AuthCredential): Task<AuthResult> {
+    fun linkWithCredential(credential: AuthCredential): Task<AuthResult> {
         return firebaseAuth.signInWithCredential(credential)
     }
 

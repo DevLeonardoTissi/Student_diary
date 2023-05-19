@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.fragment.registerFragment.RegisterFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -14,11 +14,11 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/register_fragment_textfield_email"
             style="@style/textField"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             android:hint="@string/register_fragment_text_field_hint_email"
             app:endIconMode="clear_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:startIconDrawable="@drawable/ic_email">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -31,11 +31,12 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/register_fragment_textfield_password"
             style="@style/textField"
-            app:layout_constraintTop_toBottomOf="@id/register_fragment_textfield_email"
+            android:hint="@string/register_fragment_text_field_hint_password"
+            app:endIconMode="password_toggle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:hint="@string/register_fragment_text_field_hint_password"
-            app:endIconMode="password_toggle">
+            app:layout_constraintTop_toBottomOf="@id/register_fragment_textfield_email"
+            app:startIconDrawable="@drawable/ic_password">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
@@ -47,11 +48,12 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/register_fragment_textfield_passwordChecker"
             style="@style/textField"
-            app:layout_constraintTop_toBottomOf="@id/register_fragment_textfield_password"
+            android:hint="@string/register_fragment_text_field_hint_passwordChecker"
+            app:endIconMode="password_toggle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:hint="@string/register_fragment_text_field_hint_passwordChecker"
-            app:endIconMode="password_toggle">
+            app:layout_constraintTop_toBottomOf="@id/register_fragment_textfield_password"
+            app:startIconDrawable="@drawable/ic_password">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
@@ -62,13 +64,11 @@
 
         <Button
             android:id="@+id/register_fragment_registerButton"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/register_fragment_textfield_passwordChecker"
             style="@style/elevationButton"
             android:text="@string/register_fragment_registerButton"
-            />
-
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/register_fragment_textfield_passwordChecker" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

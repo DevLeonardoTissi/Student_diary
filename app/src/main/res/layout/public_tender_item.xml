@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/customYellow">
+
+    <TextView
+        android:id="@+id/publicTenderItem_textView_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/textview_margin_default"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxLines="2"
+        android:textSize="@dimen/bigTextSize"
+        app:layout_constraintEnd_toStartOf="@id/publicTenderItem_guideline_end"
+        app:layout_constraintStart_toEndOf="@id/publicTenderItem_guideline_start"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="bbc fdgf gfdgfdgfg gfd g gfg fg gfdg  "
+        android:textColor="@color/colorPrimary"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/publicTenderItem_guideline_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="@dimen/discipline_item_guideline_end_percent"/>
+
+
+    <TextView
+        android:id="@+id/publicTenderItem_textView_description"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/textview_margin_default"
+        android:gravity="center"
+        android:maxLines="1"
+        android:textSize="@dimen/defaultTextSize"
+        app:layout_constraintEnd_toStartOf="@id/publicTenderItem_guideline_end"
+        app:layout_constraintStart_toEndOf="@id/publicTenderItem_guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/publicTenderItem_textView_name"
+        tools:text="14 de fevereiro de 2023 até a de março de 2023"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/publicTenderItem_guideline_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="@dimen/discipline_item_guideline_start_percent"/>
+
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/publicTenderItem_shapeableImageView"
+        style="@style/shapeableImageView"
+        android:contentDescription="@string/disciplines_fragment_img_content_desc_discipline"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/publicTenderItem_guideline_start"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Large"
+        android:src="@drawable/placeholder"
+        android:maxWidth="80dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

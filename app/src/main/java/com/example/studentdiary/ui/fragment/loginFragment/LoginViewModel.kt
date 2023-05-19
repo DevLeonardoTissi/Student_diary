@@ -45,7 +45,7 @@ class LoginViewModel(
 
     fun loginWithCredential(credential: AuthCredential) {
         try {
-            val task = firebaseAuthRepository.linkGoogleAccount(credential)
+            val task = firebaseAuthRepository.linkWithCredential(credential)
             task.addOnSuccessListener { _firebaseAuthLiveData.value = Resource(true) }
             task.addOnFailureListener { _firebaseAuthLiveData.value = Resource(false, it) }
         } catch (e: Exception) {

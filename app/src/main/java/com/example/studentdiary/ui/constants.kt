@@ -28,3 +28,5 @@ const val FACEBOOK_PERMISSION_PROFILE = "public_profile"
 const val GITHUB_LINK = "https://github.com/DevLeonardoTissi"
 const val LINKEDIN_LINK = "https://www.linkedin.com/in/leonardotissi/"
 const val STUDENT_DIARY_GITHUB_LINK = "https://github.com/DevLeonardoTissi/Student_diary"
+
+const val  PUBLIC_TENDER_COLLECTION = "public_tender"

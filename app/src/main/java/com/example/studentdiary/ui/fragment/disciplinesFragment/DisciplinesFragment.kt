@@ -156,12 +156,12 @@ class DisciplinesFragment : BaseFragment() {
     }
 
     private fun configureRecyclerView() {
-        val recycler = binding.disciplinesFragmentRecyclerView
-        recycler.adapter = adapter
+        val recyclerView = binding.disciplinesFragmentRecyclerView
+        recyclerView.adapter = adapter
         context?.let {
-            recycler.layoutManager = LinearLayoutManager(it)
+            recyclerView.layoutManager = LinearLayoutManager(it)
             val divider = MaterialDividerItemDecoration(it, LinearLayoutManager.VERTICAL)
-            recycler.addItemDecoration(divider)
+            recyclerView.addItemDecoration(divider)
             divider.dividerColor = it.getColor(R.color.colorOutline)
             adapter.onItemClick = { disciplineId ->
                 goToDisciplineDetails(disciplineId)

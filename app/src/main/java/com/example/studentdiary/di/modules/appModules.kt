@@ -12,8 +12,10 @@ import com.example.studentdiary.ui.fragment.disciplineDetailsFragment.Discipline
 import com.example.studentdiary.ui.fragment.disciplineFormFragment.DisciplineFormViewModel
 import com.example.studentdiary.ui.fragment.disciplinesFragment.DisciplinesViewModel
 import com.example.studentdiary.ui.fragment.loginFragment.LoginViewModel
+import com.example.studentdiary.ui.fragment.publicTenderFragment.PublicTenderViewModel
 import com.example.studentdiary.ui.fragment.registerFragment.RegisterViewModel
 import com.example.studentdiary.ui.recyclerView.adapter.DisciplineListAdapter
+import com.example.studentdiary.ui.recyclerView.adapter.PublicTenderAdapter
 import com.example.studentdiary.webClient.services.DicioApiService
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
@@ -64,12 +66,14 @@ val viewModelModule = module {
     viewModel { RegisterViewModel(get()) }
     viewModel { LoginViewModel(get()) }
     viewModel { DisciplinesViewModel(get()) }
-    viewModel {DictionaryViewModel(get())}
-    viewModel{DisciplineFormViewModel(get())}
-    viewModel{AppViewModel()}
-    viewModel{DisciplineDetailsViewModel(get())}
+    viewModel { DictionaryViewModel(get()) }
+    viewModel { DisciplineFormViewModel(get()) }
+    viewModel { AppViewModel() }
+    viewModel { DisciplineDetailsViewModel(get()) }
+    viewModel { PublicTenderViewModel(get()) }
 }
 
 val adapterModule = module {
     single { DisciplineListAdapter() }
+    single { PublicTenderAdapter() }
 }

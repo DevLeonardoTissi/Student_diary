@@ -28,6 +28,7 @@ import com.example.studentdiary.ui.STUDENT_DIARY_GITHUB_LINK
 import com.example.studentdiary.ui.fragment.loginFragment.LoginViewModel
 import com.example.studentdiary.utils.broadcastReceiver.MyBroadcastReceiver
 import com.example.studentdiary.utils.exitGoogleAndFacebookAccount
+import com.example.studentdiary.utils.goToUri
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -114,15 +115,15 @@ class MainActivity : AppCompatActivity() {
         val bottomSheetDialog = BottomSheetDialog(this, R.style.bottonSheetDialog)
         AppInfoBottomSheetDialogBinding.inflate(LayoutInflater.from(this)).apply {
             appInfoBottomSheetDialogChipGitHub.setOnClickListener {
-                goToUri(GITHUB_LINK)
+                goToUri(GITHUB_LINK, this@MainActivity)
             }
 
             appInfoBottomSheetDialogChipGitHubProject.setOnClickListener {
-                goToUri(STUDENT_DIARY_GITHUB_LINK)
+                goToUri(STUDENT_DIARY_GITHUB_LINK, this@MainActivity)
             }
 
             appInfoBottomSheetDialogChipLinkedin.setOnClickListener {
-                goToUri(LINKEDIN_LINK)
+                goToUri(LINKEDIN_LINK, this@MainActivity)
             }
 
             bottomSheetDialog.setContentView(root)
@@ -163,11 +164,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private fun goToUri(address: String) {
-        val uri = Uri.parse(address)
-        val intent = Intent(Intent.ACTION_VIEW, uri)
-        startActivity(intent)
-    }
+
 
     override fun onDestroy() {
         super.onDestroy()
