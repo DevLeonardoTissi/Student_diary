@@ -8,45 +8,45 @@
     <color name="customYellow">#F5E8C7</color>
 
 
-    <color name="beige">#f2f7fd</color>
-    <color name="darkBrown">#184374</color>
+    <color name="lightBlue">#f2f7fd</color>
+    <color name="darkBlue">#184374</color>
     <color name="extraLightBrown">#f5f2f1</color>
 
     <color name="colorOnPrimary">@color/extraLightBrown</color>
-    <color name="colorPrimary">@color/darkBrown</color>
+    <color name="colorPrimary">@color/darkBlue</color>
     <color name="colorPrimaryVariant">@color/extraLightBrown</color>
-    <color name="colorAccent">@color/darkBrown</color>
+    <color name="colorAccent">@color/darkBlue</color>
     <!-- Secondary brand color. -->
     <color name="colorSecondary">@color/extraLightBrown</color>
     <color name="colorSecondaryVariant">@color/extraLightBrown</color>
     <color name="colorOnSecondary">@color/extraLightBrown</color>
 
     <!-- floating action button background -->
-    <color name="colorPrimaryContainer">@color/darkBrown</color>
+    <color name="colorPrimaryContainer">@color/darkBlue</color>
     <!-- floating action button icon -->
     <color name="colorOnPrimaryContainer">@color/extraLightBrown</color>
 
 
     <!--fundo seletor do drawer e do toggle button-->
-    <color name="colorSecondaryContainer">@color/darkBrown</color>
+    <color name="colorSecondaryContainer">@color/darkBlue</color>
 
     <!--icone e texto selecionado no drawer e no toggle button-->
     <color name="colorOnSecondaryContainer">@color/extraLightBrown</color>
 
     <!--drawer, fundo do time picker, data picker e botões-->
-    <color name="colorSurface">@color/beige</color>
+    <color name="colorSurface">@color/lightBlue</color>
 
     <!--itens não selecionados no toggle group, titulo do drawer, stroeke e helpertext quando não habilitado, numero time picker, data não selecionada no datepicker-->
-    <color name="colorOnSurface">@color/darkBrown</color>
+    <color name="colorOnSurface">@color/darkBlue</color>
 
     <!-- hint text field, subtitulo header drawer, icones não selecionados no drawer, texto timepicker e datapicker  -->
-    <color name="colorOnSurfaceVariant">@color/darkBrown</color>
+    <color name="colorOnSurfaceVariant">@color/darkBlue</color>
 
     <!-- contorno togglebutton e switch -->
-    <color name="colorOutline">@color/darkBrown</color>
+    <color name="colorOutline">@color/darkBlue</color>
 
     <!-- switch quando não selecionado e textfield quando não habilitado -->
-    <color name="colorSurfaceVariant">@color/beige</color>
+    <color name="colorSurfaceVariant">@color/lightBlue</color>
 
 
 </resources>

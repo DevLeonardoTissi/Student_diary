@@ -6,9 +6,11 @@
         android:topLeftRadius="20dp"
         android:topRightRadius="20dp" />
 
-    <gradient
-        android:angle="90"
-        android:endColor="@color/customYellow"
-        android:startColor="@color/customYellow" />
+<!--    <gradient-->
+<!--        android:angle="90"-->
+<!--        android:endColor="@color/customYellow"-->
+<!--        android:startColor="@color/customYellow" />-->
+
+    <solid android:color="@color/customYellow"/>
 
 </shape>
