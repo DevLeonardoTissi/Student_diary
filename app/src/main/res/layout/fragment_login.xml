@@ -118,12 +118,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/fragment_login_signin_googleButton" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/fragment_login_guideline_horizontal_bottom"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="@dimen/fragment_login_guideline_horizontal_bottom_percent" />
+
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/fragment_login_guideline_vertical_center"
@@ -131,6 +126,13 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_percent="@dimen/fragment_login_guideline_vertical_center_percent" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/fragment_login_guideline_horizontal_bottom"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="@dimen/fragment_login_guideline_horizontal_bottom_percent" />
 
         <com.google.android.material.divider.MaterialDivider
             android:id="@+id/fragment_login_divider_bottom"

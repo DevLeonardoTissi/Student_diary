@@ -1,12 +1,15 @@
 package com.example.studentdiary.ui.fragment.publicTenderFragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.studentdiary.R
 import com.example.studentdiary.databinding.FragmentPublicTenderBinding
+import com.example.studentdiary.extensions.snackBar
 import com.example.studentdiary.model.PublicTender
 import com.example.studentdiary.ui.AppViewModel
 import com.example.studentdiary.ui.NavigationComponents
@@ -16,13 +19,14 @@ import com.example.studentdiary.utils.goToUri
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PublicTenderFragment : BaseFragment() {
 
     private var _binding: FragmentPublicTenderBinding? = null
     private val binding get() = _binding!!
     private val appViewModel: AppViewModel by activityViewModel()
-    private val model: PublicTenderViewModel by inject()
+    private val model: PublicTenderViewModel by viewModel()
     private val adapter: PublicTenderAdapter by inject()
 
     override fun onCreateView(
@@ -38,7 +42,10 @@ class PublicTenderFragment : BaseFragment() {
         setupNavigationComponents()
         setupRecyclerview()
         updateUi()
+        setupFABTips()
+        onClickCardViewSuggestion()
     }
+
 
     private fun updateUi() {
         model.publicTenderList.observe(viewLifecycleOwner) {
@@ -79,7 +86,7 @@ class PublicTenderFragment : BaseFragment() {
 
     private fun messageEmptyList(list: List<PublicTender>) {
         val visibility = if (list.isEmpty()) View.VISIBLE else View.GONE
-        binding.publicTenderFragmentLottieAnimationViewGhost.visibility = visibility
+        binding.publicTenderFragmentLottieAnimationViewEmptyBox.visibility = visibility
         binding.publicTenterFragmentTextViewEmpty.visibility = visibility
     }
 
@@ -102,6 +109,46 @@ class PublicTenderFragment : BaseFragment() {
     private fun setupNavigationComponents() {
         appViewModel.hasNavigationComponents =
             NavigationComponents(navigationIcon = true, menuDrawer = true)
+    }
+
+    private fun setupFABTips() {
+        openCardViewSuggestion(model.getIsOpen())
+        Log.i("TAG", "setupFABTips: ${model.getIsOpen()}")
+       binding.publicTenderFragmentFabTips.apply {
+            setOnClickListener {
+                model.setIsOpen(!model.getIsOpen())
+                openCardViewSuggestion(model.getIsOpen())
+                Log.i("TAG", "setupFABTips: ${model.getIsOpen()}")
+
+
+            }
+        }
+    }
+
+    private fun onClickCardViewSuggestion(){
+        binding.publicTenderFragmentCardViewSuggestion.setOnClickListener {
+            snackBar("clicou")
+        }
+    }
+
+    private fun openCardViewSuggestion(enable: Boolean) {
+        val cardViewSuggestion = binding.publicTenderFragmentCardViewSuggestion
+        val fabSuggestions = binding.publicTenderFragmentFabTips
+
+        if (enable && cardViewSuggestion.visibility != View.VISIBLE) {
+            cardViewSuggestion.visibility = View.VISIBLE
+            val enterAnimation = AnimationUtils.loadAnimation(context, R.anim.enter_from_botton)
+            cardViewSuggestion.startAnimation(enterAnimation)
+            fabSuggestions.startAnimation(enterAnimation)
+        } else {
+            val exitAnimation = AnimationUtils.loadAnimation(context, R.anim.exit_to_bottom)
+            cardViewSuggestion.startAnimation(exitAnimation)
+            fabSuggestions.startAnimation(exitAnimation)
+
+            cardViewSuggestion.postDelayed({
+                cardViewSuggestion.visibility = View.GONE
+            }, 1000)
+        }
     }
 
     override fun onDestroy() {

@@ -42,14 +42,14 @@
         android:id="@+id/publicTenterFragment_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/publicTenderFragment_cardView_suggestion"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/publicTenderFragment_buttonToggleGroup"
         tools:listitem="@layout/public_tender_item" />
 
     <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/publicTenderFragment_lottieAnimationView_ghost"
+        android:id="@+id/publicTenderFragment_lottieAnimationView_emptyBox"
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:contentDescription="@string/disciplines_fragment_img_content_student"
@@ -75,6 +75,60 @@
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/publicTenderFragment_lottieAnimationView_ghost" />
+        app:layout_constraintTop_toBottomOf="@id/publicTenderFragment_lottieAnimationView_emptyBox" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/publicTenderFragment_cardView_suggestion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_default"
+        android:visibility="gone"
+        app:cardCornerRadius="@dimen/cornerRadius_default"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/publicTenterFragment_recyclerView">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/publicTenderFragment_imageView_tips"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_tips"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/publicTenderFragment_textView_addPublicTender" />
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/publicTenderFragment_textView_addPublicTender"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/public_tender_fragment_text_suggestion"
+                android:textSize="@dimen/defaultTextSize"
+                android:textStyle="italic"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/publicTenderFragment_imageView_tips"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/publicTenderFragment_fab_tips"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/fab_margin_default"
+        android:src="@drawable/ic_tips"
+        app:layout_constraintBottom_toTopOf="@id/publicTenderFragment_cardView_suggestion"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

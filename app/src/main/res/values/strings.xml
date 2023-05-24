@@ -136,6 +136,7 @@
     <string name="public_tender_fragment_messageStudent">Nenhuma plataforma encontrada</string>
     <string name="public_tender_fragment_label_toggle_button_course">Cursos preparatórios</string>
     <string name="public_tender_fragment_label_toggle_button_contest">Sites Concursos</string>
+    <string name="public_tender_fragment_text_suggestion">Gostaríamos de saber se há algum site que você acredita estar faltando em nossa lista. Se você conhece algum site interessante que gostaria de sugerir, clique aqui para enviar sua sugestão</string>
 
 
     <!-- Discipline Form Fragment -->
