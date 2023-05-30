@@ -176,6 +176,14 @@
     <string name="discipline_form_confirm_dialog_title">Confirmar disciplina</string>
     <string name="discipline_form_confirm_dialog_message">Confirmar adição de uma nova disciplina?</string>
 
+    <!-- Public Tender Suggestion Dialog -->
+    <string name="public_tender_suggestion_dialog_text_view_title">Envie sua recomendação de plataforma para concursos públicos</string>
+    <string name="public_tender_suggestion_dialog_text_field_hint_name">Nome da Plataforma</string>
+    <string name="public_tender_suggestion_dialog_text_field_hint_url">URL da plataforma</string>
+    <string name="public_tender_suggestion_dialog_text_field_hint_description">Descrição da plataforma</string>
+    <string name="public_tender_suggestion_dialog_text_field_error">Campo vazio</string>
+
+
 
     <!-- Common -->
     <string name="common_confirm">Confirmar</string>
@@ -183,6 +191,8 @@
     <string name="common_decline">Rejeitar</string>
     <string name="common_ok">OK</string>
     <string name="common_or">Ou</string>
+    <string name="common_mandatory">Obrigatório</string>
+    <string name="common_optional">Opcional</string>
 
     <string name="default_message_noConnection">Sem conexão com a internet. Verifique sua conexão e tente novamente</string>
     <string name="message_airplane_mode_on">O modo avião está ativado. Algumas funções do app podem não funcionar</string>

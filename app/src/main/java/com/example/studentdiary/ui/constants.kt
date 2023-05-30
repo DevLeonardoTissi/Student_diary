@@ -30,3 +30,4 @@ const val LINKEDIN_LINK = "https://www.linkedin.com/in/leonardotissi/"
 const val STUDENT_DIARY_GITHUB_LINK = "https://github.com/DevLeonardoTissi/Student_diary"
 
 const val  PUBLIC_TENDER_COLLECTION = "public_tender"
+const val PUBLIC_TENDER_SUGGESTION = "public_tender_suggestion"

@@ -1,7 +1,6 @@
 package com.example.studentdiary.ui.fragment.publicTenderFragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,10 +8,10 @@ import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.studentdiary.R
 import com.example.studentdiary.databinding.FragmentPublicTenderBinding
-import com.example.studentdiary.extensions.snackBar
 import com.example.studentdiary.model.PublicTender
 import com.example.studentdiary.ui.AppViewModel
 import com.example.studentdiary.ui.NavigationComponents
+import com.example.studentdiary.ui.dialog.PublicTenderSuggestionDialog
 import com.example.studentdiary.ui.fragment.baseFragment.BaseFragment
 import com.example.studentdiary.ui.recyclerView.adapter.PublicTenderAdapter
 import com.example.studentdiary.utils.goToUri
@@ -113,22 +112,45 @@ class PublicTenderFragment : BaseFragment() {
 
     private fun setupFABTips() {
         openCardViewSuggestion(model.getIsOpen())
-        Log.i("TAG", "setupFABTips: ${model.getIsOpen()}")
-       binding.publicTenderFragmentFabTips.apply {
+        binding.publicTenderFragmentFabTips.apply {
             setOnClickListener {
-                model.setIsOpen(!model.getIsOpen())
-                openCardViewSuggestion(model.getIsOpen())
-                Log.i("TAG", "setupFABTips: ${model.getIsOpen()}")
-
-
+                toggleAndOpenCardViewSuggestion()
             }
         }
     }
 
-    private fun onClickCardViewSuggestion(){
+    private fun onClickCardViewSuggestion() {
         binding.publicTenderFragmentCardViewSuggestion.setOnClickListener {
-            snackBar("clicou")
+            openAlertDialogSuggestion()
         }
+    }
+
+    private fun openAlertDialogSuggestion() {
+        context?.let { context ->
+            PublicTenderSuggestionDialog(context)
+                .show { publicTenderSuggestionNonNull ->
+                    publicTenderSuggestionNonNull?.let { publicTenderSuggestion ->
+                        model.add(publicTenderSuggestion)
+                    }
+                    toggleAndOpenCardViewSuggestion()
+                    showAnimmationViewSuggestionDone()
+
+                }
+        }
+    }
+
+    private fun showAnimmationViewSuggestionDone() {
+        val lottieAnimationViewSuggestionDone =
+            binding.publicTenderFragmentLottieAnimationViewSuggestionDone
+        lottieAnimationViewSuggestionDone.visibility = View.VISIBLE
+        lottieAnimationViewSuggestionDone.postDelayed({
+            lottieAnimationViewSuggestionDone.visibility = View.GONE
+        }, 3000)
+    }
+
+    private fun toggleAndOpenCardViewSuggestion() {
+        model.setIsOpen(!model.getIsOpen())
+        openCardViewSuggestion(model.getIsOpen())
     }
 
     private fun openCardViewSuggestion(enable: Boolean) {

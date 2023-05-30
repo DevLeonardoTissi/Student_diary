@@ -52,7 +52,6 @@
         android:id="@+id/publicTenderFragment_lottieAnimationView_emptyBox"
         android:layout_width="200dp"
         android:layout_height="200dp"
-        android:contentDescription="@string/disciplines_fragment_img_content_student"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -130,5 +129,17 @@
         app:layout_constraintBottom_toTopOf="@id/publicTenderFragment_cardView_suggestion"
         app:layout_constraintEnd_toEndOf="parent" />
 
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/publicTenderFragment_lottieAnimationView_suggestion_done"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/party_celebration" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

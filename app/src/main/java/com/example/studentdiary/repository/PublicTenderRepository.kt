@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.studentdiary.model.PublicTender
 import com.example.studentdiary.ui.PUBLIC_TENDER_COLLECTION
+import com.example.studentdiary.ui.PUBLIC_TENDER_SUGGESTION
+import com.example.studentdiary.utils.PublicTenderSuggestion
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -22,6 +24,12 @@ class PublicTenderRepository(private val firestore: FirebaseFirestore) {
                 }
             }
         return liveData
+    }
+
+    fun add(publicTenderSuggestion: PublicTenderSuggestion){
+        val document = firestore.collection(PUBLIC_TENDER_SUGGESTION).document()
+        document.set(publicTenderSuggestion)
+
     }
 
     private fun converterToPublicTender(document: DocumentSnapshot): PublicTender {

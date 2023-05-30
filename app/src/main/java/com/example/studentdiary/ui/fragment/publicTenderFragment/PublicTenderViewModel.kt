@@ -5,8 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.studentdiary.model.PublicTender
 import com.example.studentdiary.repository.PublicTenderRepository
+import com.example.studentdiary.utils.PublicTenderSuggestion
 
-class PublicTenderViewModel(firebaseFirestoreRepository: PublicTenderRepository) :
+class PublicTenderViewModel(private val firebaseFirestoreRepository: PublicTenderRepository) :
     ViewModel() {
     val publicTenderList: LiveData<List<PublicTender>> = firebaseFirestoreRepository.search()
 
@@ -17,4 +18,7 @@ class PublicTenderViewModel(firebaseFirestoreRepository: PublicTenderRepository)
     }
 
     fun getIsOpen(): Boolean = _cardViewSuggestionsIsOpen.value ?: false
+
+    fun add(publicTenderSuggestion: PublicTenderSuggestion) =
+        firebaseFirestoreRepository.add(publicTenderSuggestion)
 }
