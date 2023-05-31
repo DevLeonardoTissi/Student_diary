@@ -152,7 +152,19 @@ class DisciplinesFragment : BaseFragment() {
     private fun updateList(list: List<Discipline>) {
         adapter.submitList(list)
         messageEmptyList(list)
+        updateProgressIndicator(list)
 
+    }
+
+    private fun updateProgressIndicator(list: List<Discipline>) {
+        val visibility = if (list.isEmpty()) View.GONE else View.VISIBLE
+        val percentageOfCoursesCompleted =
+            (list.count { it.completed }.toDouble() / list.size) * 100
+        binding.disciplinesFragmentProgressIndicator.progress = percentageOfCoursesCompleted.toInt()
+        binding.disciplinesFragmentProgressIndicator.visibility = visibility
+        binding.disciplinesFragmentTextViewIndicatorLabel.visibility = visibility
+        binding.disciplinesFragmentTextViewIndicatorPercent.visibility=visibility
+        binding.disciplinesFragmentTextViewIndicatorPercent.text = String.format("%.2f%%", percentageOfCoursesCompleted)
     }
 
     private fun configureRecyclerView() {

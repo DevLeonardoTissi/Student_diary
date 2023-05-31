@@ -15,8 +15,8 @@
         app:checkedButton="@id/disciplinesFragment_toggle_button_all"
         app:layout_constraintBottom_toTopOf="@id/disciplinesFragment_recyclerView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:selectionRequired="true"
         app:singleSelection="true">
 
@@ -39,32 +39,31 @@
             style="@style/Widget.App.Button.OutlinedButton.IconOnly"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:icon="@drawable/ic_check_list"/>
+            app:icon="@drawable/ic_check_list" />
 
         <Button
             android:id="@+id/disciplinesFragment_toggle_button_date"
             style="@style/Widget.App.Button.OutlinedButton.IconOnly"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:icon="@drawable/ic_calendar"/>
+            app:icon="@drawable/ic_calendar" />
 
         <Button
             android:id="@+id/disciplinesFragment_toggle_button_growing"
             style="@style/Widget.App.Button.OutlinedButton.IconOnly"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:icon="@drawable/ic_growing"/>
+            app:icon="@drawable/ic_growing" />
 
         <Button
             android:id="@+id/disciplinesFragment_toggle_button_descending"
             style="@style/Widget.App.Button.OutlinedButton.IconOnly"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:icon="@drawable/ic_descending"/>
+            app:icon="@drawable/ic_descending" />
 
 
     </com.google.android.material.button.MaterialButtonToggleGroup>
-
 
 
     <androidx.recyclerview.widget.RecyclerView
@@ -87,21 +86,55 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/disciplinesFragment_textView_indicator_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/disciplinesFragment_progressIndicator"
+        android:text="Porcentagem de concuidas: "
+        android:layout_marginStart="@dimen/margin_default"/>
+
+    <TextView
+        android:id="@+id/disciplinesFragment_textView_indicator_percent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="100%"
+        android:textSize="@dimen/defaultTextSize"
+
+        app:layout_constraintBottom_toTopOf="@id/disciplinesFragment_progressIndicator"
+        app:layout_constraintStart_toEndOf="@id/disciplinesFragment_textView_indicator_label"
+      />
+
+
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/disciplinesFragment_progressIndicator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:trackThickness="7dp"
+        android:indeterminate="false"
+        android:max="100"
+        app:indicatorColor="@color/customGreen"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:progress="100" />
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/disciplinesFragment_lottieAnimationView_ghost"
         android:layout_width="200dp"
         android:layout_height="200dp"
-        app:lottie_rawRes="@raw/fantoma"
         android:contentDescription="@string/disciplines_fragment_img_content_student"
         android:visibility="gone"
-        app:lottie_loop="true"
-        app:lottie_autoPlay="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/disciplinesFragment_buttonToggleGroup"
         app:layout_constraintVertical_bias="0.3"
-        app:layout_constraintTop_toBottomOf="@id/disciplinesFragment_buttonToggleGroup" />
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/fantoma" />
 
     <TextView
         android:id="@+id/disciplinesFragment_textView_empty"
@@ -110,9 +143,9 @@
         android:layout_margin="@dimen/margin_default"
         android:gravity="center"
         android:text="@string/disciplines_fragment_messageStudent"
+        android:textColor="@color/colorPrimary"
         android:textSize="@dimen/mediumTextSize"
         android:visibility="gone"
-        android:textColor="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/disciplinesFragment_lottieAnimationView_ghost" />

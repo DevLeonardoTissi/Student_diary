@@ -1,6 +1,8 @@
 package com.example.studentdiary.ui.dialog
 
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import androidx.appcompat.app.AlertDialog
 import com.example.studentdiary.R
@@ -15,6 +17,8 @@ class PublicTenderSuggestionDialog(private val context: Context) {
             val dialog = AlertDialog.Builder(context)
                 .setView(root)
                 .show()
+
+            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
             publicTenderSuggestionDialogButtonPositive.setOnClickListener {
                 clearErrorTextFields()

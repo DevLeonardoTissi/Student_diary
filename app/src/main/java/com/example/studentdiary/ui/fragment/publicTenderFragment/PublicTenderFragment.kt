@@ -133,13 +133,13 @@ class PublicTenderFragment : BaseFragment() {
                         model.add(publicTenderSuggestion)
                     }
                     toggleAndOpenCardViewSuggestion()
-                    showAnimmationViewSuggestionDone()
+                    showAnimationViewSuggestionDone()
 
                 }
         }
     }
 
-    private fun showAnimmationViewSuggestionDone() {
+    private fun showAnimationViewSuggestionDone() {
         val lottieAnimationViewSuggestionDone =
             binding.publicTenderFragmentLottieAnimationViewSuggestionDone
         lottieAnimationViewSuggestionDone.visibility = View.VISIBLE
