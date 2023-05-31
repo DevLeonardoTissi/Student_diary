@@ -70,7 +70,7 @@
         android:id="@+id/disciplinesFragment_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/disciplinesFragment_constraint_layout_progress_indicator"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/disciplinesFragment_buttonToggleGroup"
@@ -83,43 +83,68 @@
         android:layout_margin="@dimen/fab_margin_default"
         android:contentDescription="@string/disciplines_fragment_fab_insert_content_desc"
         android:src="@drawable/ic_add"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/disciplinesFragment_constraint_layout_progress_indicator"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/disciplinesFragment_textView_indicator_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/disciplinesFragment_progressIndicator"
-        android:text="Porcentagem de concuidas: "
-        android:layout_marginStart="@dimen/margin_default"/>
-
-    <TextView
-        android:id="@+id/disciplinesFragment_textView_indicator_percent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="100%"
-        android:textSize="@dimen/defaultTextSize"
-
-        app:layout_constraintBottom_toTopOf="@id/disciplinesFragment_progressIndicator"
-        app:layout_constraintStart_toEndOf="@id/disciplinesFragment_textView_indicator_label"
-      />
-
-
-    <com.google.android.material.progressindicator.LinearProgressIndicator
-        android:id="@+id/disciplinesFragment_progressIndicator"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/disciplinesFragment_constraint_layout_progress_indicator"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:trackThickness="7dp"
-        android:indeterminate="false"
-        android:max="100"
-        app:indicatorColor="@color/customGreen"
+        android:background="@drawable/bg_progress_info"
+        android:elevation="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:progress="100" />
+        app:layout_constraintStart_toStartOf="parent">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/disciplinesFragment_guideline_vertical_center"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="@dimen/fragment_login_guideline_vertical_center_percent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/disciplinesFragment_textView_indicator_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/margin_small"
+            android:text="@string/discipline_fragment_text_progress_indicator_label"
+            android:textSize="@dimen/defaultTextSize"
+            app:layout_constraintBottom_toTopOf="@id/disciplinesFragment_progressIndicator"
+            app:layout_constraintEnd_toStartOf="@id/disciplinesFragment_textView_indicator_percent"
+            app:layout_constraintStart_toStartOf="@id/disciplinesFragment_guideline_vertical_center"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/disciplinesFragment_textView_indicator_percent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/margin_small"
+            android:textSize="@dimen/defaultTextSize"
+            app:layout_constraintBottom_toTopOf="@id/disciplinesFragment_progressIndicator"
+            app:layout_constraintEnd_toEndOf="@id/disciplinesFragment_guideline_vertical_center"
+            app:layout_constraintStart_toEndOf="@id/disciplinesFragment_textView_indicator_label"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="100%" />
+
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/disciplinesFragment_progressIndicator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_default"
+            android:layout_marginBottom="@dimen/margin_small"
+            android:indeterminate="false"
+            android:max="100"
+            app:indicatorColor="@color/customGreen"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:trackThickness="7dp"
+            tools:progress="100" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/disciplinesFragment_lottieAnimationView_ghost"

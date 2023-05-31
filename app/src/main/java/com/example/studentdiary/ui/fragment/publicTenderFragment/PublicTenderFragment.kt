@@ -15,7 +15,6 @@ import com.example.studentdiary.ui.dialog.PublicTenderSuggestionDialog
 import com.example.studentdiary.ui.fragment.baseFragment.BaseFragment
 import com.example.studentdiary.ui.recyclerView.adapter.PublicTenderAdapter
 import com.example.studentdiary.utils.goToUri
-import com.google.android.material.divider.MaterialDividerItemDecoration
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -95,9 +94,6 @@ class PublicTenderFragment : BaseFragment() {
         recyclerView.adapter = adapter
         context?.let { context ->
             recyclerView.layoutManager = LinearLayoutManager(context)
-            val divider = MaterialDividerItemDecoration(context, LinearLayoutManager.VERTICAL)
-            recyclerView.addItemDecoration(divider)
-            divider.dividerColor = context.getColor(R.color.colorOutline)
             adapter.onItemClick = { url ->
                 goToUri(url, context)
             }

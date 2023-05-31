@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.studentdiary.R
 import com.example.studentdiary.databinding.FragmentDisciplinesBinding
 import com.example.studentdiary.extensions.alertDialog
+import com.example.studentdiary.extensions.converterToPercent
 import com.example.studentdiary.model.Discipline
 import com.example.studentdiary.ui.AppViewModel
 import com.example.studentdiary.ui.NavigationComponents
@@ -163,8 +164,9 @@ class DisciplinesFragment : BaseFragment() {
         binding.disciplinesFragmentProgressIndicator.progress = percentageOfCoursesCompleted.toInt()
         binding.disciplinesFragmentProgressIndicator.visibility = visibility
         binding.disciplinesFragmentTextViewIndicatorLabel.visibility = visibility
-        binding.disciplinesFragmentTextViewIndicatorPercent.visibility=visibility
-        binding.disciplinesFragmentTextViewIndicatorPercent.text = String.format("%.2f%%", percentageOfCoursesCompleted)
+        binding.disciplinesFragmentTextViewIndicatorPercent.visibility = visibility
+        binding.disciplinesFragmentTextViewIndicatorPercent.text =
+            String.converterToPercent(percentageOfCoursesCompleted)
     }
 
     private fun configureRecyclerView() {

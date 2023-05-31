@@ -15,11 +15,11 @@
             android:id="@+id/fragment_login_imageView_logo"
             android:layout_width="@dimen/imageView_extra_big_width"
             android:layout_height="@dimen/imageView_extra_big_height"
-            app:layout_constraintTop_toTopOf="parent"
+            android:layout_margin="@dimen/margin_default"
+            android:src="@drawable/logo_app"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:src="@drawable/logo_app"
-            android:layout_margin="@dimen/margin_default"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/fragment_login_textfield_email"
@@ -45,8 +45,8 @@
             app:endIconMode="password_toggle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:startIconDrawable="@drawable/ic_password"
-            app:layout_constraintTop_toBottomOf="@id/fragment_login_textfield_email">
+            app:layout_constraintTop_toBottomOf="@id/fragment_login_textfield_email"
+            app:startIconDrawable="@drawable/ic_password">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
@@ -70,8 +70,8 @@
             android:layout_marginHorizontal="@dimen/medium_margin"
             android:layout_marginVertical="@dimen/margin_default"
             android:text="@string/common_or"
-            android:textSize="@dimen/defaultTextSize"
             android:textColor="@color/colorOnSurface"
+            android:textSize="@dimen/defaultTextSize"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/fragment_login_loginButton" />
@@ -119,7 +119,6 @@
             app:layout_constraintTop_toBottomOf="@id/fragment_login_signin_googleButton" />
 
 
-
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/fragment_login_guideline_vertical_center"
             android:layout_width="0dp"
@@ -147,8 +146,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/login_fragment_textView_label_not_have_an_account_question"
-            android:textSize="@dimen/defaultTextSize"
             android:textColor="@color/colorOnSurface"
+            android:textSize="@dimen/defaultTextSize"
             app:layout_constraintBottom_toBottomOf="@id/fragment_login_textView_register"
             app:layout_constraintEnd_toStartOf="@id/fragment_login_textView_register"
             app:layout_constraintStart_toStartOf="@id/fragment_login_guideline_vertical_center"

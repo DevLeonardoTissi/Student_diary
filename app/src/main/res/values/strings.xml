@@ -91,6 +91,7 @@
     <string name="discipline_fragment_switch_favorite_label">Apenas Favoritas</string>
     <string name="discipline_fragment_delete_dialog_title">Confirmar exclusão</string>
     <string name="discipline_fragment_delete_dialog_message">Confirmar a exclusão dessa disciplina?</string>
+    <string name="discipline_fragment_text_progress_indicator_label">Concluídas: </string>
 
 
     <!-- Disciplines Fragment Menu -->
