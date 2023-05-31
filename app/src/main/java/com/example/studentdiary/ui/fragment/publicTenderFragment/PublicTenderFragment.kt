@@ -158,10 +158,12 @@ class PublicTenderFragment : BaseFragment() {
             val enterAnimation = AnimationUtils.loadAnimation(context, R.anim.enter_from_botton)
             cardViewSuggestion.startAnimation(enterAnimation)
             fabSuggestions.startAnimation(enterAnimation)
+            fabSuggestions.setImageResource(R.drawable.ic_down)
         } else {
             val exitAnimation = AnimationUtils.loadAnimation(context, R.anim.exit_to_bottom)
             cardViewSuggestion.startAnimation(exitAnimation)
             fabSuggestions.startAnimation(exitAnimation)
+            fabSuggestions.setImageResource(R.drawable.ic_tips)
 
             cardViewSuggestion.postDelayed({
                 cardViewSuggestion.visibility = View.GONE

@@ -36,7 +36,6 @@ class PublicTenderAdapter(var onItemClick: (url: String) -> Unit = {}) :
             binding.publicTenderItemTextViewName.text = publicTender.name
             binding.publicTenderItemTextViewDescription.text = publicTender.description
             binding.publicTenderItemShapeableImageView.tryLoadImage(publicTender.img)
-
         }
     }
 
