@@ -37,14 +37,9 @@ class DictionaryFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupNavigationComponents()
-    }
-
-    override fun onResume() {
-        super.onResume()
         observerResults()
         observerFieldWord()
         saveFieldValue()
-        updateUi()
         search()
     }
 
@@ -61,13 +56,14 @@ class DictionaryFragment : BaseFragment() {
                 val isValid = validate()
                 if (isValid) {
                     if (context.isOnline()) {
-                       lifecycleScope.launch {
-                           val word = fieldWord.editText?.text.toString()
-                           val d = LoadAlertDialog(context)
-                           d.showLoadDialog()
-                           updateVisibilityAndSearch(word)
-                        d.closeLoadDialog()
-                       }
+                        lifecycleScope.launch {
+                            val word = fieldWord.editText?.text.toString()
+                            val loadAlertDialog = LoadAlertDialog(context)
+                            loadAlertDialog.showLoadDialog()
+                            model.clearValues()
+                            updateVisibilityAndSearch(word)
+                            loadAlertDialog.closeLoadDialog()
+                        }
 
                     } else {
                         context.showToastNoConnectionMessage()
@@ -80,29 +76,21 @@ class DictionaryFragment : BaseFragment() {
     private suspend fun updateVisibilityAndSearch(word: String) {
         handleResultVisibility(
             binding.fragmentDictionaryMeaningChip,
-            binding.fragmentDictionaryTextViewMeaningResult,
-            binding.fragmentDictionaryTextViewMeaningLabel
         ) {
             model.searchMeaning(word)
         }
         handleResultVisibility(
             binding.fragmentDictionarySynonymChip,
-            binding.fragmentDictionaryTextViewSynonymsResult,
-            binding.fragmentDictionaryTextViewSynonymsLabel
         ) {
             model.searchSynonyms(word)
         }
         handleResultVisibility(
             binding.fragmentDictionarySyllabicSeparationChip,
-            binding.fragmentDictionaryTextViewSyllablesSeparationResult,
-            binding.fragmentDictionaryTextViewSyllablesSeparationLabel
         ) {
             model.searchSyllables(word)
         }
         handleResultVisibility(
             binding.fragmentDictionarySentencesChip,
-            binding.fragmentDictionaryTextViewSentencesResult,
-            binding.fragmentDictionaryTextViewSentencesLabel
         ) {
             model.searchSentences(word)
         }
@@ -121,53 +109,16 @@ class DictionaryFragment : BaseFragment() {
                 valid = false
             }
         }
-
         return valid
     }
 
     private inline fun handleResultVisibility(
         chip: Chip,
-        resultTextView: TextView,
-        labelTextView: TextView,
         block: () -> Unit
     ) {
         if (chip.isChecked) {
-            resultTextView.visibility = View.VISIBLE
-            labelTextView.visibility = View.VISIBLE
             block()
-        } else {
-            resultTextView.visibility = View.GONE
-            labelTextView.visibility = View.GONE
         }
-    }
-
-
-    private fun updateUi() {
-        val checkedChipIds = binding.fragmentDictionaryChipGroup.checkedChipIds
-
-        setResultVisibility(
-            binding.fragmentDictionaryTextViewMeaningResult,
-            binding.fragmentDictionaryTextViewMeaningLabel,
-            checkedChipIds.contains(binding.fragmentDictionaryMeaningChip.id)
-        )
-
-        setResultVisibility(
-            binding.fragmentDictionaryTextViewSynonymsResult,
-            binding.fragmentDictionaryTextViewSynonymsLabel,
-            checkedChipIds.contains(binding.fragmentDictionarySynonymChip.id)
-        )
-
-        setResultVisibility(
-            binding.fragmentDictionaryTextViewSyllablesSeparationResult,
-            binding.fragmentDictionaryTextViewSyllablesSeparationLabel,
-            checkedChipIds.contains(binding.fragmentDictionarySyllabicSeparationChip.id)
-        )
-
-        setResultVisibility(
-            binding.fragmentDictionaryTextViewSentencesResult,
-            binding.fragmentDictionaryTextViewSentencesLabel,
-            checkedChipIds.contains(binding.fragmentDictionarySentencesChip.id)
-        )
     }
 
     private fun setResultVisibility(
@@ -188,6 +139,16 @@ class DictionaryFragment : BaseFragment() {
             } else {
                 binding.fragmentDictionaryTextViewSynonymsResult.text = it.toString()
             }
+            model.synonymsWasResearched()?.let { wasResearched ->
+                setResultVisibility(
+                    binding.fragmentDictionaryTextViewSynonymsResult,
+                    binding.fragmentDictionaryTextViewSynonymsLabel,
+                    wasResearched && binding.fragmentDictionaryChipGroup.checkedChipIds.contains(
+                        binding.fragmentDictionarySynonymChip.id
+                    )
+                )
+            }
+
         }
 
         model.meaning.observe(viewLifecycleOwner) {
@@ -196,6 +157,16 @@ class DictionaryFragment : BaseFragment() {
                     getString(R.string.dictionary_fragment_meaning_not_Found_message)
             } else {
                 binding.fragmentDictionaryTextViewMeaningResult.text = it.toString()
+            }
+
+            model.meaningWasResearched()?.let { wasResearched ->
+                setResultVisibility(
+                    binding.fragmentDictionaryTextViewMeaningResult,
+                    binding.fragmentDictionaryTextViewMeaningLabel,
+                    wasResearched && binding.fragmentDictionaryChipGroup.checkedChipIds.contains(
+                        binding.fragmentDictionaryMeaningChip.id
+                    )
+                )
             }
         }
 
@@ -206,6 +177,16 @@ class DictionaryFragment : BaseFragment() {
             } else {
                 binding.fragmentDictionaryTextViewSyllablesSeparationResult.text = it.toString()
             }
+            model.syllablesWasResearched()?.let { wasResearched ->
+                setResultVisibility(
+                    binding.fragmentDictionaryTextViewSyllablesSeparationResult,
+                    binding.fragmentDictionaryTextViewSyllablesSeparationLabel,
+                    wasResearched && binding.fragmentDictionaryChipGroup.checkedChipIds.contains(
+                        binding.fragmentDictionarySyllabicSeparationChip.id
+                    )
+                )
+            }
+
         }
 
         model.sentences.observe(viewLifecycleOwner) {
@@ -216,6 +197,16 @@ class DictionaryFragment : BaseFragment() {
                 binding.fragmentDictionaryTextViewSentencesResult.text = it.toString()
 
             }
+            model.sentencesWasResearched()?.let { wasResearched ->
+                setResultVisibility(
+                    binding.fragmentDictionaryTextViewSentencesResult,
+                    binding.fragmentDictionaryTextViewSentencesLabel,
+                    wasResearched && binding.fragmentDictionaryChipGroup.checkedChipIds.contains(
+                        binding.fragmentDictionarySentencesChip.id
+                    )
+                )
+            }
+
         }
     }
 
@@ -233,7 +224,6 @@ class DictionaryFragment : BaseFragment() {
                 }
             }
     }
-
 
     override fun onDestroy() {
         super.onDestroy()

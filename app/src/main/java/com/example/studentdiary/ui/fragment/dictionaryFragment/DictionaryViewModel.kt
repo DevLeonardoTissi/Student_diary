@@ -26,6 +26,20 @@ class DictionaryViewModel(
     private val _sentences = MutableLiveData<List<Sentence>?>()
     val sentences: LiveData<List<Sentence>?> = _sentences
 
+    private val _searchedMeaning = MutableLiveData<Boolean>()
+
+    private val _searchedSynonyms = MutableLiveData<Boolean>()
+
+    private val _searchedSyllables = MutableLiveData<Boolean>()
+
+    private val _searchedSentences = MutableLiveData<Boolean>()
+
+
+    fun meaningWasResearched(): Boolean? = _searchedMeaning.value
+    fun synonymsWasResearched(): Boolean? = _searchedSynonyms.value
+    fun syllablesWasResearched(): Boolean? = _searchedSyllables.value
+    fun sentencesWasResearched(): Boolean? = _searchedSentences.value
+
 
     fun setQuery(word: String) {
         _fieldWord.value = word
@@ -33,6 +47,7 @@ class DictionaryViewModel(
 
 
     suspend fun searchMeaning(word: String) {
+        _searchedMeaning.value = true
         try {
             _meaning.value = repository.searchMeaning(word)
         } catch (e: Exception) {
@@ -42,6 +57,7 @@ class DictionaryViewModel(
 
 
     suspend fun searchSynonyms(word: String) {
+        _searchedSynonyms.value = true
         try {
             _synonyms.value = repository.searchSynonyms(word)
         } catch (e: Exception) {
@@ -50,6 +66,7 @@ class DictionaryViewModel(
     }
 
     suspend fun searchSyllables(word: String) {
+        _searchedSyllables.value = true
         try {
             _syllables.value = repository.searchSyllables(word)
         } catch (e: Exception) {
@@ -58,11 +75,19 @@ class DictionaryViewModel(
     }
 
     suspend fun searchSentences(word: String) {
+        _searchedSentences.value = true
         try {
             _sentences.value = repository.searchSentences(word)
         } catch (e: Exception) {
             _sentences.value = null
         }
+    }
+
+    fun clearValues() {
+        _searchedMeaning.value = false
+        _searchedSynonyms.value = false
+        _searchedSyllables.value = false
+        _searchedSentences.value = false
     }
 }
 
