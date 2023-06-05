@@ -49,6 +49,7 @@ class DictionaryFragment : BaseFragment() {
     }
 
     private fun search() {
+
         binding.fragmentDictionarySearchButton.apply {
             setOnClickListener {
                 val fieldWord = binding.fragmentDictionaryFieldWord
@@ -60,7 +61,7 @@ class DictionaryFragment : BaseFragment() {
                             val word = fieldWord.editText?.text.toString()
                             val loadAlertDialog = LoadAlertDialog(context)
                             loadAlertDialog.showLoadDialog()
-                            model.clearValues()
+                            model.cleanSearched()
                             updateVisibilityAndSearch(word)
                             loadAlertDialog.closeLoadDialog()
                         }

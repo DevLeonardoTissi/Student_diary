@@ -8,7 +8,7 @@ fun ImageView.tryLoadImage(img: String? = null) {
     img?.let {
         load(it) {
             error(R.drawable.error)
-            placeholder(R.drawable.load)
+            placeholder(R.drawable.dual_ball_load)
         }
     } ?: load(R.drawable.placeholder)
 }

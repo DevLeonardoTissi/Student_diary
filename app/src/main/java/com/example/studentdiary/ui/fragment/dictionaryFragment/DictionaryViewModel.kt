@@ -45,7 +45,6 @@ class DictionaryViewModel(
         _fieldWord.value = word
     }
 
-
     suspend fun searchMeaning(word: String) {
         _searchedMeaning.value = true
         try {
@@ -83,11 +82,16 @@ class DictionaryViewModel(
         }
     }
 
-    fun clearValues() {
+    fun cleanSearched() {
         _searchedMeaning.value = false
         _searchedSynonyms.value = false
         _searchedSyllables.value = false
         _searchedSentences.value = false
+
+        _meaning.value = null
+        _synonyms.value = null
+        _syllables.value = null
+        _sentences.value = null
     }
 }
 
