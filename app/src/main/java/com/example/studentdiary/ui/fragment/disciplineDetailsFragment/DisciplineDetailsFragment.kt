@@ -49,6 +49,13 @@ class DisciplineDetailsFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         setupNavigationComponents()
         addMenuProvider()
+        updateUi()
+    }
+
+    private fun updateUi(){
+        model.foundDiscipline.observe(viewLifecycleOwner){discipline ->
+
+        }
     }
 
     private fun setupNavigationComponents() {
