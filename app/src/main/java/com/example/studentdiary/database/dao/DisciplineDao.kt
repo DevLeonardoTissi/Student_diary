@@ -17,6 +17,9 @@ interface DisciplineDao {
     suspend fun insert(discipline: Discipline)
 
     @Query("SELECT * FROM Discipline WHERE id =:id")
+    fun searchIdLiveData(id:String): LiveData<Discipline>
+
+    @Query("SELECT * FROM Discipline WHERE id =:id")
     suspend fun searchId(id:String): Discipline
 
     @Query("DELETE FROM Discipline WHERE id = :id")

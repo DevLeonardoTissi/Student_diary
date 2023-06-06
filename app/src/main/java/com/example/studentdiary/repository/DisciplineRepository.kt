@@ -7,9 +7,8 @@ class DisciplineRepository(private val dao: DisciplineDao) {
 
     fun searchAll() = dao.searchAll()
     suspend fun insert(discipline: Discipline) = dao.insert(discipline)
-
-    suspend fun searchId(id: String): Discipline = dao.searchId(id)
-
+    suspend fun searchId(id: String) = dao.searchId(id)
+    fun searchIdLiveData(id: String) = dao.searchIdLiveData(id)
     suspend fun delete(id: String) = dao.delete(id)
 
 

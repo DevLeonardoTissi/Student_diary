@@ -5,18 +5,16 @@ import androidx.lifecycle.viewModelScope
 import com.example.studentdiary.repository.DisciplineRepository
 import kotlinx.coroutines.launch
 
-class DisciplineDetailsViewModel(var repository: DisciplineRepository): ViewModel() {
+class DisciplineDetailsViewModel(val repository: DisciplineRepository, val disciplineId: String) :
+    ViewModel() {
 
-    fun delete(id:String) {
+     val foundDiscipline  = repository.searchIdLiveData(disciplineId)
+
+    fun delete() {
         viewModelScope.launch {
-            repository.delete(id)
+            repository.delete(disciplineId)
         }
     }
 
-    fun searchDisciplineForId(id:String){
-        viewModelScope.launch {
-            repository.searchId(id)
-        }
-    }
 
 }

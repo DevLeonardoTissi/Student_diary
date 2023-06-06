@@ -20,17 +20,18 @@ import com.example.studentdiary.ui.NavigationComponents
 import com.example.studentdiary.ui.fragment.baseFragment.BaseFragment
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 class DisciplineDetailsFragment : BaseFragment() {
 
     private var _binding: FragmentDisciplineDetailsBinding? = null
     private val binding get() = _binding!!
     private val appViewModel: AppViewModel by activityViewModel()
-    private val model: DisciplineDetailsViewModel by viewModel()
     private val arguments by navArgs<DisciplineDetailsFragmentArgs>()
     private val disciplineId by lazy {
         arguments.disciplineId
     }
+    private val model: DisciplineDetailsViewModel by viewModel{ parametersOf(disciplineId) }
     private val controller by lazy {
         findNavController()
     }
@@ -67,7 +68,7 @@ class DisciplineDetailsFragment : BaseFragment() {
                 override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                     return when (menuItem.itemId) {
                         R.id.menuItem_discipline_details_edit -> {
-                            goToDisciplineForm(disciplineId)
+                            goToDisciplineForm()
                             true
                         }
 
@@ -77,7 +78,7 @@ class DisciplineDetailsFragment : BaseFragment() {
                                     title = getString(R.string.discipline_form_fragment_delete_dialog_title),
                                     message = getString(R.string.discipline_form_fragment_delete_dialog_message),
                                     onClickingOnPositiveButton = {
-                                        model.delete(disciplineId)
+                                        model.delete()
                                         controller.popBackStack()
                                     }
                                 )
@@ -92,13 +93,15 @@ class DisciplineDetailsFragment : BaseFragment() {
         }
     }
 
-    private fun goToDisciplineForm(disciplineId: String) {
+    private fun goToDisciplineForm() {
         val direction =
             DisciplineDetailsFragmentDirections.actionDisciplineDetailsFragmentToDisciplineFormFragment(
                 disciplineId
             )
         controller.navigate(direction)
     }
+
+
 
     override fun onDestroy() {
         super.onDestroy()

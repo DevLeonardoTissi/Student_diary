@@ -50,6 +50,7 @@ import com.google.android.material.timepicker.TimeFormat
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 import java.util.Calendar
 import java.util.TimeZone
 
@@ -57,7 +58,7 @@ class DisciplineFormFragment : BaseFragment() {
 
     private var _binding: FragmentDisciplineFormBinding? = null
     private val binding get() = _binding!!
-    private val model: DisciplineFormViewModel by viewModel()
+    private val model: DisciplineFormViewModel by viewModel{ parametersOf(disciplineId) }
     private val arguments by navArgs<DisciplineFormFragmentArgs>()
     private val disciplineId by lazy {
         arguments.disciplineId
@@ -534,7 +535,7 @@ class DisciplineFormFragment : BaseFragment() {
     private fun searchDisciplineId() {
         lifecycleScope.launch {
             disciplineId?.let {
-                model.getDiscipline() ?: model.searchDisciplineForId(it)
+                model.getDiscipline() ?: model.searchDisciplineForId()
             } ?: kotlin.run {
                 model.getDiscipline() ?: model.setDiscipline()
             }

@@ -8,7 +8,7 @@ import com.example.studentdiary.model.Discipline
 import com.example.studentdiary.repository.DisciplineRepository
 import kotlinx.coroutines.launch
 
-class DisciplineFormViewModel(private val repository: DisciplineRepository) : ViewModel() {
+class DisciplineFormViewModel(private val repository: DisciplineRepository, val disciplineId:String) : ViewModel() {
 
     private val _discipline = MutableLiveData<Discipline?>(null)
     val discipline: LiveData<Discipline?> = _discipline
@@ -21,9 +21,9 @@ class DisciplineFormViewModel(private val repository: DisciplineRepository) : Vi
         }
     }
 
-    fun searchDisciplineForId(id: String) {
+    fun searchDisciplineForId() {
         viewModelScope.launch {
-            _discipline.postValue(repository.searchId(id))
+            _discipline.value = repository.searchId(disciplineId)
         }
     }
 

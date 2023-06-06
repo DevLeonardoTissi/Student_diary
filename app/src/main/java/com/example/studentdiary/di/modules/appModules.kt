@@ -67,10 +67,17 @@ val viewModelModule = module {
     viewModel { LoginViewModel(get()) }
     viewModel { DisciplinesViewModel(get()) }
     viewModel { DictionaryViewModel(get()) }
-    viewModel { DisciplineFormViewModel(get()) }
-    viewModel { AppViewModel() }
-    viewModel { DisciplineDetailsViewModel(get()) }
     viewModel { PublicTenderViewModel(get()) }
+    viewModel { AppViewModel() }
+    viewModel { (disciplineId: String) ->
+
+        DisciplineFormViewModel(get(), disciplineId)
+    }
+
+    viewModel { (disciplineId: String) ->
+        DisciplineDetailsViewModel(get(), disciplineId)
+    }
+
 }
 
 val adapterModule = module {
