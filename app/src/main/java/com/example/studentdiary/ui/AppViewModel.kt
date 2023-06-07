@@ -3,8 +3,9 @@ package com.example.studentdiary.ui
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.studentdiary.repository.FirebaseAuthRepository
 
-class AppViewModel : ViewModel() {
+class AppViewModel(firebaseAuthRepository: FirebaseAuthRepository) : ViewModel() {
     private val _navigationComponents = MutableLiveData<NavigationComponents>().also {
         it.value = hasNavigationComponents
     }
@@ -15,6 +16,9 @@ class AppViewModel : ViewModel() {
             field = value
             _navigationComponents.value = value
         }
+
+    val userEmail = firebaseAuthRepository.userEmail
+
 }
 
 class NavigationComponents(

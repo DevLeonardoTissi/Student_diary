@@ -1,5 +1,6 @@
 package com.example.studentdiary.repository
 
+import androidx.lifecycle.MutableLiveData
 import com.example.studentdiary.model.User
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthCredential
@@ -28,4 +29,17 @@ class FirebaseAuthRepository(private val firebaseAuth: FirebaseAuth) {
         val firebaseUser: FirebaseUser? = firebaseAuth.currentUser
         return firebaseUser != null
     }
+
+    val userEmail = MutableLiveData<String?>().apply {
+        val authStateListener = FirebaseAuth.AuthStateListener { firebaseAuth ->
+            value = firebaseAuth.currentUser?.email
+        }
+
+        firebaseAuth.addAuthStateListener(authStateListener)
+    }
+
+
+
+
+
 }

@@ -1,4 +1,4 @@
-package com.example.studentdiary.utils
+package com.example.studentdiary.utils.concatUtils
 
 fun concatenateTimeValues(time: Pair<Int, Int>): String {
     return "${time.component1().toString().padStart(2, '0')}:${

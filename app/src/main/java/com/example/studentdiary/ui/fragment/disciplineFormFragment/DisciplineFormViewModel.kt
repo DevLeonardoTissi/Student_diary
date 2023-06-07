@@ -8,7 +8,7 @@ import com.example.studentdiary.model.Discipline
 import com.example.studentdiary.repository.DisciplineRepository
 import kotlinx.coroutines.launch
 
-class DisciplineFormViewModel(private val repository: DisciplineRepository, val disciplineId:String) : ViewModel() {
+class DisciplineFormViewModel(private val repository: DisciplineRepository, val disciplineId:String?) : ViewModel() {
 
     private val _discipline = MutableLiveData<Discipline?>(null)
     val discipline: LiveData<Discipline?> = _discipline

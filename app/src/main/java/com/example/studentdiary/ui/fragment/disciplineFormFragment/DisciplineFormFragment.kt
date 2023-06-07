@@ -39,7 +39,7 @@ import com.example.studentdiary.ui.dialog.DisciplineFormDialog
 import com.example.studentdiary.ui.fragment.baseFragment.BaseFragment
 import com.example.studentdiary.utils.enums.EmailType
 import com.example.studentdiary.utils.concatenateDateValues
-import com.example.studentdiary.utils.concatenateTimeValues
+import com.example.studentdiary.utils.concatUtils.concatenateTimeValues
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker

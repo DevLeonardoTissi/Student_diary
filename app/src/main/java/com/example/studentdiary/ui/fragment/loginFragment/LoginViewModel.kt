@@ -57,4 +57,6 @@ class LoginViewModel(
 
     fun isAuthenticated() = firebaseAuthRepository.isAuthenticated()
 
+
+
 }

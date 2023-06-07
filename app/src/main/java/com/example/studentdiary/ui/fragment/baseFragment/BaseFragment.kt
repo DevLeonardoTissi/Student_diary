@@ -19,6 +19,8 @@ abstract class BaseFragment : Fragment() {
         checkIfItIsAuthenticated()
     }
 
+
+
     private fun goToLogin() {
         val direction = NavGraphDirections.actionGlobalLoginFragment()
         controller.navigate(direction)

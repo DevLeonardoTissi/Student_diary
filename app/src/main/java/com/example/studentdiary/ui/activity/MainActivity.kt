@@ -1,10 +1,8 @@
 package com.example.studentdiary.ui.activity
 
 import android.content.BroadcastReceiver
-import android.content.Intent
 import android.content.Intent.ACTION_AIRPLANE_MODE_CHANGED
 import android.content.IntentFilter
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
@@ -19,6 +17,7 @@ import com.example.studentdiary.NavGraphDirections
 import com.example.studentdiary.R
 import com.example.studentdiary.databinding.ActivityMainBinding
 import com.example.studentdiary.databinding.AppInfoBottomSheetDialogBinding
+import com.example.studentdiary.databinding.HeaderNavigationDrawerBinding
 import com.example.studentdiary.extensions.alertDialog
 import com.example.studentdiary.ui.AppViewModel
 import com.example.studentdiary.ui.GITHUB_LINK
@@ -51,7 +50,25 @@ class MainActivity : AppCompatActivity() {
         setupMenuDrawer()
         navigationComponentsVisibility()
         registerReceiver()
+        search()
 
+
+    }
+
+    private fun search() {
+        val headerBinding = HeaderNavigationDrawerBinding.inflate(layoutInflater)
+        appViewModel.userEmail.observe(this) { email ->
+            email?.let {
+                headerBinding.headerSubtitle.text = getString(
+                    R.string.header_drawer_concatenated_text,
+                    getString(R.string.header_drawer_greeting),
+                    email
+                )
+            } ?: kotlin.run {
+                headerBinding.headerSubtitle.text = null
+            }
+        }
+        binding.navView.addHeaderView(headerBinding.root)
     }
 
     private fun registerReceiver() {
@@ -162,8 +179,6 @@ class MainActivity : AppCompatActivity() {
             exitGoogleAndFacebookAccount(this)
         }
     }
-
-
 
 
     override fun onDestroy() {
