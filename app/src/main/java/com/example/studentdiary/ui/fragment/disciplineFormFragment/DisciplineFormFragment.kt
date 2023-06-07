@@ -38,7 +38,7 @@ import com.example.studentdiary.ui.TIME_ZONE_ID
 import com.example.studentdiary.ui.dialog.DisciplineFormDialog
 import com.example.studentdiary.ui.fragment.baseFragment.BaseFragment
 import com.example.studentdiary.utils.enums.EmailType
-import com.example.studentdiary.utils.concatenateDateValues
+import com.example.studentdiary.utils.concatUtils.concatenateDateValues
 import com.example.studentdiary.utils.concatUtils.concatenateTimeValues
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward

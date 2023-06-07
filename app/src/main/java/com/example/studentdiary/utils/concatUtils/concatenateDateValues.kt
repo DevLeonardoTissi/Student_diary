@@ -1,4 +1,4 @@
-package com.example.studentdiary.utils
+package com.example.studentdiary.utils.concatUtils
 
 import androidx.core.util.component1
 import androidx.core.util.component2

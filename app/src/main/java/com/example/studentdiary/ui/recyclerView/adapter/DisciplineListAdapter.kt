@@ -11,7 +11,7 @@ import com.example.studentdiary.R
 import com.example.studentdiary.databinding.DisciplineItemBinding
 import com.example.studentdiary.extensions.tryLoadImage
 import com.example.studentdiary.model.Discipline
-import com.example.studentdiary.utils.concatenateDateValues
+import com.example.studentdiary.utils.concatUtils.concatenateDateValues
 import com.example.studentdiary.utils.concatUtils.concatenateTimeValues
 
 class DisciplineListAdapter(
