@@ -15,6 +15,9 @@
     <string name="suggestion_notification_title">Obrigado por contribuir</string>
     <string name="suggestion_notification_description">Em breve analizaremos sua sugestão</string>
 
+    <!-- Greeting Notifications -->
+    <string name="greeting_notification_title">Boas vindas!</string>
+    <string name="greeting_notification_description">Estamos anciosos para te ajudar nos estudos</string>
 
 
     <!--Menu OnLongClick Item -->

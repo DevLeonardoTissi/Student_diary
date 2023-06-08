@@ -9,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.studentdiary.R
 import com.example.studentdiary.databinding.FragmentRegisterBinding
 import com.example.studentdiary.extensions.isOnline
+import com.example.studentdiary.extensions.showGreetingNotification
 import com.example.studentdiary.extensions.showToastNoConnectionMessage
 import com.example.studentdiary.extensions.snackBar
 import com.example.studentdiary.model.User
@@ -158,7 +159,7 @@ class RegisterFragment : Fragment() {
                 resource?.let {
                     if (resource.data) {
                         controller.popBackStack()
-//                        snackBar(getString(R.string.register_fragment_snackbar_message_registration_done))
+                        context.showGreetingNotification()
                     } else {
                         resource.exception?.let { exception ->
                             if (context.isOnline()) {

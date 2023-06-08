@@ -62,12 +62,21 @@ fun Context.showToastNoConnectionMessage() {
 }
 
 fun Context.showNotificationSuggestion() {
-    val imgNotificationSuggestion =
+    val imgSuggestionsNotification =
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT56PuFScM4ZH3VwzMQOX50aenzv2hM2FlM5VEWvuy-wr3l1MVJU6bWUYOMi3rF_LSC55c&usqp=CAU"
     Notification(this).show(
         title = getString(R.string.suggestion_notification_title),
         description = getString(R.string.suggestion_notification_description),
-        img = imgNotificationSuggestion
+        img = imgSuggestionsNotification
     )
+}
 
+fun Context.showGreetingNotification(){
+    val imgGreetingNotification =
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT56PuFScM4ZH3VwzMQOX50aenzv2hM2FlM5VEWvuy-wr3l1MVJU6bWUYOMi3rF_LSC55c&usqp=CAU"
+    Notification(this).show(
+        title = getString(R.string.greeting_notification_title),
+        description = getString(R.string.greeting_notification_description),
+        img = imgGreetingNotification
+    )
 }

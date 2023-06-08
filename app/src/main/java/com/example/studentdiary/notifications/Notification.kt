@@ -10,7 +10,6 @@ import coil.imageLoader
 import coil.request.ImageRequest
 import com.example.studentdiary.R
 import com.example.studentdiary.ui.CHANNEL_IDENTIFIER
-import com.google.firebase.messaging.FirebaseMessagingService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -19,7 +18,7 @@ class Notification(private val context: Context) {
 
 
     private val manager:NotificationManager  by lazy {
-        context.getSystemService(FirebaseMessagingService.NOTIFICATION_SERVICE) as NotificationManager
+        context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
     }
 
     companion object {
@@ -32,6 +31,7 @@ class Notification(private val context: Context) {
             val style = createStyle(image, description)
             val notification = createNotification(title, description, style)
             manager.notify(id, notification)
+            id++
         }
     }
 
