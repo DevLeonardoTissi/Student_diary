@@ -1,7 +1,10 @@
 package com.example.studentdiary.di.modules
 
+import android.app.NotificationManager
+import android.content.Context
 import androidx.room.Room
 import com.example.studentdiary.database.AppDatabase
+import com.example.studentdiary.notifications.NotificationMainChannel
 import com.example.studentdiary.repository.DictionaryRepository
 import com.example.studentdiary.repository.DisciplineRepository
 import com.example.studentdiary.repository.FirebaseAuthRepository
@@ -83,4 +86,9 @@ val viewModelModule = module {
 val adapterModule = module {
     single { DisciplineListAdapter() }
     single { PublicTenderAdapter() }
+}
+
+val notificationModule = module {
+    single { NotificationMainChannel(get(),get()) }
+    single { get<Context>().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager }
 }

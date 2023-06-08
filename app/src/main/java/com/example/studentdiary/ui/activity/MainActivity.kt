@@ -1,10 +1,14 @@
 package com.example.studentdiary.ui.activity
 
+import android.Manifest
 import android.content.BroadcastReceiver
 import android.content.Intent.ACTION_AIRPLANE_MODE_CHANGED
 import android.content.IntentFilter
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
@@ -19,6 +23,7 @@ import com.example.studentdiary.databinding.ActivityMainBinding
 import com.example.studentdiary.databinding.AppInfoBottomSheetDialogBinding
 import com.example.studentdiary.databinding.HeaderNavigationDrawerBinding
 import com.example.studentdiary.extensions.alertDialog
+import com.example.studentdiary.extensions.toast
 import com.example.studentdiary.ui.AppViewModel
 import com.example.studentdiary.ui.GITHUB_LINK
 import com.example.studentdiary.ui.LINKEDIN_LINK
@@ -44,6 +49,16 @@ class MainActivity : AppCompatActivity() {
     }
     private val loginViewModel: LoginViewModel by viewModel()
 
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission(),
+    ) { isGranted: Boolean ->
+        if (isGranted) {
+            this.toast(getString(R.string.main_activity_permission_granted))
+        } else {
+            this.toast(getString(R.string.main_activity_permission_not_granted))
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -51,8 +66,19 @@ class MainActivity : AppCompatActivity() {
         navigationComponentsVisibility()
         registerReceiver()
         search()
+        askNotificationPermission()
+    }
 
 
+    private fun askNotificationPermission() {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) !=
+                PackageManager.PERMISSION_GRANTED
+            ) {
+                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            }
+        }
     }
 
     private fun search() {

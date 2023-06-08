@@ -8,6 +8,7 @@ import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.studentdiary.R
 import com.example.studentdiary.databinding.FragmentPublicTenderBinding
+import com.example.studentdiary.extensions.showNotificationSuggestion
 import com.example.studentdiary.model.PublicTender
 import com.example.studentdiary.ui.AppViewModel
 import com.example.studentdiary.ui.NavigationComponents
@@ -127,6 +128,7 @@ class PublicTenderFragment : BaseFragment() {
                 .show { publicTenderSuggestionNonNull ->
                     publicTenderSuggestionNonNull?.let { publicTenderSuggestion ->
                         model.add(publicTenderSuggestion)
+                       context.showNotificationSuggestion()
                     }
                     toggleAndOpenCardViewSuggestion()
                     showAnimationViewSuggestionDone()

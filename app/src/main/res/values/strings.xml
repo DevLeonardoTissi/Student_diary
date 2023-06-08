@@ -7,6 +7,15 @@
     <!-- Google Server Client ID -->
     <string name="googleSignInClient_serverClientId">291261739017-8vrqq5dc7vb5gahio769oeq61rnb366a.apps.googleusercontent.com</string>
 
+    <!-- Setup Notifications -->
+    <string name="channel_name">Principal</string>
+    <string name="channel_description">Publicações principais do App</string>
+
+    <!-- Suggestion Notifications -->
+    <string name="suggestion_notification_title">Obrigado por contribuir</string>
+    <string name="suggestion_notification_description">Em breve analizaremos sua sugestão</string>
+
+
 
     <!--Menu OnLongClick Item -->
     <string name="menuPopup_item_details_title">Detalhes</string>
@@ -37,6 +46,9 @@
     <string name="main_activity_app_info_bottom_sheet_dialog_chip_linkedin">Perfil no Linkedin</string>
     <string name="main_activity_app_info_bottom_sheet_dialog_chip_gitHub_project">Repositório do Projeto</string>
 
+    <!-- Main Activity -->
+    <string name="main_activity_permission_not_granted">O app não mostrará notificações</string>
+    <string name="main_activity_permission_granted">O app mostrará notificações</string>
 
     <!-- register Fragment -->
     <string name="register_fragment_toolbar_title">Cadastrar</string>
