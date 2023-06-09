@@ -16,24 +16,22 @@ class PublicTenderRepository(private val firestore: FirebaseFirestore) {
         firestore.collection(PUBLIC_TENDER_COLLECTION)
             .addSnapshotListener { value, _ ->
                 value?.let { snapshot ->
-                    val publicTenders : List<PublicTender> = snapshot.documents.mapNotNull {
-                            document ->
-                        converterToPublicTender(document)
-                    }
+                    val publicTenders: List<PublicTender> =
+                        snapshot.documents.mapNotNull { document ->
+                            converterToPublicTender(document)
+                        }
                     liveData.value = publicTenders
                 }
             }
         return liveData
     }
 
-    fun add(publicTenderSuggestion: PublicTenderSuggestion){
+    fun add(publicTenderSuggestion: PublicTenderSuggestion) {
         val document = firestore.collection(PUBLIC_TENDER_SUGGESTION).document()
         document.set(publicTenderSuggestion)
-
     }
 
     private fun converterToPublicTender(document: DocumentSnapshot): PublicTender {
-
         val id = document.id
         val name = document.getString("name")
         val description = document.getString("description")
@@ -42,5 +40,5 @@ class PublicTenderRepository(private val firestore: FirebaseFirestore) {
         val contest = document.getBoolean("contest") ?: false
         val course = document.getBoolean("course") ?: false
         return PublicTender(id, name, description, url, img, contest, course)
-        }
+    }
 }
