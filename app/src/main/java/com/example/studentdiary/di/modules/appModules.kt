@@ -23,6 +23,7 @@ import com.example.studentdiary.webClient.services.DicioApiService
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -45,6 +46,7 @@ val roomModule = module {
 val firebaseModule = module {
     single { Firebase.auth }
     single { Firebase.firestore }
+    single { Firebase.storage }
 }
 
 val retrofitModule = module {
@@ -89,6 +91,6 @@ val adapterModule = module {
 }
 
 val notificationModule = module {
-    single { NotificationMainChannel(get(),get()) }
+    single { NotificationMainChannel(get(), get()) }
     single { get<Context>().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager }
 }
