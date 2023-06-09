@@ -100,6 +100,9 @@ dependencies {
     //Firebase Cloud Messaging
     implementation 'com.google.firebase:firebase-messaging-ktx'
 
+    //Firebase Cloud Storage
+    implementation 'com.google.firebase:firebase-storage-ktx'
+
     //DataStore
     def dataStore_version = '1.0.0'
     implementation "androidx.datastore:datastore-preferences:$dataStore_version"
