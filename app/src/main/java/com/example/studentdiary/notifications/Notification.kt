@@ -4,7 +4,10 @@ import android.app.Notification
 import android.app.NotificationManager
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationCompat.VISIBILITY_PRIVATE
+import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import coil.imageLoader
 import coil.request.ImageRequest
@@ -51,10 +54,13 @@ class Notification(private val context: Context) {
         return NotificationCompat.Builder(context, CHANNEL_IDENTIFIER)
             .setContentTitle(title)
             .setContentText(description)
+            .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.drawable.logo_app))
             .setSmallIcon(R.drawable.ic_notification_add)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setAutoCancel(true)
             .setStyle(style)
+            .setVisibility(VISIBILITY_PRIVATE)
+            .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
             .build()
     }
 
