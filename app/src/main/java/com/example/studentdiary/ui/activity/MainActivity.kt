@@ -200,10 +200,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun logout() {
-        if (loginViewModel.isAuthenticated()) {
             loginViewModel.logout()
             exitGoogleAndFacebookAccount(this)
-        }
     }
 
 

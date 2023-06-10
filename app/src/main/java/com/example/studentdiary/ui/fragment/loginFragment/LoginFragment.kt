@@ -69,7 +69,6 @@ class LoginFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         clearErrorFields()
-        logout()
     }
 
     private fun configureAndSaveFields() {
@@ -275,12 +274,6 @@ class LoginFragment : Fragment() {
 
     private fun goToRegisterFragment() {
         controller.navigate(R.id.action_loginFragment_to_registerFragment)
-    }
-
-    private fun logout() {
-        if (model.isAuthenticated()) {
-            model.logout()
-        }
     }
 
     override fun onDestroyView() {

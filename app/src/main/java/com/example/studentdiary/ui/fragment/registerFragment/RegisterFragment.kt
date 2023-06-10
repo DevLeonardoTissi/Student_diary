@@ -158,6 +158,7 @@ class RegisterFragment : Fragment() {
             model.firebaseAuthLiveData.observe(viewLifecycleOwner) { resource ->
                 resource?.let {
                     if (resource.data) {
+                        logout()
                         controller.popBackStack()
                         context.showGreetingNotification()
                     } else {
@@ -193,6 +194,8 @@ class RegisterFragment : Fragment() {
         }
         return errorMessage
     }
+
+    private fun logout() = model.logout()
 
     override fun onDestroyView() {
         super.onDestroyView()

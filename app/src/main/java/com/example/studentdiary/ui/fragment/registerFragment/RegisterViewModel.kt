@@ -42,4 +42,10 @@ class RegisterViewModel(
             firebaseAuthLiveData.value = Resource(false, e)
         }
     }
+
+    fun logout() {
+        if (firebaseAuthRepository.isAuthenticated()) {
+            firebaseAuthRepository.logout()
+        }
+    }
 }
