@@ -15,10 +15,7 @@ import androidx.navigation.fragment.navArgs
 import com.example.studentdiary.R
 import com.example.studentdiary.databinding.FragmentDisciplineDetailsBinding
 import com.example.studentdiary.extensions.alertDialog
-import com.example.studentdiary.ui.AppViewModel
-import com.example.studentdiary.ui.NavigationComponents
 import com.example.studentdiary.ui.fragment.baseFragment.BaseFragment
-import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
@@ -26,7 +23,6 @@ class DisciplineDetailsFragment : BaseFragment() {
 
     private var _binding: FragmentDisciplineDetailsBinding? = null
     private val binding get() = _binding!!
-    private val appViewModel: AppViewModel by activityViewModel()
     private val arguments by navArgs<DisciplineDetailsFragmentArgs>()
     private val disciplineId by lazy {
         arguments.disciplineId
@@ -47,7 +43,6 @@ class DisciplineDetailsFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupNavigationComponents()
         addMenuProvider()
         updateUi()
     }
@@ -58,10 +53,7 @@ class DisciplineDetailsFragment : BaseFragment() {
         }
     }
 
-    private fun setupNavigationComponents() {
-        appViewModel.hasNavigationComponents =
-            NavigationComponents(navigationIcon = true, menuDrawer = true)
-    }
+
 
     private fun addMenuProvider() {
         activity?.let {

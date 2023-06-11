@@ -10,21 +10,17 @@ import com.example.studentdiary.R
 import com.example.studentdiary.databinding.FragmentPublicTenderBinding
 import com.example.studentdiary.extensions.showNotificationSuggestion
 import com.example.studentdiary.model.PublicTender
-import com.example.studentdiary.ui.AppViewModel
-import com.example.studentdiary.ui.NavigationComponents
 import com.example.studentdiary.ui.dialog.PublicTenderSuggestionDialog
 import com.example.studentdiary.ui.fragment.baseFragment.BaseFragment
 import com.example.studentdiary.ui.recyclerView.adapter.PublicTenderAdapter
 import com.example.studentdiary.utils.goToUri
 import org.koin.android.ext.android.inject
-import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PublicTenderFragment : BaseFragment() {
 
     private var _binding: FragmentPublicTenderBinding? = null
     private val binding get() = _binding!!
-    private val appViewModel: AppViewModel by activityViewModel()
     private val model: PublicTenderViewModel by viewModel()
     private val adapter: PublicTenderAdapter by inject()
 
@@ -38,7 +34,6 @@ class PublicTenderFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupNavigationComponents()
         setupRecyclerview()
         updateUi()
         setupFABTips()
@@ -102,10 +97,7 @@ class PublicTenderFragment : BaseFragment() {
 
     }
 
-    private fun setupNavigationComponents() {
-        appViewModel.hasNavigationComponents =
-            NavigationComponents(navigationIcon = true, menuDrawer = true)
-    }
+
 
     private fun setupFABTips() {
         openCardViewSuggestion(model.getIsOpen())

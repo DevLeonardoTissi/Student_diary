@@ -53,14 +53,6 @@ class LoginViewModel(
         }
     }
 
-    fun logout(){
-        if (isAuthenticated()){
-            firebaseAuthRepository.logout()
-        }
-    }
-
     fun isAuthenticated() = firebaseAuthRepository.isAuthenticated()
-
-
 
 }

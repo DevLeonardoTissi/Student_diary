@@ -5,10 +5,14 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.studentdiary.NavGraphDirections
+import com.example.studentdiary.ui.AppViewModel
+import com.example.studentdiary.ui.NavigationComponents
 import com.example.studentdiary.ui.fragment.loginFragment.LoginViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 abstract class BaseFragment : Fragment() {
+
+    private val appViewModel: AppViewModel by viewModel()
     private val model: LoginViewModel by viewModel()
     private val controller by lazy {
         findNavController()
@@ -17,9 +21,8 @@ abstract class BaseFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         checkIfItIsAuthenticated()
+        setupNavigationComponents()
     }
-
-
 
     private fun goToLogin() {
         val direction = NavGraphDirections.actionGlobalLoginFragment()
@@ -30,6 +33,11 @@ abstract class BaseFragment : Fragment() {
         if (!model.isAuthenticated()) {
             goToLogin()
         }
+    }
+
+     open fun setupNavigationComponents() {
+        appViewModel.hasNavigationComponents =
+            NavigationComponents(navigationIcon = true, menuDrawer = true)
     }
 }
 

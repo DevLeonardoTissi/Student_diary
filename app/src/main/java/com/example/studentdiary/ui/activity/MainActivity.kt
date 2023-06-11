@@ -29,7 +29,6 @@ import com.example.studentdiary.ui.GITHUB_LINK
 import com.example.studentdiary.ui.LINKEDIN_LINK
 import com.example.studentdiary.ui.NavigationComponents
 import com.example.studentdiary.ui.STUDENT_DIARY_GITHUB_LINK
-import com.example.studentdiary.ui.fragment.loginFragment.LoginViewModel
 import com.example.studentdiary.utils.broadcastReceiver.MyBroadcastReceiver
 import com.example.studentdiary.utils.exitGoogleAndFacebookAccount
 import com.example.studentdiary.utils.goToUri
@@ -47,7 +46,6 @@ class MainActivity : AppCompatActivity() {
     private val controller by lazy {
         findNavController(R.id.nav_host_fragment)
     }
-    private val loginViewModel: LoginViewModel by viewModel()
 
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission(),
@@ -62,16 +60,15 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        setupMenuDrawer()
+        setupMenuDrawerAndToolbarNavigation()
         navigationComponentsVisibility()
         registerReceiver()
-        search()
+        searchUserAndCustomizeHeader()
         askNotificationPermission()
     }
 
 
     private fun askNotificationPermission() {
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) !=
                 PackageManager.PERMISSION_GRANTED
@@ -81,7 +78,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun search() {
+    private fun searchUserAndCustomizeHeader() {
         val headerBinding = HeaderNavigationDrawerBinding.inflate(layoutInflater)
         appViewModel.userEmail.observe(this) { email ->
             email?.let {
@@ -108,7 +105,7 @@ class MainActivity : AppCompatActivity() {
         registerReceiver(receiver, filter, receiverFlags)
     }
 
-    private fun setupMenuDrawer() {
+    private fun setupMenuDrawerAndToolbarNavigation() {
         val navController = findNavController(R.id.nav_host_fragment)
         binding.navView
             .setupWithNavController(navController)
@@ -200,10 +197,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun logout() {
-            loginViewModel.logout()
-            exitGoogleAndFacebookAccount(this)
+        appViewModel.logout()
+        exitGoogleAndFacebookAccount(this)
     }
-
 
     override fun onDestroy() {
         super.onDestroy()

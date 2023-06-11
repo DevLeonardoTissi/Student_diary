@@ -10,13 +10,10 @@ import com.example.studentdiary.R
 import com.example.studentdiary.databinding.FragmentDictionaryBinding
 import com.example.studentdiary.extensions.isOnline
 import com.example.studentdiary.extensions.showToastNoConnectionMessage
-import com.example.studentdiary.ui.AppViewModel
-import com.example.studentdiary.ui.NavigationComponents
 import com.example.studentdiary.ui.dialog.LoadAlertDialog
 import com.example.studentdiary.ui.fragment.baseFragment.BaseFragment
 import com.google.android.material.chip.Chip
 import kotlinx.coroutines.launch
-import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DictionaryFragment : BaseFragment() {
@@ -24,7 +21,7 @@ class DictionaryFragment : BaseFragment() {
     private var _binding: FragmentDictionaryBinding? = null
     private val binding get() = _binding!!
     private val model: DictionaryViewModel by viewModel()
-    private val appViewModel: AppViewModel by activityViewModel()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,17 +33,14 @@ class DictionaryFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupNavigationComponents()
+
         observerResults()
         observerFieldWord()
         saveFieldValue()
         search()
     }
 
-    private fun setupNavigationComponents() {
-        appViewModel.hasNavigationComponents =
-            NavigationComponents(navigationIcon = true, menuDrawer = true)
-    }
+
 
     private fun search() {
 

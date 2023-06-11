@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.studentdiary.repository.FirebaseAuthRepository
 
-class AppViewModel(firebaseAuthRepository: FirebaseAuthRepository) : ViewModel() {
+class AppViewModel(private val firebaseAuthRepository: FirebaseAuthRepository) : ViewModel() {
     private val _navigationComponents = MutableLiveData<NavigationComponents>().also {
         it.value = hasNavigationComponents
     }
@@ -19,7 +19,14 @@ class AppViewModel(firebaseAuthRepository: FirebaseAuthRepository) : ViewModel()
 
     val userEmail = firebaseAuthRepository.userEmail
 
+    fun logout() {
+        if (firebaseAuthRepository.isAuthenticated()) {
+            firebaseAuthRepository.logout()
+        }
+    }
 }
+
+
 
 class NavigationComponents(
     val navigationIcon: Boolean = false,

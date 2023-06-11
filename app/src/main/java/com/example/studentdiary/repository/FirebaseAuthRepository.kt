@@ -10,7 +10,6 @@ import com.google.firebase.auth.FirebaseUser
 
 class FirebaseAuthRepository(private val firebaseAuth: FirebaseAuth) {
 
-
     fun register(user: User): Task<AuthResult> {
         return firebaseAuth.createUserWithEmailAndPassword(user.name, user.password)
     }
@@ -37,9 +36,5 @@ class FirebaseAuthRepository(private val firebaseAuth: FirebaseAuth) {
 
         firebaseAuth.addAuthStateListener(authStateListener)
     }
-
-
-
-
 
 }

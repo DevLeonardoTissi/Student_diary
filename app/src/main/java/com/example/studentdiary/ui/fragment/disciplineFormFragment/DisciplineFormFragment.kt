@@ -28,18 +28,16 @@ import com.example.studentdiary.databinding.FragmentDisciplineFormBinding
 import com.example.studentdiary.extensions.alertDialog
 import com.example.studentdiary.extensions.snackBar
 import com.example.studentdiary.extensions.tryLoadImage
-import com.example.studentdiary.ui.AppViewModel
 import com.example.studentdiary.ui.EVENT_PROJECTION
-import com.example.studentdiary.ui.NavigationComponents
 import com.example.studentdiary.ui.PROJECTION_ID_INDEX
 import com.example.studentdiary.ui.TAG_DATA_PICKER
 import com.example.studentdiary.ui.TAG_TIME_PICKER
 import com.example.studentdiary.ui.TIME_ZONE_ID
 import com.example.studentdiary.ui.dialog.DisciplineFormDialog
 import com.example.studentdiary.ui.fragment.baseFragment.BaseFragment
-import com.example.studentdiary.utils.enums.EmailType
 import com.example.studentdiary.utils.concatUtils.concatenateDateValues
 import com.example.studentdiary.utils.concatUtils.concatenateTimeValues
+import com.example.studentdiary.utils.enums.EmailType
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -48,7 +46,6 @@ import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import kotlinx.coroutines.launch
-import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import java.util.Calendar
@@ -66,7 +63,7 @@ class DisciplineFormFragment : BaseFragment() {
     private val controller by lazy {
         findNavController()
     }
-    private val appViewModel: AppViewModel by activityViewModel()
+
 
     private val requestPermission =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
@@ -86,7 +83,6 @@ class DisciplineFormFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupNavigationComponents()
         setupFavoriteCheckbox()
         setupCompleteCheckbox()
         fabInsetImage()
@@ -101,10 +97,7 @@ class DisciplineFormFragment : BaseFragment() {
         searchDisciplineId()
     }
 
-    private fun setupNavigationComponents() {
-        appViewModel.hasNavigationComponents =
-            NavigationComponents(navigationIcon = true, menuDrawer = true)
-    }
+
 
 
     private fun setupFavoriteCheckbox() {

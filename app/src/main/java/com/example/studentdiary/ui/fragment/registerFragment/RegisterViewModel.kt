@@ -43,9 +43,5 @@ class RegisterViewModel(
         }
     }
 
-    fun logout() {
-        if (firebaseAuthRepository.isAuthenticated()) {
-            firebaseAuthRepository.logout()
-        }
-    }
+
 }

@@ -195,7 +195,7 @@ class RegisterFragment : Fragment() {
         return errorMessage
     }
 
-    private fun logout() = model.logout()
+    private fun logout() = appViewModel.logout()
 
     override fun onDestroyView() {
         super.onDestroyView()

@@ -18,13 +18,10 @@ import com.example.studentdiary.databinding.FragmentDisciplinesBinding
 import com.example.studentdiary.extensions.alertDialog
 import com.example.studentdiary.extensions.converterToPercent
 import com.example.studentdiary.model.Discipline
-import com.example.studentdiary.ui.AppViewModel
-import com.example.studentdiary.ui.NavigationComponents
 import com.example.studentdiary.ui.fragment.baseFragment.BaseFragment
 import com.example.studentdiary.ui.recyclerView.adapter.DisciplineListAdapter
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import org.koin.android.ext.android.inject
-import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DisciplinesFragment : BaseFragment() {
@@ -36,7 +33,7 @@ class DisciplinesFragment : BaseFragment() {
     private val controller by lazy {
         findNavController()
     }
-    private val appViewModel: AppViewModel by activityViewModel()
+
     lateinit var filterList: List<Discipline>
 
     override fun onCreateView(
@@ -49,7 +46,6 @@ class DisciplinesFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupNavigationComponents()
         configureDisciplineObserver()
         clearQuery()
         configureRecyclerView()
@@ -61,10 +57,7 @@ class DisciplinesFragment : BaseFragment() {
         model.clearQuery()
     }
 
-    private fun setupNavigationComponents() {
-        appViewModel.hasNavigationComponents =
-            NavigationComponents(navigationIcon = true, menuDrawer = true)
-    }
+
 
 
     private fun configureDisciplineObserver() {
