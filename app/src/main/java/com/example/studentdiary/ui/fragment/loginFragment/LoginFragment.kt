@@ -69,6 +69,9 @@ class LoginFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         clearErrorFields()
+
+
+
     }
 
     private fun configureAndSaveFields() {
@@ -109,7 +112,7 @@ class LoginFragment : Fragment() {
 
     private fun setupNavigationComponents() {
         appViewModel.hasNavigationComponents =
-            NavigationComponents(navigationIcon = false, menuDrawer = false)
+            NavigationComponents(toolbar = false, menuDrawer = false)
     }
 
     private fun configureObserverLogin() {

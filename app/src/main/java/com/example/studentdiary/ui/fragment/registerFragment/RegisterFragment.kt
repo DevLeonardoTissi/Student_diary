@@ -98,7 +98,7 @@ class RegisterFragment : Fragment() {
 
     private fun setupNavigationComponents() {
         appViewModel.hasNavigationComponents =
-            NavigationComponents(navigationIcon = true, menuDrawer = false)
+            NavigationComponents(toolbar = true, menuDrawer = false)
     }
 
 

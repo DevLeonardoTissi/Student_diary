@@ -8,6 +8,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -183,8 +184,11 @@ class MainActivity : AppCompatActivity() {
             binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
         }
 
-        if (!hasNavigationComponents.navigationIcon) {
-            binding.activityMainToolbar.navigationIcon = null
+        if (hasNavigationComponents.toolbar) {
+            binding.activityMainToolbar.visibility = View.VISIBLE
+        }else{
+            binding.activityMainToolbar.visibility = View.INVISIBLE
+
         }
     }
 

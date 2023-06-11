@@ -8,11 +8,12 @@ import com.example.studentdiary.NavGraphDirections
 import com.example.studentdiary.ui.AppViewModel
 import com.example.studentdiary.ui.NavigationComponents
 import com.example.studentdiary.ui.fragment.loginFragment.LoginViewModel
+import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 abstract class BaseFragment : Fragment() {
 
-    private val appViewModel: AppViewModel by viewModel()
+    private val appViewModel: AppViewModel by activityViewModel()
     private val model: LoginViewModel by viewModel()
     private val controller by lazy {
         findNavController()
@@ -23,6 +24,7 @@ abstract class BaseFragment : Fragment() {
         checkIfItIsAuthenticated()
         setupNavigationComponents()
     }
+
 
     private fun goToLogin() {
         val direction = NavGraphDirections.actionGlobalLoginFragment()
@@ -35,9 +37,9 @@ abstract class BaseFragment : Fragment() {
         }
     }
 
-     open fun setupNavigationComponents() {
+     private fun setupNavigationComponents() {
         appViewModel.hasNavigationComponents =
-            NavigationComponents(navigationIcon = true, menuDrawer = true)
+            NavigationComponents(toolbar = true, menuDrawer = true)
     }
 }
 

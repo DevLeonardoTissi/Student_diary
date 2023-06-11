@@ -27,9 +27,8 @@ class AppViewModel(private val firebaseAuthRepository: FirebaseAuthRepository) :
 }
 
 
-
 class NavigationComponents(
-    val navigationIcon: Boolean = false,
+    val toolbar: Boolean = false,
     val menuDrawer: Boolean = false
 )
 
