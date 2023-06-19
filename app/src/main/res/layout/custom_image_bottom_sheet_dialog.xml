@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorSurface">
+
+    <Button
+        android:id="@+id/setup_image_bottom_sheet_dialog_gallery_button"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="start|center"
+        android:text="@string/main_activity_setup_image_bottom_sheet_dialog_gallery_button"
+        android:textColor="@color/colorPrimary"
+        app:icon="@drawable/ic_photo"
+        app:iconTint="@color/colorPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/setup_image_bottom_sheet_dialog_remove_button"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="start|center"
+        android:text="@string/main_activity_setup_image_bottom_sheet_dialog_remove_button"
+        android:textColor="@color/customRed"
+        app:icon="@drawable/ic_delete"
+        app:iconTint="@color/customRed"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/setup_image_bottom_sheet_dialog_gallery_button" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

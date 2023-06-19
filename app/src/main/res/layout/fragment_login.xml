@@ -55,13 +55,26 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/fragment_login_textView_forgot_password"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/margin_small"
+            android:clickable="true"
+            android:gravity="end"
+            android:text="@string/login_fragment_textView_forgot_password"
+            android:textStyle="italic"
+            app:layout_constraintEnd_toEndOf="@id/fragment_login_textfield_password"
+            app:layout_constraintStart_toStartOf="@id/fragment_login_textfield_password"
+            app:layout_constraintTop_toBottomOf="@id/fragment_login_textfield_password" />
+
         <Button
             android:id="@+id/fragment_login_loginButton"
             style="@style/elevationButton"
             android:text="@string/login_fragment_loginButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/fragment_login_textfield_password" />
+            app:layout_constraintTop_toBottomOf="@id/fragment_login_textView_forgot_password" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/fragment_login_textView_or"
@@ -70,7 +83,7 @@
             android:layout_marginHorizontal="@dimen/medium_margin"
             android:layout_marginVertical="@dimen/margin_default"
             android:text="@string/common_or"
-            android:textColor="@color/colorOnSurface"
+            android:textColor="@color/colorPrimary"
             android:textSize="@dimen/defaultTextSize"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -146,7 +159,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/login_fragment_textView_label_not_have_an_account_question"
-            android:textColor="@color/colorOnSurface"
+            android:textColor="@color/colorPrimary"
             android:textSize="@dimen/defaultTextSize"
             app:layout_constraintBottom_toBottomOf="@id/fragment_login_textView_register"
             app:layout_constraintEnd_toStartOf="@id/fragment_login_textView_register"
@@ -158,8 +171,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/textview_margin_default"
+            android:clickable="true"
             android:text="@string/login_fragment_textView_label_register"
-            android:textColor="@color/colorOnSurface"
+            android:textColor="@color/colorPrimary"
             android:textSize="@dimen/defaultTextSize"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"

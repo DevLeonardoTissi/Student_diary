@@ -38,6 +38,15 @@
 
     <item android:title="@string/drawer_menu_item_more">
         <menu>
+
+            <item
+                android:id="@+id/profileFragment"
+                android:checkable="true"
+                android:icon="@drawable/ic_user"
+                android:title="@string/drawer_menu_item_profile"
+                app:showAsAction="ifRoom" />
+
+
             <item
                 android:id="@+id/menuItem_drawer_about"
                 android:checkable="true"

@@ -31,6 +31,7 @@ const val STUDENT_DIARY_GITHUB_LINK = "https://github.com/DevLeonardoTissi/Stude
 
 const val  PUBLIC_TENDER_COLLECTION = "public_tender"
 const val PUBLIC_TENDER_SUGGESTION = "public_tender_suggestion"
+const val GENERATE_TOKEN_USER = "user_token"
 
 const val CHANNEL_IDENTIFIER = "a11d082b-8a27-4b8f-a5bc-5a17aced5cfc"
 

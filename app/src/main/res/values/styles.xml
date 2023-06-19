@@ -23,7 +23,7 @@
 
     
     <style name="dividerStyle" parent="Widget.Material3.MaterialDivider">
-        <item name="dividerColor">@color/colorOutline</item>
+        <item name="dividerColor">@color/colorPrimary</item>
     </style>
 
     <style name="shapeableImageView">
@@ -49,13 +49,7 @@
     </style>
 
 
-    <style name="bottonSheetDialog" parent="Theme.Design.BottomSheetDialog">
-        <item name="bottomSheetStyle">@style/bottomSheetStyle</item>
-    </style>
 
-    <style name="bottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
-        <item name="android:background">@android:color/transparent</item>
-    </style>
 
 
 

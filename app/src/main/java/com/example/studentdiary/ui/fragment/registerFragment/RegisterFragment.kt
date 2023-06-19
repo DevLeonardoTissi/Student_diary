@@ -8,13 +8,12 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.studentdiary.R
 import com.example.studentdiary.databinding.FragmentRegisterBinding
-import com.example.studentdiary.extensions.isOnline
 import com.example.studentdiary.extensions.showGreetingNotification
-import com.example.studentdiary.extensions.showToastNoConnectionMessage
 import com.example.studentdiary.extensions.snackBar
 import com.example.studentdiary.model.User
 import com.example.studentdiary.ui.AppViewModel
 import com.example.studentdiary.ui.NavigationComponents
+import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
@@ -163,11 +162,7 @@ class RegisterFragment : Fragment() {
                         context.showGreetingNotification()
                     } else {
                         resource.exception?.let { exception ->
-                            if (context.isOnline()) {
                                 showFirebaseAuthErrorMessage(exception)
-                            } else {
-                                context.showToastNoConnectionMessage()
-                            }
                         }
                     }
                 }
@@ -189,6 +184,7 @@ class RegisterFragment : Fragment() {
                 is FirebaseAuthInvalidCredentialsException -> context.getString(R.string.register_fragment_snackbar_message_firebase_auth_Invalid_credentials_Exception)
                 is FirebaseAuthUserCollisionException -> context.getString(R.string.register_fragment_snackbar_message_firebase_auth_user_collision_exception)
                 is IllegalArgumentException -> context.getString(R.string.register_fragment_snackbar_message_firebase_auth_illegal_argument_exception)
+                is FirebaseNetworkException -> getString(R.string.login_fragment_snackbar_message_firebase_auth_network_exception_on_forgot_password)
                 else -> context.getString(R.string.register_fragment_snackbar_message_unknown_error)
             }
         }

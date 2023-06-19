@@ -15,10 +15,12 @@ import com.example.studentdiary.extensions.isOnline
 import com.example.studentdiary.extensions.showToastNoConnectionMessage
 import com.example.studentdiary.extensions.snackBar
 import com.example.studentdiary.model.User
+import com.example.studentdiary.notifications.StudentDiaryFirebaseMessagingService
 import com.example.studentdiary.ui.AppViewModel
 import com.example.studentdiary.ui.FACEBOOK_PERMISSION_EMAIL
 import com.example.studentdiary.ui.FACEBOOK_PERMISSION_PROFILE
 import com.example.studentdiary.ui.NavigationComponents
+import com.example.studentdiary.ui.dialog.ForgotPasswordBottomSheetDialog
 import com.example.studentdiary.utils.exitGoogleAndFacebookAccount
 import com.facebook.AccessToken
 import com.facebook.CallbackManager
@@ -28,10 +30,16 @@ import com.facebook.GraphRequest
 import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.SignInButton
+import com.google.firebase.FirebaseNetworkException
+import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.GoogleAuthProvider
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.json.JSONException
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -64,6 +72,7 @@ class LoginFragment : Fragment() {
         textViewRegister()
         configureAndSaveFields()
         updateUi()
+        forgotPassword()
     }
 
     override fun onResume() {
@@ -71,8 +80,35 @@ class LoginFragment : Fragment() {
         clearErrorFields()
 
 
-
     }
+
+
+    private fun forgotPassword() {
+        binding.fragmentLoginTextViewForgotPassword.setOnClickListener {
+            context?.let { context ->
+                ForgotPasswordBottomSheetDialog(context).show { recoveryEmail ->
+                    model.forgotPassword(recoveryEmail, onSucess = {
+                        snackBar(getString(R.string.login_fragment_snackbar_message_firebase_auth_on_sucess_forgot_password))
+                    }, onFailure = { exception ->
+                        snackBar(identifiesErrorFirebaseAuthOnSendPasswordResetEmail(exception))
+
+                    })
+                }
+            }
+        }
+    }
+
+    private fun identifiesErrorFirebaseAuthOnSendPasswordResetEmail(e: Exception): String {
+        val errorMessage = when (e) {
+            is FirebaseAuthInvalidUserException -> getString(R.string.login_fragment_snackbar_message_firebase_auth_invalid_user_exception_on_forgot_password)
+            is FirebaseAuthInvalidCredentialsException -> getString(R.string.login_fragment_snackbar_message_firebase_auth_invalid_credentials_exception_on_forgot_password)
+            is FirebaseTooManyRequestsException -> getString(R.string.login_fragment_snackbar_message_firebase_auth_many_request_exception_on_forgot_password)
+            is FirebaseNetworkException -> getString(R.string.login_fragment_snackbar_message_firebase_auth_network_exception_on_forgot_password)
+            else -> getString(R.string.login_fragment_snackbar_message_unknown_error)
+        }
+        return errorMessage
+    }
+
 
     private fun configureAndSaveFields() {
         val fieldEmail = binding.fragmentLoginTextfieldEmail.editText
@@ -115,6 +151,7 @@ class LoginFragment : Fragment() {
             NavigationComponents(toolbar = false, menuDrawer = false)
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
     private fun configureObserverLogin() {
         context?.let { context ->
             model.firebaseAuthLiveData.observe(viewLifecycleOwner) { resource ->
@@ -122,14 +159,22 @@ class LoginFragment : Fragment() {
                     if (resource.data) {
                         goToDisciplinesFragment()
                         snackBar(getString(R.string.login_fragment_snackbar_message_login_success))
+
+                        GlobalScope.launch {
+                            val studentDiaryFirebaseMessagingService =
+                                StudentDiaryFirebaseMessagingService
+                            val token = studentDiaryFirebaseMessagingService.token
+                            token?.let { tokenNonNull ->
+                                appViewModel.sendToken(tokenNonNull)
+                                studentDiaryFirebaseMessagingService.clear()
+                            }
+                        }
+
+
                     } else {
                         resource.exception?.let { exception ->
-                            if (context.isOnline()) {
-                                showFirebaseAuthErrorMessage(exception)
+                                snackBar(identifiesErrorFirebaseAuthOnLogin(exception))
                                 exitGoogleAndFacebookAccount(context)
-                            } else {
-                                context.showToastNoConnectionMessage()
-                            }
                         }
                     }
                 }
@@ -137,15 +182,17 @@ class LoginFragment : Fragment() {
         }
     }
 
-    private fun showFirebaseAuthErrorMessage(exception: java.lang.Exception) {
-        val errorMessage = identifiesErrorFirebaseAuthOnLogin(exception)
-        snackBar(errorMessage)
-    }
+
+
+
+
 
     private fun identifiesErrorFirebaseAuthOnLogin(exception: Exception): String {
         val errorMessage = when (exception) {
             is FirebaseAuthInvalidCredentialsException -> getString(R.string.login_fragment_snackbar_message_firebase_auth_Invalid_credentials_Exception)
             is FirebaseAuthInvalidUserException -> getString(R.string.login_fragment_snackbar_message_firebase_auth_Invalid_user_Exception)
+            is FirebaseAuthUserCollisionException -> getString(R.string.login_fragment_snackbar_message_firebase_auth_user_collision_Exception)
+            is FirebaseNetworkException -> getString(R.string.login_fragment_snackbar_message_firebase_auth_network_exception)
             else -> getString(R.string.login_fragment_snackbar_message_unknown_error)
         }
         return errorMessage

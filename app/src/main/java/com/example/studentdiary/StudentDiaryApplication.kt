@@ -23,8 +23,8 @@ class StudentDiaryApplication : Application() {
             )
         }
 
-        val mainChannel: NotificationMainChannel by inject()
-        mainChannel.createChannel()
+        val notificationMainChannel: NotificationMainChannel by inject()
+        notificationMainChannel.createChannel()
 
 
     }

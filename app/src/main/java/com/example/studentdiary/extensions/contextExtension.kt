@@ -23,10 +23,11 @@ fun Context.googleSignInClient(): GoogleSignInClient {
 fun Context.alertDialog(
     title: String,
     message: String,
+    icon: Int? = null,
     onClickingOnPositiveButton: () -> Unit = {},
     onClickingOnNegativeButton: () -> Unit = {}
 ) {
-    MaterialAlertDialogBuilder(this)
+    val alertDialog = MaterialAlertDialogBuilder(this)
         .setTitle(title)
         .setMessage(message)
         .setNegativeButton(getString(R.string.common_cancel)) { _, _ ->
@@ -36,7 +37,10 @@ fun Context.alertDialog(
             onClickingOnPositiveButton()
 
         }
-        .show()
+    icon?.let {
+        alertDialog.setIcon(it)
+    }
+    alertDialog.show()
 }
 
 
@@ -61,22 +65,23 @@ fun Context.showToastNoConnectionMessage() {
     toast(getString(R.string.default_message_noConnection))
 }
 
-fun Context.showNotificationSuggestion() {
+fun Context.showNotificationSendPublicTenderSuggestion() {
     val imgSuggestionsNotification =
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT56PuFScM4ZH3VwzMQOX50aenzv2hM2FlM5VEWvuy-wr3l1MVJU6bWUYOMi3rF_LSC55c&usqp=CAU"
     Notification(this).show(
         title = getString(R.string.suggestion_notification_title),
         description = getString(R.string.suggestion_notification_description),
-        img = imgSuggestionsNotification
+        img = imgSuggestionsNotification,
+        iconId = R.drawable.ic_notification_suggestion_send
     )
 }
 
-fun Context.showGreetingNotification(){
-    val imgGreetingNotification =
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT56PuFScM4ZH3VwzMQOX50aenzv2hM2FlM5VEWvuy-wr3l1MVJU6bWUYOMi3rF_LSC55c&usqp=CAU"
+fun Context.showGreetingNotification() {
     Notification(this).show(
         title = getString(R.string.greeting_notification_title),
         description = getString(R.string.greeting_notification_description),
-        img = imgGreetingNotification
+        iconId = R.drawable.ic_notification_greeting_people
     )
 }
+
+

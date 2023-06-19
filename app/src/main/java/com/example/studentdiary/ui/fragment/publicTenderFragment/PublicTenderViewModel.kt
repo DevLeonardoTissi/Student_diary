@@ -19,6 +19,6 @@ class PublicTenderViewModel(private val firebaseFirestoreRepository: PublicTende
 
     fun getIsOpen(): Boolean = _cardViewSuggestionsIsOpen.value ?: false
 
-    fun add(publicTenderSuggestion: PublicTenderSuggestion) =
-        firebaseFirestoreRepository.add(publicTenderSuggestion)
+    fun addPublicTenderSuggestion(publicTenderSuggestion: PublicTenderSuggestion) =
+        firebaseFirestoreRepository.addPublicTenderSuggestion(publicTenderSuggestion)
 }

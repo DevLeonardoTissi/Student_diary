@@ -9,12 +9,14 @@ import com.example.studentdiary.repository.DictionaryRepository
 import com.example.studentdiary.repository.DisciplineRepository
 import com.example.studentdiary.repository.FirebaseAuthRepository
 import com.example.studentdiary.repository.PublicTenderRepository
+import com.example.studentdiary.repository.SendTokenRepository
 import com.example.studentdiary.ui.AppViewModel
 import com.example.studentdiary.ui.fragment.dictionaryFragment.DictionaryViewModel
 import com.example.studentdiary.ui.fragment.disciplineDetailsFragment.DisciplineDetailsViewModel
 import com.example.studentdiary.ui.fragment.disciplineFormFragment.DisciplineFormViewModel
 import com.example.studentdiary.ui.fragment.disciplinesFragment.DisciplinesViewModel
 import com.example.studentdiary.ui.fragment.loginFragment.LoginViewModel
+import com.example.studentdiary.ui.fragment.pomodoroFragment.PomodoroViewModel
 import com.example.studentdiary.ui.fragment.publicTenderFragment.PublicTenderViewModel
 import com.example.studentdiary.ui.fragment.registerFragment.RegisterViewModel
 import com.example.studentdiary.ui.recyclerView.adapter.DisciplineListAdapter
@@ -66,7 +68,9 @@ val repositoryModule = module {
     single { DictionaryRepository(get()) }
     single { DisciplineRepository(get()) }
     single { PublicTenderRepository(get()) }
+    single { SendTokenRepository(get()) }
 }
+
 
 val viewModelModule = module {
     viewModel { RegisterViewModel(get()) }
@@ -74,7 +78,8 @@ val viewModelModule = module {
     viewModel { DisciplinesViewModel(get()) }
     viewModel { DictionaryViewModel(get()) }
     viewModel { PublicTenderViewModel(get()) }
-    viewModel { AppViewModel(get()) }
+    viewModel { AppViewModel(get(), get()) }
+    viewModel{PomodoroViewModel()}
     viewModel { (disciplineId: String) ->
 
         DisciplineFormViewModel(get(), disciplineId)

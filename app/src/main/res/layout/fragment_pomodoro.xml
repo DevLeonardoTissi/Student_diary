@@ -1,14 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true"
     tools:context=".ui.fragment.pomodoroFragment.PomodoroFragment">
 
-
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Pomodoro Fragment" />
+        android:layout_height="wrap_content">
 
-</FrameLayout>
+
+        <TextView
+            android:id="@+id/pomodoro_fragment_textView_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="00:00:00"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:textSize="@dimen/bigTextSize"
+            android:textStyle="italic"/>
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/pomodoro_fragment_button_start"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_default"
+            android:backgroundTint="@color/colorSurface"
+            android:elevation="@dimen/elevation_default"
+            android:padding="16dp"
+            android:src="@drawable/ic_play"
+            app:layout_constraintEnd_toStartOf="@id/pomodoro_fragment_button_pause"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/pomodoro_fragment_textView_time" />
+
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/pomodoro_fragment_button_pause"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_default"
+            android:backgroundTint="@color/colorSurface"
+            android:elevation="@dimen/elevation_default"
+            android:padding="16dp"
+            android:src="@drawable/ic_pause"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/pomodoro_fragment_button_start"
+            app:layout_constraintTop_toBottomOf="@id/pomodoro_fragment_textView_time" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/pomodoro_fragment_button_stop"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_default"
+            android:backgroundTint="@color/colorSurface"
+            android:elevation="@dimen/elevation_default"
+            android:padding="16dp"
+            android:src="@drawable/ic_reset"
+            app:layout_constraintEnd_toEndOf="parent"
+           app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/pomodoro_fragment_button_start" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</ScrollView>

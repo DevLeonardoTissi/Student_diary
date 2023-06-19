@@ -15,6 +15,7 @@ import androidx.navigation.fragment.navArgs
 import com.example.studentdiary.R
 import com.example.studentdiary.databinding.FragmentDisciplineDetailsBinding
 import com.example.studentdiary.extensions.alertDialog
+import com.example.studentdiary.extensions.snackBar
 import com.example.studentdiary.ui.fragment.baseFragment.BaseFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -49,7 +50,11 @@ class DisciplineDetailsFragment : BaseFragment() {
 
     private fun updateUi(){
         model.foundDiscipline.observe(viewLifecycleOwner){discipline ->
-
+            context?.let {
+                discipline.name?.let {
+                    snackBar(it)
+                }
+            }
         }
     }
 
@@ -74,6 +79,7 @@ class DisciplineDetailsFragment : BaseFragment() {
                         R.id.menuItem_discipline_details_remove -> {
                             context?.let { context ->
                                 context.alertDialog(
+                                    icon = R.drawable.ic_delete,
                                     title = getString(R.string.discipline_form_fragment_delete_dialog_title),
                                     message = getString(R.string.discipline_form_fragment_delete_dialog_message),
                                     onClickingOnPositiveButton = {

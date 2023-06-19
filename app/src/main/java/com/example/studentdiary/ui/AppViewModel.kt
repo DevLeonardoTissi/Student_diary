@@ -1,11 +1,17 @@
 package com.example.studentdiary.ui
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.studentdiary.repository.FirebaseAuthRepository
+import com.example.studentdiary.repository.SendTokenRepository
+import java.lang.Exception
 
-class AppViewModel(private val firebaseAuthRepository: FirebaseAuthRepository) : ViewModel() {
+class AppViewModel(
+    private val firebaseAuthRepository: FirebaseAuthRepository,
+    private val sendTokenRepository: SendTokenRepository
+) : ViewModel() {
     private val _navigationComponents = MutableLiveData<NavigationComponents>().also {
         it.value = hasNavigationComponents
     }
@@ -17,13 +23,40 @@ class AppViewModel(private val firebaseAuthRepository: FirebaseAuthRepository) :
             _navigationComponents.value = value
         }
 
-    val userEmail = firebaseAuthRepository.userEmail
+    val firebaseUser = firebaseAuthRepository.firebaseUser
+
+
+
+    fun updateUserProfile(name: String? = null, photoUrl:String? = null ) {
+        val task = firebaseAuthRepository.updateUserProfile(name = name, photoUrl = photoUrl )
+        task?.let {
+            try {
+                task.addOnSuccessListener {
+                    firebaseAuthRepository.updateUser()
+                }
+                task.addOnFailureListener { }
+            } catch (e: Exception) {
+                Log.i("TAG", "updateUserProfile: error")
+            }
+        }
+    }
+
+
+
+
+
 
     fun logout() {
         if (firebaseAuthRepository.isAuthenticated()) {
             firebaseAuthRepository.logout()
         }
     }
+
+    fun sendToken(t: String) {
+        sendTokenRepository.sendToken(t)
+    }
+
+
 }
 
 

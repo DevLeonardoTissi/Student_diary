@@ -374,6 +374,7 @@ class DisciplineFormFragment : BaseFragment() {
     private fun alertDialogConfirm() {
         context?.let { context ->
             context.alertDialog(
+                icon = R.drawable.ic_done,
                 title = getString(R.string.discipline_form_confirm_dialog_title),
                 message = getString(R.string.discipline_form_confirm_dialog_message),
                 onClickingOnPositiveButton = {
@@ -382,16 +383,12 @@ class DisciplineFormFragment : BaseFragment() {
                         addReminder()
                     }
                     insert()
-                    goToDisciplinesFragment()
+                    controller.popBackStack()
                 })
         }
     }
 
-    private fun goToDisciplinesFragment() {
-        val direction =
-            DisciplineFormFragmentDirections.actionDisciplineFormFragmentToDisciplinesFragment()
-        controller.navigate(direction)
-    }
+
 
     private fun addReminder() {
         model.getDate()?.let { date ->

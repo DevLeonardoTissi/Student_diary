@@ -1,13 +1,13 @@
 package com.example.studentdiary.ui.activity
 
 import android.Manifest
+import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.content.BroadcastReceiver
 import android.content.Intent.ACTION_AIRPLANE_MODE_CHANGED
 import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -18,22 +18,19 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
+import coil.load
 import com.example.studentdiary.NavGraphDirections
 import com.example.studentdiary.R
 import com.example.studentdiary.databinding.ActivityMainBinding
-import com.example.studentdiary.databinding.AppInfoBottomSheetDialogBinding
 import com.example.studentdiary.databinding.HeaderNavigationDrawerBinding
 import com.example.studentdiary.extensions.alertDialog
 import com.example.studentdiary.extensions.toast
 import com.example.studentdiary.ui.AppViewModel
-import com.example.studentdiary.ui.GITHUB_LINK
-import com.example.studentdiary.ui.LINKEDIN_LINK
 import com.example.studentdiary.ui.NavigationComponents
-import com.example.studentdiary.ui.STUDENT_DIARY_GITHUB_LINK
+import com.example.studentdiary.ui.dialog.AppInfoBottonSheetDialog
+import com.example.studentdiary.ui.dialog.CustomImageBottonSheetDialog
 import com.example.studentdiary.utils.broadcastReceiver.MyBroadcastReceiver
 import com.example.studentdiary.utils.exitGoogleAndFacebookAccount
-import com.example.studentdiary.utils.goToUri
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
@@ -58,6 +55,21 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+
+    private val pickImage = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+        uri?.let {
+//            appViewModel.alterPhoto("https://ichef.bbci.co.uk/news/800/cpsprodpb/146CB/production/_96895638_tiririca2.jpg")
+        }
+    }
+
+    private val requestPermission =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                openGallery()
+            }
+
+        }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -81,19 +93,42 @@ class MainActivity : AppCompatActivity() {
 
     private fun searchUserAndCustomizeHeader() {
         val headerBinding = HeaderNavigationDrawerBinding.inflate(layoutInflater)
-        appViewModel.userEmail.observe(this) { email ->
-            email?.let {
+        appViewModel.firebaseUser.observe(this) { user ->
+            user?.let { userNonNull ->
+                val nameApresentation = userNonNull.displayName ?: userNonNull.email
                 headerBinding.headerSubtitle.text = getString(
                     R.string.header_drawer_concatenated_text,
                     getString(R.string.header_drawer_greeting),
-                    email
+                    nameApresentation
                 )
+                headerBinding.headerShapeableImageView.load(userNonNull.photoUrl)
             } ?: kotlin.run {
+                headerBinding.headerShapeableImageView.load(null)
                 headerBinding.headerSubtitle.text = null
             }
         }
+
+        headerBinding.headerIconButton.setOnClickListener {
+            CustomImageBottonSheetDialog(this).show()
+        }
+
         binding.navView.addHeaderView(headerBinding.root)
+
+
     }
+
+    private fun hasPermission(): Boolean {
+        return ContextCompat.checkSelfPermission(
+            this,
+            READ_EXTERNAL_STORAGE
+        ) == PackageManager.PERMISSION_GRANTED
+    }
+
+
+    private fun openGallery() {
+        pickImage.launch("image/*")
+    }
+
 
     private fun registerReceiver() {
         val filter = IntentFilter(ACTION_AIRPLANE_MODE_CHANGED)
@@ -118,6 +153,7 @@ class MainActivity : AppCompatActivity() {
                     alertDialog(
                         getString(R.string.main_activity_alert_dialog_exit_title),
                         getString(R.string.main_activity_alert_dialog_exit_message),
+                        icon = R.drawable.ic_exit,
                         onClickingOnPositiveButton = {
                             logout()
                             goToLogin()
@@ -126,7 +162,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.menuItem_drawer_about -> {
-                    setupAndOpenAppInfoBottomSheetDialog()
+                   AppInfoBottonSheetDialog(this).show()
                     false
                 }
 
@@ -152,25 +188,6 @@ class MainActivity : AppCompatActivity() {
         binding.activityMainToolbar.setupWithNavController(navController, appBarConfiguration)
     }
 
-    private fun setupAndOpenAppInfoBottomSheetDialog() {
-        val bottomSheetDialog = BottomSheetDialog(this, R.style.bottonSheetDialog)
-        AppInfoBottomSheetDialogBinding.inflate(LayoutInflater.from(this)).apply {
-            appInfoBottomSheetDialogChipGitHub.setOnClickListener {
-                goToUri(GITHUB_LINK, this@MainActivity)
-            }
-
-            appInfoBottomSheetDialogChipGitHubProject.setOnClickListener {
-                goToUri(STUDENT_DIARY_GITHUB_LINK, this@MainActivity)
-            }
-
-            appInfoBottomSheetDialogChipLinkedin.setOnClickListener {
-                goToUri(LINKEDIN_LINK, this@MainActivity)
-            }
-
-            bottomSheetDialog.setContentView(root)
-            bottomSheetDialog.show()
-        }
-    }
 
     private fun goToLogin() {
         val direction = NavGraphDirections.actionGlobalLoginFragment()
@@ -186,7 +203,7 @@ class MainActivity : AppCompatActivity() {
 
         if (hasNavigationComponents.toolbar) {
             binding.activityMainToolbar.visibility = View.VISIBLE
-        }else{
+        } else {
             binding.activityMainToolbar.visibility = View.INVISIBLE
 
         }

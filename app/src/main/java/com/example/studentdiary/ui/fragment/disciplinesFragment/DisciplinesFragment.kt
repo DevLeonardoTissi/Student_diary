@@ -185,6 +185,7 @@ class DisciplinesFragment : BaseFragment() {
             adapter.onClickingOnOptionDelete = { disciplineId ->
                 context?.let { context ->
                     context.alertDialog(
+                        icon = R.drawable.ic_delete,
                         title = getString(R.string.discipline_fragment_delete_dialog_title),
                         message = getString(R.string.discipline_fragment_delete_dialog_message),
                         onClickingOnPositiveButton = {

@@ -26,7 +26,7 @@ class PublicTenderRepository(private val firestore: FirebaseFirestore) {
         return liveData
     }
 
-    fun add(publicTenderSuggestion: PublicTenderSuggestion) {
+    fun addPublicTenderSuggestion(publicTenderSuggestion: PublicTenderSuggestion) {
         val document = firestore.collection(PUBLIC_TENDER_SUGGESTION).document()
         document.set(publicTenderSuggestion)
     }

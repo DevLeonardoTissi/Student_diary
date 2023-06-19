@@ -1,12 +1,22 @@
 package com.example.studentdiary.notifications
 
-import android.util.Log
 import com.google.firebase.messaging.FirebaseMessagingService
 
-class StudentDiaryFirebaseMessagingService: FirebaseMessagingService() {
+class StudentDiaryFirebaseMessagingService(): FirebaseMessagingService() {
 
-    override fun onNewToken(token: String) {
-        super.onNewToken(token)
-        Log.i("TAG", "onNewToken: $token")
+    companion object{
+        fun clear(){
+            token = null
+        }
+        var token:String? = null
+            private set
     }
+
+    override fun onNewToken(newToken: String) {
+        super.onNewToken(newToken)
+       token = newToken
+
+    }
+
+
 }

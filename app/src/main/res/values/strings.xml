@@ -16,8 +16,8 @@
     <string name="suggestion_notification_description">Em breve analizaremos sua sugestão</string>
 
     <!-- Greeting Notifications -->
-    <string name="greeting_notification_title">Boas vindas!</string>
-    <string name="greeting_notification_description">Estamos anciosos para te ajudar nos estudos</string>
+    <string name="greeting_notification_title">Olá e seja bem vindo ao Student diary!</string>
+    <string name="greeting_notification_description">Parabéns por se juntar a nós! Estamos aqui para ajudá-lo(a) a se organizar e alcançar o sucesso acadêmico.</string>
 
 
     <!--Menu OnLongClick Item -->
@@ -27,9 +27,9 @@
 
     <!--Menu drawer -->
     <string name="header_drawer_subtitle">Desenvolvido por Leonardo Tissi</string>
-    <string name="header_drawer_greeting">Bem-vindo,\n</string>
+    <string name="header_drawer_greeting">Bem-vindo (a), \n</string>
     <string name="header_drawer_user_email">%s</string>
-    <string name="header_drawer_concatenated_text">%1$s %2$s</string>
+    <string name="header_drawer_concatenated_text">%1$s%2$s</string>
     <string name="drawer_menu_item_disciplines">Disciplinas</string>
     <string name="drawer_menu_item_tools">Ferramentas</string>
     <string name="drawer_menu_item_dictionary">Dicionário</string>
@@ -38,12 +38,17 @@
     <string name="drawer_menu_item_more">Mais</string>
     <string name="drawer_menu_item_exit">Sair</string>
     <string name="drawer_menu_item_about">Sobre</string>
+    <string name="drawer_menu_item_profile">Perfil</string>
 
     <!-- Main Activity Dialog exit -->
     <string name="main_activity_alert_dialog_exit_title">Sair</string>
     <string name="main_activity_alert_dialog_exit_message">Deseja encerrar sessão e sair do aplicativo?</string>
 
-    <!-- Main Activity bottom Sheet Dialog -->
+    <!-- Main Activity setup image bottom Sheet Dialog -->
+    <string name="main_activity_setup_image_bottom_sheet_dialog_gallery_button">Galeria</string>
+    <string name="main_activity_setup_image_bottom_sheet_dialog_remove_button">Remover</string>
+
+    <!-- Main Activity app info bottom Sheet Dialog -->
     <string name="main_activity_app_info_bottom_sheet_dialog_description">Aplicativo para te auxiliar na organização dos estudos</string>
     <string name="main_activity_app_info_bottom_sheet_dialog_chip_gitHub">Perfil no GitHub</string>
     <string name="main_activity_app_info_bottom_sheet_dialog_chip_linkedin">Perfil no Linkedin</string>
@@ -52,6 +57,14 @@
     <!-- Main Activity -->
     <string name="main_activity_permission_not_granted">O app não mostrará notificações</string>
     <string name="main_activity_permission_granted">O app mostrará notificações</string>
+
+
+    <!-- Forgot password Alert Dialog -->
+    <string name="forgot_password_alert_dialog_textView_title">Recuperar senha</string>
+    <string name="forgot_password_alert_dialog_text_field_email_hint">Email</string>
+    <string name="forgot_password_alert_dialog_text_field_email_helper">Não se preocupe! Vamos enviar um e-mail para você com todas as informações necessárias para alterar sua senha. </string>
+    <string name="forgot_password_alert_dialog_text_field_email_empty_error">Campo vazio</string>
+
 
     <!-- register Fragment -->
     <string name="register_fragment_toolbar_title">Cadastrar</string>
@@ -78,13 +91,22 @@
     <string name="login_fragment_text_field_error_email_required">Email necessário</string>
     <string name="login_fragment_text_field_error_password_required">Senha necessária</string>
     <string name="login_fragment_snackbar_message_firebase_auth_Invalid_user_Exception">Usuário inválido</string>
+    <string name="login_fragment_snackbar_message_firebase_auth_user_collision_Exception">Faça login usando um provedor associado a este endereço de e-mail</string>
     <string name="login_fragment_snackbar_message_firebase_auth_Invalid_credentials_Exception">Email ou senha incorretos</string>
+    <string name="login_fragment_snackbar_message_firebase_auth_network_exception">Erro de conexão</string>
     <string name="login_fragment_snackbar_message_unknown_error">Erro desconhecido</string>
     <string name="login_fragment_snackbar_message_login_success">Sucesso ao entrar</string>
     <string name="login_fragment_snackbar_message_login_facebook_cancel">Cancelado pelo usuário</string>
     <string name="login_fragment_registerButton">Cadastrar</string>
     <string name="login_fragment_textView_label_not_have_an_account_question">Não possui uma conta?</string>
     <string name="login_fragment_textView_label_register">Registre-se</string>
+    <string name="login_fragment_textView_forgot_password">Esqueceu a senha? Clique aqui para recuperá - la. </string>
+
+    <string name="login_fragment_snackbar_message_firebase_auth_invalid_user_exception_on_forgot_password">Usuário não encontrado</string>
+    <string name="login_fragment_snackbar_message_firebase_auth_invalid_credentials_exception_on_forgot_password">Email inválido</string>
+    <string name="login_fragment_snackbar_message_firebase_auth_many_request_exception_on_forgot_password">bloqueio temporário devido a diversas tentativas</string>
+    <string name="login_fragment_snackbar_message_firebase_auth_network_exception_on_forgot_password">Erro de conexão</string>
+    <string name="login_fragment_snackbar_message_firebase_auth_on_sucess_forgot_password">Email enviado. Verifique sua caixa de entrada</string>
 
 
     <!-- Facebook -->
@@ -149,6 +171,9 @@
     <!-- Pomodoro Fragment -->
     <string name="pomodoro_fragment_toolbar_title">Pomodoro</string>
 
+    <!-- Profile Fragment -->
+    <string name="profile_fragment_toolbar_title">Perfil</string>
+
 
     <!-- Public Tender Fragment -->
     <string name="public_tender_fragment_toolbar_title">Concursos públicos</string>
@@ -204,7 +229,6 @@
     <string name="public_tender_suggestion_dialog_text_field_hint_url">URL da plataforma</string>
     <string name="public_tender_suggestion_dialog_text_field_hint_description">Descrição da plataforma</string>
     <string name="public_tender_suggestion_dialog_text_field_error">Campo vazio</string>
-
 
 
     <!-- Common -->

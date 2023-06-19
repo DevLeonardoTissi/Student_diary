@@ -4,7 +4,6 @@ import android.app.Notification
 import android.app.NotificationManager
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationCompat.VISIBILITY_PRIVATE
 import androidx.core.content.ContextCompat
@@ -20,19 +19,35 @@ import kotlinx.coroutines.launch
 class Notification(private val context: Context) {
 
 
-    private val manager:NotificationManager  by lazy {
+    private val manager: NotificationManager by lazy {
         context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
     }
 
     companion object {
-        private var id = 1
+        var id = 1
+            private set
     }
 
-    fun show(title: String, description: String, img: String? = null) {
+    fun show(
+        title: String,
+        description: String,
+        img: String? = null,
+        iconId: Int,
+        isOnGoing: Boolean? = false,
+        isAutoCancel: Boolean? = true
+    ) {
         CoroutineScope(Dispatchers.IO).launch {
             val image = trySearchImg(img)
             val style = createStyle(image, description)
-            val notification = createNotification(title, description, style)
+            val notification =
+                createNotification(
+                    title,
+                    description,
+                    style,
+                    iconId,
+                    isOnGoing ?: false,
+                    isAutoCancel ?: true
+                )
             manager.notify(id, notification)
             id++
         }
@@ -49,18 +64,22 @@ class Notification(private val context: Context) {
     private fun createNotification(
         title: String,
         description: String,
-        style: NotificationCompat.Style
+        style: NotificationCompat.Style,
+        iconId: Int,
+        isOnGoing: Boolean = false,
+        isAutoCancel: Boolean = true
     ): Notification {
         return NotificationCompat.Builder(context, CHANNEL_IDENTIFIER)
             .setContentTitle(title)
             .setContentText(description)
-            .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.drawable.logo_app))
-            .setSmallIcon(R.drawable.ic_notification_add)
+            //.setLargeIcon(BitmapFactory.decodeResource(context.resources, R.drawable.logo_app))
+            .setSmallIcon(iconId)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            .setAutoCancel(true)
+            .setAutoCancel(isAutoCancel)
             .setStyle(style)
             .setVisibility(VISIBILITY_PRIVATE)
             .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
+            .setOngoing(isOnGoing)
             .build()
     }
 

@@ -1,5 +1,6 @@
 package com.example.studentdiary.repository
 
+import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import com.example.studentdiary.model.User
 import com.google.android.gms.tasks.Task
@@ -7,6 +8,7 @@ import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.ktx.userProfileChangeRequest
 
 class FirebaseAuthRepository(private val firebaseAuth: FirebaseAuth) {
 
@@ -29,12 +31,48 @@ class FirebaseAuthRepository(private val firebaseAuth: FirebaseAuth) {
         return firebaseUser != null
     }
 
-    val userEmail = MutableLiveData<String?>().apply {
+    fun sendPasswordResetEmail(email:String): Task<Void> {
+       return firebaseAuth.sendPasswordResetEmail(email)
+    }
+
+    fun updatePassword(password:String): Task<Void>? {
+        return firebaseAuth.currentUser?.updatePassword(password)
+    }
+
+    fun updateEmail(newEmail:String): Task<Void>? {
+        return firebaseAuth.currentUser?.updateEmail(newEmail)
+    }
+
+
+    fun deleteUser(): Task<Void>? {
+        return firebaseAuth.currentUser?.delete()
+    }
+
+
+    fun updateUserProfile(name:String? = null, photoUrl:String? = null): Task<Void>? {
+        val userProfileChange = userProfileChangeRequest {
+            name?.let {
+                displayName = it
+            }
+            photoUrl?.let {
+                photoUri = Uri.parse(it)
+            }
+        }
+        return firebaseAuth.currentUser?.updateProfile(userProfileChange)
+    }
+
+    fun updateUser(){
+        firebaseUser.value = FirebaseAuth.getInstance().currentUser
+    }
+
+
+    val firebaseUser = MutableLiveData<FirebaseUser?>().apply {
+        val auth = FirebaseAuth.getInstance()
         val authStateListener = FirebaseAuth.AuthStateListener { firebaseAuth ->
-            value = firebaseAuth.currentUser?.email
+            value = firebaseAuth.currentUser
         }
 
-        firebaseAuth.addAuthStateListener(authStateListener)
+        auth.addAuthStateListener(authStateListener)
     }
 
 }
