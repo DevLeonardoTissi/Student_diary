@@ -12,4 +12,6 @@ class PomodoroViewModel : ViewModel() {
 
     fun pauseTimer(notificationManager: NotificationManager) = PomodoroService.pauseTimer(notificationManager)
 
+    val startTime = PomodoroService.startTimeInMillis
+
 }

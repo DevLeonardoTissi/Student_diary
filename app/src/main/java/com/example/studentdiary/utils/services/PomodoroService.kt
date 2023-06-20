@@ -17,7 +17,7 @@ class PomodoroService : Service() {
         applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
     }
 
-
+    private var isinterval:Boolean = false
 
 
     override fun onBind(p0: Intent?): IBinder? {
@@ -38,7 +38,7 @@ class PomodoroService : Service() {
         var timerIsRunning = MutableLiveData(false)
             private set
         private lateinit var countDownTimer: CountDownTimer
-        private const val startTimeInMillis: Long = 10000
+        const val startTimeInMillis: Long = 10000
         var timeLeftInMillis = MutableLiveData<Long?>(null)
             private set
 
@@ -60,40 +60,48 @@ class PomodoroService : Service() {
 
 
     fun startPomodoroTimer() {
-        //verificar se estou no intervalo atavez de flag, e, se estiver, chamar o ccontador do intervalo sem adicionar os 5 minutos adicionais.
+        if (isinterval){
+            startIntervalTimer()
+        }else{
 
-        val timer = timeLeftInMillis.value ?: startTimeInMillis
-        countDownTimer = object : CountDownTimer(timer, countDownInterval) {
-            override fun onTick(millisUntilFinished: Long) {
-                timeLeftInMillis.value = millisUntilFinished
+            val timer = timeLeftInMillis.value ?: startTimeInMillis
+            countDownTimer = object : CountDownTimer(timer, countDownInterval) {
+                override fun onTick(millisUntilFinished: Long) {
+                    timeLeftInMillis.value = millisUntilFinished
+                }
+
+                override fun onFinish() {
+                    isinterval = true
+                    startIntervalTimer()
+                }
             }
 
-            override fun onFinish() {
-                startIntervalTimer()
+            notificationId?.let {
+                notificationManager.cancel(it)
             }
+
+            countDownTimer.start()
+            notificationId = showPomodoroNotification(applicationContext)
+            timerIsRunning.value = true
         }
 
-        notificationId?.let {
-            notificationManager.cancel(it)
-        }
-        countDownTimer.start()
-        notificationId = showPomodoroNotification(applicationContext)
-        timerIsRunning.value = true
 
     }
 
 
     private fun startIntervalTimer() {
-        timeLeftInMillis.value = fiveMinutesInMillis
+        if (isinterval && (timeLeftInMillis.value?.div(1000))?.rem(60)   == 0L){
+            timeLeftInMillis.value = fiveMinutesInMillis
+        }
+
         countDownTimer = object : CountDownTimer(timeLeftInMillis.value!!, countDownInterval) {
             override fun onTick(millisUntilFinished: Long) {
                 timeLeftInMillis.value = millisUntilFinished
-
-
             }
 
             override fun onFinish() {
                 timeLeftInMillis.value = startTimeInMillis
+                isinterval = false
                 startPomodoroTimer()
             }
         }
@@ -101,6 +109,7 @@ class PomodoroService : Service() {
         notificationId?.let {
             notificationManager.cancel(it)
         }
+
         notificationId = showIntervalNotification(applicationContext)
         countDownTimer.start()
         timerIsRunning.value = true

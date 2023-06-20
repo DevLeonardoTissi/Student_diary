@@ -49,7 +49,7 @@ class PomodoroFragment : BaseFragment() {
         model.timeLeftInMillis.observe(viewLifecycleOwner) { timeLeftInMillis ->
             timeLeftInMillis?.let {
                 updateTimerText(it)
-            }
+            }?: updateTimerText(model.startTime)
         }
     }
 
