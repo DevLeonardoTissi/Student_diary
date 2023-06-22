@@ -2,6 +2,7 @@ package com.example.studentdiary.ui.fragment.pomodoroFragment
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,11 +37,11 @@ class PomodoroFragment : BaseFragment() {
         onClickStopButton()
         setupObserverTimer()
         setupObserverIsRunning()
-        setupObserverSliderTimer()
-        setupObserverSliderInterval()
+//        setupObserverSliderTimer()
+//        setupObserverSliderInterval()
         setupSliders()
+        observerInterval()
     }
-
 
 
     private fun setupObserverSliderTimer() {
@@ -50,19 +51,27 @@ class PomodoroFragment : BaseFragment() {
         }
     }
 
-    private fun setupObserverSliderInterval(){
-        model.intervalTime.observe(viewLifecycleOwner){
+    private fun setupObserverSliderInterval() {
+        model.intervalStartTime.observe(viewLifecycleOwner) {
             val progress = it.toFloat() / 1000 / 60
             binding.pomodoroFragmentSliderInterval.setValues(progress)
-            binding.pomodoroFragmentTextViewInterval.text = formatTimeLeft(it)
+
         }
     }
 
-    private fun setupSliders(){
+    private fun observerInterval(){
+        model.intervalLeftTime.observe(viewLifecycleOwner){ intervalTime->
+            binding.pomodoroFragmentTextViewInterval.text = formatTimeLeft(intervalTime ?: model.intervalStartTime.value)
+            Log.i("TAG", "observerInterval: ${model.intervalStartTime.value}")
+
+        }
+    }
+
+    private fun setupSliders() {
         val timerSlider = binding.pomodoroFragmentSliderTimer
         val intervalSlider = binding.pomodoroFragmentSliderInterval
         timerSlider.addOnChangeListener { _, value, _ ->
-            if (value in 5.0..60.0){
+            if (value in 5.0..60.0) {
                 model.setValuePomodoroTimer((value * 60 * 1000).toLong())
             }
 
@@ -76,7 +85,7 @@ class PomodoroFragment : BaseFragment() {
         }
 
         intervalSlider.addOnChangeListener { _, value, _ ->
-            if (value in 5.0..60.0){
+            if (value in 5.0..60.0) {
                 model.setValueIntervalTimer((value * 60 * 1000).toLong())
             }
         }
@@ -91,20 +100,22 @@ class PomodoroFragment : BaseFragment() {
 
     private fun setupObserverIsRunning() {
         model.timerIsRunning.observe(viewLifecycleOwner) {
-            updateButtons(it)
+            binding.pomodoroFragmentButtonStart.isEnabled = !it
+            binding.pomodoroFragmentButtonPause.isEnabled = it
             binding.pomodoroFragmentSliderTimer.isEnabled = !it
             binding.pomodoroFragmentSliderInterval.isEnabled = !it
-            if (it){
+            binding.pomodoroFragmentTextViewSelectTimeLabel.isEnabled = !it
+            binding.pomodoroFragmentTextViewSelectIntervalLabel.isEnabled = !it
+            if (it) {
                 binding.pomodoroFragmentAnimationChronometer.playAnimation()
-            }else{
+            } else {
                 binding.pomodoroFragmentAnimationChronometer.cancelAnimation()
             }
-
         }
     }
 
     private fun setupObserverTimer() {
-        model.timeLeftInMillis.observe(viewLifecycleOwner) { timeLeftInMillis ->
+        model.pomodoroLeftTime.observe(viewLifecycleOwner) { timeLeftInMillis ->
             binding.pomodoroFragmentTextViewTime.text =
                 formatTimeLeft(timeLeftInMillis ?: model.getValuePomodoroTimer())
         }
@@ -130,12 +141,6 @@ class PomodoroFragment : BaseFragment() {
             context?.startService(intent)
 
         }
-    }
-
-
-    private fun updateButtons(isTimerRunning: Boolean) {
-        binding.pomodoroFragmentButtonStart.isEnabled = !isTimerRunning
-        binding.pomodoroFragmentButtonPause.isEnabled = isTimerRunning
     }
 
 

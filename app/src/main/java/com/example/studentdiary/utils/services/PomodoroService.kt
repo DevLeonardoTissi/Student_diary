@@ -37,14 +37,17 @@ class PomodoroService : Service() {
         val timerIsRunning: LiveData<Boolean> = _timerIsRunning
 
 
-        private var _timeLeftInMillis = MutableLiveData<Long?>(null)
-        val timeLeftInMillis: LiveData<Long?> = _timeLeftInMillis
+        private var _pomodoroLeftTime = MutableLiveData<Long?>(null)
+        val pomodoroLeftTime: LiveData<Long?> = _pomodoroLeftTime
 
-        private val _pomodoroStartTime = MutableLiveData<Long>(1500000)
+        private val _pomodoroStartTime = MutableLiveData<Long>(10000)
         val pomodoroStartTime: LiveData<Long> = _pomodoroStartTime
 
-        private val _intervalTime = MutableLiveData<Long>(300000)
-        val interalTime: LiveData<Long> = _intervalTime
+        private val _intervalLeftTime = MutableLiveData<Long?>(null)
+        val intervalLeftTime: LiveData<Long?> = _intervalLeftTime
+
+        private val _intervalStartTime = MutableLiveData<Long>(10000)
+        val interalStartTime: LiveData<Long> = _intervalStartTime
 
 
         private var isInterval:Boolean = false
@@ -55,32 +58,39 @@ class PomodoroService : Service() {
             setTimeLeft(timer)
         }
 
-        fun getValuePomodoroTimer(): Long? = pomodoroStartTime.value
+        fun getValuePomodoroStartTimer(): Long? = pomodoroStartTime.value
 
 
         fun setValueIntervalTimer(timer: Long) {
-            _intervalTime.value = timer
+            _intervalLeftTime.value = timer
+            _intervalStartTime.value = timer
         }
 
         private fun setTimerIsRunning(isRunning: Boolean) {
             _timerIsRunning.value = isRunning
         }
         private fun setTimeLeft(time: Long?) {
-            _timeLeftInMillis.value = time
+            _pomodoroLeftTime.value = time
         }
 
         fun pauseTimer() {
             countDownTimer.cancel()
             setTimerIsRunning(false)
 
+
         }
+         fun getValueIntervalStartTimer(): Long? = interalStartTime.value
+
+
+
     }
 
-    private fun getValueIntervalTimer(): Long? = interalTime.value
+    private  fun getValueIntervalLeftTimer(): Long? = intervalLeftTime.value
 
 
 
-    fun getTimeLeft(): Long? = timeLeftInMillis.value
+    fun getTimeLeft(): Long? = pomodoroLeftTime.value
+
 
     private fun setIsInterval(state: Boolean) {
         isInterval = state
@@ -89,9 +99,12 @@ class PomodoroService : Service() {
     private fun getIsInterval(): Boolean = isInterval
 
 
+
+
     private fun stopTimer() {
         countDownTimer.cancel()
-        setTimeLeft(getValuePomodoroTimer())
+        setTimeLeft(getValuePomodoroStartTimer())
+        _intervalLeftTime.value = interalStartTime.value
         setIsInterval(false)
         setTimerIsRunning(false)
         notificationManager.cancel(Int.MAX_VALUE)
@@ -103,57 +116,66 @@ class PomodoroService : Service() {
             startIntervalTimer()
         } else {
 
-            val timer = getTimeLeft() ?: getValuePomodoroTimer()!!
-            countDownTimer = object : CountDownTimer(timer, 1000) {
-                override fun onTick(millisUntilFinished: Long) {
-                    setTimeLeft(millisUntilFinished)
-                    showPomodoroNotification(
-                        applicationContext, calculateTimerPercent(
-                            getValuePomodoroTimer(), getTimeLeft()
+            val timer = getTimeLeft() ?: getValuePomodoroStartTimer()
+            timer?.let {
+                countDownTimer = object : CountDownTimer(timer, 1000) {
+                    override fun onTick(millisUntilFinished: Long) {
+                        setTimeLeft(millisUntilFinished)
+                        showPomodoroNotification(
+                            applicationContext, calculateTimerPercent(
+                                getValuePomodoroStartTimer(), getTimeLeft()
+                            )
                         )
-                    )
+                    }
+
+                    override fun onFinish() {
+                        setIsInterval(true)
+                        notificationManager.cancel(Int.MAX_VALUE)
+                        _intervalLeftTime.value = interalStartTime.value
+                        startIntervalTimer()
+                    }
                 }
 
-                override fun onFinish() {
-                    setIsInterval(true)
-                    startIntervalTimer()
-                }
+
+                countDownTimer.start()
+                setIsInterval(false)
+                setTimerIsRunning(true)
             }
 
-
-            countDownTimer.start()
-            setIsInterval(false)
-            setTimerIsRunning(true)
         }
     }
 
 
     private fun startIntervalTimer() {
-        if (getIsInterval() && (getTimeLeft()?.div(1000))?.rem(60) == 0L) {
-            setTimeLeft(getValueIntervalTimer())
+        if (getIsInterval() && (intervalLeftTime.value?.div(1000))?.rem(60) == 0L) {
+            _intervalLeftTime.value = getValueIntervalStartTimer()
         }
 
-        val timer = getTimeLeft() ?: 0
-        countDownTimer = object : CountDownTimer(timer, 1000) {
-            override fun onTick(millisUntilFinished: Long) {
-                setTimeLeft(millisUntilFinished)
-                showIntervalNotification(
-                    applicationContext, calculateTimerPercent(
-                        getValuePomodoroTimer(), getTimeLeft()
+        intervalLeftTime.value?.let {
+            countDownTimer = object : CountDownTimer(it, 1000) {
+                override fun onTick(millisUntilFinished: Long) {
+                    _intervalLeftTime.value = millisUntilFinished
+                    showIntervalNotification(
+                        applicationContext, calculateTimerPercent(
+                            getValueIntervalStartTimer(), getValueIntervalLeftTimer()
+                        )
                     )
-                )
+                }
+
+                override fun onFinish() {
+                    setTimeLeft(getValuePomodoroStartTimer())
+                    setIsInterval(false)
+                    notificationManager.cancel(Int.MAX_VALUE)
+                    startPomodoroTimer()
+
+                }
             }
 
-            override fun onFinish() {
-                setTimeLeft(getValuePomodoroTimer())
-                setIsInterval(false)
-                startPomodoroTimer()
-            }
+            countDownTimer.start()
+            setIsInterval(true)
+            setTimerIsRunning(true)
         }
 
-        countDownTimer.start()
-        setIsInterval(true)
-        setTimerIsRunning(true)
     }
 
 
@@ -180,7 +202,7 @@ class PomodoroService : Service() {
             description = String.format(
                 "%s %s",
                 context.getString(R.string.pomodoro_interval_notification_description),
-                formatTimeLeft(getTimeLeft())
+                formatTimeLeft(getValueIntervalLeftTimer())
             ),
             iconId = R.drawable.ic_time,
             isOnGoing = true,

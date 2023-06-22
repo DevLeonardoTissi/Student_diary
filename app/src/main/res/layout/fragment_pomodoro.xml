@@ -15,13 +15,10 @@
             android:id="@+id/pomodoro_fragment_animation_chronometer"
             android:layout_width="250dp"
             android:layout_height="250dp"
-            android:contentDescription="@string/disciplines_fragment_img_content_student"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_margin="@dimen/margin_default"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.1"
-            app:lottie_autoPlay="true"
             app:lottie_loop="true"
             app:lottie_rawRes="@raw/chronometer" />
 
@@ -34,12 +31,11 @@
             android:gravity="center"
             android:textSize="@dimen/bigTextSize"
             android:textStyle="italic"
+            app:layout_constraintBottom_toTopOf="@id/pomodoro_fragment_textView_interval"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/pomodoro_fragment_animation_chronometer"
-            tools:text="00:00"
-            app:layout_constraintBottom_toTopOf="@id/pomodoro_fragment_textView_interval"
-            />
+            tools:text="00:00" />
 
 
         <TextView
@@ -49,24 +45,23 @@
             android:gravity="center"
             android:textSize="@dimen/mediumTextSize"
             android:textStyle="italic"
+            app:layout_constraintBottom_toTopOf="@id/pomodoro_fragment_textView_select_time_label"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/pomodoro_fragment_textView_time"
-            tools:text="00:00"
-            app:layout_constraintBottom_toTopOf="@id/pomodoro_fragment_textView_select_time_label"
-           />
+            tools:text="00:00" />
 
 
         <TextView
             android:id="@+id/pomodoro_fragment_textView_select_time_label"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_default"
             android:layout_marginHorizontal="@dimen/margin_default"
+            android:layout_marginTop="@dimen/margin_default"
             android:gravity="center"
-            app:layout_constraintBottom_toTopOf="@id/pomodoro_fragment_slider_timer"
             android:text="@string/pomodoro_fragment_textView_select_time_label"
             android:textSize="@dimen/defaultTextSize"
+            app:layout_constraintBottom_toTopOf="@id/pomodoro_fragment_slider_timer"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/pomodoro_fragment_textView_interval" />
@@ -93,10 +88,10 @@
             android:gravity="center"
             android:text="@string/pomodoro_fragment_textView_select_interval_label"
             android:textSize="@dimen/defaultTextSize"
+            app:layout_constraintBottom_toTopOf="@id/pomodoro_fragment_slider_interval"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/pomodoro_fragment_slider_timer"
-            app:layout_constraintBottom_toTopOf="@id/pomodoro_fragment_slider_interval"/>
+            app:layout_constraintTop_toBottomOf="@id/pomodoro_fragment_slider_timer" />
 
         <com.google.android.material.slider.RangeSlider
             android:id="@+id/pomodoro_fragment_slider_interval"
@@ -106,10 +101,10 @@
             android:stepSize="05.0"
             android:valueFrom="05.0"
             android:valueTo="60.0"
+            app:layout_constraintBottom_toTopOf="@id/pomodoro_fragment_button_pause"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/pomodoro_fragment_textView_select_interval_label"
-            app:layout_constraintBottom_toTopOf="@id/pomodoro_fragment_button_pause"/>
+            app:layout_constraintTop_toBottomOf="@id/pomodoro_fragment_textView_select_interval_label" />
 
 
         <androidx.appcompat.widget.AppCompatImageButton
@@ -121,10 +116,10 @@
             android:elevation="@dimen/elevation_default"
             android:padding="16dp"
             android:src="@drawable/ic_play"
+            app:layout_constraintBottom_toBottomOf="@id/pomodoro_fragment_button_pause"
             app:layout_constraintEnd_toStartOf="@id/pomodoro_fragment_button_pause"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/pomodoro_fragment_button_pause"
-            app:layout_constraintBottom_toBottomOf="@id/pomodoro_fragment_button_pause"/>
+            app:layout_constraintTop_toTopOf="@id/pomodoro_fragment_button_pause" />
 
 
         <androidx.appcompat.widget.AppCompatImageButton
@@ -136,10 +131,10 @@
             android:elevation="@dimen/elevation_default"
             android:padding="16dp"
             android:src="@drawable/ic_pause"
+            app:layout_constraintBottom_toTopOf="@id/pomodoro_fragment_button_stop"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/pomodoro_fragment_button_start"
-            app:layout_constraintTop_toBottomOf="@id/pomodoro_fragment_slider_interval"
-            app:layout_constraintBottom_toTopOf="@id/pomodoro_fragment_button_stop"/>
+            app:layout_constraintTop_toBottomOf="@id/pomodoro_fragment_slider_interval" />
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/pomodoro_fragment_button_stop"
@@ -150,11 +145,11 @@
             android:elevation="@dimen/elevation_default"
             android:padding="16dp"
             android:src="@drawable/ic_stop"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/pomodoro_fragment_button_start"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintVertical_bias="0"/>
+            app:layout_constraintVertical_bias="0" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
