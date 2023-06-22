@@ -53,8 +53,8 @@ class Notification(private val context: Context) {
                     progress
                 )
 
-            manager.notify(exclusiveId?: id, notification)
-            exclusiveId?: id++
+            manager.notify(exclusiveId ?: id, notification)
+            exclusiveId ?: id++
         }
 
     }

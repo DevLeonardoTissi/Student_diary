@@ -2,7 +2,6 @@ package com.example.studentdiary.ui.fragment.pomodoroFragment
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,12 +34,12 @@ class PomodoroFragment : BaseFragment() {
         onClickStartButton()
         onClickPauseButton()
         onClickStopButton()
-        setupObserverTimer()
+        setuoObserverPomodoroTimeLeft()
         setupObserverIsRunning()
 //        setupObserverSliderTimer()
 //        setupObserverSliderInterval()
         setupSliders()
-        observerInterval()
+        observerIntervalTimeLeft()
     }
 
 
@@ -55,15 +54,12 @@ class PomodoroFragment : BaseFragment() {
         model.intervalStartTime.observe(viewLifecycleOwner) {
             val progress = it.toFloat() / 1000 / 60
             binding.pomodoroFragmentSliderInterval.setValues(progress)
-
         }
     }
 
-    private fun observerInterval(){
+    private fun observerIntervalTimeLeft(){
         model.intervalLeftTime.observe(viewLifecycleOwner){ intervalTime->
-            binding.pomodoroFragmentTextViewInterval.text = formatTimeLeft(intervalTime ?: model.intervalStartTime.value)
-            Log.i("TAG", "observerInterval: ${model.intervalStartTime.value}")
-
+            binding.pomodoroFragmentTextViewInterval.text = formatTimeLeft(intervalTime)
         }
     }
 
@@ -72,7 +68,7 @@ class PomodoroFragment : BaseFragment() {
         val intervalSlider = binding.pomodoroFragmentSliderInterval
         timerSlider.addOnChangeListener { _, value, _ ->
             if (value in 5.0..60.0) {
-                model.setValuePomodoroTimer((value * 60 * 1000).toLong())
+                model.setValuePomodoroStartTime((value * 60 * 1000).toLong())
             }
 
         }
@@ -86,7 +82,7 @@ class PomodoroFragment : BaseFragment() {
 
         intervalSlider.addOnChangeListener { _, value, _ ->
             if (value in 5.0..60.0) {
-                model.setValueIntervalTimer((value * 60 * 1000).toLong())
+                model.setValueIntervalStartTime((value * 60 * 1000).toLong())
             }
         }
 
@@ -114,10 +110,10 @@ class PomodoroFragment : BaseFragment() {
         }
     }
 
-    private fun setupObserverTimer() {
+    private fun setuoObserverPomodoroTimeLeft() {
         model.pomodoroLeftTime.observe(viewLifecycleOwner) { timeLeftInMillis ->
             binding.pomodoroFragmentTextViewTime.text =
-                formatTimeLeft(timeLeftInMillis ?: model.getValuePomodoroTimer())
+                formatTimeLeft(timeLeftInMillis)
         }
     }
 
