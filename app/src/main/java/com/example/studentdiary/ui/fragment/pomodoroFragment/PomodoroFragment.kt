@@ -1,16 +1,16 @@
 package com.example.studentdiary.ui.fragment.pomodoroFragment
 
-import android.app.NotificationManager
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.studentdiary.databinding.FragmentPomodoroBinding
+import com.example.studentdiary.extensions.formatTimeLeft
 import com.example.studentdiary.ui.fragment.baseFragment.BaseFragment
 import com.example.studentdiary.utils.services.PomodoroService
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
+import java.text.NumberFormat
 
 class PomodoroFragment : BaseFragment() {
 
@@ -18,7 +18,6 @@ class PomodoroFragment : BaseFragment() {
     private val binding get() = _binding!!
 
     private val model: PomodoroViewModel by activityViewModel()
-
 
 
     override fun onCreateView(
@@ -37,19 +36,77 @@ class PomodoroFragment : BaseFragment() {
         onClickStopButton()
         setupObserverTimer()
         setupObserverIsRunning()
+        setupObserverSliderTimer()
+        setupObserverSliderInterval()
+        setupSliders()
+    }
+
+
+
+    private fun setupObserverSliderTimer() {
+        model.pomodoroStartTime.observe(viewLifecycleOwner) {
+            val progress = it.toFloat() / 1000 / 60
+            binding.pomodoroFragmentSliderTimer.setValues(progress)
+        }
+    }
+
+    private fun setupObserverSliderInterval(){
+        model.intervalTime.observe(viewLifecycleOwner){
+            val progress = it.toFloat() / 1000 / 60
+            binding.pomodoroFragmentSliderInterval.setValues(progress)
+            binding.pomodoroFragmentTextViewInterval.text = formatTimeLeft(it)
+        }
+    }
+
+    private fun setupSliders(){
+        val timerSlider = binding.pomodoroFragmentSliderTimer
+        val intervalSlider = binding.pomodoroFragmentSliderInterval
+        timerSlider.addOnChangeListener { _, value, _ ->
+            if (value in 5.0..60.0){
+                model.setValuePomodoroTimer((value * 60 * 1000).toLong())
+            }
+
+        }
+
+        timerSlider.setLabelFormatter { value: Float ->
+            val format = NumberFormat.getInstance()
+            format.maximumFractionDigits = 0
+            val formattedValue = format.format(value.toDouble())
+            "$formattedValue min"
+        }
+
+        intervalSlider.addOnChangeListener { _, value, _ ->
+            if (value in 5.0..60.0){
+                model.setValueIntervalTimer((value * 60 * 1000).toLong())
+            }
+        }
+
+        intervalSlider.setLabelFormatter { value: Float ->
+            val format = NumberFormat.getInstance()
+            format.maximumFractionDigits = 0
+            val formattedValue = format.format(value.toDouble())
+            "$formattedValue min"
+        }
     }
 
     private fun setupObserverIsRunning() {
         model.timerIsRunning.observe(viewLifecycleOwner) {
             updateButtons(it)
+            binding.pomodoroFragmentSliderTimer.isEnabled = !it
+            binding.pomodoroFragmentSliderInterval.isEnabled = !it
+            if (it){
+                binding.pomodoroFragmentAnimationChronometer.playAnimation()
+            }else{
+                binding.pomodoroFragmentAnimationChronometer.cancelAnimation()
+            }
+
         }
     }
 
     private fun setupObserverTimer() {
         model.timeLeftInMillis.observe(viewLifecycleOwner) { timeLeftInMillis ->
-            timeLeftInMillis?.let {
-                updateTimerText(it)
-            }?: updateTimerText(model.startTime)
+            binding.pomodoroFragmentTextViewTime.text =
+                formatTimeLeft(timeLeftInMillis ?: model.getValuePomodoroTimer())
         }
     }
 
@@ -63,7 +120,7 @@ class PomodoroFragment : BaseFragment() {
 
     private fun onClickPauseButton() {
         binding.pomodoroFragmentButtonPause.setOnClickListener {
-            model.pauseTimer(context?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager)
+            model.pauseTimer()
         }
     }
 
@@ -73,14 +130,6 @@ class PomodoroFragment : BaseFragment() {
             context?.startService(intent)
 
         }
-    }
-
-
-    private fun updateTimerText(timeLeftInMillis: Long) {
-        val minutes = (timeLeftInMillis / 1000) / 60
-        val seconds = (timeLeftInMillis / 1000) % 60
-        val timeLeftFormatted = String.format("%02d:%02d", minutes, seconds)
-        binding.pomodoroFragmentTextViewTime.text = timeLeftFormatted
     }
 
 

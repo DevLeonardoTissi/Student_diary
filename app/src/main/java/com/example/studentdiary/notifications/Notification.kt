@@ -34,8 +34,11 @@ class Notification(private val context: Context) {
         img: String? = null,
         iconId: Int,
         isOnGoing: Boolean? = false,
-        isAutoCancel: Boolean? = true
+        isAutoCancel: Boolean? = true,
+        progress: Int? = null,
+        exclusiveId: Int? = null
     ) {
+
         CoroutineScope(Dispatchers.IO).launch {
             val image = trySearchImg(img)
             val style = createStyle(image, description)
@@ -46,11 +49,14 @@ class Notification(private val context: Context) {
                     style,
                     iconId,
                     isOnGoing ?: false,
-                    isAutoCancel ?: true
+                    isAutoCancel ?: true,
+                    progress
                 )
-            manager.notify(id, notification)
-            id++
+
+            manager.notify(exclusiveId?: id, notification)
+            exclusiveId?: id++
         }
+
     }
 
     private suspend fun trySearchImg(img: String?): Bitmap? {
@@ -67,9 +73,10 @@ class Notification(private val context: Context) {
         style: NotificationCompat.Style,
         iconId: Int,
         isOnGoing: Boolean = false,
-        isAutoCancel: Boolean = true
+        isAutoCancel: Boolean = true,
+        progress: Int? = null
     ): Notification {
-        return NotificationCompat.Builder(context, CHANNEL_IDENTIFIER)
+        val builder = NotificationCompat.Builder(context, CHANNEL_IDENTIFIER)
             .setContentTitle(title)
             .setContentText(description)
             //.setLargeIcon(BitmapFactory.decodeResource(context.resources, R.drawable.logo_app))
@@ -80,7 +87,12 @@ class Notification(private val context: Context) {
             .setVisibility(VISIBILITY_PRIVATE)
             .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
             .setOngoing(isOnGoing)
-            .build()
+            .setOnlyAlertOnce(true)
+
+        if (progress != null) {
+            builder.setProgress(100, progress, false)
+        }
+        return builder.build()
     }
 
     private fun createStyle(img: Bitmap?, description: String): NotificationCompat.Style {

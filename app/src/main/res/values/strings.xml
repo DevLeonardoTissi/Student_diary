@@ -19,6 +19,11 @@
     <string name="greeting_notification_title">Olá e seja bem vindo ao Student diary!</string>
     <string name="greeting_notification_description">Parabéns por se juntar a nós! Estamos aqui para ajudá-lo(a) a se organizar e alcançar o sucesso acadêmico.</string>
 
+    <!-- Pomodoro notification -->
+    <string name="pomodoro_notification_title">Pomodoro</string>
+    <string name="pomodoro_notification_description">Continue estudando:</string>
+    <string name="pomodoro_interval_notification_description">Aproveite o intervalo:</string>
+
 
     <!--Menu OnLongClick Item -->
     <string name="menuPopup_item_details_title">Detalhes</string>
@@ -170,6 +175,8 @@
 
     <!-- Pomodoro Fragment -->
     <string name="pomodoro_fragment_toolbar_title">Pomodoro</string>
+    <string name="pomodoro_fragment_textView_select_time_label">Selecione o tempo de estudo</string>
+    <string name="pomodoro_fragment_textView_select_interval_label">Selecione o tempo de intervalo</string>
 
     <!-- Profile Fragment -->
     <string name="profile_fragment_toolbar_title">Perfil</string>
