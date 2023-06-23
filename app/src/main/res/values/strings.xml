@@ -23,6 +23,7 @@
     <string name="pomodoro_notification_title">Pomodoro</string>
     <string name="pomodoro_notification_description">Continue estudando:</string>
     <string name="pomodoro_interval_notification_description">Aproveite o intervalo:</string>
+    <string name="pomodoro_extra_interval_notification_description">Intervalo prolongado:</string>
 
 
     <!--Menu OnLongClick Item -->
@@ -177,6 +178,7 @@
     <string name="pomodoro_fragment_toolbar_title">Pomodoro</string>
     <string name="pomodoro_fragment_textView_select_time_label">Selecione o tempo de estudo</string>
     <string name="pomodoro_fragment_textView_select_interval_label">Selecione o tempo de intervalo</string>
+    <string name="pomodoro_fragment_textView_select_extra_interval_label">Selecione o tempo do intervalo extra</string>
 
     <!-- Profile Fragment -->
     <string name="profile_fragment_toolbar_title">Perfil</string>

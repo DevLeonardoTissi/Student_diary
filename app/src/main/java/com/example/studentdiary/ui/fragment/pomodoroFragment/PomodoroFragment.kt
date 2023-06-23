@@ -38,8 +38,10 @@ class PomodoroFragment : BaseFragment() {
         setupObserverIsRunning()
 //        setupObserverSliderTimer()
 //        setupObserverSliderInterval()
+//        setupObserverSliderExtraInterval()
         setupSliders()
         observerIntervalTimeLeft()
+        observerExtraIntervalTimeLeft()
     }
 
 
@@ -50,6 +52,13 @@ class PomodoroFragment : BaseFragment() {
         }
     }
 
+    private fun setupObserverSliderExtraInterval() {
+        model.extraIntervalStartTime.observe(viewLifecycleOwner) {
+            val progress = it.toFloat() / 1000 / 60
+            binding.pomodoroFragmentSliderExtraInterval.setValues(progress)
+        }
+    }
+
     private fun setupObserverSliderInterval() {
         model.intervalStartTime.observe(viewLifecycleOwner) {
             val progress = it.toFloat() / 1000 / 60
@@ -57,15 +66,23 @@ class PomodoroFragment : BaseFragment() {
         }
     }
 
-    private fun observerIntervalTimeLeft(){
-        model.intervalLeftTime.observe(viewLifecycleOwner){ intervalTime->
+    private fun observerIntervalTimeLeft() {
+        model.intervalLeftTime.observe(viewLifecycleOwner) { intervalTime ->
             binding.pomodoroFragmentTextViewInterval.text = formatTimeLeft(intervalTime)
+        }
+    }
+
+    private fun observerExtraIntervalTimeLeft(){
+        model.extraIntervalLeftTime.observe(viewLifecycleOwner){extraIntervalTime ->
+            binding.pomodoroFragmentTextViewExtraInterval.text = formatTimeLeft(extraIntervalTime)
+
         }
     }
 
     private fun setupSliders() {
         val timerSlider = binding.pomodoroFragmentSliderTimer
         val intervalSlider = binding.pomodoroFragmentSliderInterval
+        val extraIntervalSlider = binding.pomodoroFragmentSliderExtraInterval
         timerSlider.addOnChangeListener { _, value, _ ->
             if (value in 5.0..60.0) {
                 model.setValuePomodoroStartTime((value * 60 * 1000).toLong())
@@ -92,6 +109,21 @@ class PomodoroFragment : BaseFragment() {
             val formattedValue = format.format(value.toDouble())
             "$formattedValue min"
         }
+
+        extraIntervalSlider.addOnChangeListener { _, value, _ ->
+            if (value in 15.0..60.0) {
+                model.setValueExtraIntervalStartTime((value * 60 * 1000).toLong())
+            }
+        }
+
+        extraIntervalSlider.setLabelFormatter { value: Float ->
+            val format = NumberFormat.getInstance()
+            format.maximumFractionDigits = 0
+            val formattedValue = format.format(value.toDouble())
+            "$formattedValue min"
+        }
+
+
     }
 
     private fun setupObserverIsRunning() {
@@ -100,8 +132,7 @@ class PomodoroFragment : BaseFragment() {
             binding.pomodoroFragmentButtonPause.isEnabled = it
             binding.pomodoroFragmentSliderTimer.isEnabled = !it
             binding.pomodoroFragmentSliderInterval.isEnabled = !it
-            binding.pomodoroFragmentTextViewSelectTimeLabel.isEnabled = !it
-            binding.pomodoroFragmentTextViewSelectIntervalLabel.isEnabled = !it
+            binding.pomodoroFragmentSliderExtraInterval.isEnabled = !it
             if (it) {
                 binding.pomodoroFragmentAnimationChronometer.playAnimation()
             } else {
