@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_default">
+
+        <TextView
+            android:id="@+id/select_pomodoro_cycles_dialog_text_view_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/select_pomodoro_cycles_bottom_sheet_dialog_textView_title"
+            android:gravity="center"
+            android:textSize="@dimen/bigTextSize"
+            android:layout_marginHorizontal="@dimen/margin_default"
+            android:layout_marginTop="@dimen/margin_default"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.slider.RangeSlider
+            android:id="@+id/select_pomodoro_cycles_dialog_slider_interval"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_default"
+            android:stepSize="1"
+            android:valueFrom="1.0"
+            android:valueTo="15.0"
+            app:layout_constraintBottom_toTopOf="@id/select_pomodoro_cycles_dialog_button_layout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/select_pomodoro_cycles_dialog_text_view_title" />
+
+
+        <LinearLayout
+            android:id="@+id/select_pomodoro_cycles_dialog_button_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_default"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/select_pomodoro_cycles_dialog_slider_interval">
+
+            <Button
+                android:id="@+id/select_pomodoro_cycles_dialog_button_negative"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/common_cancel" />
+
+            <Button
+                android:id="@+id/select_pomodoro_cycles_dialog__button_positive"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/common_confirm" />
+
+
+        </LinearLayout>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

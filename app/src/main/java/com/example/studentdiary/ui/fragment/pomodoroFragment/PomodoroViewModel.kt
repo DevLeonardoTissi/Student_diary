@@ -18,11 +18,17 @@ class PomodoroViewModel : ViewModel() {
     val extraIntervalLeftTime = PomodoroService.extraIntervalLeftTime
 
     val extraIntervalStartTime = PomodoroService.extraIntervalStartTime
+
+    val pomodoroCycles = PomodoroService.pomodoroCycle
     fun pauseTimer() = PomodoroService.pauseTimer()
     fun setValueIntervalStartTime(time: Long) = PomodoroService.setValueIntervalStartTime(time)
     fun setValuePomodoroStartTime(time: Long) = PomodoroService.setValuePomodoroStartTime(time)
 
     fun setValueExtraIntervalStartTime(time: Long) =
-        PomodoroService.setValeuExtraIntervalStartTime(time)
+        PomodoroService.setValueExtraIntervalStartTime(time)
+
+    fun setPomodoroCycles(numCycles: Int) =
+        PomodoroService.setPomodoroCycles(numCycles)
+
 
 }

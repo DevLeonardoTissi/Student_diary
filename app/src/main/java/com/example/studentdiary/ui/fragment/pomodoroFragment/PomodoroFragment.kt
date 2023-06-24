@@ -5,8 +5,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.studentdiary.R
 import com.example.studentdiary.databinding.FragmentPomodoroBinding
 import com.example.studentdiary.extensions.formatTimeLeft
+import com.example.studentdiary.ui.dialog.SelectPomodoroCyclesBottomSheet
 import com.example.studentdiary.ui.fragment.baseFragment.BaseFragment
 import com.example.studentdiary.utils.services.PomodoroService
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
@@ -34,14 +36,37 @@ class PomodoroFragment : BaseFragment() {
         onClickStartButton()
         onClickPauseButton()
         onClickStopButton()
-        setuoObserverPomodoroTimeLeft()
+        setupObserverPomodoroTimeLeft()
         setupObserverIsRunning()
 //        setupObserverSliderTimer()
 //        setupObserverSliderInterval()
 //        setupObserverSliderExtraInterval()
         setupSliders()
+        setupObserverPomodoroCycles()
         observerIntervalTimeLeft()
         observerExtraIntervalTimeLeft()
+    }
+
+    private fun setupObserverPomodoroCycles() {
+        model.pomodoroCycles.observe(viewLifecycleOwner) {
+            binding.pomodoroFragmentButtonSelectCycles.text = String.format(
+                "%s %d",
+                getString(R.string.pomodoro_fragment_label_select_cycles_button_concatenated_text),
+                it
+            )
+            setupButtonSelectCycles(it)
+        }
+    }
+
+    private fun  setupButtonSelectCycles(cycles:Int){
+        binding.pomodoroFragmentButtonSelectCycles.setOnClickListener {
+            context?.let { context->
+                SelectPomodoroCyclesBottomSheet(context).show(cycles) {
+                    model.setPomodoroCycles(it)
+                }
+            }
+
+        }
     }
 
 
@@ -72,8 +97,8 @@ class PomodoroFragment : BaseFragment() {
         }
     }
 
-    private fun observerExtraIntervalTimeLeft(){
-        model.extraIntervalLeftTime.observe(viewLifecycleOwner){extraIntervalTime ->
+    private fun observerExtraIntervalTimeLeft() {
+        model.extraIntervalLeftTime.observe(viewLifecycleOwner) { extraIntervalTime ->
             binding.pomodoroFragmentTextViewExtraInterval.text = formatTimeLeft(extraIntervalTime)
 
         }
@@ -85,7 +110,7 @@ class PomodoroFragment : BaseFragment() {
         val extraIntervalSlider = binding.pomodoroFragmentSliderExtraInterval
         timerSlider.addOnChangeListener { _, value, _ ->
             if (value in 5.0..60.0) {
-                model.setValuePomodoroStartTime((value * 60 * 1000).toLong())
+                model.setValuePomodoroStartTime((value * 60000).toLong())
             }
 
         }
@@ -99,7 +124,7 @@ class PomodoroFragment : BaseFragment() {
 
         intervalSlider.addOnChangeListener { _, value, _ ->
             if (value in 5.0..60.0) {
-                model.setValueIntervalStartTime((value * 60 * 1000).toLong())
+                model.setValueIntervalStartTime((value * 60000).toLong())
             }
         }
 
@@ -112,7 +137,7 @@ class PomodoroFragment : BaseFragment() {
 
         extraIntervalSlider.addOnChangeListener { _, value, _ ->
             if (value in 15.0..60.0) {
-                model.setValueExtraIntervalStartTime((value * 60 * 1000).toLong())
+                model.setValueExtraIntervalStartTime((value * 60000).toLong())
             }
         }
 
@@ -141,7 +166,7 @@ class PomodoroFragment : BaseFragment() {
         }
     }
 
-    private fun setuoObserverPomodoroTimeLeft() {
+    private fun setupObserverPomodoroTimeLeft() {
         model.pomodoroLeftTime.observe(viewLifecycleOwner) { timeLeftInMillis ->
             binding.pomodoroFragmentTextViewTime.text =
                 formatTimeLeft(timeLeftInMillis)

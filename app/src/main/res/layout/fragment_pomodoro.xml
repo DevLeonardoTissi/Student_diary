@@ -174,7 +174,7 @@
             app:layout_constraintBottom_toTopOf="@id/pomodoro_fragment_button_stop"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/pomodoro_fragment_button_start"
-            app:layout_constraintTop_toBottomOf="@id/pomodoro_fragment_slider_extra_interval" />
+            app:layout_constraintTop_toBottomOf="@id/pomodoro_fragment_button_select_cycles" />
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/pomodoro_fragment_button_stop"
@@ -190,6 +190,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/pomodoro_fragment_button_start"
             app:layout_constraintVertical_bias="0" />
+
+        <Button
+            android:id="@+id/pomodoro_fragment_button_select_cycles"
+            style="@style/elevationButton"
+            android:layout_width="wrap_content"
+            tools:text="Pomodoros até uma pausa longa: 4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/pomodoro_fragment_slider_extra_interval"
+            app:layout_constraintStart_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/pomodoro_fragment_button_pause"/>
 
 
 
