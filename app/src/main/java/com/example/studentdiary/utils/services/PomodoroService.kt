@@ -15,7 +15,6 @@ import org.koin.android.ext.android.inject
 
 class PomodoroService : Service() {
     private val notificationManager: NotificationManager by inject()
-
     private val notificationsPomodoroId: Int = Int.MAX_VALUE
     override fun onBind(p0: Intent?): IBinder? {
         return null
@@ -82,22 +81,22 @@ class PomodoroService : Service() {
         }
 
         private val _pomodoroCycles = MutableLiveData<Int>(4)
-        val pomodoroCycle:LiveData<Int> = _pomodoroCycles
+        val pomodoroCycle: LiveData<Int> = _pomodoroCycles
 
-        fun setPomodoroCycles (cycles:Int){
-            if (pomodoroCount == pomodoroCycle.value){
+        fun setPomodoroCycles(cycles: Int) {
+            if (pomodoroCount == pomodoroCycle.value) {
                 _pomodoroCycles.value = cycles
                 pomodoroCount = cycles
-            }else if (pomodoroCount >= cycles){
+            } else if (pomodoroCount >= cycles) {
                 pomodoroCount = 0
-               _pomodoroCycles.value = cycles
-            }else{
+                _pomodoroCycles.value = cycles
+            } else {
                 _pomodoroCycles.value = cycles
             }
 
         }
 
-        var pomodoroCount:Int = 0
+        var pomodoroCount: Int = 0
     }
 
 
@@ -128,7 +127,7 @@ class PomodoroService : Service() {
                     override fun onTick(millisUntilFinished: Long) {
                         _pomodoroLeftTime.value = millisUntilFinished
                         showPomodoroNotification(
-                            applicationContext,String.format(
+                            applicationContext, String.format(
                                 "%s %s",
                                 applicationContext.getString(R.string.pomodoro_notification_description),
                                 formatTimeLeft(pomodoroLeftTime.value)
@@ -139,7 +138,7 @@ class PomodoroService : Service() {
                     }
 
                     override fun onFinish() {
-                        pomodoroCount ++
+                        pomodoroCount++
                         notificationManager.cancel(notificationsPomodoroId)
                         isInterval = true
                         _pomodoroLeftTime.value = pomodoroStartTime.value
@@ -150,8 +149,6 @@ class PomodoroService : Service() {
                         }
                     }
                 }
-
-
                 countDownTimer.start()
                 _timerIsRunning.value = true
             }
@@ -166,7 +163,7 @@ class PomodoroService : Service() {
                 override fun onTick(millisUntilFinished: Long) {
                     _intervalLeftTime.value = millisUntilFinished
                     showPomodoroNotification(
-                        applicationContext,String.format(
+                        applicationContext, String.format(
                             "%s %s",
                             applicationContext.getString(R.string.pomodoro_interval_notification_description),
                             formatTimeLeft(intervalLeftTime.value)
@@ -192,14 +189,12 @@ class PomodoroService : Service() {
     }
 
     private fun startExtraIntervalTimer() {
-
-
         extraIntervalLeftTime.value?.let {
             countDownTimer = object : CountDownTimer(it, 1000) {
                 override fun onTick(millisUntilFinished: Long) {
                     _extraIntervalLeftTime.value = millisUntilFinished
                     showPomodoroNotification(
-                        applicationContext,String.format(
+                        applicationContext, String.format(
                             "%s %s",
                             applicationContext.getString(R.string.pomodoro_extra_interval_notification_description),
                             formatTimeLeft(extraIntervalLeftTime.value)
@@ -224,7 +219,7 @@ class PomodoroService : Service() {
     }
 
 
-    private fun showPomodoroNotification(context: Context, description:String, progress: Int) {
+    private fun showPomodoroNotification(context: Context, description: String, progress: Int) {
         Notification(context).show(
             title = context.getString(R.string.pomodoro_notification_title),
             description = description,
@@ -235,7 +230,6 @@ class PomodoroService : Service() {
             exclusiveId = notificationsPomodoroId
         )
     }
-
 
 
     fun calculateTimerPercent(totalTime: Long?, timeLeft: Long?): Int {
