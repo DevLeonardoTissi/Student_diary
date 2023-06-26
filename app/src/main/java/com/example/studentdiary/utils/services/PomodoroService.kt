@@ -87,9 +87,14 @@ class PomodoroService : Service() {
         fun setPomodoroCycles (cycles:Int){
             if (pomodoroCount == pomodoroCycle.value){
                 _pomodoroCycles.value = cycles
-                pomodoroCount = pomodoroCycle.value!!
+                pomodoroCount = cycles
+            }else if (pomodoroCount >= cycles){
+                pomodoroCount = 0
+               _pomodoroCycles.value = cycles
+            }else{
+                _pomodoroCycles.value = cycles
             }
-            _pomodoroCycles.value = cycles
+
         }
 
         var pomodoroCount:Int = 0
@@ -138,14 +143,11 @@ class PomodoroService : Service() {
                         notificationManager.cancel(notificationsPomodoroId)
                         isInterval = true
                         _pomodoroLeftTime.value = pomodoroStartTime.value
-
-
                         if (pomodoroCount == pomodoroCycle.value) {
                             startExtraIntervalTimer()
                         } else {
                             startIntervalTimer()
                         }
-
                     }
                 }
 
@@ -233,9 +235,6 @@ class PomodoroService : Service() {
             exclusiveId = notificationsPomodoroId
         )
     }
-
-
-
 
 
 

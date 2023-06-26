@@ -8,6 +8,7 @@ import com.example.studentdiary.NavGraphDirections
 import com.example.studentdiary.ui.AppViewModel
 import com.example.studentdiary.ui.NavigationComponents
 import com.example.studentdiary.ui.fragment.loginFragment.LoginViewModel
+import com.example.studentdiary.utils.exitGoogleAndFacebookAccount
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -33,7 +34,11 @@ abstract class BaseFragment : Fragment() {
 
     private fun checkIfItIsAuthenticated() {
         if (!model.isAuthenticated()) {
-            goToLogin()
+            context?.let {
+                exitGoogleAndFacebookAccount(it)
+                goToLogin()
+            }
+
         }
     }
 
