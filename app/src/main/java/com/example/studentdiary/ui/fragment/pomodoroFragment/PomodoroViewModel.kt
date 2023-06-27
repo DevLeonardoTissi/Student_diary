@@ -5,17 +5,19 @@ import com.example.studentdiary.utils.services.PomodoroService
 
 class PomodoroViewModel : ViewModel() {
 
-    var pomodoroLeftTime = PomodoroService.pomodoroLeftTime
+    var pomodoroLeftTime = PomodoroService.leftTime
 
     val timerIsRunning = PomodoroService.timerIsRunning
 
     val pomodoroStartTime = PomodoroService.pomodoroStartTime
 
-    val intervalLeftTime = PomodoroService.intervalLeftTime
+//    val intervalLeftTime = PomodoroService.intervalLeftTime
 
     val intervalStartTime = PomodoroService.interalStartTime
 
-    val extraIntervalLeftTime = PomodoroService.extraIntervalLeftTime
+    val pomodoroState = PomodoroService.pomodoroState
+
+//    val extraIntervalLeftTime = PomodoroService.extraIntervalLeftTime
 
     val extraIntervalStartTime = PomodoroService.extraIntervalStartTime
 

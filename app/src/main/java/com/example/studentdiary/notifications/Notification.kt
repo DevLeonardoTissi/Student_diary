@@ -2,6 +2,7 @@ package com.example.studentdiary.notifications
 
 import android.app.Notification
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
 import android.graphics.Bitmap
 import androidx.core.app.NotificationCompat
@@ -36,8 +37,12 @@ class Notification(private val context: Context) {
         isOnGoing: Boolean? = false,
         isAutoCancel: Boolean? = true,
         progress: Int? = null,
-        exclusiveId: Int? = null
-    ) {
+        exclusiveId: Int? = null,
+        actionIcon:Int?= null,
+        actionTitle:String?= null,
+        actionIntent:PendingIntent? = null
+    )
+    {
 
         CoroutineScope(Dispatchers.IO).launch {
             val image = trySearchImg(img)
@@ -50,7 +55,10 @@ class Notification(private val context: Context) {
                     iconId,
                     isOnGoing ?: false,
                     isAutoCancel ?: true,
-                    progress
+                    progress,
+                    actionIcon,
+                    actionTitle,
+                    actionIntent
                 )
 
             manager.notify(exclusiveId ?: id, notification)
@@ -74,7 +82,11 @@ class Notification(private val context: Context) {
         iconId: Int,
         isOnGoing: Boolean = false,
         isAutoCancel: Boolean = true,
-        progress: Int? = null
+        progress: Int? = null,
+        actionIcon:Int?= null,
+        actionTitle:String?= null,
+        actionIntent:PendingIntent? = null
+
     ): Notification {
         val builder = NotificationCompat.Builder(context, CHANNEL_IDENTIFIER)
             .setContentTitle(title)
@@ -89,8 +101,14 @@ class Notification(private val context: Context) {
             .setOngoing(isOnGoing)
             .setOnlyAlertOnce(true)
 
+
+
         if (progress != null) {
             builder.setProgress(100, progress, false)
+        }
+
+        if (listOf(actionIcon, actionTitle, actionIntent).all { it != null }) {
+           builder.addAction(actionIcon!!, actionTitle, actionIntent)
         }
         return builder.build()
     }

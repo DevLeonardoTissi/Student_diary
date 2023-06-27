@@ -1,6 +1,7 @@
 package com.example.studentdiary.utils.services
 
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.app.Service
 import android.content.Context
 import android.content.Intent
@@ -11,6 +12,8 @@ import androidx.lifecycle.MutableLiveData
 import com.example.studentdiary.R
 import com.example.studentdiary.extensions.formatTimeLeft
 import com.example.studentdiary.notifications.Notification
+import com.example.studentdiary.utils.broadcastReceiver.PomodoroNotificationBroadcastReceiver
+import com.example.studentdiary.utils.enums.PomodoroState
 import org.koin.android.ext.android.inject
 
 class PomodoroService : Service() {
@@ -42,36 +45,46 @@ class PomodoroService : Service() {
         private val _timerIsRunning = MutableLiveData(false)
         val timerIsRunning: LiveData<Boolean> = _timerIsRunning
 
-        private var _extraIntervalLeftTime =
-            MutableLiveData<Long?>(extraIntervalStartTime.value)
-        val extraIntervalLeftTime: LiveData<Long?> = _extraIntervalLeftTime
+//        private var _extraIntervalLeftTime =
+//            MutableLiveData<Long?>(extraIntervalStartTime.value)
+//        val extraIntervalLeftTime: LiveData<Long?> = _extraIntervalLeftTime
 
 
-        private var _pomodoroLeftTime = MutableLiveData<Long?>(pomodoroStartTime.value)
-        val pomodoroLeftTime: LiveData<Long?> = _pomodoroLeftTime
+        private var _leftTime = MutableLiveData<Long?>(pomodoroStartTime.value)
+        val leftTime: LiveData<Long?> = _leftTime
 
 
-        private val _intervalLeftTime = MutableLiveData<Long?>(interalStartTime.value)
-        val intervalLeftTime: LiveData<Long?> = _intervalLeftTime
+//        private val _intervalLeftTime = MutableLiveData<Long?>(interalStartTime.value)
+//        val intervalLeftTime: LiveData<Long?> = _intervalLeftTime
+
+        private val _pomodoroState = MutableLiveData<PomodoroState>(PomodoroState.POMODORO_TIMER)
+        val pomodoroState:LiveData<PomodoroState> = _pomodoroState
 
 
-        private var isInterval: Boolean = false
+
 
         fun setValueExtraIntervalStartTime(time: Long) {
             _extraIntervalStartTime.value = time
-            _extraIntervalLeftTime.value = time
+            if (pomodoroState.value == PomodoroState.EXTRA_INTERVAL_TIMER){
+                _leftTime.value = time
+            }
+//
         }
 
 
         fun setValuePomodoroStartTime(time: Long) {
             _pomodoroStartTime.value = time
-            _pomodoroLeftTime.value = time
+            if (pomodoroState.value == PomodoroState.POMODORO_TIMER){
+                _leftTime.value = time
+            }
         }
 
 
         fun setValueIntervalStartTime(time: Long) {
             _intervalStartTime.value = time
-            _intervalLeftTime.value = time
+            if (pomodoroState.value == PomodoroState.INTERVAL_TIMER){
+                _leftTime.value = time
+            }
         }
 
 
@@ -84,28 +97,22 @@ class PomodoroService : Service() {
         val pomodoroCycle: LiveData<Int> = _pomodoroCycles
 
         fun setPomodoroCycles(cycles: Int) {
-            if (pomodoroCount == pomodoroCycle.value) {
-                _pomodoroCycles.value = cycles
-                pomodoroCount = cycles
-            } else if (pomodoroCount >= cycles) {
+           if (pomodoroCount >= cycles) {
                 pomodoroCount = 0
                 _pomodoroCycles.value = cycles
             } else {
                 _pomodoroCycles.value = cycles
             }
-
         }
-
         var pomodoroCount: Int = 0
     }
 
-
     private fun stopTimer() {
         countDownTimer.cancel()
-        _pomodoroLeftTime.value = pomodoroStartTime.value
-        _intervalLeftTime.value = interalStartTime.value
-        _extraIntervalLeftTime.value = extraIntervalStartTime.value
-        isInterval = false
+        _leftTime.value = pomodoroStartTime.value
+//        _intervalLeftTime.value = interalStartTime.value
+//        _extraIntervalLeftTime.value = extraIntervalStartTime.value
+        _pomodoroState.value = PomodoroState.POMODORO_TIMER
         _timerIsRunning.value = false
         pomodoroCount = 0
         notificationManager.cancel(Int.MAX_VALUE)
@@ -113,70 +120,72 @@ class PomodoroService : Service() {
 
 
     fun startPomodoroTimer() {
-        if (isInterval) {
-            if (pomodoroCount == pomodoroCycle.value) {
-                startExtraIntervalTimer()
-            } else {
+        when (pomodoroState.value) {
+            PomodoroState.INTERVAL_TIMER -> {
                 startIntervalTimer()
             }
-
-        } else {
-
-            pomodoroLeftTime.value?.let {
-                countDownTimer = object : CountDownTimer(it, 1000) {
-                    override fun onTick(millisUntilFinished: Long) {
-                        _pomodoroLeftTime.value = millisUntilFinished
-                        showPomodoroNotification(
-                            applicationContext, String.format(
-                                "%s %s",
-                                applicationContext.getString(R.string.pomodoro_notification_description),
-                                formatTimeLeft(pomodoroLeftTime.value)
-                            ), calculateTimerPercent(
-                                pomodoroStartTime.value, pomodoroLeftTime.value
+            PomodoroState.EXTRA_INTERVAL_TIMER -> {
+                startExtraIntervalTimer()
+            }
+            else -> {
+                leftTime.value?.let {
+                    countDownTimer = object : CountDownTimer(it, 1000) {
+                        override fun onTick(millisUntilFinished: Long) {
+                            _leftTime.value = millisUntilFinished
+                            showPomodoroNotification(
+                                applicationContext, String.format(
+                                    "%s %s",
+                                    applicationContext.getString(R.string.pomodoro_notification_description),
+                                    formatTimeLeft(leftTime.value)
+                                ), calculateTimerPercent(
+                                    pomodoroStartTime.value, leftTime.value
+                                )
                             )
-                        )
-                    }
+                        }
 
-                    override fun onFinish() {
-                        pomodoroCount++
-                        notificationManager.cancel(notificationsPomodoroId)
-                        isInterval = true
-                        _pomodoroLeftTime.value = pomodoroStartTime.value
-                        if (pomodoroCount == pomodoroCycle.value) {
-                            startExtraIntervalTimer()
-                        } else {
-                            startIntervalTimer()
+                        override fun onFinish() {
+                            pomodoroCount++
+                            notificationManager.cancel(notificationsPomodoroId)
+                            if (pomodoroCount == pomodoroCycle.value) {
+                                _pomodoroState.value = PomodoroState.EXTRA_INTERVAL_TIMER
+                                _leftTime.value = extraIntervalStartTime.value
+                                startExtraIntervalTimer()
+                            } else {
+                                _pomodoroState.value = PomodoroState.INTERVAL_TIMER
+                                _leftTime.value = interalStartTime.value
+                                startIntervalTimer()
+                            }
                         }
                     }
+                    countDownTimer.start()
+                    _timerIsRunning.value = true
                 }
-                countDownTimer.start()
-                _timerIsRunning.value = true
-            }
 
+            }
         }
     }
 
 
     private fun startIntervalTimer() {
-        intervalLeftTime.value?.let {
+        leftTime.value?.let {
             countDownTimer = object : CountDownTimer(it, 1000) {
                 override fun onTick(millisUntilFinished: Long) {
-                    _intervalLeftTime.value = millisUntilFinished
+                    _leftTime.value = millisUntilFinished
                     showPomodoroNotification(
                         applicationContext, String.format(
                             "%s %s",
                             applicationContext.getString(R.string.pomodoro_interval_notification_description),
-                            formatTimeLeft(intervalLeftTime.value)
+                            formatTimeLeft(leftTime.value)
                         ), calculateTimerPercent(
-                            interalStartTime.value, intervalLeftTime.value
+                            interalStartTime.value, leftTime.value
                         )
                     )
                 }
 
                 override fun onFinish() {
-                    _intervalLeftTime.value = interalStartTime.value
+                    _leftTime.value = pomodoroStartTime.value
                     notificationManager.cancel(notificationsPomodoroId)
-                    isInterval = false
+                    _pomodoroState.value = PomodoroState.POMODORO_TIMER
                     startPomodoroTimer()
 
                 }
@@ -189,26 +198,26 @@ class PomodoroService : Service() {
     }
 
     private fun startExtraIntervalTimer() {
-        extraIntervalLeftTime.value?.let {
+        leftTime.value?.let {
             countDownTimer = object : CountDownTimer(it, 1000) {
                 override fun onTick(millisUntilFinished: Long) {
-                    _extraIntervalLeftTime.value = millisUntilFinished
+                    _leftTime.value = millisUntilFinished
                     showPomodoroNotification(
                         applicationContext, String.format(
                             "%s %s",
                             applicationContext.getString(R.string.pomodoro_extra_interval_notification_description),
-                            formatTimeLeft(extraIntervalLeftTime.value)
+                            formatTimeLeft(leftTime.value)
                         ), calculateTimerPercent(
-                            extraIntervalStartTime.value, extraIntervalLeftTime.value
+                            extraIntervalStartTime.value, leftTime.value
                         )
                     )
                 }
 
                 override fun onFinish() {
                     pomodoroCount = 0
-                    _extraIntervalLeftTime.value = extraIntervalStartTime.value
+                    _leftTime.value = extraIntervalStartTime.value
                     notificationManager.cancel(notificationsPomodoroId)
-                    isInterval = false
+                    _pomodoroState.value = PomodoroState.POMODORO_TIMER
                     startPomodoroTimer()
                 }
             }
@@ -218,8 +227,14 @@ class PomodoroService : Service() {
         }
     }
 
-
     private fun showPomodoroNotification(context: Context, description: String, progress: Int) {
+
+        val custonIntent = Intent(applicationContext, PomodoroNotificationBroadcastReceiver::class.java)
+        custonIntent.action = "STOP"
+
+        val custonPendindIntent: PendingIntent =
+            PendingIntent.getBroadcast(this, 0, custonIntent, PendingIntent.FLAG_IMMUTABLE)
+
         Notification(context).show(
             title = context.getString(R.string.pomodoro_notification_title),
             description = description,
@@ -227,7 +242,11 @@ class PomodoroService : Service() {
             isOnGoing = true,
             isAutoCancel = false,
             progress = progress,
-            exclusiveId = notificationsPomodoroId
+            exclusiveId = notificationsPomodoroId,
+            actionIcon = R.drawable.ic_stop,
+            actionTitle = "teste",
+            actionIntent = custonPendindIntent
+
         )
     }
 

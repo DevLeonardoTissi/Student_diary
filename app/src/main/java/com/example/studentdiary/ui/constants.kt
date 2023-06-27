@@ -36,3 +36,8 @@ const val GENERATE_TOKEN_USER = "user_token"
 const val CHANNEL_IDENTIFIER = "a11d082b-8a27-4b8f-a5bc-5a17aced5cfc"
 
 
+const val POMODORO_TIMER_MESSAGE = "Continue estudando"
+const val POMODORO_INTERVAL_MESSAGE = "Pausa"
+const val POMODORO_EXTRA_INTERVAL_MESSAGE = "Pausa prolongada"
+
+
