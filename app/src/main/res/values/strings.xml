@@ -24,6 +24,9 @@
     <string name="pomodoro_notification_description">Continue estudando:</string>
     <string name="pomodoro_interval_notification_description">Aproveite o intervalo:</string>
     <string name="pomodoro_extra_interval_notification_description">Intervalo prolongado:</string>
+    <string name="pomodoro_notification_title_action_pause">Pausar</string>
+    <string name="pomodoro_notification_title_action_continue">Retomar</string>
+    <string name="pomodoro_notification_title_action_stop">Parar</string>
 
 
     <!--Menu OnLongClick Item -->

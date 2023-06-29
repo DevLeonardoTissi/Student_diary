@@ -40,4 +40,8 @@ const val POMODORO_TIMER_MESSAGE = "Continue estudando"
 const val POMODORO_INTERVAL_MESSAGE = "Pausa"
 const val POMODORO_EXTRA_INTERVAL_MESSAGE = "Pausa prolongada"
 
+const val POMODORO_ACTION_PAUSE = "PAUSE"
+const val POMODORO_ACTION_START = "PLAY"
+const val POMODORO_ACTION_STOP = "STOP"
+
 

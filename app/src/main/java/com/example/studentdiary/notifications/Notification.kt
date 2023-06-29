@@ -5,6 +5,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.graphics.Bitmap
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationCompat.VISIBILITY_PRIVATE
 import androidx.core.content.ContextCompat
@@ -40,7 +41,10 @@ class Notification(private val context: Context) {
         exclusiveId: Int? = null,
         actionIcon:Int?= null,
         actionTitle:String?= null,
-        actionIntent:PendingIntent? = null
+        actionIntent:PendingIntent? = null,
+        secondActionIcon:Int?= null,
+        secondActionTitle:String?= null,
+        secondActionIntent:PendingIntent?= null
     )
     {
 
@@ -58,7 +62,10 @@ class Notification(private val context: Context) {
                     progress,
                     actionIcon,
                     actionTitle,
-                    actionIntent
+                    actionIntent,
+                    secondActionIcon,
+                    secondActionTitle,
+                    secondActionIntent
                 )
 
             manager.notify(exclusiveId ?: id, notification)
@@ -85,7 +92,11 @@ class Notification(private val context: Context) {
         progress: Int? = null,
         actionIcon:Int?= null,
         actionTitle:String?= null,
-        actionIntent:PendingIntent? = null
+        actionIntent:PendingIntent? = null,
+        secondActionIcon:Int?= null,
+        secondActionTitle:String?= null,
+        secondActionIntent:PendingIntent?= null
+
 
     ): Notification {
         val builder = NotificationCompat.Builder(context, CHANNEL_IDENTIFIER)
@@ -102,7 +113,6 @@ class Notification(private val context: Context) {
             .setOnlyAlertOnce(true)
 
 
-
         if (progress != null) {
             builder.setProgress(100, progress, false)
         }
@@ -110,6 +120,13 @@ class Notification(private val context: Context) {
         if (listOf(actionIcon, actionTitle, actionIntent).all { it != null }) {
            builder.addAction(actionIcon!!, actionTitle, actionIntent)
         }
+
+
+        if (listOf(secondActionIcon, secondActionTitle, secondActionIntent).all { it != null }) {
+            builder.addAction(secondActionIcon!!, secondActionTitle, secondActionIntent)
+        }
+
+
         return builder.build()
     }
 

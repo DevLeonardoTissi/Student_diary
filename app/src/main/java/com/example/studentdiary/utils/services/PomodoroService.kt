@@ -12,6 +12,9 @@ import androidx.lifecycle.MutableLiveData
 import com.example.studentdiary.R
 import com.example.studentdiary.extensions.formatTimeLeft
 import com.example.studentdiary.notifications.Notification
+import com.example.studentdiary.ui.POMODORO_ACTION_PAUSE
+import com.example.studentdiary.ui.POMODORO_ACTION_START
+import com.example.studentdiary.ui.POMODORO_ACTION_STOP
 import com.example.studentdiary.utils.broadcastReceiver.PomodoroNotificationBroadcastReceiver
 import com.example.studentdiary.utils.enums.PomodoroState
 import org.koin.android.ext.android.inject
@@ -27,6 +30,30 @@ class PomodoroService : Service() {
         startPomodoroTimer()
         return START_NOT_STICKY
     }
+
+//    private val meuBroadcastReceiver = object : BroadcastReceiver() {
+//        override fun onReceive(context: Context, intent: Intent) {
+//            val acao = intent.action
+//            if (acao != null) {
+//                when (acao) {
+//                    POMODORO_ACTION_STOP -> {
+//                        stopSelf()
+//                    }
+//
+//                }
+//            }
+//        }
+//    }
+//
+//    override fun onCreate() {
+//        super.onCreate()
+//
+//        val filter = IntentFilter().apply {
+//            addAction(POMODORO_ACTION_STOP)
+//
+//        }
+//        registerReceiver(meuBroadcastReceiver, filter)
+//    }
 
 
     companion object {
@@ -58,14 +85,12 @@ class PomodoroService : Service() {
 //        val intervalLeftTime: LiveData<Long?> = _intervalLeftTime
 
         private val _pomodoroState = MutableLiveData<PomodoroState>(PomodoroState.POMODORO_TIMER)
-        val pomodoroState:LiveData<PomodoroState> = _pomodoroState
-
-
+        val pomodoroState: LiveData<PomodoroState> = _pomodoroState
 
 
         fun setValueExtraIntervalStartTime(time: Long) {
             _extraIntervalStartTime.value = time
-            if (pomodoroState.value == PomodoroState.EXTRA_INTERVAL_TIMER){
+            if (pomodoroState.value == PomodoroState.EXTRA_INTERVAL_TIMER) {
                 _leftTime.value = time
             }
 //
@@ -74,7 +99,7 @@ class PomodoroService : Service() {
 
         fun setValuePomodoroStartTime(time: Long) {
             _pomodoroStartTime.value = time
-            if (pomodoroState.value == PomodoroState.POMODORO_TIMER){
+            if (pomodoroState.value == PomodoroState.POMODORO_TIMER) {
                 _leftTime.value = time
             }
         }
@@ -82,7 +107,7 @@ class PomodoroService : Service() {
 
         fun setValueIntervalStartTime(time: Long) {
             _intervalStartTime.value = time
-            if (pomodoroState.value == PomodoroState.INTERVAL_TIMER){
+            if (pomodoroState.value == PomodoroState.INTERVAL_TIMER) {
                 _leftTime.value = time
             }
         }
@@ -93,25 +118,24 @@ class PomodoroService : Service() {
             _timerIsRunning.value = false
         }
 
-        private val _pomodoroCycles = MutableLiveData<Int>(4)
+        private val _pomodoroCycles = MutableLiveData(4)
         val pomodoroCycle: LiveData<Int> = _pomodoroCycles
 
         fun setPomodoroCycles(cycles: Int) {
-           if (pomodoroCount >= cycles) {
+            if (pomodoroCount >= cycles) {
                 pomodoroCount = 0
                 _pomodoroCycles.value = cycles
             } else {
                 _pomodoroCycles.value = cycles
             }
         }
+
         var pomodoroCount: Int = 0
     }
 
     private fun stopTimer() {
         countDownTimer.cancel()
         _leftTime.value = pomodoroStartTime.value
-//        _intervalLeftTime.value = interalStartTime.value
-//        _extraIntervalLeftTime.value = extraIntervalStartTime.value
         _pomodoroState.value = PomodoroState.POMODORO_TIMER
         _timerIsRunning.value = false
         pomodoroCount = 0
@@ -124,9 +148,11 @@ class PomodoroService : Service() {
             PomodoroState.INTERVAL_TIMER -> {
                 startIntervalTimer()
             }
+
             PomodoroState.EXTRA_INTERVAL_TIMER -> {
                 startExtraIntervalTimer()
             }
+
             else -> {
                 leftTime.value?.let {
                     countDownTimer = object : CountDownTimer(it, 1000) {
@@ -139,7 +165,13 @@ class PomodoroService : Service() {
                                     formatTimeLeft(leftTime.value)
                                 ), calculateTimerPercent(
                                     pomodoroStartTime.value, leftTime.value
-                                )
+                                ),
+                                applicationContext.getString(R.string.pomodoro_notification_title_action_stop),
+                                R.drawable.ic_stop,
+                                POMODORO_ACTION_STOP,
+                                R.drawable.ic_pause,
+                                applicationContext.getString(R.string.pomodoro_notification_title_action_pause),
+                                POMODORO_ACTION_PAUSE
                             )
                         }
 
@@ -172,13 +204,21 @@ class PomodoroService : Service() {
                 override fun onTick(millisUntilFinished: Long) {
                     _leftTime.value = millisUntilFinished
                     showPomodoroNotification(
-                        applicationContext, String.format(
+                        applicationContext,
+                        String.format(
                             "%s %s",
                             applicationContext.getString(R.string.pomodoro_interval_notification_description),
                             formatTimeLeft(leftTime.value)
-                        ), calculateTimerPercent(
+                        ),
+                        calculateTimerPercent(
                             interalStartTime.value, leftTime.value
-                        )
+                        ),
+                        applicationContext.getString(R.string.pomodoro_notification_title_action_stop),
+                        R.drawable.ic_stop,
+                        POMODORO_ACTION_STOP,
+                        R.drawable.ic_pause,
+                        applicationContext.getString(R.string.pomodoro_notification_title_action_pause),
+                        POMODORO_ACTION_PAUSE
                     )
                 }
 
@@ -209,7 +249,13 @@ class PomodoroService : Service() {
                             formatTimeLeft(leftTime.value)
                         ), calculateTimerPercent(
                             extraIntervalStartTime.value, leftTime.value
-                        )
+                        ),
+                        applicationContext.getString(R.string.pomodoro_notification_title_action_stop),
+                        R.drawable.ic_stop,
+                        POMODORO_ACTION_STOP,
+                        R.drawable.ic_pause,
+                        applicationContext.getString(R.string.pomodoro_notification_title_action_pause),
+                        POMODORO_ACTION_PAUSE
                     )
                 }
 
@@ -227,13 +273,31 @@ class PomodoroService : Service() {
         }
     }
 
-    private fun showPomodoroNotification(context: Context, description: String, progress: Int) {
+    private fun showPomodoroNotification(
+        context: Context,
+        description: String,
+        progress: Int,
+        actionTitle: String? = null,
+        actionIcon: Int? = null,
+        action: String? = null,
+        secondActionIcon: Int? = null,
+        secondActionTitle: String? = null,
+        secondAction: String? = null
+    ) {
 
-        val custonIntent = Intent(applicationContext, PomodoroNotificationBroadcastReceiver::class.java)
-        custonIntent.action = "STOP"
+        val customIntent =
+            Intent(applicationContext, PomodoroNotificationBroadcastReceiver::class.java)
+        customIntent.action = action
 
-        val custonPendindIntent: PendingIntent =
-            PendingIntent.getBroadcast(this, 0, custonIntent, PendingIntent.FLAG_IMMUTABLE)
+        val customPendingIntent: PendingIntent =
+            PendingIntent.getBroadcast(this, 0, customIntent, PendingIntent.FLAG_IMMUTABLE)
+
+        val secondCustomIntent =
+            Intent(applicationContext, PomodoroNotificationBroadcastReceiver::class.java)
+        secondCustomIntent.action = secondAction
+
+        val secondCustomPendingIntent: PendingIntent =
+            PendingIntent.getBroadcast(this, 0, secondCustomIntent, PendingIntent.FLAG_IMMUTABLE)
 
         Notification(context).show(
             title = context.getString(R.string.pomodoro_notification_title),
@@ -243,10 +307,12 @@ class PomodoroService : Service() {
             isAutoCancel = false,
             progress = progress,
             exclusiveId = notificationsPomodoroId,
-            actionIcon = R.drawable.ic_stop,
-            actionTitle = "teste",
-            actionIntent = custonPendindIntent
-
+            actionIcon = actionIcon,
+            actionTitle = actionTitle,
+            actionIntent = customPendingIntent,
+            secondActionIcon = secondActionIcon,
+            secondActionTitle = secondActionTitle,
+            secondActionIntent = secondCustomPendingIntent
         )
     }
 
