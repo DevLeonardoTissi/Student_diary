@@ -32,7 +32,7 @@ class PomodoroService : Service() {
     }
 
     companion object {
-        fun calculateTimerPercent(totalTime: Long?, timeLeft: Long?): Int {
+        private fun calculateTimerPercent(totalTime: Long?, timeLeft: Long?): Int {
             return timeLeft?.let {
                 totalTime?.let {
                     ((totalTime - timeLeft) * 100 / totalTime).toInt()
@@ -185,15 +185,14 @@ class PomodoroService : Service() {
                 isAutoCancel = false,
                 progress = progress,
                 exclusiveId = notificationsPomodoroId,
-                actionIcon = R.drawable.ic_stop,
-                actionTitle = context.getString(R.string.pomodoro_notification_title_action_stop),
-                actionIntent = customPendingIntent,
-                secondActionIcon = secondActionIcon,
-                secondActionTitle = secondActionTitle,
-                secondActionIntent = secondCustomPendingIntent
+                actionIcon = secondActionIcon,
+                actionTitle = secondActionTitle,
+                actionIntent = secondCustomPendingIntent,
+                secondActionIcon =  R.drawable.ic_stop,
+                secondActionTitle = context.getString(R.string.pomodoro_notification_title_action_stop),
+                secondActionIntent = customPendingIntent
             )
         }
-
     }
 
     private fun stopTimer() {
@@ -280,7 +279,7 @@ class PomodoroService : Service() {
 
                 override fun onFinish() {
                     pomodoroCount = 0
-                    _leftTime.value = extraIntervalStartTime.value
+                    _leftTime.value = pomodoroStartTime.value
                     notificationManager.cancel(notificationsPomodoroId)
                     _pomodoroState.value = PomodoroState.POMODORO_TIMER
                     startPomodoroTimer()
