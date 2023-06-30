@@ -9,18 +9,15 @@ import com.example.studentdiary.ui.POMODORO_ACTION_STOP
 import com.example.studentdiary.utils.services.PomodoroService
 
 class PomodoroNotificationBroadcastReceiver : BroadcastReceiver() {
-    override fun onReceive(p0: Context?, p1: Intent?) {
-        val intentPomodoroService = Intent(p0, PomodoroService::class.java)
-        when (p1?.action) {
-            POMODORO_ACTION_START ->
-                p0?.startService(intentPomodoroService)
-
-
-            POMODORO_ACTION_STOP ->
-                p0?.stopService(intentPomodoroService)
-
-            POMODORO_ACTION_PAUSE -> PomodoroService.pauseTimer()
+    override fun onReceive(context: Context?, int: Intent?) {
+        val intentPomodoroService = Intent(context, PomodoroService::class.java)
+        context?.let {contextNonNull ->
+            when (int?.action) {
+                POMODORO_ACTION_START -> context.startService(intentPomodoroService)
+                POMODORO_ACTION_STOP -> context.stopService(intentPomodoroService)
+                POMODORO_ACTION_PAUSE -> PomodoroService.pauseTimer(contextNonNull)
+                else -> {}
+            }
         }
-
     }
 }

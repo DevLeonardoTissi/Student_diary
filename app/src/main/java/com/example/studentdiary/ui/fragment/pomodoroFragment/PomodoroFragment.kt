@@ -218,7 +218,10 @@ class PomodoroFragment : BaseFragment() {
 
     private fun onClickPauseButton() {
         binding.pomodoroFragmentButtonPause.setOnClickListener {
-            model.pauseTimer()
+            context?.let {
+                model.pauseTimer(it)
+            }
+
         }
     }
 

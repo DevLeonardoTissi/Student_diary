@@ -1,5 +1,6 @@
 package com.example.studentdiary.ui.fragment.pomodoroFragment
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import com.example.studentdiary.utils.services.PomodoroService
 
@@ -11,21 +12,16 @@ class PomodoroViewModel : ViewModel() {
 
     val pomodoroStartTime = PomodoroService.pomodoroStartTime
 
-//    val intervalLeftTime = PomodoroService.intervalLeftTime
-
     val intervalStartTime = PomodoroService.interalStartTime
 
     val pomodoroState = PomodoroService.pomodoroState
 
-//    val extraIntervalLeftTime = PomodoroService.extraIntervalLeftTime
-
     val extraIntervalStartTime = PomodoroService.extraIntervalStartTime
 
     val pomodoroCycles = PomodoroService.pomodoroCycle
-    fun pauseTimer() = PomodoroService.pauseTimer()
+    fun pauseTimer(context:Context) = PomodoroService.pauseTimer(context)
     fun setValueIntervalStartTime(time: Long) = PomodoroService.setValueIntervalStartTime(time)
     fun setValuePomodoroStartTime(time: Long) = PomodoroService.setValuePomodoroStartTime(time)
-
     fun setValueExtraIntervalStartTime(time: Long) =
         PomodoroService.setValueExtraIntervalStartTime(time)
 
