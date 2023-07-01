@@ -59,19 +59,20 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-//EXTRAIR MÉTODOS ----- REMOVER UMA TASK DE DENTRO DA OUTRA, E JOGAR ESSA LÓGICA PRO VIEWMODEL
+    //EXTRAIR MÉTODOS ----- REMOVER UMA TASK DE DENTRO DA OUTRA, E JOGAR ESSA LÓGICA PRO VIEWMODEL
     private val pickImage = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
-        uri?.let {
+        uri?.let { file ->
             val storage = Firebase.storage
             val reference =
                 storage.reference.child("user_photo/${Firebase.auth.currentUser?.email}.jpg")
-            val file = it
             val uploadTask = reference.putFile(file)
 
 
-            uploadTask.addOnFailureListener {
+            uploadTask
+                .addOnFailureListener {
 
-            }.addOnSuccessListener { taskSnapshot ->
+            }
+                .addOnSuccessListener {
                 reference.downloadUrl.addOnSuccessListener {
                     appViewModel.updateUserProfile(photoUrl = it)
                 }
@@ -136,7 +137,7 @@ class MainActivity : AppCompatActivity() {
                 } else {
                     requestPermission.launch(READ_EXTERNAL_STORAGE)
                 }
-            },{
+            }, {
                 //necessário verificar se existe a imagem no storage - Implementar
 
                 val storage = Firebase.storage
