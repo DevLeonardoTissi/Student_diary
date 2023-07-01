@@ -8,7 +8,6 @@ import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -71,12 +70,12 @@ class MainActivity : AppCompatActivity() {
             uploadTask
                 .addOnFailureListener {
 
-            }
-                .addOnSuccessListener {
-                reference.downloadUrl.addOnSuccessListener {
-                    appViewModel.updateUserProfile(photoUrl = it)
                 }
-            }
+                .addOnSuccessListener {
+                    reference.downloadUrl.addOnSuccessListener {
+                        appViewModel.updateUserProfile(photoUrl = it)
+                    }
+                }
         }
     }
 
@@ -132,13 +131,17 @@ class MainActivity : AppCompatActivity() {
         //REFATORARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
         headerBinding.headerIconButton.setOnClickListener {
             CustomImageBottonSheetDialog(this).show({
-                if (hasPermission()) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                     openGallery()
                 } else {
-                    requestPermission.launch(READ_EXTERNAL_STORAGE)
+                    if (hasPermission()) {
+                        openGallery()
+                    } else {
+                        requestPermission.launch(READ_EXTERNAL_STORAGE)
+                    }
                 }
             }, {
-                //necessário verificar se existe a imagem no storage - Implementar
+
 
                 val storage = Firebase.storage
                 val reference =
@@ -147,12 +150,10 @@ class MainActivity : AppCompatActivity() {
                 reference.metadata.addOnSuccessListener {
                     reference.delete().addOnSuccessListener {
                         appViewModel.updateUserProfile(photoUrl = null)
-                        Log.i("TAG", "searchUserAndCustomizeHeader: existe")
                     }
                 }
                 reference.metadata.addOnFailureListener {
                     appViewModel.updateUserProfile(photoUrl = null)
-                    Log.i("TAG", "searchUserAndCustomizeHeader: não existe")
                 }
             })
         }
