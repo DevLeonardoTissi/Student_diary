@@ -1,5 +1,6 @@
 package com.example.studentdiary.ui
 
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -27,8 +28,8 @@ class AppViewModel(
 
 
 
-    fun updateUserProfile(name: String? = null, photoUrl:String? = null ) {
-        val task = firebaseAuthRepository.updateUserProfile(name = name, photoUrl = photoUrl )
+    fun updateUserProfile(name: String? = null, photoUrl: Uri? = null ) {
+        val task = firebaseAuthRepository.updateUserProfile(name = name, userPhotoUri = photoUrl )
         task?.let {
             try {
                 task.addOnSuccessListener {

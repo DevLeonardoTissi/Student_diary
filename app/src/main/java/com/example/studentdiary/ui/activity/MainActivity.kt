@@ -8,6 +8,7 @@ import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -18,19 +19,22 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
-import coil.load
 import com.example.studentdiary.NavGraphDirections
 import com.example.studentdiary.R
 import com.example.studentdiary.databinding.ActivityMainBinding
 import com.example.studentdiary.databinding.HeaderNavigationDrawerBinding
 import com.example.studentdiary.extensions.alertDialog
 import com.example.studentdiary.extensions.toast
+import com.example.studentdiary.extensions.tryLoadImage
 import com.example.studentdiary.ui.AppViewModel
 import com.example.studentdiary.ui.NavigationComponents
 import com.example.studentdiary.ui.dialog.AppInfoBottonSheetDialog
 import com.example.studentdiary.ui.dialog.CustomImageBottonSheetDialog
 import com.example.studentdiary.utils.broadcastReceiver.MyBroadcastReceiver
 import com.example.studentdiary.utils.exitGoogleAndFacebookAccount
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
@@ -55,10 +59,23 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
+//EXTRAIR MÉTODOS ----- REMOVER UMA TASK DE DENTRO DA OUTRA, E JOGAR ESSA LÓGICA PRO VIEWMODEL
     private val pickImage = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
         uri?.let {
-//            appViewModel.alterPhoto("https://ichef.bbci.co.uk/news/800/cpsprodpb/146CB/production/_96895638_tiririca2.jpg")
+            val storage = Firebase.storage
+            val reference =
+                storage.reference.child("user_photo/${Firebase.auth.currentUser?.email}.jpg")
+            val file = it
+            val uploadTask = reference.putFile(file)
+
+
+            uploadTask.addOnFailureListener {
+
+            }.addOnSuccessListener { taskSnapshot ->
+                reference.downloadUrl.addOnSuccessListener {
+                    appViewModel.updateUserProfile(photoUrl = it)
+                }
+            }
         }
     }
 
@@ -67,7 +84,6 @@ class MainActivity : AppCompatActivity() {
             if (isGranted) {
                 openGallery()
             }
-
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -95,25 +111,52 @@ class MainActivity : AppCompatActivity() {
         val headerBinding = HeaderNavigationDrawerBinding.inflate(layoutInflater)
         appViewModel.firebaseUser.observe(this) { user ->
             user?.let { userNonNull ->
-                val nameApresentation = userNonNull.displayName ?: userNonNull.email
+                val namePresentation = if (userNonNull.displayName.isNullOrBlank()) {
+                    userNonNull.email
+                } else {
+                    userNonNull.displayName
+                }
                 headerBinding.headerSubtitle.text = getString(
                     R.string.header_drawer_concatenated_text,
                     getString(R.string.header_drawer_greeting),
-                    nameApresentation
+                    namePresentation
                 )
-                headerBinding.headerShapeableImageView.load(userNonNull.photoUrl)
-            } ?: kotlin.run {
-                headerBinding.headerShapeableImageView.load(null)
-                headerBinding.headerSubtitle.text = null
+
+                userNonNull.photoUrl?.let {
+                    headerBinding.headerShapeableImageView.tryLoadImage(it.toString())
+                } ?: headerBinding.headerShapeableImageView.tryLoadImage()
             }
         }
 
+        //REFATORARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
         headerBinding.headerIconButton.setOnClickListener {
-            CustomImageBottonSheetDialog(this).show()
+            CustomImageBottonSheetDialog(this).show({
+                if (hasPermission()) {
+                    openGallery()
+                } else {
+                    requestPermission.launch(READ_EXTERNAL_STORAGE)
+                }
+            },{
+                //necessário verificar se existe a imagem no storage - Implementar
+
+                val storage = Firebase.storage
+                val reference =
+                    storage.reference.child("user_photo/${Firebase.auth.currentUser?.email}.jpg")
+
+                reference.metadata.addOnSuccessListener {
+                    reference.delete().addOnSuccessListener {
+                        appViewModel.updateUserProfile(photoUrl = null)
+                        Log.i("TAG", "searchUserAndCustomizeHeader: existe")
+                    }
+                }
+                reference.metadata.addOnFailureListener {
+                    appViewModel.updateUserProfile(photoUrl = null)
+                    Log.i("TAG", "searchUserAndCustomizeHeader: não existe")
+                }
+            })
         }
 
         binding.navView.addHeaderView(headerBinding.root)
-
 
     }
 
@@ -162,7 +205,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.menuItem_drawer_about -> {
-                   AppInfoBottonSheetDialog(this).show()
+                    AppInfoBottonSheetDialog(this).show()
                     false
                 }
 

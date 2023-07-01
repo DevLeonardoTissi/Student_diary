@@ -5,7 +5,6 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.graphics.Bitmap
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationCompat.VISIBILITY_PRIVATE
 import androidx.core.content.ContextCompat

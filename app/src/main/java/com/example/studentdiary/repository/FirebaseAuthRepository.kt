@@ -43,21 +43,21 @@ class FirebaseAuthRepository(private val firebaseAuth: FirebaseAuth) {
         return firebaseAuth.currentUser?.updateEmail(newEmail)
     }
 
-
     fun deleteUser(): Task<Void>? {
         return firebaseAuth.currentUser?.delete()
     }
 
 
-    fun updateUserProfile(name:String? = null, photoUrl:String? = null): Task<Void>? {
+    fun updateUserProfile(name:String? = null, userPhotoUri:Uri? = null): Task<Void>? {
         val userProfileChange = userProfileChangeRequest {
-            name?.let {
-                displayName = it
-            }
-            photoUrl?.let {
-                photoUri = Uri.parse(it)
-            }
+
+                displayName = name
+
+
+                photoUri = userPhotoUri
+
         }
+
         return firebaseAuth.currentUser?.updateProfile(userProfileChange)
     }
 
@@ -74,5 +74,4 @@ class FirebaseAuthRepository(private val firebaseAuth: FirebaseAuth) {
 
         auth.addAuthStateListener(authStateListener)
     }
-
 }

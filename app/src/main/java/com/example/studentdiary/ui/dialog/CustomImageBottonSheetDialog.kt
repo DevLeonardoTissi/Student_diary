@@ -9,18 +9,19 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 class CustomImageBottonSheetDialog(private val context:Context) {
 
 
-      fun show(){
+      fun show(onClickGalleryButton:() -> Unit = {}, onClickRemoveButton:()-> Unit = {}){
          val customImageBottomSheetDialog = BottomSheetDialog(context)
          CustomImageBottomSheetDialogBinding.inflate(LayoutInflater.from(context)).apply {
 
              setupImageBottomSheetDialogGalleryButton.setOnClickListener {
 
-//                    if (hasPermission()) {
-//                        openGallery()
-//                    } else {
-//                        requestPermission.launch(READ_EXTERNAL_STORAGE)
-//                    }
+                onClickGalleryButton()
 
+                 customImageBottomSheetDialog.behavior.state = BottomSheetBehavior.STATE_HIDDEN
+             }
+
+             setupImageBottomSheetDialogRemoveButton.setOnClickListener {
+                 onClickRemoveButton()
                  customImageBottomSheetDialog.behavior.state = BottomSheetBehavior.STATE_HIDDEN
              }
 
