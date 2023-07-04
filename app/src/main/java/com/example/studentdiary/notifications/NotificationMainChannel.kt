@@ -10,7 +10,6 @@ class NotificationMainChannel(
     private val context: Context,
     private val manager: NotificationManager
 ) {
-
     fun createChannel(){
         val name = context.getString(R.string.channel_name)
         val description = context.getString(R.string.channel_description)

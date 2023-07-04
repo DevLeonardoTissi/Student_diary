@@ -88,7 +88,6 @@ class PomodoroService : Service() {
         fun pauseTimer(context:Context) {
             countDownTimer.cancel()
             _timerIsRunning.value = false
-
             setupAndShowNotification(context,true)
         }
 
@@ -171,8 +170,9 @@ class PomodoroService : Service() {
                 PendingIntent.getBroadcast(context, 0, customIntent, PendingIntent.FLAG_IMMUTABLE)
 
             val secondCustomIntent =
-                Intent(context, PomodoroNotificationBroadcastReceiver::class.java)
-            secondCustomIntent.action = secondAction
+                Intent(context, PomodoroNotificationBroadcastReceiver::class.java).apply {
+                    action = secondAction
+                }
 
             val secondCustomPendingIntent: PendingIntent =
                 PendingIntent.getBroadcast(context, 0, secondCustomIntent, PendingIntent.FLAG_IMMUTABLE)

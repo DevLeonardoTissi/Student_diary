@@ -38,14 +38,13 @@ class Notification(private val context: Context) {
         isAutoCancel: Boolean? = true,
         progress: Int? = null,
         exclusiveId: Int? = null,
-        actionIcon:Int?= null,
-        actionTitle:String?= null,
-        actionIntent:PendingIntent? = null,
-        secondActionIcon:Int?= null,
-        secondActionTitle:String?= null,
-        secondActionIntent:PendingIntent?= null
-    )
-    {
+        actionIcon: Int? = null,
+        actionTitle: String? = null,
+        actionIntent: PendingIntent? = null,
+        secondActionIcon: Int? = null,
+        secondActionTitle: String? = null,
+        secondActionIntent: PendingIntent? = null
+    ) {
 
         CoroutineScope(Dispatchers.IO).launch {
             val image = trySearchImg(img)
@@ -89,12 +88,12 @@ class Notification(private val context: Context) {
         isOnGoing: Boolean = false,
         isAutoCancel: Boolean = true,
         progress: Int? = null,
-        actionIcon:Int?= null,
-        actionTitle:String?= null,
-        actionIntent:PendingIntent? = null,
-        secondActionIcon:Int?= null,
-        secondActionTitle:String?= null,
-        secondActionIntent:PendingIntent?= null
+        actionIcon: Int? = null,
+        actionTitle: String? = null,
+        actionIntent: PendingIntent? = null,
+        secondActionIcon: Int? = null,
+        secondActionTitle: String? = null,
+        secondActionIntent: PendingIntent? = null
 
 
     ): Notification {
@@ -117,7 +116,7 @@ class Notification(private val context: Context) {
         }
 
         if (listOf(actionIcon, actionTitle, actionIntent).all { it != null }) {
-           builder.addAction(actionIcon!!, actionTitle, actionIntent)
+            builder.addAction(actionIcon!!, actionTitle, actionIntent)
         }
 
 

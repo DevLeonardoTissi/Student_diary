@@ -27,7 +27,6 @@ class AppViewModel(
     val firebaseUser = firebaseAuthRepository.firebaseUser
 
 
-
     fun updateUserProfile(name: String? = null, photoUrl: Uri? = null ) {
         val task = firebaseAuthRepository.updateUserProfile(name = name, userPhotoUri = photoUrl )
         task?.let {

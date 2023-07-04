@@ -43,7 +43,6 @@ class DictionaryFragment : BaseFragment() {
 
 
     private fun search() {
-
         binding.fragmentDictionarySearchButton.apply {
             setOnClickListener {
                 val fieldWord = binding.fragmentDictionaryFieldWord

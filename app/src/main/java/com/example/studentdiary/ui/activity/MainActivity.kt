@@ -34,6 +34,7 @@ import com.example.studentdiary.utils.exitGoogleAndFacebookAccount
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import kotlinx.coroutines.tasks.await
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
@@ -64,18 +65,14 @@ class MainActivity : AppCompatActivity() {
             val storage = Firebase.storage
             val reference =
                 storage.reference.child("user_photo/${Firebase.auth.currentUser?.email}.jpg")
-            val uploadTask = reference.putFile(file)
 
-
-            uploadTask
-                .addOnFailureListener {
-
-                }
-                .addOnSuccessListener {
-                    reference.downloadUrl.addOnSuccessListener {
-                        appViewModel.updateUserProfile(photoUrl = it)
-                    }
-                }
+//            try {
+//                val dow = reference.putFile(file).await().storage.downloadUrl.await()
+//                val downloadUrl = reference.downloadUrl.await()
+//                appViewModel.updateUserProfile(photoUrl = dow)
+//            }catch (e:Exception){
+//
+//            }
         }
     }
 
@@ -146,15 +143,10 @@ class MainActivity : AppCompatActivity() {
                 val storage = Firebase.storage
                 val reference =
                     storage.reference.child("user_photo/${Firebase.auth.currentUser?.email}.jpg")
-
-                reference.metadata.addOnSuccessListener {
-                    reference.delete().addOnSuccessListener {
-                        appViewModel.updateUserProfile(photoUrl = null)
-                    }
-                }
-                reference.metadata.addOnFailureListener {
+                reference.delete().addOnSuccessListener {
                     appViewModel.updateUserProfile(photoUrl = null)
                 }
+
             })
         }
 
