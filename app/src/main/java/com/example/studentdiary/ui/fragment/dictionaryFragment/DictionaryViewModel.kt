@@ -1,6 +1,5 @@
 package com.example.studentdiary.ui.fragment.dictionaryFragment
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -52,7 +51,6 @@ class DictionaryViewModel(
             _meaning.value = repository.searchMeaning(word)
         } catch (e: Exception) {
             _meaning.value = null
-            Log.i("TAG", "searchMeaning: $e")
         }
     }
 

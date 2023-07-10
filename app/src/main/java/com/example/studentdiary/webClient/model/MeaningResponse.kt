@@ -2,7 +2,7 @@ package com.example.studentdiary.webClient.model
 
 import com.example.studentdiary.model.Meaning
 
-class MeaningsResponse(
+class MeaningResponse(
     private val partOfSpeech: String?,
     private val meanings: List<String>?,
     private val etymology: String?

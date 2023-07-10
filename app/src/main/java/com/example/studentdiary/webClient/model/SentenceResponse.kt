@@ -2,7 +2,7 @@ package com.example.studentdiary.webClient.model
 
 import com.example.studentdiary.model.Sentence
 
-class SentencesResponse(
+class SentenceResponse(
     private val sentence: String?,
     private val author: String?
 ) {
