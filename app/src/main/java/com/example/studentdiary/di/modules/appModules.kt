@@ -32,7 +32,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
 private const val DATABASE_NAME = "studentDiary.db"
-private const val BASE_URL_DICTIONARY_API = "https://dicio-api-ten.vercel.app/v2/"
+private const val BASE_URL_DICTIONARY_API = "http://192.168.0.172:8080/"
 
 val roomModule = module {
     single {
