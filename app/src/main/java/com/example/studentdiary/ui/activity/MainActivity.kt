@@ -31,10 +31,6 @@ import com.example.studentdiary.ui.dialog.AppInfoBottonSheetDialog
 import com.example.studentdiary.ui.dialog.CustomImageBottonSheetDialog
 import com.example.studentdiary.utils.broadcastReceiver.MyBroadcastReceiver
 import com.example.studentdiary.utils.exitGoogleAndFacebookAccount
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.ktx.storage
-import kotlinx.coroutines.tasks.await
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
@@ -62,17 +58,11 @@ class MainActivity : AppCompatActivity() {
     //EXTRAIR MÉTODOS ----- REMOVER UMA TASK DE DENTRO DA OUTRA, E JOGAR ESSA LÓGICA PRO VIEWMODEL
     private val pickImage = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
         uri?.let { file ->
-            val storage = Firebase.storage
-            val reference =
-                storage.reference.child("user_photo/${Firebase.auth.currentUser?.email}.jpg")
-
-//            try {
-//                val dow = reference.putFile(file).await().storage.downloadUrl.await()
-//                val downloadUrl = reference.downloadUrl.await()
-//                appViewModel.updateUserProfile(photoUrl = dow)
-//            }catch (e:Exception){
-//
-//            }
+            appViewModel.updateUserPhoto(file, onError = {
+                this.toast("erro ao Alterar imagem")
+            }, onSuccessful = {
+                this.toast("sucesso ao Alterar imagem")
+            })
         }
     }
 
@@ -127,7 +117,7 @@ class MainActivity : AppCompatActivity() {
 
         //REFATORARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
         headerBinding.headerIconButton.setOnClickListener {
-            CustomImageBottonSheetDialog(this).show({
+            CustomImageBottonSheetDialog(this).show(onClickGalleryButton = {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                     openGallery()
                 } else {
@@ -137,21 +127,11 @@ class MainActivity : AppCompatActivity() {
                         requestPermission.launch(READ_EXTERNAL_STORAGE)
                     }
                 }
-            }, {
-
-
-                val storage = Firebase.storage
-                val reference =
-                    storage.reference.child("user_photo/${Firebase.auth.currentUser?.email}.jpg")
-                reference.delete().addOnSuccessListener {
-                    appViewModel.updateUserProfile(photoUrl = null)
-                }
-
+            }, onClickRemoveButton = {
+                appViewModel.removeUserPhoto(onError = {}, onSuccessful = {})
             })
         }
-
         binding.navView.addHeaderView(headerBinding.root)
-
     }
 
     private fun hasPermission(): Boolean {

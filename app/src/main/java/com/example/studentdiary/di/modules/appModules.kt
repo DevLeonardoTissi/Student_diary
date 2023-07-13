@@ -8,6 +8,7 @@ import com.example.studentdiary.notifications.NotificationMainChannel
 import com.example.studentdiary.repository.DictionaryRepository
 import com.example.studentdiary.repository.DisciplineRepository
 import com.example.studentdiary.repository.FirebaseAuthRepository
+import com.example.studentdiary.repository.FirebaseStorageRepository
 import com.example.studentdiary.repository.PublicTenderRepository
 import com.example.studentdiary.repository.SendTokenRepository
 import com.example.studentdiary.ui.AppViewModel
@@ -69,6 +70,7 @@ val repositoryModule = module {
     single { DisciplineRepository(get()) }
     single { PublicTenderRepository(get()) }
     single { SendTokenRepository(get()) }
+    single { FirebaseStorageRepository(get()) }
 }
 
 
@@ -78,17 +80,15 @@ val viewModelModule = module {
     viewModel { DisciplinesViewModel(get()) }
     viewModel { DictionaryViewModel(get()) }
     viewModel { PublicTenderViewModel(get()) }
-    viewModel { AppViewModel(get(), get()) }
+    viewModel { AppViewModel(get(), get(), get()) }
     viewModel{PomodoroViewModel()}
     viewModel { (disciplineId: String) ->
-
         DisciplineFormViewModel(get(), disciplineId)
     }
 
     viewModel { (disciplineId: String) ->
         DisciplineDetailsViewModel(get(), disciplineId)
     }
-
 }
 
 val adapterModule = module {

@@ -48,6 +48,7 @@ class FirebaseAuthRepository(private val firebaseAuth: FirebaseAuth) {
     }
 
 
+
     fun updateUserProfile(name:String? = null, userPhotoUri:Uri? = null): Task<Void>? {
         val userProfileChange = userProfileChangeRequest {
             name?.let {
@@ -69,7 +70,6 @@ class FirebaseAuthRepository(private val firebaseAuth: FirebaseAuth) {
         val authStateListener = FirebaseAuth.AuthStateListener { firebaseAuth ->
             value = firebaseAuth.currentUser
         }
-
         auth.addAuthStateListener(authStateListener)
     }
 }

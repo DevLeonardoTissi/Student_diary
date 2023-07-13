@@ -1,17 +1,20 @@
 package com.example.studentdiary.ui
 
 import android.net.Uri
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.studentdiary.repository.FirebaseAuthRepository
+import com.example.studentdiary.repository.FirebaseStorageRepository
 import com.example.studentdiary.repository.SendTokenRepository
-import java.lang.Exception
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
 class AppViewModel(
     private val firebaseAuthRepository: FirebaseAuthRepository,
-    private val sendTokenRepository: SendTokenRepository
+    private val sendTokenRepository: SendTokenRepository,
+    private val firebaseStorageRepository: FirebaseStorageRepository
 ) : ViewModel() {
     private val _navigationComponents = MutableLiveData<NavigationComponents>().also {
         it.value = hasNavigationComponents
@@ -27,23 +30,9 @@ class AppViewModel(
     val firebaseUser = firebaseAuthRepository.firebaseUser
 
 
-    fun updateUserProfile(name: String? = null, photoUrl: Uri? = null ) {
-        val task = firebaseAuthRepository.updateUserProfile(name = name, userPhotoUri = photoUrl )
-        task?.let {
-            try {
-                task.addOnSuccessListener {
-                    firebaseAuthRepository.updateUser()
-                }
-                task.addOnFailureListener { }
-            } catch (e: Exception) {
-                Log.i("TAG", "updateUserProfile: error")
-            }
-        }
+    private suspend fun updateUserProfile(name: String? = null, photoUrl: Uri? = null) {
+        firebaseAuthRepository.updateUserProfile(name = name, userPhotoUri = photoUrl)?.await()
     }
-
-
-
-
 
 
     fun logout() {
@@ -56,7 +45,31 @@ class AppViewModel(
         sendTokenRepository.sendToken(t)
     }
 
+    fun updateUserPhoto(file: Uri, onError: () -> Unit, onSuccessful: () -> Unit) {
+        viewModelScope.launch {
+            try {
+                val userPhotographUrl = firebaseStorageRepository.updateUserPhoto(file,firebaseUser.value?.email)
+                updateUserProfile(photoUrl = userPhotographUrl)
+                firebaseAuthRepository.updateUser()
+                onSuccessful()
+            } catch (e: Exception) {
+                onError()
+            }
+        }
+    }
 
+    fun removeUserPhoto(onError: () -> Unit, onSuccessful: () -> Unit) {
+        viewModelScope.launch {
+            try {
+                firebaseStorageRepository.removeUserPhoto(firebaseUser.value?.email)
+                updateUserProfile(photoUrl = null)
+                firebaseAuthRepository.updateUser()
+                onSuccessful()
+            } catch (e: Exception) {
+                onError()
+            }
+        }
+    }
 }
 
 
