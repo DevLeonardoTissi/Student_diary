@@ -64,8 +64,12 @@
     <string name="main_activity_app_info_bottom_sheet_dialog_chip_gitHub_project">Repositório do Projeto</string>
 
     <!-- Main Activity -->
-    <string name="main_activity_permission_not_granted">O app não mostrará notificações</string>
-    <string name="main_activity_permission_granted">O app mostrará notificações</string>
+    <string name="main_activity_toast_message_notifications_permission_not_granted">O app não mostrará notificações</string>
+    <string name="main_activity_toast_message_notifications_permission_granted">O app mostrará notificações</string>
+    <string name="main_activity_toast_message_successful_update_user_photo">Foto alterada</string>
+    <string name="main_activity_toast_message_error_update_user_photo">Erro ao alterar foto</string>
+    <string name="main_activity_toast_message_successful_remove_user_photo">Sucesso ao remover foto</string>
+    <string name="main_activity_toast_message_error_remove_user_photo">Erro ao remover foto</string>
 
 
     <!-- Forgot password Alert Dialog -->

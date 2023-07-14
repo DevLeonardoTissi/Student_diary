@@ -47,16 +47,14 @@ class FirebaseAuthRepository(private val firebaseAuth: FirebaseAuth) {
         return firebaseAuth.currentUser?.delete()
     }
 
-
-
     fun updateUserProfile(name:String? = null, userPhotoUri:Uri? = null): Task<Void>? {
         val userProfileChange = userProfileChangeRequest {
             name?.let {
                 displayName = it
-            }
+            } ?: kotlin.run{
                 photoUri = userPhotoUri
+            }
         }
-
         return firebaseAuth.currentUser?.updateProfile(userProfileChange)
     }
 

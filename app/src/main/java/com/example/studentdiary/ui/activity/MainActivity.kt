@@ -45,28 +45,27 @@ class MainActivity : AppCompatActivity() {
         findNavController(R.id.nav_host_fragment)
     }
 
-    private val requestPermissionLauncher = registerForActivityResult(
+    private val requestPermissionNotificationsLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission(),
     ) { isGranted: Boolean ->
         if (isGranted) {
-            this.toast(getString(R.string.main_activity_permission_granted))
+            this.toast(getString(R.string.main_activity_toast_message_notifications_permission_granted))
         } else {
-            this.toast(getString(R.string.main_activity_permission_not_granted))
+            this.toast(getString(R.string.main_activity_toast_message_notifications_permission_not_granted))
         }
     }
 
-    //EXTRAIR MÉTODOS ----- REMOVER UMA TASK DE DENTRO DA OUTRA, E JOGAR ESSA LÓGICA PRO VIEWMODEL
     private val pickImage = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
         uri?.let { file ->
             appViewModel.updateUserPhoto(file, onError = {
-                this.toast("erro ao Alterar imagem")
+                this.toast(getString(R.string.main_activity_toast_message_error_update_user_photo))
             }, onSuccessful = {
-                this.toast("sucesso ao Alterar imagem")
+                this.toast(getString(R.string.main_activity_toast_message_successful_update_user_photo))
             })
         }
     }
 
-    private val requestPermission =
+    private val requestPermissionGalleryLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
                 openGallery()
@@ -89,7 +88,7 @@ class MainActivity : AppCompatActivity() {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) !=
                 PackageManager.PERMISSION_GRANTED
             ) {
-                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                requestPermissionNotificationsLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
             }
         }
     }
@@ -108,33 +107,35 @@ class MainActivity : AppCompatActivity() {
                     getString(R.string.header_drawer_greeting),
                     namePresentation
                 )
-
                 userNonNull.photoUrl?.let {
                     headerBinding.headerShapeableImageView.tryLoadImage(it.toString())
                 } ?: headerBinding.headerShapeableImageView.tryLoadImage()
             }
         }
 
-        //REFATORARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
         headerBinding.headerIconButton.setOnClickListener {
             CustomImageBottonSheetDialog(this).show(onClickGalleryButton = {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                     openGallery()
                 } else {
-                    if (hasPermission()) {
+                    if (hasPermissionReadExternalStorage()) {
                         openGallery()
                     } else {
-                        requestPermission.launch(READ_EXTERNAL_STORAGE)
+                        requestPermissionGalleryLauncher.launch(READ_EXTERNAL_STORAGE)
                     }
                 }
             }, onClickRemoveButton = {
-                appViewModel.removeUserPhoto(onError = {}, onSuccessful = {})
+                appViewModel.removeUserPhoto(onError = {
+                        toast(getString(R.string.main_activity_toast_message_successful_remove_user_photo))
+                }, onSuccessful = {
+                    toast(getString(R.string.main_activity_toast_message_error_remove_user_photo))
+                })
             })
         }
         binding.navView.addHeaderView(headerBinding.root)
     }
 
-    private fun hasPermission(): Boolean {
+    private fun hasPermissionReadExternalStorage(): Boolean {
         return ContextCompat.checkSelfPermission(
             this,
             READ_EXTERNAL_STORAGE
@@ -212,18 +213,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showNavigationComponents(hasNavigationComponents: NavigationComponents) {
-        if (hasNavigationComponents.menuDrawer) {
-            binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
-        } else {
-            binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
-        }
+        binding.drawerLayout.setDrawerLockMode(if (hasNavigationComponents.menuDrawer) DrawerLayout.LOCK_MODE_UNLOCKED else DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+        binding.activityMainToolbar.visibility =
+            if (hasNavigationComponents.toolbar) View.VISIBLE else View.INVISIBLE
 
-        if (hasNavigationComponents.toolbar) {
-            binding.activityMainToolbar.visibility = View.VISIBLE
-        } else {
-            binding.activityMainToolbar.visibility = View.INVISIBLE
-
-        }
     }
 
     private fun navigationComponentsVisibility() {
