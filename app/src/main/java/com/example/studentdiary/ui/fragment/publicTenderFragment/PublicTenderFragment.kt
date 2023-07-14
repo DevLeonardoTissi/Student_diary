@@ -62,7 +62,6 @@ class PublicTenderFragment : BaseFragment() {
         when (checkedId) {
             R.id.publicTenderFragment_toggle_button_contest -> {
                 updateList(list.filter { it.contest })
-
             }
 
             R.id.publicTenderFragment_toggle_button_courses -> {
@@ -95,7 +94,6 @@ class PublicTenderFragment : BaseFragment() {
             }
         }
     }
-
 
 
     private fun setupFABTips() {
