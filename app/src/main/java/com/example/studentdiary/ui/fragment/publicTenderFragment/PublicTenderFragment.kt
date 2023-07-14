@@ -94,17 +94,14 @@ class PublicTenderFragment : BaseFragment() {
                 goToUri(url, context)
             }
         }
-
     }
 
 
 
     private fun setupFABTips() {
         openCardViewSuggestion(model.getIsOpen())
-        binding.publicTenderFragmentFabTips.apply {
-            setOnClickListener {
-                toggleAndOpenCardViewSuggestion()
-            }
+        binding.publicTenderFragmentFabTips.setOnClickListener {
+            toggleAndOpenCardViewSuggestion()
         }
     }
 
@@ -117,9 +114,9 @@ class PublicTenderFragment : BaseFragment() {
     private fun openAlertDialogSuggestion() {
         context?.let { context ->
             PublicTenderSuggestionDialog(context)
-                .show { publicTenderSuggestionNonNull ->
-                    publicTenderSuggestionNonNull?.let { publicTenderSuggestion ->
-                        model.addPublicTenderSuggestion(publicTenderSuggestion)
+                .show { publicTenderSuggestion ->
+                    publicTenderSuggestion?.let { publicTenderSuggestionNotNull ->
+                        model.addPublicTenderSuggestion(publicTenderSuggestionNotNull)
                        context.showNotificationSendPublicTenderSuggestion()
                     }
                     toggleAndOpenCardViewSuggestion()
