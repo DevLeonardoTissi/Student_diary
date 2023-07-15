@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardCornerRadius="@dimen/cornerRadius_default"
-   >
+    app:cardCornerRadius="@dimen/cornerRadius_default">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -52,6 +51,7 @@
                 style="@style/textField"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:endIconMode="clear_text"
                 app:helperText="@string/common_mandatory"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

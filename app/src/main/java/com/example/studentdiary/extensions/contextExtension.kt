@@ -5,7 +5,6 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.widget.Toast
 import com.example.studentdiary.R
-import com.example.studentdiary.notifications.Notification
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -35,7 +34,6 @@ fun Context.alertDialog(
         }
         .setPositiveButton(getString(R.string.common_confirm)) { _, _ ->
             onClickingOnPositiveButton()
-
         }
     icon?.let {
         alertDialog.setIcon(it)
@@ -65,24 +63,9 @@ fun Context.showToastNoConnectionMessage() {
     toast(getString(R.string.default_message_noConnection))
 }
 
-fun Context.showNotificationSendPublicTenderSuggestion() {
-    val imgSuggestionsNotification =
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT56PuFScM4ZH3VwzMQOX50aenzv2hM2FlM5VEWvuy-wr3l1MVJU6bWUYOMi3rF_LSC55c&usqp=CAU"
-    Notification(this).show(
-        title = getString(R.string.suggestion_notification_title),
-        description = getString(R.string.suggestion_notification_description),
-        img = imgSuggestionsNotification,
-        iconId = R.drawable.ic_notification_suggestion_send
-    )
-}
 
-fun Context.showGreetingNotification() {
-    Notification(this).show(
-        title = getString(R.string.greeting_notification_title),
-        description = getString(R.string.greeting_notification_description),
-        iconId = R.drawable.ic_notification_greeting_people
-    )
-}
+
+
 
 fun formatTimeLeft(timeLeftInMillis: Long?):String {
     val minutes = (timeLeftInMillis?.div(1000))?.div(60)

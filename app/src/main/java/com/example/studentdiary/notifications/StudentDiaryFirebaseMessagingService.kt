@@ -3,7 +3,6 @@ package com.example.studentdiary.notifications
 import com.google.firebase.messaging.FirebaseMessagingService
 
 class StudentDiaryFirebaseMessagingService(): FirebaseMessagingService() {
-
     companion object{
         fun clear(){
             token = null
@@ -15,8 +14,5 @@ class StudentDiaryFirebaseMessagingService(): FirebaseMessagingService() {
     override fun onNewToken(newToken: String) {
         super.onNewToken(newToken)
        token = newToken
-
     }
-
-
 }

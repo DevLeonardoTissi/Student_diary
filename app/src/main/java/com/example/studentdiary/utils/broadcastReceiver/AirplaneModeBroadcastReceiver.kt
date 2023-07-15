@@ -8,7 +8,7 @@ import com.example.studentdiary.R
 import com.example.studentdiary.extensions.toast
 
 
-class MyBroadcastReceiver : BroadcastReceiver() {
+class AirplaneModeBroadcastReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         val airplaneModeState = intent.getBooleanExtra("state", false)
         if (airplaneModeState){

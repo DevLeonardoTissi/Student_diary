@@ -9,21 +9,18 @@ class SelectPomodoroCyclesBottomSheet(private val context: Context) {
 
     fun show(numCycles:Int, onPositiveButton:(Int) -> Unit){
         val dialog = BottomSheetDialog(context)
-        val selectPomodoroCyclesBinding = SelectPomodoroCyclesLayoutBinding.inflate(LayoutInflater.from(context)).apply {
+        SelectPomodoroCyclesLayoutBinding.inflate(LayoutInflater.from(context)).apply {
         selectPomodoroCyclesDialogSliderInterval.setValues(numCycles.toFloat())
             selectPomodoroCyclesDialogButtonPositive.setOnClickListener {
                 onPositiveButton(selectPomodoroCyclesDialogSliderInterval.values.first().toInt())
                 dialog.dismiss()
-
             }
             selectPomodoroCyclesDialogButtonNegative.setOnClickListener {
                 dialog.dismiss()
             }
+
+            dialog.setContentView(root)
+            dialog.show()
         }
-
-        dialog.setContentView(selectPomodoroCyclesBinding.root)
-        dialog.show()
     }
-
-
 }

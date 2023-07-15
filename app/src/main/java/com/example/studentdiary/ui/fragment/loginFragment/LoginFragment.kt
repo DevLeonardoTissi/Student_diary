@@ -22,6 +22,7 @@ import com.example.studentdiary.ui.FACEBOOK_PERMISSION_PROFILE
 import com.example.studentdiary.ui.NavigationComponents
 import com.example.studentdiary.ui.dialog.ForgotPasswordBottomSheetDialog
 import com.example.studentdiary.utils.exitGoogleAndFacebookAccount
+import com.example.studentdiary.utils.validateEmailFormat
 import com.facebook.AccessToken
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
@@ -78,8 +79,6 @@ class LoginFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         clearErrorFields()
-
-
     }
 
 
@@ -87,11 +86,10 @@ class LoginFragment : Fragment() {
         binding.fragmentLoginTextViewForgotPassword.setOnClickListener {
             context?.let { context ->
                 ForgotPasswordBottomSheetDialog(context).show { recoveryEmail ->
-                    model.forgotPassword(recoveryEmail, onSucess = {
+                    model.forgotPassword(recoveryEmail, onSuccess = {
                         snackBar(getString(R.string.login_fragment_snackbar_message_firebase_auth_on_sucess_forgot_password))
                     }, onFailure = { exception ->
                         snackBar(identifiesErrorFirebaseAuthOnSendPasswordResetEmail(exception))
-
                     })
                 }
             }
@@ -161,30 +159,22 @@ class LoginFragment : Fragment() {
                         snackBar(getString(R.string.login_fragment_snackbar_message_login_success))
 
                         GlobalScope.launch {
-                            val studentDiaryFirebaseMessagingService =
-                                StudentDiaryFirebaseMessagingService
-                            val token = studentDiaryFirebaseMessagingService.token
+                            val token = StudentDiaryFirebaseMessagingService.token
                             token?.let { tokenNonNull ->
                                 appViewModel.sendToken(tokenNonNull)
-                                studentDiaryFirebaseMessagingService.clear()
                             }
                         }
-
-
                     } else {
                         resource.exception?.let { exception ->
-                                snackBar(identifiesErrorFirebaseAuthOnLogin(exception))
-                                exitGoogleAndFacebookAccount(context)
+                            snackBar(identifiesErrorFirebaseAuthOnLogin(exception))
+                            exitGoogleAndFacebookAccount(context)
+                            model.clearLiveData()
                         }
                     }
                 }
             }
         }
     }
-
-
-
-
 
 
     private fun identifiesErrorFirebaseAuthOnLogin(exception: Exception): String {
@@ -223,7 +213,11 @@ class LoginFragment : Fragment() {
 
         if (email.isBlank()) {
             binding.fragmentLoginTextfieldEmail.error =
-                context?.getString(R.string.login_fragment_text_field_error_email_required)
+                getString(R.string.login_fragment_text_field_error_email_required)
+            valid = false
+        } else if (!validateEmailFormat(email)) {
+            binding.fragmentLoginTextfieldEmail.error =
+                getString(R.string.login_fragment_text_field_email_not_format_email_error)
             valid = false
         }
 
@@ -234,6 +228,7 @@ class LoginFragment : Fragment() {
         }
         return valid
     }
+
 
     private fun authenticate(user: User) = model.authenticate(user)
 

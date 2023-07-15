@@ -8,6 +8,7 @@ import androidx.appcompat.app.AlertDialog
 import com.example.studentdiary.R
 import com.example.studentdiary.databinding.PublicTenderSuggestionDialogBinding
 import com.example.studentdiary.utils.PublicTenderSuggestion
+import com.example.studentdiary.utils.validateUrlFormat
 
 class PublicTenderSuggestionDialog(private val context: Context) {
 
@@ -24,21 +25,26 @@ class PublicTenderSuggestionDialog(private val context: Context) {
                 clearErrorTextFields()
 
                 var valid = true
-                val name =
-                    publicTenderSuggestionDialogTextInputLayoutName.editText?.text.toString()
+
+                val fieldName = publicTenderSuggestionDialogTextInputLayoutName
+                val name = fieldName.editText?.text.toString()
+                val fieldUrl = publicTenderSuggestionDialogTextInputLayoutUrl
+                val url = fieldUrl.editText?.text.toString()
+
                 if (name.isBlank()) {
-                    val fieldName = publicTenderSuggestionDialogTextInputLayoutName
                     fieldName.error =
                         context.getString(R.string.public_tender_suggestion_dialog_text_field_error)
                     valid = false
                 }
 
-                val url =
-                    publicTenderSuggestionDialogTextInputLayoutUrl.editText?.text.toString()
                 if (url.isBlank()) {
-                    val fieldUrl = publicTenderSuggestionDialogTextInputLayoutUrl
                     fieldUrl.error =
                         context.getString(R.string.public_tender_suggestion_dialog_text_field_error)
+                    valid = false
+
+                } else if (!validateUrlFormat(url)) {
+                    fieldUrl.error =
+                        context.getString(R.string.public_tender_suggestion_dialog_text_field_url_not_format_email_error)
                     valid = false
                 }
 

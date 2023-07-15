@@ -33,7 +33,7 @@ import com.example.studentdiary.ui.PROJECTION_ID_INDEX
 import com.example.studentdiary.ui.TAG_DATA_PICKER
 import com.example.studentdiary.ui.TAG_TIME_PICKER
 import com.example.studentdiary.ui.TIME_ZONE_ID
-import com.example.studentdiary.ui.dialog.DisciplineFormDialog
+import com.example.studentdiary.ui.dialog.DisciplineFormSelectImgDialog
 import com.example.studentdiary.ui.fragment.baseFragment.BaseFragment
 import com.example.studentdiary.utils.concatUtils.concatenateDateValues
 import com.example.studentdiary.utils.concatUtils.concatenateTimeValues
@@ -128,7 +128,7 @@ class DisciplineFormFragment : BaseFragment() {
 
     private fun openAlertDialogAndSaveImg() {
         context?.let {
-            DisciplineFormDialog(it)
+            DisciplineFormSelectImgDialog(it)
                 .show(model.getImg()) { url ->
                     model.setImg(url)
                 }

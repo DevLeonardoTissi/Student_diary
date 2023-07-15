@@ -5,7 +5,6 @@ import com.example.studentdiary.model.Sentence
 import com.example.studentdiary.webClient.services.DicioApiService
 
 class DictionaryRepository(private val dictioApiService: DicioApiService) {
-
     suspend fun searchMeaning(word: String): List<Meaning> {
         return dictioApiService.searchMeaning(word).map { meaningsResponse ->
             meaningsResponse.meaning

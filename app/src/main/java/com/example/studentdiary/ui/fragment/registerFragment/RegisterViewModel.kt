@@ -10,7 +10,10 @@ import com.example.studentdiary.utils.Resource
 class RegisterViewModel(
     private val firebaseAuthRepository: FirebaseAuthRepository,
 ) : ViewModel() {
-    val firebaseAuthLiveData = MutableLiveData<Resource<Boolean>>()
+
+    private val _firebaseAuthLiveData = MutableLiveData<Resource<Boolean>>()
+    val firebaseAuthLiveData :LiveData<Resource<Boolean>> = _firebaseAuthLiveData
+
 
     private val _fieldEmail = MutableLiveData<String>()
     val fieldEmail: LiveData<String> = _fieldEmail
@@ -36,12 +39,14 @@ class RegisterViewModel(
     fun register(user: User) {
         try {
             val task = firebaseAuthRepository.register(user)
-            task.addOnSuccessListener { firebaseAuthLiveData.value = Resource(true) }
-            task.addOnFailureListener { firebaseAuthLiveData.value = Resource(false, it) }
+            task.addOnSuccessListener { _firebaseAuthLiveData.value = Resource(true) }
+            task.addOnFailureListener { _firebaseAuthLiveData.value = Resource(false, it) }
         } catch (e: IllegalArgumentException) {
-            firebaseAuthLiveData.value = Resource(false, e)
+            _firebaseAuthLiveData.value = Resource(false, e)
         }
     }
 
-
+    fun clearLiveData() {
+        _firebaseAuthLiveData.value = Resource(false, null)
+    }
 }

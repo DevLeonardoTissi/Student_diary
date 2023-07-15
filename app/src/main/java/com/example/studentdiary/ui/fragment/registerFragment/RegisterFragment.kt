@@ -1,5 +1,6 @@
 package com.example.studentdiary.ui.fragment.registerFragment
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,11 +9,12 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.studentdiary.R
 import com.example.studentdiary.databinding.FragmentRegisterBinding
-import com.example.studentdiary.extensions.showGreetingNotification
 import com.example.studentdiary.extensions.snackBar
 import com.example.studentdiary.model.User
+import com.example.studentdiary.notifications.Notification
 import com.example.studentdiary.ui.AppViewModel
 import com.example.studentdiary.ui.NavigationComponents
+import com.example.studentdiary.utils.validateEmailFormat
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
@@ -47,22 +49,23 @@ class RegisterFragment : Fragment() {
         updateUi()
     }
 
+
     private fun updateUi() {
-        model.fieldEmail.observe(viewLifecycleOwner){email ->
+        model.fieldEmail.observe(viewLifecycleOwner) { email ->
             email?.let {
                 val fieldEmail = binding.registerFragmentTextfieldEmail.editText
                 fieldEmail?.setText(it)
                 fieldEmail?.setSelection(it.length)
             }
         }
-        model.fieldPassword.observe(viewLifecycleOwner){password ->
+        model.fieldPassword.observe(viewLifecycleOwner) { password ->
             password?.let {
                 val fieldPassword = binding.registerFragmentTextfieldPassword.editText
                 fieldPassword?.setText(it)
                 fieldPassword?.setSelection(it.length)
             }
         }
-        model.fieldPasswordChecker.observe(viewLifecycleOwner){ passwordChecker ->
+        model.fieldPasswordChecker.observe(viewLifecycleOwner) { passwordChecker ->
             passwordChecker?.let {
                 val fieldPasswordChecker = binding.registerFragmentTextfieldPasswordChecker.editText
                 fieldPasswordChecker?.setText(it)
@@ -90,7 +93,7 @@ class RegisterFragment : Fragment() {
 
         fieldPasswordChecker?.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
-                model.setPasswordChecker(fieldPassword?.text.toString())
+                model.setPasswordChecker(fieldPasswordChecker?.text.toString())
             }
         }
     }
@@ -130,19 +133,23 @@ class RegisterFragment : Fragment() {
 
         if (email.isBlank()) {
             binding.registerFragmentTextfieldEmail.error =
-                context?.getString(R.string.register_fragment_text_field_error_email_required)
+                getString(R.string.register_fragment_text_field_error_email_required)
+            valid = false
+        }else if (!validateEmailFormat(email)){
+            binding.registerFragmentTextfieldEmail.error =
+                getString(R.string.register_fragment_text_field_email_not_format_email_error)
             valid = false
         }
 
         if (password.isBlank()) {
             binding.registerFragmentTextfieldPassword.error =
-                context?.getString(R.string.register_fragment_text_field_error_password_required)
+                getString(R.string.register_fragment_text_field_error_password_required)
             valid = false
         }
 
         if (passwordChecker != password) {
             binding.registerFragmentTextfieldPasswordChecker.error =
-                context?.getString(R.string.register_fragment_text_field_error_different_password)
+               getString(R.string.register_fragment_text_field_error_different_password)
             valid = false
         }
         return valid
@@ -159,10 +166,11 @@ class RegisterFragment : Fragment() {
                     if (resource.data) {
                         logout()
                         controller.popBackStack()
-                        context.showGreetingNotification()
+                        showGreetingNotification(context)
                     } else {
                         resource.exception?.let { exception ->
-                                showFirebaseAuthErrorMessage(exception)
+                            showFirebaseAuthErrorMessage(exception)
+                            model.clearLiveData()
                         }
                     }
                 }
@@ -175,19 +183,25 @@ class RegisterFragment : Fragment() {
         snackBar(errorMessage)
     }
 
+    private fun showGreetingNotification(context: Context) {
+        Notification(context).show(
+            title = getString(R.string.greeting_notification_title),
+            description = getString(R.string.greeting_notification_description),
+            iconId = R.drawable.ic_notification_greeting_people
+        )
+    }
+
 
     private fun identifiesErrorFirebaseAuthOnRegister(exception: Exception): String {
-        lateinit var errorMessage: String
-        context?.let { context ->
-            errorMessage = when (exception) {
-                is FirebaseAuthWeakPasswordException -> context.getString(R.string.register_fragment_snackbar_message_firebase_auth_weak_password_exception)
-                is FirebaseAuthInvalidCredentialsException -> context.getString(R.string.register_fragment_snackbar_message_firebase_auth_Invalid_credentials_Exception)
-                is FirebaseAuthUserCollisionException -> context.getString(R.string.register_fragment_snackbar_message_firebase_auth_user_collision_exception)
-                is IllegalArgumentException -> context.getString(R.string.register_fragment_snackbar_message_firebase_auth_illegal_argument_exception)
+        val errorMessage: String = when (exception) {
+                is FirebaseAuthWeakPasswordException -> getString(R.string.register_fragment_snackbar_message_firebase_auth_weak_password_exception)
+                is FirebaseAuthInvalidCredentialsException -> getString(R.string.register_fragment_snackbar_message_firebase_auth_Invalid_credentials_Exception)
+                is FirebaseAuthUserCollisionException -> getString(R.string.register_fragment_snackbar_message_firebase_auth_user_collision_exception)
+                is IllegalArgumentException -> getString(R.string.register_fragment_snackbar_message_firebase_auth_illegal_argument_exception)
                 is FirebaseNetworkException -> getString(R.string.login_fragment_snackbar_message_firebase_auth_network_exception_on_forgot_password)
-                else -> context.getString(R.string.register_fragment_snackbar_message_unknown_error)
+                else -> getString(R.string.register_fragment_snackbar_message_unknown_error)
             }
-        }
+
         return errorMessage
     }
 

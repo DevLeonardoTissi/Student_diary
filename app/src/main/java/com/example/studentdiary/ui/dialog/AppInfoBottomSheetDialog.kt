@@ -10,9 +10,8 @@ import com.example.studentdiary.utils.goToUri
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
-class AppInfoBottonSheetDialog(private val context:Context) {
-
-    fun show(){
+class AppInfoBottomSheetDialog(private val context: Context) {
+    fun show() {
         val appInfoBottomSheetDialog = BottomSheetDialog(context)
         AppInfoBottomSheetDialogBinding.inflate(LayoutInflater.from(context)).apply {
             appInfoBottomSheetDialogChipGitHub.setOnClickListener {

@@ -1,5 +1,6 @@
 package com.example.studentdiary.ui.fragment.publicTenderFragment
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,8 +9,9 @@ import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.studentdiary.R
 import com.example.studentdiary.databinding.FragmentPublicTenderBinding
-import com.example.studentdiary.extensions.showNotificationSendPublicTenderSuggestion
+import com.example.studentdiary.extensions.snackBar
 import com.example.studentdiary.model.PublicTender
+import com.example.studentdiary.notifications.Notification
 import com.example.studentdiary.ui.dialog.PublicTenderSuggestionDialog
 import com.example.studentdiary.ui.fragment.baseFragment.BaseFragment
 import com.example.studentdiary.ui.recyclerView.adapter.PublicTenderAdapter
@@ -114,14 +116,29 @@ class PublicTenderFragment : BaseFragment() {
             PublicTenderSuggestionDialog(context)
                 .show { publicTenderSuggestion ->
                     publicTenderSuggestion?.let { publicTenderSuggestionNotNull ->
-                        model.addPublicTenderSuggestion(publicTenderSuggestionNotNull)
-                       context.showNotificationSendPublicTenderSuggestion()
+                        model.addPublicTenderSuggestion(
+                            publicTenderSuggestionNotNull,
+                            onSuccess = {
+                                showNotificationSendPublicTenderSuggestion(context)
+                            },
+                            onFailure = { snackBar(getString(R.string.public_tender_fragment_snackbar_message_error_upload_public_tender_suggestion)) })
                     }
                     toggleAndOpenCardViewSuggestion()
                     showAnimationViewSuggestionDone()
 
                 }
         }
+    }
+
+    private fun showNotificationSendPublicTenderSuggestion(context: Context) {
+        val imgSuggestionsNotification =
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT56PuFScM4ZH3VwzMQOX50aenzv2hM2FlM5VEWvuy-wr3l1MVJU6bWUYOMi3rF_LSC55c&usqp=CAU"
+        Notification(context).show(
+            title = getString(R.string.suggestion_notification_title),
+            description = getString(R.string.suggestion_notification_description),
+            img = imgSuggestionsNotification,
+            iconId = R.drawable.ic_notification_suggestion_send
+        )
     }
 
     private fun showAnimationViewSuggestionDone() {

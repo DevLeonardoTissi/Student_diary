@@ -6,16 +6,16 @@ import android.view.LayoutInflater
 import com.example.studentdiary.R
 import com.example.studentdiary.databinding.DisciplineFormDialogBinding
 import com.example.studentdiary.extensions.tryLoadImage
+import com.example.studentdiary.utils.validateUrlFormat
 
-class DisciplineFormDialog(private val context: Context) {
+class DisciplineFormSelectImgDialog(private val context: Context) {
 
     fun show(
-        url: String? = null,
-        onImageClick: (imageUrl: String?) -> Unit
+        imageUrl: String? = null,
+        onClickPositiveButton: (imageUrl: String?) -> Unit
     ) {
-
         DisciplineFormDialogBinding.inflate(LayoutInflater.from(context)).apply {
-            url?.let {
+            imageUrl?.let {
                 disciplineFormImageDialogImageView.tryLoadImage(it)
                 disciplineFormImageDialogTextInputLayoutUrl.editText?.setText(it)
             }
@@ -26,11 +26,20 @@ class DisciplineFormDialog(private val context: Context) {
             }
 
             disciplineFormImageDialogButtonLoad.setOnClickListener {
+               val fieldUrl = disciplineFormImageDialogTextInputLayoutUrl
+                   fieldUrl.error = null
+
                 val url = disciplineFormImageDialogTextInputLayoutUrl.editText?.text.toString()
-                if (url.isNotBlank()){
-                    disciplineFormImageDialogImageView.tryLoadImage(url)
-                }else{
+                if (url.isBlank()){
+                    disciplineFormImageDialogTextInputLayoutUrl.error = context.getString(R.string.discipline_form_image_dialog_field_url_empty_error)
                     disciplineFormImageDialogImageView.tryLoadImage()
+
+                }else if (!validateUrlFormat(url)){
+                    disciplineFormImageDialogTextInputLayoutUrl.error =  context.getString(R.string.discipline_form_image_dialog_field_url_not_format_error)
+                    disciplineFormImageDialogImageView.tryLoadImage()
+                }
+                else{
+                    disciplineFormImageDialogImageView.tryLoadImage(url)
                 }
             }
 
@@ -39,9 +48,9 @@ class DisciplineFormDialog(private val context: Context) {
                 .setPositiveButton(context.getString(R.string.common_confirm)) { _, _ ->
                     val url = disciplineFormImageDialogTextInputLayoutUrl.editText?.text.toString()
                     if (url.isNotBlank()){
-                        onImageClick(url)
+                        onClickPositiveButton(url)
                     } else{
-                        onImageClick(null)
+                        onClickPositiveButton(null)
                     }
                 }
                 .setNegativeButton(context.getString(R.string.common_cancel)){_, _ ->

@@ -53,16 +53,14 @@ class LoginViewModel(
         }
     }
 
-    fun forgotPassword(email:String, onSucess:() -> Unit = {}, onFailure:(e:Exception) -> Unit = {}){
+    fun forgotPassword(email:String, onSuccess:() -> Unit , onFailure:(e:Exception) -> Unit){
         try {
             val task = firebaseAuthRepository.sendPasswordResetEmail(email)
-            task.addOnSuccessListener { onSucess() }
+            task.addOnSuccessListener { onSuccess() }
             task.addOnFailureListener { onFailure(it) }
         }catch (e:Exception){
                 onFailure(e)
         }
     }
-
     fun isAuthenticated() = firebaseAuthRepository.isAuthenticated()
-
 }

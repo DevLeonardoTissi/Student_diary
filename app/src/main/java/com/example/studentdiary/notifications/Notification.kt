@@ -19,7 +19,6 @@ import kotlinx.coroutines.launch
 
 class Notification(private val context: Context) {
 
-
     private val manager: NotificationManager by lazy {
         context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
     }
@@ -69,7 +68,6 @@ class Notification(private val context: Context) {
             manager.notify(exclusiveId ?: id, notification)
             exclusiveId ?: id++
         }
-
     }
 
     private suspend fun trySearchImg(img: String?): Bitmap? {
@@ -110,20 +108,12 @@ class Notification(private val context: Context) {
             .setOngoing(isOnGoing)
             .setOnlyAlertOnce(true)
 
-
-        if (progress != null) {
-            builder.setProgress(100, progress, false)
+        progress?.let { progressNonNull ->
+            builder.setProgress(100, progressNonNull, false)
         }
 
-        if (listOf(actionIcon, actionTitle, actionIntent).all { it != null }) {
-            builder.addAction(actionIcon!!, actionTitle, actionIntent)
-        }
-
-
-        if (listOf(secondActionIcon, secondActionTitle, secondActionIntent).all { it != null }) {
-            builder.addAction(secondActionIcon!!, secondActionTitle, secondActionIntent)
-        }
-
+        addActionIfNotNull(builder, actionIcon, actionTitle, actionIntent)
+        addActionIfNotNull(builder, secondActionIcon, secondActionTitle, secondActionIntent)
 
         return builder.build()
     }
@@ -134,4 +124,9 @@ class Notification(private val context: Context) {
         } ?: NotificationCompat.BigTextStyle().bigText(description)
     }
 
+    private fun addActionIfNotNull(builder: NotificationCompat.Builder, icon: Int?, title: String?, intent: PendingIntent?) {
+        if (listOf(icon, title, intent).all { it != null }) {
+            builder.addAction(icon!!, title, intent)
+        }
+    }
 }

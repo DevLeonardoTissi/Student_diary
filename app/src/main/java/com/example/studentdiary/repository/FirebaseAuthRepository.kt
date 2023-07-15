@@ -31,15 +31,15 @@ class FirebaseAuthRepository(private val firebaseAuth: FirebaseAuth) {
         return firebaseUser != null
     }
 
-    fun sendPasswordResetEmail(email:String): Task<Void> {
-       return firebaseAuth.sendPasswordResetEmail(email)
+    fun sendPasswordResetEmail(email: String): Task<Void> {
+        return firebaseAuth.sendPasswordResetEmail(email)
     }
 
-    fun updatePassword(password:String): Task<Void>? {
+    fun updatePassword(password: String): Task<Void>? {
         return firebaseAuth.currentUser?.updatePassword(password)
     }
 
-    fun updateEmail(newEmail:String): Task<Void>? {
+    fun updateEmail(newEmail: String): Task<Void>? {
         return firebaseAuth.currentUser?.updateEmail(newEmail)
     }
 
@@ -47,27 +47,25 @@ class FirebaseAuthRepository(private val firebaseAuth: FirebaseAuth) {
         return firebaseAuth.currentUser?.delete()
     }
 
-    fun updateUserProfile(name:String? = null, userPhotoUri:Uri? = null): Task<Void>? {
+    fun updateUserProfile(name: String? = null, userPhotoUri: Uri? = null): Task<Void>? {
         val userProfileChange = userProfileChangeRequest {
             name?.let {
                 displayName = it
-            } ?: kotlin.run{
+            } ?: kotlin.run {
                 photoUri = userPhotoUri
             }
         }
         return firebaseAuth.currentUser?.updateProfile(userProfileChange)
     }
 
-    fun updateUser(){
+    fun updateUser() {
         firebaseUser.value = FirebaseAuth.getInstance().currentUser
     }
 
-
     val firebaseUser = MutableLiveData<FirebaseUser?>().apply {
-        val auth = FirebaseAuth.getInstance()
         val authStateListener = FirebaseAuth.AuthStateListener { firebaseAuth ->
             value = firebaseAuth.currentUser
         }
-        auth.addAuthStateListener(authStateListener)
+        FirebaseAuth.getInstance().addAuthStateListener(authStateListener)
     }
 }

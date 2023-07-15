@@ -6,13 +6,14 @@ import com.example.studentdiary.model.PublicTender
 import com.example.studentdiary.ui.PUBLIC_TENDER_COLLECTION
 import com.example.studentdiary.ui.PUBLIC_TENDER_SUGGESTION
 import com.example.studentdiary.utils.PublicTenderSuggestion
+import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 
 class PublicTenderRepository(private val firestore: FirebaseFirestore) {
 
     fun search(): LiveData<List<PublicTender>> {
-        val liveData = MutableLiveData<List<PublicTender>>()
+        val publicTenderLiveData = MutableLiveData<List<PublicTender>>()
         firestore.collection(PUBLIC_TENDER_COLLECTION)
             .addSnapshotListener { value, _ ->
                 value?.let { snapshot ->
@@ -20,15 +21,16 @@ class PublicTenderRepository(private val firestore: FirebaseFirestore) {
                         snapshot.documents.mapNotNull { document ->
                             converterToPublicTender(document)
                         }
-                    liveData.value = publicTenders
+                    publicTenderLiveData.value = publicTenders
                 }
             }
-        return liveData
+        return publicTenderLiveData
     }
 
-    fun addPublicTenderSuggestion(publicTenderSuggestion: PublicTenderSuggestion) {
+    fun addPublicTenderSuggestion(publicTenderSuggestion: PublicTenderSuggestion): Task<Void> {
         val document = firestore.collection(PUBLIC_TENDER_SUGGESTION).document()
-        document.set(publicTenderSuggestion)
+        return document.set(publicTenderSuggestion)
+
     }
 
     private fun converterToPublicTender(document: DocumentSnapshot): PublicTender {

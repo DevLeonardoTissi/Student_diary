@@ -77,6 +77,7 @@
     <string name="forgot_password_alert_dialog_text_field_email_hint">Email</string>
     <string name="forgot_password_alert_dialog_text_field_email_helper">Não se preocupe! Vamos enviar um e-mail para você com todas as informações necessárias para alterar sua senha. </string>
     <string name="forgot_password_alert_dialog_text_field_email_empty_error">Campo vazio</string>
+    <string name="forgot_password_alert_dialog_text_field_email_not_format_email_error">Digite um email válido</string>
 
 
     <!-- register Fragment -->
@@ -94,6 +95,7 @@
     <string name="register_fragment_text_field_error_email_required">Email necessário</string>
     <string name="register_fragment_text_field_error_password_required">Senha necessária</string>
     <string name="register_fragment_text_field_error_different_password">Senhas diferentes</string>
+    <string name="register_fragment_text_field_email_not_format_email_error">Digite um email válido</string>
 
 
     <!-- Login Fragment -->
@@ -114,6 +116,8 @@
     <string name="login_fragment_textView_label_not_have_an_account_question">Não possui uma conta?</string>
     <string name="login_fragment_textView_label_register">Registre-se</string>
     <string name="login_fragment_textView_forgot_password">Esqueceu a senha? Clique aqui para recuperá - la. </string>
+    <string name="login_fragment_text_field_email_not_format_email_error">Digite um email válido</string>
+
 
     <string name="login_fragment_snackbar_message_firebase_auth_invalid_user_exception_on_forgot_password">Usuário não encontrado</string>
     <string name="login_fragment_snackbar_message_firebase_auth_invalid_credentials_exception_on_forgot_password">Email inválido</string>
@@ -204,6 +208,7 @@
     <string name="public_tender_fragment_label_toggle_button_course">Cursos preparatórios</string>
     <string name="public_tender_fragment_label_toggle_button_contest">Sites Concursos</string>
     <string name="public_tender_fragment_text_suggestion">Gostaríamos de saber se há algum site que você acredita estar faltando em nossa lista. Se você conhece algum site interessante que gostaria de sugerir, clique aqui para enviar sua sugestão</string>
+    <string name="public_tender_fragment_snackbar_message_error_upload_public_tender_suggestion">Erro ao enviar sua sugestão.</string>
 
 
     <!-- Discipline Form Fragment -->
@@ -237,6 +242,8 @@
     <string name="discipline_form_image_dialog_button_load">Carregar</string>
     <string name="discipline_form_image_dialog_text_field_hint_url">URL da imagem</string>
     <string name="discipline_form_image_dialog_button_remove">Remover</string>
+    <string name="discipline_form_image_dialog_field_url_not_format_error">Digite um url válido</string>
+    <string name="discipline_form_image_dialog_field_url_empty_error">Digite um url válido</string>
 
 
     <!-- Discipline Form Confirm Dialog  -->
@@ -252,6 +259,7 @@
     <string name="public_tender_suggestion_dialog_text_field_hint_url">URL da plataforma</string>
     <string name="public_tender_suggestion_dialog_text_field_hint_description">Descrição da plataforma</string>
     <string name="public_tender_suggestion_dialog_text_field_error">Campo vazio</string>
+    <string name="public_tender_suggestion_dialog_text_field_url_not_format_email_error">Digite um url válido</string>
 
 
     <!-- Common -->
