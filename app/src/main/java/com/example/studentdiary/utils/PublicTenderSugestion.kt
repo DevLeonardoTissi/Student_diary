@@ -9,8 +9,6 @@ class PublicTenderSuggestion(
     val name: String? = null,
     val description: String? = null,
     val url: String? = null
-
-
 ) {
     @Suppress("unused")
     val date: String = converterMillisToDateString(Date().time)
@@ -18,5 +16,4 @@ class PublicTenderSuggestion(
     val device: String = "${Build.BRAND}  ${Build.MODEL}"
     @Suppress("unused")
     val user:String? = FirebaseAuth.getInstance().currentUser?.email
-
 }

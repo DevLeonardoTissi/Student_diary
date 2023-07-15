@@ -8,8 +8,6 @@ import java.util.Date
 class Sendtoken(
     @Suppress("unused")
    val token: String? = null
-
-
 ) {
     @Suppress("unused")
     val date: String = converterMillisToDateString(Date().time)
@@ -17,5 +15,4 @@ class Sendtoken(
     val device: String = "${Build.BRAND}  ${Build.MODEL}"
     @Suppress("unused")
     val user:String? = FirebaseAuth.getInstance().currentUser?.email
-
 }

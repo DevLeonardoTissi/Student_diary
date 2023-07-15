@@ -34,12 +34,10 @@ class DictionaryViewModel(
 
     private val _searchedSentences = MutableLiveData<Boolean>()
 
-
     fun meaningWasResearched(): Boolean? = _searchedMeaning.value
     fun synonymsWasResearched(): Boolean? = _searchedSynonyms.value
     fun syllablesWasResearched(): Boolean? = _searchedSyllables.value
     fun sentencesWasResearched(): Boolean? = _searchedSentences.value
-
 
     fun setQuery(word: String) {
         _fieldWord.value = word

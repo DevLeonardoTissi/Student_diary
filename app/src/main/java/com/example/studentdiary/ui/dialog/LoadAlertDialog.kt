@@ -11,7 +11,7 @@ class LoadAlertDialog(private val context:Context) {
 
     private lateinit var alertDialog: AlertDialog
 
-    fun showLoadDialog(){
+    fun show(){
         alertDialog = AlertDialog.Builder(context)
             .setView(AletDialogProgressBarBinding.inflate(LayoutInflater.from(context)).root)
             .setCancelable(false)
@@ -24,6 +24,4 @@ class LoadAlertDialog(private val context:Context) {
     fun closeLoadDialog(){
         alertDialog.dismiss()
     }
-
-
 }

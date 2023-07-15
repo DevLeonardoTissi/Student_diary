@@ -10,15 +10,12 @@ class DictionaryRepository(private val dictioApiService: DicioApiService) {
             meaningsResponse.meaning
         }
     }
-
     suspend fun searchSynonyms(word: String): List<String> {
         return dictioApiService.searchSynonyms(word)
     }
-
     suspend fun searchSyllables(word: String): List<String> {
         return dictioApiService.searchSyllables(word)
     }
-
     suspend fun searchSentences(word: String): List<Sentence> {
         return dictioApiService.searchSentences(word).map { sentencesResponse ->
             sentencesResponse.sentences

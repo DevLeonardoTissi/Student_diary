@@ -22,7 +22,6 @@ class DictionaryFragment : BaseFragment() {
     private val binding get() = _binding!!
     private val model: DictionaryViewModel by viewModel()
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -33,27 +32,25 @@ class DictionaryFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         observerResults()
         observerFieldWord()
         saveFieldValue()
-        search()
+        buttonSearch()
     }
 
-
-
-    private fun search() {
+    private fun buttonSearch() {
         binding.fragmentDictionarySearchButton.apply {
             setOnClickListener {
                 val fieldWord = binding.fragmentDictionaryFieldWord
                 fieldWord.error = null
+
                 val isValid = validate()
                 if (isValid) {
                     if (context.isOnline()) {
                         lifecycleScope.launch {
                             val word = fieldWord.editText?.text.toString()
                             val loadAlertDialog = LoadAlertDialog(context)
-                            loadAlertDialog.showLoadDialog()
+                            loadAlertDialog.show()
                             model.cleanSearched()
                             updateVisibilityAndSearch(word)
                             loadAlertDialog.closeLoadDialog()
@@ -142,7 +139,6 @@ class DictionaryFragment : BaseFragment() {
                     )
                 )
             }
-
         }
 
         model.meaning.observe(viewLifecycleOwner) {

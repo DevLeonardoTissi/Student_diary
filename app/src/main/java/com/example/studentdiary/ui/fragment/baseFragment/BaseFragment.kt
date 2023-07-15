@@ -38,7 +38,6 @@ abstract class BaseFragment : Fragment() {
                 exitGoogleAndFacebookAccount(it)
                 goToLogin()
             }
-
         }
     }
 

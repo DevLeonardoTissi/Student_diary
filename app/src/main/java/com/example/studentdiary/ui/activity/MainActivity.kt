@@ -89,7 +89,6 @@ class MainActivity : AppCompatActivity() {
         searchUserAndCustomizeHeader()
         registerReceiverAirplaneMode()
         askNotificationPermission()
-
     }
 
     private fun setupTemperatureSensorAndUpdateTextView(textView: TextView) {
