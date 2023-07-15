@@ -10,7 +10,7 @@
 
 
     <TextView
-        android:id="@+id/header_title"
+        android:id="@+id/header_textView_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/default_margin_items_header_drawer"
@@ -19,14 +19,14 @@
         android:text="@string/app_name"
         android:textColor="@color/colorOnPrimary"
         android:textSize="@dimen/bigTextSize"
-        app:layout_constraintBottom_toTopOf="@id/header_subtitle"
+        app:layout_constraintBottom_toTopOf="@id/header_textView_subtitle"
         app:layout_constraintEnd_toEndOf="@id/header_guideline"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/header_shapeableImageView" />
 
     <TextView
-        android:id="@+id/header_subtitle"
+        android:id="@+id/header_textView_subtitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/default_margin_items_header_drawer"
@@ -40,10 +40,36 @@
         app:layout_constraintEnd_toEndOf="@id/header_guideline"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/header_title"
+        app:layout_constraintTop_toBottomOf="@id/header_textView_title"
         app:layout_constraintVertical_bias="0.0"
         tools:text="Subtitle with user email" />
 
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/header_imageView_thermostat"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_default"
+        android:layout_marginStart="@dimen/margin_default"
+        android:backgroundTint="@color/colorPrimary"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_thermostat"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/header_textView_subtitle" />
+
+    <TextView
+        android:id="@+id/header_textView_temperature"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorOnPrimary"
+        android:textSize="@dimen/defaultTextSize"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/header_imageView_thermostat"
+        app:layout_constraintEnd_toStartOf="@id/header_guideline"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toEndOf="@id/header_imageView_thermostat"
+        app:layout_constraintTop_toTopOf="@id/header_imageView_thermostat" />
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/header_shapeableImageView"
@@ -72,9 +98,7 @@
         app:iconTint="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="@id/header_shapeableImageView"
         app:layout_constraintEnd_toEndOf="@id/header_shapeableImageView"
-        app:layout_constraintTop_toBottomOf="@id/header_shapeableImageView"
-        />
-
+        app:layout_constraintTop_toBottomOf="@id/header_shapeableImageView" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/header_guideline"

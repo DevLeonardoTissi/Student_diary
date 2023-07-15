@@ -2,6 +2,7 @@ package com.example.studentdiary.di.modules
 
 import android.app.NotificationManager
 import android.content.Context
+import android.hardware.SensorManager
 import androidx.room.Room
 import com.example.studentdiary.database.AppDatabase
 import com.example.studentdiary.notifications.NotificationMainChannel
@@ -99,4 +100,8 @@ val adapterModule = module {
 val notificationModule = module {
     single { NotificationMainChannel(get(), get()) }
     single { get<Context>().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager }
+}
+
+val sensorManagerModule = module {
+    single { get<Context>().getSystemService(Context.SENSOR_SERVICE) as SensorManager }
 }

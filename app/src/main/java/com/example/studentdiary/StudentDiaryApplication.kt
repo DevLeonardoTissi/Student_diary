@@ -19,13 +19,13 @@ class StudentDiaryApplication : Application() {
                 retrofitModule,
                 roomModule,
                 adapterModule,
-                notificationModule
+                notificationModule,
+                sensorManagerModule
             )
         }
 
         val notificationMainChannel: NotificationMainChannel by inject()
         notificationMainChannel.createChannel()
-
 
     }
 }

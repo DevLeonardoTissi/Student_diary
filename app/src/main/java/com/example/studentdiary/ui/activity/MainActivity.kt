@@ -6,9 +6,14 @@ import android.content.BroadcastReceiver
 import android.content.Intent.ACTION_AIRPLANE_MODE_CHANGED
 import android.content.IntentFilter
 import android.content.pm.PackageManager
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
+import android.hardware.SensorManager
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -31,6 +36,7 @@ import com.example.studentdiary.ui.dialog.AppInfoBottomSheetDialog
 import com.example.studentdiary.ui.dialog.CustomImageUserBottomSheetDialog
 import com.example.studentdiary.utils.broadcastReceiver.AirplaneModeBroadcastReceiver
 import com.example.studentdiary.utils.exitGoogleAndFacebookAccount
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
@@ -44,6 +50,9 @@ class MainActivity : AppCompatActivity() {
     private val controller by lazy {
         findNavController(R.id.nav_host_fragment)
     }
+
+    private val sensorManager: SensorManager by inject()
+    private lateinit var temperatureListener: SensorEventListener
 
     private val requestPermissionNotificationsLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission(),
@@ -80,6 +89,33 @@ class MainActivity : AppCompatActivity() {
         searchUserAndCustomizeHeader()
         registerReceiverAirplaneMode()
         askNotificationPermission()
+
+    }
+
+    private fun setupTemperatureSensorAndUpdateTextView(textView: TextView) {
+        val temperatureSensor: Sensor? =
+            sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE)
+        temperatureListener = object : SensorEventListener {
+            override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {
+            }
+
+            override fun onSensorChanged(event: SensorEvent) {
+                val temperature = event.values[0].toString() + "\u00B0"
+                textView.text = temperature
+            }
+        }
+
+        sensorManager.registerListener(
+            temperatureListener,
+            temperatureSensor,
+            SensorManager.SENSOR_DELAY_NORMAL
+        )
+    }
+
+    private fun hasTemperatureSensor(): Boolean {
+        val temperatureSensor: Sensor? =
+            sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE)
+        return (temperatureSensor != null)
     }
 
     private fun setupMenuDrawerAndToolbarNavigation() {
@@ -127,6 +163,7 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowTitleEnabled(false)
         binding.activityMainToolbar.setupWithNavController(navController, appBarConfiguration)
     }
+
     private fun navigationComponentsVisibility() {
         appViewModel.navigationComponents.observe(this) {
             it?.let { hasNavigationComponents ->
@@ -134,12 +171,15 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
     private fun showNavigationComponents(hasNavigationComponents: NavigationComponents) {
-        binding.drawerLayout.setDrawerLockMode(if (hasNavigationComponents.menuDrawer) DrawerLayout.LOCK_MODE_UNLOCKED else DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+        binding.drawerLayout
+            .setDrawerLockMode(if (hasNavigationComponents.menuDrawer) DrawerLayout.LOCK_MODE_UNLOCKED else DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
         binding.activityMainToolbar.visibility =
             if (hasNavigationComponents.toolbar) View.VISIBLE else View.INVISIBLE
 
     }
+
     private fun searchUserAndCustomizeHeader() {
         val headerBinding = HeaderNavigationDrawerBinding.inflate(layoutInflater)
         appViewModel.firebaseUser.observe(this) { user ->
@@ -149,7 +189,7 @@ class MainActivity : AppCompatActivity() {
                 } else {
                     userNonNull.displayName
                 }
-                headerBinding.headerSubtitle.text = getString(
+                headerBinding.headerTextViewSubtitle.text = getString(
                     R.string.header_drawer_concatenated_text,
                     getString(R.string.header_drawer_greeting),
                     namePresentation
@@ -157,6 +197,7 @@ class MainActivity : AppCompatActivity() {
                 userNonNull.photoUrl?.let {
                     headerBinding.headerShapeableImageView.tryLoadImage(it.toString())
                 } ?: headerBinding.headerShapeableImageView.tryLoadImage()
+
             }
         }
 
@@ -179,8 +220,18 @@ class MainActivity : AppCompatActivity() {
                 })
             })
         }
+        if (hasTemperatureSensor()) {
+            headerBinding.headerImageViewThermostat.visibility = View.VISIBLE
+            headerBinding.headerTextViewTemperature.visibility = View.VISIBLE
+            setupTemperatureSensorAndUpdateTextView(headerBinding.headerTextViewTemperature)
+        } else {
+            headerBinding.headerImageViewThermostat.visibility = View.GONE
+            headerBinding.headerTextViewTemperature.visibility = View.GONE
+        }
+
         binding.navView.addHeaderView(headerBinding.root)
     }
+
     private fun registerReceiverAirplaneMode() {
         val filter = IntentFilter(ACTION_AIRPLANE_MODE_CHANGED)
         val listenToBroadcastsFromOtherApps = false
@@ -191,6 +242,7 @@ class MainActivity : AppCompatActivity() {
         }
         registerReceiver(airplaneModeBroadcastReceiver, filter, receiverFlags)
     }
+
     private fun askNotificationPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) !=
@@ -200,25 +252,33 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
     private fun hasPermissionReadExternalStorage(): Boolean {
         return ContextCompat.checkSelfPermission(
             this,
             READ_EXTERNAL_STORAGE
         ) == PackageManager.PERMISSION_GRANTED
     }
+
     private fun openGallery() {
         pickImage.launch("image/*")
     }
+
     private fun goToLogin() {
         val direction = NavGraphDirections.actionGlobalLoginFragment()
         controller.navigate(direction)
     }
+
     private fun logout() {
         appViewModel.logout()
         exitGoogleAndFacebookAccount(this)
     }
+
     override fun onDestroy() {
         super.onDestroy()
+        if (hasTemperatureSensor()) {
+            sensorManager.unregisterListener(temperatureListener)
+        }
         unregisterReceiver(airplaneModeBroadcastReceiver)
     }
 }
