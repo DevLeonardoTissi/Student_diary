@@ -44,4 +44,6 @@ const val POMODORO_ACTION_PAUSE = "PAUSE"
 const val POMODORO_ACTION_START = "PLAY"
 const val POMODORO_ACTION_STOP = "STOP"
 
+const val UPLOAD_TOKEN_WORKER_TAG = "Upload token"
+
 

@@ -7,13 +7,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.studentdiary.repository.FirebaseAuthRepository
 import com.example.studentdiary.repository.FirebaseStorageRepository
-import com.example.studentdiary.repository.SendTokenRepository
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
 class AppViewModel(
     private val firebaseAuthRepository: FirebaseAuthRepository,
-    private val sendTokenRepository: SendTokenRepository,
     private val firebaseStorageRepository: FirebaseStorageRepository
 ) : ViewModel() {
     private val _navigationComponents = MutableLiveData<NavigationComponents>().also {
@@ -41,9 +39,6 @@ class AppViewModel(
         }
     }
 
-    fun sendToken(t: String) {
-        sendTokenRepository.sendToken(t)
-    }
 
     fun updateUserPhoto(file: Uri, onError: () -> Unit, onSuccessful: () -> Unit) {
         viewModelScope.launch {

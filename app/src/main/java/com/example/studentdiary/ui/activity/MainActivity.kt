@@ -12,6 +12,7 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
@@ -23,6 +24,8 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
+import androidx.work.WorkInfo
+import androidx.work.WorkManager
 import com.example.studentdiary.NavGraphDirections
 import com.example.studentdiary.R
 import com.example.studentdiary.databinding.ActivityMainBinding
@@ -30,12 +33,15 @@ import com.example.studentdiary.databinding.HeaderNavigationDrawerBinding
 import com.example.studentdiary.extensions.alertDialog
 import com.example.studentdiary.extensions.toast
 import com.example.studentdiary.extensions.tryLoadImage
+import com.example.studentdiary.notifications.StudentDiaryFirebaseMessagingService
 import com.example.studentdiary.ui.AppViewModel
 import com.example.studentdiary.ui.NavigationComponents
+import com.example.studentdiary.ui.UPLOAD_TOKEN_WORKER_TAG
 import com.example.studentdiary.ui.dialog.AppInfoBottomSheetDialog
 import com.example.studentdiary.ui.dialog.CustomImageUserBottomSheetDialog
 import com.example.studentdiary.utils.broadcastReceiver.AirplaneModeBroadcastReceiver
 import com.example.studentdiary.utils.exitGoogleAndFacebookAccount
+import com.google.android.material.snackbar.Snackbar
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -89,6 +95,26 @@ class MainActivity : AppCompatActivity() {
         searchUserAndCustomizeHeader()
         registerReceiverAirplaneMode()
         askNotificationPermission()
+
+
+                val workManager = WorkManager.getInstance(this@MainActivity)
+                workManager.getWorkInfosByTagLiveData(UPLOAD_TOKEN_WORKER_TAG)
+                    .observe(this@MainActivity) { workInfoList ->
+                        if (StudentDiaryFirebaseMessagingService.token != null){
+                            val firstWorkInfo = workInfoList.firstOrNull()
+                            if (firstWorkInfo?.state == WorkInfo.State.SUCCEEDED) {
+                                Log.i("TAG", "onCreate: sucesso ao enviar")
+                                Snackbar.make(
+                                    binding.root,
+                                    "sucesso ao enviar token", Snackbar.LENGTH_SHORT
+                                )
+                                    .show()
+                                StudentDiaryFirebaseMessagingService.clear()
+                            } else {
+                                Log.i("TAG", "onCreate: erro ao enviar")
+                            }
+                        }
+                    }
     }
 
     private fun setupTemperatureSensorAndUpdateTextView(textView: TextView) {

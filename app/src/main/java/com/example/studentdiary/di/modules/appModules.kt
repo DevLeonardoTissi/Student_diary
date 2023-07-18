@@ -81,7 +81,7 @@ val viewModelModule = module {
     viewModel { DisciplinesViewModel(get()) }
     viewModel { DictionaryViewModel(get()) }
     viewModel { PublicTenderViewModel(get()) }
-    viewModel { AppViewModel(get(), get(), get()) }
+    viewModel { AppViewModel(get(), get()) }
     viewModel{PomodoroViewModel()}
     viewModel { (disciplineId: String) ->
         DisciplineFormViewModel(get(), disciplineId)

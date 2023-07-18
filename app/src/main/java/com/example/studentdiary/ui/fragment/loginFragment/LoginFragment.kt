@@ -15,7 +15,6 @@ import com.example.studentdiary.extensions.isOnline
 import com.example.studentdiary.extensions.showToastNoConnectionMessage
 import com.example.studentdiary.extensions.snackBar
 import com.example.studentdiary.model.User
-import com.example.studentdiary.notifications.StudentDiaryFirebaseMessagingService
 import com.example.studentdiary.ui.AppViewModel
 import com.example.studentdiary.ui.FACEBOOK_PERMISSION_EMAIL
 import com.example.studentdiary.ui.FACEBOOK_PERMISSION_PROFILE
@@ -38,9 +37,6 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.GoogleAuthProvider
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import org.json.JSONException
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -149,7 +145,7 @@ class LoginFragment : Fragment() {
             NavigationComponents(toolbar = false, menuDrawer = false)
     }
 
-    @OptIn(DelicateCoroutinesApi::class)
+
     private fun configureObserverLogin() {
         context?.let { context ->
             model.firebaseAuthLiveData.observe(viewLifecycleOwner) { resource ->
@@ -157,13 +153,6 @@ class LoginFragment : Fragment() {
                     if (resource.data) {
                         goToDisciplinesFragment()
                         snackBar(getString(R.string.login_fragment_snackbar_message_login_success))
-
-                        GlobalScope.launch {
-                            val token = StudentDiaryFirebaseMessagingService.token
-                            token?.let { tokenNonNull ->
-                                appViewModel.sendToken(tokenNonNull)
-                            }
-                        }
                     } else {
                         resource.exception?.let { exception ->
                             snackBar(identifiesErrorFirebaseAuthOnLogin(exception))
