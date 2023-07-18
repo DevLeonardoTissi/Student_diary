@@ -129,7 +129,7 @@ class MainActivity : AppCompatActivity() {
                             ).addTag(UPLOAD_TOKEN_WORKER_TAG)
                             .setConstraints(constraints)
                             .build()
-                    WorkManager.getInstance(applicationContext).enqueue(uploadWorkRequest)
+                    WorkManager.getInstance(this@MainActivity).enqueue(uploadWorkRequest)
 
 
                     val workManager = WorkManager.getInstance(this@MainActivity)
@@ -185,7 +185,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onSensorChanged(event: SensorEvent) {
-                val temperature = event.values[0].toString() + "\u00B0"
+                val temperature = String.format("%.1f\u00B0", event.values[0])
                 textView.text = temperature
             }
         }

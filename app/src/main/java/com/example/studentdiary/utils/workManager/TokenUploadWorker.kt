@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import com.example.studentdiary.notifications.StudentDiaryFirebaseMessagingService
 import com.example.studentdiary.repository.SendTokenRepository
 import com.example.studentdiary.ui.SEND_TOKEN_PREFERENCES_KEY
 import com.example.studentdiary.utils.datastore.dataStore
@@ -21,8 +20,6 @@ class TokenUploadWorker(context: Context, workerParams: WorkerParameters) : Coro
 ), KoinComponent {
 
     private val sendTokenRepository: SendTokenRepository by inject()
-
-
     override suspend fun doWork(): Result {
         val token = applicationContext.dataStore.data.first()[stringPreferencesKey(
             SEND_TOKEN_PREFERENCES_KEY
