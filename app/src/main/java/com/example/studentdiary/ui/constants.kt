@@ -45,5 +45,5 @@ const val POMODORO_ACTION_START = "PLAY"
 const val POMODORO_ACTION_STOP = "STOP"
 
 const val UPLOAD_TOKEN_WORKER_TAG = "Upload token"
-
+const val SEND_TOKEN_PREFERENCES_KEY = "uploadTokenKey"
 

@@ -100,9 +100,9 @@ dependencies {
     //Firebase Cloud Storage
     implementation 'com.google.firebase:firebase-storage-ktx'
 
-    //DataStore
-    def dataStore_version = '1.0.0'
-    implementation "androidx.datastore:datastore-preferences:$dataStore_version"
+    //Datastore
+    def datastore_version = '1.0.0'
+    implementation "androidx.datastore:datastore-preferences:$datastore_version"
 
     //lottie Animation
     def lottieVersion = "6.0.0"

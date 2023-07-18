@@ -27,6 +27,8 @@
     <string name="pomodoro_notification_title_action_pause">Pausar</string>
     <string name="pomodoro_notification_title_action_continue">Retomar</string>
     <string name="pomodoro_notification_title_action_stop">Parar</string>
+    <string name="low_battery_notification_pomodoro_title">Bateria baixa</string>
+    <string name="low_battery_notification_pomodoro_description">Conecte o carregador para continuar utilizando o pomodoro</string>
 
 
     <!--Menu OnLongClick Item -->
@@ -274,5 +276,7 @@
     <string name="default_message_noConnection">Sem conexão com a internet. Verifique sua conexão e tente novamente</string>
     <string name="message_airplane_mode_on">O modo avião está ativado. Algumas funções do app podem não funcionar</string>
     <string name="message_airplane_mode_off">Modo avião desativado</string>
+
+    <string name="message_battery_status_low">Nível de bateria baixo. Conecte o carregador para continuar utilizando o pomodoro</string>
 
 </resources>

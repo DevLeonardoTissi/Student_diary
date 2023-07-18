@@ -3,6 +3,7 @@ package com.example.studentdiary.ui.activity
 import android.Manifest
 import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.content.BroadcastReceiver
+import android.content.Intent
 import android.content.Intent.ACTION_AIRPLANE_MODE_CHANGED
 import android.content.IntentFilter
 import android.content.pm.PackageManager
@@ -19,13 +20,21 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
+import androidx.work.BackoffPolicy
+import androidx.work.Constraints
+import androidx.work.NetworkType
+import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
+import androidx.work.WorkRequest
 import com.example.studentdiary.NavGraphDirections
 import com.example.studentdiary.R
 import com.example.studentdiary.databinding.ActivityMainBinding
@@ -33,17 +42,22 @@ import com.example.studentdiary.databinding.HeaderNavigationDrawerBinding
 import com.example.studentdiary.extensions.alertDialog
 import com.example.studentdiary.extensions.toast
 import com.example.studentdiary.extensions.tryLoadImage
-import com.example.studentdiary.notifications.StudentDiaryFirebaseMessagingService
 import com.example.studentdiary.ui.AppViewModel
 import com.example.studentdiary.ui.NavigationComponents
+import com.example.studentdiary.ui.SEND_TOKEN_PREFERENCES_KEY
 import com.example.studentdiary.ui.UPLOAD_TOKEN_WORKER_TAG
 import com.example.studentdiary.ui.dialog.AppInfoBottomSheetDialog
 import com.example.studentdiary.ui.dialog.CustomImageUserBottomSheetDialog
 import com.example.studentdiary.utils.broadcastReceiver.AirplaneModeBroadcastReceiver
+import com.example.studentdiary.utils.broadcastReceiver.BatteryStatusBroadcastReceiver
+import com.example.studentdiary.utils.datastore.dataStore
 import com.example.studentdiary.utils.exitGoogleAndFacebookAccount
+import com.example.studentdiary.utils.workManager.TokenUploadWorker
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
 
@@ -53,6 +67,7 @@ class MainActivity : AppCompatActivity() {
 
     private val appViewModel: AppViewModel by viewModel()
     private val airplaneModeBroadcastReceiver: BroadcastReceiver = AirplaneModeBroadcastReceiver()
+    private val batteryStatusBroadcastReceiver:BroadcastReceiver = BatteryStatusBroadcastReceiver()
     private val controller by lazy {
         findNavController(R.id.nav_host_fragment)
     }
@@ -95,12 +110,32 @@ class MainActivity : AppCompatActivity() {
         searchUserAndCustomizeHeader()
         registerReceiverAirplaneMode()
         askNotificationPermission()
+        registerReceiverBatteryStatus()
+
+        lifecycleScope.launch {
+            this@MainActivity.dataStore.data.collect { preferences ->
+                preferences[stringPreferencesKey(SEND_TOKEN_PREFERENCES_KEY)]?.let {
+
+                    val constraints = Constraints.Builder()
+                        .setRequiredNetworkType(NetworkType.CONNECTED)
+                        .build()
+
+                    val uploadWorkRequest: WorkRequest =
+                        OneTimeWorkRequestBuilder<TokenUploadWorker>()
+                            .setBackoffCriteria(
+                                BackoffPolicy.EXPONENTIAL,
+                                WorkRequest.MIN_BACKOFF_MILLIS,
+                                TimeUnit.MILLISECONDS
+                            ).addTag(UPLOAD_TOKEN_WORKER_TAG)
+                            .setConstraints(constraints)
+                            .build()
+                    WorkManager.getInstance(applicationContext).enqueue(uploadWorkRequest)
 
 
-                val workManager = WorkManager.getInstance(this@MainActivity)
-                workManager.getWorkInfosByTagLiveData(UPLOAD_TOKEN_WORKER_TAG)
-                    .observe(this@MainActivity) { workInfoList ->
-                        if (StudentDiaryFirebaseMessagingService.token != null){
+                    val workManager = WorkManager.getInstance(this@MainActivity)
+                    workManager.getWorkInfosByTagLiveData(UPLOAD_TOKEN_WORKER_TAG)
+                        .observe(this@MainActivity) { workInfoList ->
+
                             val firstWorkInfo = workInfoList.firstOrNull()
                             if (firstWorkInfo?.state == WorkInfo.State.SUCCEEDED) {
                                 Log.i("TAG", "onCreate: sucesso ao enviar")
@@ -109,12 +144,37 @@ class MainActivity : AppCompatActivity() {
                                     "sucesso ao enviar token", Snackbar.LENGTH_SHORT
                                 )
                                     .show()
-                                StudentDiaryFirebaseMessagingService.clear()
+                                lifecycleScope.launch {
+                                    this@MainActivity.dataStore.edit { preferences ->
+                                        preferences.remove(
+                                            stringPreferencesKey(
+                                                SEND_TOKEN_PREFERENCES_KEY
+                                            )
+                                        )
+                                    }
+                                }
+
                             } else {
                                 Log.i("TAG", "onCreate: erro ao enviar")
                             }
+
                         }
-                    }
+
+                }
+            }
+        }
+    }
+
+
+    private fun registerReceiverBatteryStatus() {
+        val filter = IntentFilter(Intent.ACTION_BATTERY_LOW)
+        val listenToBroadcastsFromOtherApps = false
+        val receiverFlags = if (listenToBroadcastsFromOtherApps) {
+            ContextCompat.RECEIVER_EXPORTED
+        } else {
+            ContextCompat.RECEIVER_NOT_EXPORTED
+        }
+        registerReceiver(batteryStatusBroadcastReceiver, filter, receiverFlags)
     }
 
     private fun setupTemperatureSensorAndUpdateTextView(textView: TextView) {
@@ -305,5 +365,6 @@ class MainActivity : AppCompatActivity() {
             sensorManager.unregisterListener(temperatureListener)
         }
         unregisterReceiver(airplaneModeBroadcastReceiver)
+        unregisterReceiver(batteryStatusBroadcastReceiver)
     }
 }
