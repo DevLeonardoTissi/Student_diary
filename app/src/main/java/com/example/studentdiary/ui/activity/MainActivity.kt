@@ -48,11 +48,11 @@ import com.example.studentdiary.ui.SEND_TOKEN_PREFERENCES_KEY
 import com.example.studentdiary.ui.UPLOAD_TOKEN_WORKER_TAG
 import com.example.studentdiary.ui.dialog.AppInfoBottomSheetDialog
 import com.example.studentdiary.ui.dialog.CustomImageUserBottomSheetDialog
-import com.example.studentdiary.utils.broadcastReceiver.AirplaneModeBroadcastReceiver
-import com.example.studentdiary.utils.broadcastReceiver.BatteryStatusBroadcastReceiver
-import com.example.studentdiary.utils.datastore.dataStore
+import com.example.studentdiary.broadcastReceiver.AirplaneModeBroadcastReceiver
+import com.example.studentdiary.broadcastReceiver.BatteryStatusBroadcastReceiver
+import com.example.studentdiary.datastore.dataStore
 import com.example.studentdiary.utils.exitGoogleAndFacebookAccount
-import com.example.studentdiary.utils.workManager.TokenUploadWorker
+import com.example.studentdiary.workManager.TokenUploadWorker
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject

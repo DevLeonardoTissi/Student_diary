@@ -1,4 +1,4 @@
-package com.example.studentdiary.utils.services
+package com.example.studentdiary.services
 
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -15,7 +15,7 @@ import com.example.studentdiary.notifications.Notification
 import com.example.studentdiary.ui.POMODORO_ACTION_PAUSE
 import com.example.studentdiary.ui.POMODORO_ACTION_START
 import com.example.studentdiary.ui.POMODORO_ACTION_STOP
-import com.example.studentdiary.utils.broadcastReceiver.PomodoroNotificationBroadcastReceiver
+import com.example.studentdiary.broadcastReceiver.PomodoroNotificationBroadcastReceiver
 import com.example.studentdiary.utils.enums.PomodoroState
 import org.koin.android.ext.android.inject
 

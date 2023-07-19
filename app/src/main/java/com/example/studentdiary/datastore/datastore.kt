@@ -1,4 +1,4 @@
-package com.example.studentdiary.utils.datastore
+package com.example.studentdiary.datastore
 
 import android.content.Context
 import androidx.datastore.core.DataStore

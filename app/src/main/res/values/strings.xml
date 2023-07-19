@@ -5,7 +5,7 @@
 
 
     <!-- Google Server Client ID -->
-    <string name="googleSignInClient_serverClientId">291261739017-8vrqq5dc7vb5gahio769oeq61rnb366a.apps.googleusercontent.com</string>
+    <string name="googleSignInClient_serverClientId">291261739017-qs8uq8d4ggfoici9vi2ompklacfhvouj.apps.googleusercontent.com</string>
 
     <!-- Setup Notifications -->
     <string name="channel_name">Principal</string>
@@ -220,6 +220,7 @@
     <string name="discipline_form_fragment_text_field_description_helper">Opcional</string>
     <string name="discipline_form_fragment_text_field_name_error">Campo vazio</string>
     <string name="discipline_form_fragment_text_field_email_error">Email necessário</string>
+    <string name="discipline_form_fragment_text_field_email_not_format">Digite um email válido</string>
     <string name="discipline_form_fragment_text_field_email_hint">Email</string>
     <string name="discipline_form_fragment_text_field_email_helper">Email vinculado a sua agenda</string>
     <string name="discipline_form_fragment_text_field_email_type_hint">Selecione o seu tipo de email</string>

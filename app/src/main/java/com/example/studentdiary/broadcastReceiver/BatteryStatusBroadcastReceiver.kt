@@ -1,11 +1,11 @@
-package com.example.studentdiary.utils.broadcastReceiver
+package com.example.studentdiary.broadcastReceiver
 
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import com.example.studentdiary.R
 import com.example.studentdiary.notifications.Notification
-import com.example.studentdiary.utils.services.PomodoroService
+import com.example.studentdiary.services.PomodoroService
 
 class BatteryStatusBroadcastReceiver:BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {

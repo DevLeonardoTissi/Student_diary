@@ -38,6 +38,7 @@ import com.example.studentdiary.ui.fragment.baseFragment.BaseFragment
 import com.example.studentdiary.utils.concatUtils.concatenateDateValues
 import com.example.studentdiary.utils.concatUtils.concatenateTimeValues
 import com.example.studentdiary.utils.enums.EmailType
+import com.example.studentdiary.utils.validateEmailFormat
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -346,6 +347,13 @@ class DisciplineFormFragment : BaseFragment() {
             if (email.isBlank()) {
                 fieldEmail.error =
                     getString(R.string.discipline_form_fragment_text_field_email_error)
+                valid = false
+                if (name.isNotBlank()) {
+                    fieldEmail.requestFocus()
+                }
+            }else if (!validateEmailFormat(email)){
+                fieldEmail.error =
+                    getString(R.string.discipline_form_fragment_text_field_email_not_format)
                 valid = false
                 if (name.isNotBlank()) {
                     fieldEmail.requestFocus()

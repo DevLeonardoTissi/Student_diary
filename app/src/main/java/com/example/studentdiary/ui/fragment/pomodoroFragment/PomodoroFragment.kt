@@ -10,7 +10,7 @@ import com.example.studentdiary.databinding.FragmentPomodoroBinding
 import com.example.studentdiary.extensions.formatTimeLeft
 import com.example.studentdiary.ui.dialog.SelectPomodoroCyclesBottomSheet
 import com.example.studentdiary.ui.fragment.baseFragment.BaseFragment
-import com.example.studentdiary.utils.services.PomodoroService
+import com.example.studentdiary.services.PomodoroService
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import java.text.NumberFormat
 

@@ -28,9 +28,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
 
-        <receiver android:name=".utils.broadcastReceiver.PomodoroNotificationBroadcastReceiver" />
+        <receiver android:name=".broadcastReceiver.PomodoroNotificationBroadcastReceiver" />
 
-        <service android:name=".utils.services.PomodoroService" />
+        <service android:name=".services.PomodoroService" />
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"

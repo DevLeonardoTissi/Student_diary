@@ -3,7 +3,7 @@ package com.example.studentdiary.notifications
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.example.studentdiary.ui.SEND_TOKEN_PREFERENCES_KEY
-import com.example.studentdiary.utils.datastore.dataStore
+import com.example.studentdiary.datastore.dataStore
 import com.google.firebase.messaging.FirebaseMessagingService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

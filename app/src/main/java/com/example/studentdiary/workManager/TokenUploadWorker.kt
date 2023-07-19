@@ -1,4 +1,4 @@
-package com.example.studentdiary.utils.workManager
+package com.example.studentdiary.workManager
 
 import android.content.Context
 import androidx.datastore.preferences.core.stringPreferencesKey
@@ -6,7 +6,7 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.example.studentdiary.repository.SendTokenRepository
 import com.example.studentdiary.ui.SEND_TOKEN_PREFERENCES_KEY
-import com.example.studentdiary.utils.datastore.dataStore
+import com.example.studentdiary.datastore.dataStore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext

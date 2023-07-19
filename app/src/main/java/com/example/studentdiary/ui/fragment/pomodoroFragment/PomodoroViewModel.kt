@@ -2,7 +2,7 @@ package com.example.studentdiary.ui.fragment.pomodoroFragment
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
-import com.example.studentdiary.utils.services.PomodoroService
+import com.example.studentdiary.services.PomodoroService
 
 class PomodoroViewModel : ViewModel() {
 
