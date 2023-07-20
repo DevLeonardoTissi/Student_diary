@@ -249,6 +249,9 @@
     <string name="discipline_form_image_dialog_field_url_empty_error">Digite um url válido</string>
 
 
+    <string name="discipline_reminder_worker_notification_title">Hora de estudar</string>
+    <string name="discipline_reminder_worker_notification_description">Você tem disciplinas agendadas para estudar agora! Aproveite o seu dia e mergulhe no conhecimento!</string>
+
     <!-- Discipline Form Confirm Dialog  -->
     <string name="discipline_form_confirm_dialog_title">Confirmar disciplina</string>
     <string name="discipline_form_confirm_dialog_message">Confirmar adição de uma nova disciplina?</string>

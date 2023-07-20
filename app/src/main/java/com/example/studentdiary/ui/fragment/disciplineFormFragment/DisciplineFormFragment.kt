@@ -23,6 +23,8 @@ import androidx.core.util.component2
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.example.studentdiary.R
 import com.example.studentdiary.databinding.FragmentDisciplineFormBinding
 import com.example.studentdiary.extensions.alertDialog
@@ -39,6 +41,7 @@ import com.example.studentdiary.utils.concatUtils.concatenateDateValues
 import com.example.studentdiary.utils.concatUtils.concatenateTimeValues
 import com.example.studentdiary.utils.enums.EmailType
 import com.example.studentdiary.utils.validateEmailFormat
+import com.example.studentdiary.workManager.DisciplineReminderWorker
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -51,12 +54,13 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import java.util.Calendar
 import java.util.TimeZone
+import java.util.concurrent.TimeUnit
 
 class DisciplineFormFragment : BaseFragment() {
 
     private var _binding: FragmentDisciplineFormBinding? = null
     private val binding get() = _binding!!
-    private val model: DisciplineFormViewModel by viewModel{ parametersOf(disciplineId) }
+    private val model: DisciplineFormViewModel by viewModel { parametersOf(disciplineId) }
     private val arguments by navArgs<DisciplineFormFragmentArgs>()
     private val disciplineId by lazy {
         arguments.disciplineId
@@ -97,8 +101,6 @@ class DisciplineFormFragment : BaseFragment() {
         updateUi()
         searchDisciplineId()
     }
-
-
 
 
     private fun setupFavoriteCheckbox() {
@@ -172,7 +174,7 @@ class DisciplineFormFragment : BaseFragment() {
     }
 
     private fun checkCalendarPermission(granted: (isGranted: Boolean) -> Unit) {
-        context?.let {context->
+        context?.let { context ->
             val permissions = arrayOf(
                 Manifest.permission.READ_CALENDAR,
                 Manifest.permission.WRITE_CALENDAR
@@ -351,7 +353,7 @@ class DisciplineFormFragment : BaseFragment() {
                 if (name.isNotBlank()) {
                     fieldEmail.requestFocus()
                 }
-            }else if (!validateEmailFormat(email)){
+            } else if (!validateEmailFormat(email)) {
                 fieldEmail.error =
                     getString(R.string.discipline_form_fragment_text_field_email_not_format)
                 valid = false
@@ -390,12 +392,12 @@ class DisciplineFormFragment : BaseFragment() {
                     if (reminderSwitch.isChecked) {
                         addReminder()
                     }
+                    addReminderWorker()
                     insert()
                     controller.popBackStack()
                 })
         }
     }
-
 
 
     private fun addReminder() {
@@ -539,6 +541,31 @@ class DisciplineFormFragment : BaseFragment() {
             }
         }
     }
+
+    private fun addReminderWorker() {
+        context?.let {context ->
+
+            //Parte de obter a data e hora em millisegundos, pode ser extráida, pois é utilizada em outro lugar tbm
+            //Falta adicionar isso em um listener para adicionar para datas recorrentes tbm.
+            model.getDate()?.let { date ->
+                val startMillis: Long = Calendar.getInstance().run {
+                    val (year, month, day) = converterLongToDate(date.component1())
+                    model.getStartTime()?.let {
+                        set(year, month, day, it.component1(), it.component2())
+                        timeInMillis
+                    }
+                    set(year, month, day)
+                    timeInMillis
+                }
+
+                val addReminder = OneTimeWorkRequestBuilder<DisciplineReminderWorker>()
+                    .setInitialDelay(startMillis - System.currentTimeMillis(), TimeUnit.MILLISECONDS)
+                    .build()
+                WorkManager.getInstance(context).enqueue(addReminder)
+            }
+        }
+    }
+
 
     private fun updateUi() {
         model.discipline.observe(viewLifecycleOwner) { discipline ->
