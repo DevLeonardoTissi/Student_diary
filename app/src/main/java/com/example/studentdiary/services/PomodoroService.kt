@@ -48,7 +48,7 @@ class PomodoroService : Service() {
         val pomodoroStartTime: LiveData<Long> = _pomodoroStartTime
 
         private val _intervalStartTime = MutableLiveData<Long>(3000)
-        val interalStartTime: LiveData<Long> = _intervalStartTime
+        val intervalStartTime: LiveData<Long> = _intervalStartTime
 
         private val _extraIntervalStartTime = MutableLiveData<Long>(10000)
         val extraIntervalStartTime: LiveData<Long> = _extraIntervalStartTime
@@ -104,7 +104,7 @@ class PomodoroService : Service() {
                 PomodoroState.INTERVAL_TIMER -> {
                     Pair(
                         context.getString(R.string.pomodoro_interval_notification_description),
-                        interalStartTime.value
+                        intervalStartTime.value
                     )
                 }
 
@@ -246,7 +246,7 @@ class PomodoroService : Service() {
                                 startExtraIntervalTimer()
                             } else {
                                 _pomodoroState.value = PomodoroState.INTERVAL_TIMER
-                                _leftTime.value = interalStartTime.value
+                                _leftTime.value = intervalStartTime.value
                                 startIntervalTimer()
                             }
                         }

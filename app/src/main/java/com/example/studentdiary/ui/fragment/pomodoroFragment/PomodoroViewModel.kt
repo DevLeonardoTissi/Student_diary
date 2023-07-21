@@ -12,7 +12,7 @@ class PomodoroViewModel : ViewModel() {
 
     val pomodoroStartTime = PomodoroService.pomodoroStartTime
 
-    val intervalStartTime = PomodoroService.interalStartTime
+    val intervalStartTime = PomodoroService.intervalStartTime
 
     val pomodoroState = PomodoroService.pomodoroState
 
