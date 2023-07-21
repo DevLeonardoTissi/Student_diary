@@ -42,7 +42,8 @@ class Notification(private val context: Context) {
         actionIntent: PendingIntent? = null,
         secondActionIcon: Int? = null,
         secondActionTitle: String? = null,
-        secondActionIntent: PendingIntent? = null
+        secondActionIntent: PendingIntent? = null,
+        contentIntent: PendingIntent? = null
     ) {
 
         CoroutineScope(Dispatchers.IO).launch {
@@ -62,7 +63,8 @@ class Notification(private val context: Context) {
                     actionIntent,
                     secondActionIcon,
                     secondActionTitle,
-                    secondActionIntent
+                    secondActionIntent,
+                    contentIntent
                 )
 
             manager.notify(exclusiveId ?: id, notification)
@@ -91,7 +93,8 @@ class Notification(private val context: Context) {
         actionIntent: PendingIntent? = null,
         secondActionIcon: Int? = null,
         secondActionTitle: String? = null,
-        secondActionIntent: PendingIntent? = null
+        secondActionIntent: PendingIntent? = null,
+        contentIntent: PendingIntent? = null
 
 
     ): Notification {
@@ -107,6 +110,7 @@ class Notification(private val context: Context) {
             .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
             .setOngoing(isOnGoing)
             .setOnlyAlertOnce(true)
+            .setContentIntent(contentIntent)
 
         progress?.let { progressNonNull ->
             builder.setProgress(100, progressNonNull, false)

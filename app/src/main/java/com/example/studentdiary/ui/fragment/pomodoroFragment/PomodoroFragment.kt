@@ -212,7 +212,6 @@ class PomodoroFragment : BaseFragment() {
         binding.pomodoroFragmentButtonStop.setOnClickListener {
             val intent = Intent(context, PomodoroService::class.java)
             context?.stopService(intent)
-
         }
     }
 
@@ -221,7 +220,6 @@ class PomodoroFragment : BaseFragment() {
             context?.let {
                 model.pauseTimer(it)
             }
-
         }
     }
 

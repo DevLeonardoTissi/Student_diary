@@ -9,6 +9,7 @@ import android.os.CountDownTimer
 import android.os.IBinder
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.navigation.NavDeepLinkBuilder
 import com.example.studentdiary.R
 import com.example.studentdiary.extensions.formatTimeLeft
 import com.example.studentdiary.notifications.Notification
@@ -189,6 +190,11 @@ class PomodoroService : Service() {
                     PendingIntent.FLAG_IMMUTABLE
                 )
 
+            val clickIntent : PendingIntent = NavDeepLinkBuilder(context)
+                .setGraph(R.navigation.nav_graph)
+                .setDestination(R.id.pomodoroFragment)
+                .createPendingIntent()
+
             Notification(context).show(
                 title = context.getString(R.string.pomodoro_notification_title),
                 description = description,
@@ -202,7 +208,8 @@ class PomodoroService : Service() {
                 actionIntent = secondCustomPendingIntent,
                 secondActionIcon = R.drawable.ic_stop,
                 secondActionTitle = context.getString(R.string.pomodoro_notification_title_action_stop),
-                secondActionIntent = customPendingIntent
+                secondActionIntent = customPendingIntent,
+                contentIntent = clickIntent
             )
         }
     }

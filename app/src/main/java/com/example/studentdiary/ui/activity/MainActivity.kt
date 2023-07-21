@@ -51,6 +51,7 @@ import com.example.studentdiary.ui.dialog.CustomImageUserBottomSheetDialog
 import com.example.studentdiary.broadcastReceiver.AirplaneModeBroadcastReceiver
 import com.example.studentdiary.broadcastReceiver.BatteryStatusBroadcastReceiver
 import com.example.studentdiary.datastore.dataStore
+import com.example.studentdiary.services.PomodoroService
 import com.example.studentdiary.utils.exitGoogleAndFacebookAccount
 import com.example.studentdiary.workManager.TokenUploadWorker
 import com.google.android.material.snackbar.Snackbar
@@ -217,6 +218,10 @@ class MainActivity : AppCompatActivity() {
                         onClickingOnPositiveButton = {
                             logout()
                             goToLogin()
+                            if (PomodoroService.timerIsRunning.value == true){
+                                val intent = Intent(this, PomodoroService::class.java)
+                                stopService(intent)
+                            }
                         })
                     false
                 }
