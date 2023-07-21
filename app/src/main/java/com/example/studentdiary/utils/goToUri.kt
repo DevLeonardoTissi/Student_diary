@@ -11,13 +11,14 @@ fun goToUri(address: String, context: Context) {
     val uri = Uri.parse(address)
     val customTabsIntent = CustomTabsIntent.Builder()
         .setDefaultColorSchemeParams(
-            CustomTabColorSchemeParams.Builder().setToolbarColor(ContextCompat.getColor(context, R.color.colorPrimary)).build()
+            CustomTabColorSchemeParams.Builder()
+                .setToolbarColor(ContextCompat.getColor(context, R.color.colorPrimary))
+                .build()
         )
         .setStartAnimations(context, R.anim.enter_from_botton, R.anim.exit_to_bottom)
         .setExitAnimations(context, R.anim.exit_to_bottom, R.anim.enter_from_botton)
         .setUrlBarHidingEnabled(true)
         .setShowTitle(true)
-//        .setCloseButtonIcon(toBitmap(myCustomCloseIcon))
         .build()
 
     customTabsIntent.launchUrl(context, uri)
