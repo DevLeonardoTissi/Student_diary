@@ -1,17 +1,12 @@
 package com.example.studentdiary.ui.dialog
 
 
-import android.annotation.SuppressLint
 import android.app.KeyguardManager
 import android.content.Context
-import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.os.Build
-import android.provider.Settings
 import android.view.LayoutInflater
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRONG
@@ -76,7 +71,7 @@ class PublicTenderSuggestionDialog(private val context: Context, private val fra
 
                     val biometricManager = BiometricManager.from(context)
 
-                    @SuppressLint("SwitchIntDef")
+
                     when (biometricManager.canAuthenticate(BIOMETRIC_STRONG or DEVICE_CREDENTIAL)) {
                         BiometricManager.BIOMETRIC_SUCCESS -> {
                             val isDeviceSecure =
@@ -132,18 +127,70 @@ class PublicTenderSuggestionDialog(private val context: Context, private val fra
                         }
 
                         BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> {
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                                val enrollIntent = Intent(Settings.ACTION_BIOMETRIC_ENROLL).apply {
-                                    putExtra(
-                                        Settings.EXTRA_BIOMETRIC_AUTHENTICATORS_ALLOWED,
-                                        BIOMETRIC_STRONG or DEVICE_CREDENTIAL
+                                publicTender(
+                                    PublicTenderSuggestion(
+                                        name = name,
+                                        description = description.ifBlank { null },
+                                        url = url
                                     )
-                                }
-                                val resultLauncher = fragment.registerForActivityResult(
-                                    ActivityResultContracts.StartActivityForResult()
-                                ) {}
-                                resultLauncher.launch(enrollIntent)
+                                )
+                                dialog.dismiss()
                             }
+
+
+                        BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE -> {
+                            publicTender(
+                                PublicTenderSuggestion(
+                                    name = name,
+                                    description = description.ifBlank { null },
+                                    url = url
+                                )
+                            )
+                            dialog.dismiss()
+                        }
+
+                        BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE -> {
+                            publicTender(
+                                PublicTenderSuggestion(
+                                    name = name,
+                                    description = description.ifBlank { null },
+                                    url = url
+                                )
+                            )
+                            dialog.dismiss()
+                        }
+
+                        BiometricManager.BIOMETRIC_ERROR_SECURITY_UPDATE_REQUIRED -> {
+                            publicTender(
+                                PublicTenderSuggestion(
+                                    name = name,
+                                    description = description.ifBlank { null },
+                                    url = url
+                                )
+                            )
+                            dialog.dismiss()
+                        }
+
+                        BiometricManager.BIOMETRIC_ERROR_UNSUPPORTED -> {
+                            publicTender(
+                                PublicTenderSuggestion(
+                                    name = name,
+                                    description = description.ifBlank { null },
+                                    url = url
+                                )
+                            )
+                            dialog.dismiss()
+                        }
+
+                        BiometricManager.BIOMETRIC_STATUS_UNKNOWN -> {
+                            publicTender(
+                                PublicTenderSuggestion(
+                                    name = name,
+                                    description = description.ifBlank { null },
+                                    url = url
+                                )
+                            )
+                            dialog.dismiss()
                         }
                     }
                 }
