@@ -114,11 +114,11 @@ class PublicTenderSuggestionDialog(private val context: Context, private val fra
 
                                         override fun onAuthenticationFailed() {
                                             super.onAuthenticationFailed()
-                                            Toast.makeText(
-                                                context, "Authentication failed",
-                                                Toast.LENGTH_SHORT
-                                            )
-                                                .show()
+//                                            Toast.makeText(
+//                                                context, "Authentication failed",
+//                                                Toast.LENGTH_SHORT
+//                                            )
+//                                                .show()
                                         }
                                     })
 
@@ -127,7 +127,6 @@ class PublicTenderSuggestionDialog(private val context: Context, private val fra
                                     .setSubtitle("Log in using your biometric credential")
                                     .setAllowedAuthenticators(BIOMETRIC_STRONG or DEVICE_CREDENTIAL)
                                     .build()
-
                                 biometricPrompt.authenticate(promptInfo)
                             }
                         }
