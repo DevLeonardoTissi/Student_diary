@@ -113,7 +113,7 @@ class PublicTenderFragment : BaseFragment() {
 
     private fun openAlertDialogSuggestion() {
         context?.let { context ->
-            PublicTenderSuggestionDialog(context)
+            PublicTenderSuggestionDialog(context, this@PublicTenderFragment)
                 .show { publicTenderSuggestion ->
                     publicTenderSuggestion?.let { publicTenderSuggestionNotNull ->
                         model.addPublicTenderSuggestion(
