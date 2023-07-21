@@ -116,6 +116,9 @@ dependencies {
     def biometric_version = "1.2.0-alpha05"
     implementation "androidx.biometric:biometric-ktx:$biometric_version"
 
+    def browser_version = "1.5.0"
+    implementation "androidx.browser:browser:$browser_version"
+
     implementation 'androidx.core:core-ktx:1.10.1'
     implementation 'androidx.appcompat:appcompat:1.6.1'
 
