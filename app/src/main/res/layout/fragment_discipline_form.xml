@@ -85,7 +85,7 @@
             style="@style/textField"
             android:hint="@string/discipline_form_fragment_text_field_description_hint"
             app:counterEnabled="true"
-            app:counterMaxLength="100"
+            app:counterMaxLength="2000"
             app:endIconMode="clear_text"
             app:helperText="@string/discipline_form_fragment_text_field_description_helper"
             app:helperTextEnabled="true"
@@ -98,7 +98,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textAutoComplete"
-                android:maxLength="100" />
+                android:maxLength="2000" />
 
         </com.google.android.material.textfield.TextInputLayout>
 

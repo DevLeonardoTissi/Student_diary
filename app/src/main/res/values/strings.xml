@@ -139,6 +139,10 @@
     <string name="discipline_item_img_content_desc_completed">Completed flag</string>
     <string name="discipline_item_textView_empty_time">--:--</string>
 
+    <!-- Discipline Details -->
+    <string name="discipline_details_fragment_img_content_desc_favorite">Favorite flag</string>
+    <string name="discipline_details_fragment_img_content_desc_completed">Completed flag</string>
+    <string name="discipline_details_fragment_textView_empty_time">--:--</string>
 
     <!-- Disciplines Fragment -->
     <string name="disciplines_fragment_toolbar_title">Disciplinas</string>

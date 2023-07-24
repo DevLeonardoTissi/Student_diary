@@ -15,10 +15,13 @@ import androidx.navigation.fragment.navArgs
 import com.example.studentdiary.R
 import com.example.studentdiary.databinding.FragmentDisciplineDetailsBinding
 import com.example.studentdiary.extensions.alertDialog
-import com.example.studentdiary.extensions.snackBar
+import com.example.studentdiary.extensions.tryLoadImage
 import com.example.studentdiary.ui.fragment.baseFragment.BaseFragment
+import com.example.studentdiary.utils.concatUtils.concatenateDateValues
+import com.example.studentdiary.utils.concatUtils.concatenateTimeValues
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
+
 
 class DisciplineDetailsFragment : BaseFragment() {
 
@@ -28,7 +31,7 @@ class DisciplineDetailsFragment : BaseFragment() {
     private val disciplineId by lazy {
         arguments.disciplineId
     }
-    private val model: DisciplineDetailsViewModel by viewModel{ parametersOf(disciplineId) }
+    private val model: DisciplineDetailsViewModel by viewModel { parametersOf(disciplineId) }
     private val controller by lazy {
         findNavController()
     }
@@ -46,18 +49,44 @@ class DisciplineDetailsFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         addMenuProvider()
         updateUi()
+
     }
 
-    private fun updateUi(){
-        model.foundDiscipline.observe(viewLifecycleOwner){discipline ->
-            context?.let {
-                discipline.name?.let {
-                    snackBar(it)
+    private fun updateUi() {
+        model.foundDiscipline.observe(viewLifecycleOwner) { discipline ->
+            binding.disciplineDetailsFragmentShapeableImageViewDiscipline.tryLoadImage(discipline.img)
+            binding.disciplineDetailsFragmentTextViewDisciplineName.text = discipline.name
+            binding.disciplineDetailsFragmentTextViewDisciplineDescription.text =
+                discipline.description
+
+
+            binding.disciplineDetailsFragmentImageViewFavorite.apply {
+                visibility = if (discipline.favorite) View.VISIBLE else View.GONE
+
+            }
+
+            binding.disciplineDetailsFragmentImageViewCompleted.apply {
+                visibility = if (discipline.completed) View.VISIBLE else View.GONE
+            }
+
+            discipline.startTime?.let {
+                binding.disciplineDetailsFragmentTextViewStartTime.text = concatenateTimeValues(it)
+            }
+
+            discipline.endTime?.let {
+                binding.disciplineDetailsFragmentTextViewEndTime.text = concatenateTimeValues(it)
+            }
+
+            binding.disciplineDetailsFragmentTextViewDate.apply {
+                discipline.date?.let {
+                    this.visibility = View.VISIBLE
+                    this.text = concatenateDateValues(it)
+                } ?: kotlin.run {
+                    visibility = View.GONE
                 }
             }
         }
     }
-
 
 
     private fun addMenuProvider() {
@@ -90,6 +119,7 @@ class DisciplineDetailsFragment : BaseFragment() {
                             }
                             true
                         }
+
                         else -> false
                     }
                 }
@@ -105,7 +135,6 @@ class DisciplineDetailsFragment : BaseFragment() {
             )
         controller.navigate(direction)
     }
-
 
 
     override fun onDestroy() {

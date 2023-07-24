@@ -1,15 +1,160 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true"
     tools:context=".ui.fragment.disciplineDetailsFragment.DisciplineDetailsFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/customYellow">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/discipline_details_fragment_ShapeableImageView_discipline"
+            android:layout_width="0dp"
+            android:layout_height="300dp"
+            android:layout_margin="@dimen/margin_default"
+            android:elevation="@dimen/elevation_default"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.ExtraLarge"
+            tools:src="@drawable/placeholder" />
 
 
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/discipline_details_fragment_textView_discipline_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_default"
+            android:gravity="center"
+            android:textSize="@dimen/bigTextSize"
+            app:layout_constraintBottom_toTopOf="@id/discipline_details_fragment_textView_discipline_description"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/discipline_details_fragment_ShapeableImageView_discipline"
+            tools:text="Discipline name" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/discipline_details_fragment_textView_discipline_description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_default"
+            android:gravity="start"
+            android:textSize="@dimen/defaultTextSize"
+            android:textStyle="italic"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/discipline_details_fragment_textView_discipline_name"
+            tools:text="Discipline description..." />
+
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/discipline_details_fragment_cardView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_default"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/discipline_details_fragment_textView_discipline_description"
+            app:layout_constraintVertical_bias="1"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Material3.Corner.Top">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/discipline_details_fragment_textView_Date"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/textview_margin_default"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/defaultTextSize"
+                    app:layout_constraintBottom_toTopOf="@id/discipline_details_fragment_textView__imageView_clock"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="14 de fevereiro de 2023 até a de março de 2023" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    app:layout_constraintStart_toEndOf="@id/discipline_details_fragment_imageView_completed"
+                    app:layout_constraintHorizontal_bias="0"
+                    android:id="@+id/discipline_details_fragment_textView_startTime"
+                    android:layout_width="0dp"
+                    android:gravity="end"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/textview_margin_default"
+                    android:text="@string/discipline_details_fragment_textView_empty_time"
+                    android:textColor="@color/colorPrimary"
+                    app:layout_constraintBottom_toBottomOf="@id/discipline_details_fragment_textView__imageView_clock"
+                    app:layout_constraintEnd_toStartOf="@id/discipline_details_fragment_textView__imageView_clock"
+                    app:layout_constraintTop_toTopOf="@id/discipline_details_fragment_textView__imageView_clock" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/discipline_details_fragment_textView__imageView_clock"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/small_margin"
+                    android:src="@drawable/ic_clock"
+                    app:layout_constraintBottom_toTopOf="@id/discipline_details_fragment_textView_Date"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/discipline_details_fragment_textView_Date" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    app:layout_constraintEnd_toStartOf="@id/discipline_details_fragment_imageView_favorite"
+                    android:gravity="start"
+                    android:id="@+id/discipline_details_fragment_textView_endTime"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/textview_margin_default"
+                    android:text="@string/discipline_details_fragment_textView_empty_time"
+                    android:textColor="@color/colorPrimary"
+                    app:layout_constraintBottom_toBottomOf="@id/discipline_details_fragment_textView__imageView_clock"
+                    app:layout_constraintStart_toEndOf="@id/discipline_details_fragment_textView__imageView_clock"
+                    app:layout_constraintTop_toTopOf="@id/discipline_details_fragment_textView__imageView_clock" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/discipline_details_fragment_imageView_favorite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_default"
+                    android:contentDescription="@string/discipline_details_fragment_img_content_desc_favorite"
+                    android:elevation="@dimen/elevation_default"
+                    android:src="@drawable/ic_favorite_filled"
+                    app:layout_constraintBottom_toBottomOf="@id/discipline_details_fragment_textView_endTime"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1"
+                    app:layout_constraintStart_toEndOf="@id/discipline_details_fragment_textView_endTime"
+                    app:layout_constraintTop_toTopOf="@id/discipline_details_fragment_textView_endTime" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/discipline_details_fragment_imageView_completed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_default"
+                    android:contentDescription="@string/discipline_details_fragment_img_content_desc_completed"
+                    android:elevation="@dimen/elevation_default"
+                    android:src="@drawable/ic_check_circle_filled"
+                    app:layout_constraintBottom_toBottomOf="@id/discipline_details_fragment_textView_startTime"
+                    app:layout_constraintEnd_toStartOf="@id/discipline_details_fragment_textView_startTime"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/discipline_details_fragment_textView_startTime" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
