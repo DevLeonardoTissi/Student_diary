@@ -25,7 +25,6 @@
             app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.ExtraLarge"
             tools:src="@drawable/placeholder" />
 
-
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/discipline_details_fragment_textView_discipline_name"
             android:layout_width="0dp"
@@ -39,7 +38,6 @@
             app:layout_constraintTop_toBottomOf="@id/discipline_details_fragment_ShapeableImageView_discipline"
             tools:text="Discipline name" />
 
-
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/discipline_details_fragment_textView_discipline_description"
             android:layout_width="0dp"
@@ -52,7 +50,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/discipline_details_fragment_textView_discipline_name"
             tools:text="Discipline description..." />
-
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/discipline_details_fragment_cardView"
@@ -70,7 +67,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/discipline_details_fragment_textView_Date"
                     android:layout_width="0dp"
@@ -87,17 +83,17 @@
                     tools:text="14 de fevereiro de 2023 até a de março de 2023" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    app:layout_constraintStart_toEndOf="@id/discipline_details_fragment_imageView_completed"
-                    app:layout_constraintHorizontal_bias="0"
                     android:id="@+id/discipline_details_fragment_textView_startTime"
                     android:layout_width="0dp"
-                    android:gravity="end"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/textview_margin_default"
+                    android:gravity="end"
                     android:text="@string/discipline_details_fragment_textView_empty_time"
                     android:textColor="@color/colorPrimary"
                     app:layout_constraintBottom_toBottomOf="@id/discipline_details_fragment_textView__imageView_clock"
                     app:layout_constraintEnd_toStartOf="@id/discipline_details_fragment_textView__imageView_clock"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintStart_toEndOf="@id/discipline_details_fragment_imageView_completed"
                     app:layout_constraintTop_toTopOf="@id/discipline_details_fragment_textView__imageView_clock" />
 
                 <androidx.appcompat.widget.AppCompatImageView
@@ -107,20 +103,20 @@
                     android:layout_margin="@dimen/small_margin"
                     android:src="@drawable/ic_clock"
                     app:layout_constraintBottom_toTopOf="@id/discipline_details_fragment_textView_Date"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/discipline_details_fragment_imageView_favorite"
+                    app:layout_constraintStart_toEndOf="@id/discipline_details_fragment_imageView_completed"
                     app:layout_constraintTop_toBottomOf="@id/discipline_details_fragment_textView_Date" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    app:layout_constraintEnd_toStartOf="@id/discipline_details_fragment_imageView_favorite"
-                    android:gravity="start"
                     android:id="@+id/discipline_details_fragment_textView_endTime"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/textview_margin_default"
+                    android:gravity="start"
                     android:text="@string/discipline_details_fragment_textView_empty_time"
                     android:textColor="@color/colorPrimary"
                     app:layout_constraintBottom_toBottomOf="@id/discipline_details_fragment_textView__imageView_clock"
+                    app:layout_constraintEnd_toStartOf="@id/discipline_details_fragment_imageView_favorite"
                     app:layout_constraintStart_toEndOf="@id/discipline_details_fragment_textView__imageView_clock"
                     app:layout_constraintTop_toTopOf="@id/discipline_details_fragment_textView__imageView_clock" />
 
@@ -152,10 +148,9 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@id/discipline_details_fragment_textView_startTime" />
 
-
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </com.google.android.material.card.MaterialCardView>
 
+        </com.google.android.material.card.MaterialCardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
