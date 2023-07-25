@@ -6,15 +6,25 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
+import androidx.work.BackoffPolicy
+import androidx.work.Constraints
+import androidx.work.Data
+import androidx.work.NetworkType
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
+import androidx.work.WorkRequest
 import com.example.studentdiary.R
 import com.example.studentdiary.databinding.FragmentDictionaryBinding
 import com.example.studentdiary.extensions.isOnline
 import com.example.studentdiary.extensions.showToastNoConnectionMessage
+import com.example.studentdiary.ui.dialog.DictionaryRatingBottomSheetDialog
 import com.example.studentdiary.ui.dialog.LoadAlertDialog
 import com.example.studentdiary.ui.fragment.baseFragment.BaseFragment
+import com.example.studentdiary.workManager.APIRatingWorker
 import com.google.android.material.chip.Chip
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.util.concurrent.TimeUnit
 
 class DictionaryFragment : BaseFragment() {
 
@@ -36,6 +46,40 @@ class DictionaryFragment : BaseFragment() {
         observerFieldWord()
         saveFieldValue()
         buttonSearch()
+        setupRatingFab()
+
+    }
+
+    private fun setupRatingFab() {
+        binding.fragmentDictionaryExtendedFab.setOnClickListener {
+            context?.let { context ->
+                DictionaryRatingBottomSheetDialog(context).show { rating ->
+                    val constraints = Constraints.Builder()
+                        .setRequiredNetworkType(NetworkType.CONNECTED)
+                        .build()
+
+                    //Extrair chaves do input data para constantes
+                    val data = Data.Builder()
+                        .putFloat("rating", rating.rating)
+                        .putString("comment", rating.comment)
+                        .build()
+
+                    val uploadRatingRequest: WorkRequest =
+                        OneTimeWorkRequestBuilder<APIRatingWorker>()
+                            .setBackoffCriteria(
+                                BackoffPolicy.EXPONENTIAL,
+                                WorkRequest.MIN_BACKOFF_MILLIS,
+                                TimeUnit.MILLISECONDS
+                            )
+                            .setConstraints(constraints)
+                            .setInputData(data)
+                            .build()
+
+                    WorkManager.getInstance(context).enqueue(uploadRatingRequest)
+
+                }
+            }
+        }
     }
 
     private fun buttonSearch() {

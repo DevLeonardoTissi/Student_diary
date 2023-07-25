@@ -49,20 +49,20 @@ class DisciplineDetailsFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         addMenuProvider()
         updateUi()
-
     }
 
     private fun updateUi() {
         model.foundDiscipline.observe(viewLifecycleOwner) { discipline ->
+
             binding.disciplineDetailsFragmentShapeableImageViewDiscipline.tryLoadImage(discipline.img)
+
             binding.disciplineDetailsFragmentTextViewDisciplineName.text = discipline.name
+
             binding.disciplineDetailsFragmentTextViewDisciplineDescription.text =
                 discipline.description
 
-
             binding.disciplineDetailsFragmentImageViewFavorite.apply {
                 visibility = if (discipline.favorite) View.VISIBLE else View.GONE
-
             }
 
             binding.disciplineDetailsFragmentImageViewCompleted.apply {

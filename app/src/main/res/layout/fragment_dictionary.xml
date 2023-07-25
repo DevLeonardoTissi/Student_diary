@@ -182,12 +182,23 @@
             android:layout_margin="@dimen/textview_margin_default"
             android:gravity="center"
             android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/fragment_dictionary_extended_fab"
+            app:layout_constraintHorizontal_bias="1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/fragment_dictionary_textView_sentences_label"
             app:layout_constraintVertical_bias="0"
             tools:text="Sentences example" />
+
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/fragment_dictionary_extended_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_default"
+            android:text="@string/dictionary_fragment_rating_extended_fab_text"
+            app:icon="@drawable/ic_add"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

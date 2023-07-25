@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RatingBar
+        android:id="@+id/dictionary_bottom_sheet_dialog_ratingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_default"
+        android:layout_marginTop="@dimen/margin_default"
+        android:numStars="5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/dictionary_rating_bottom_sheet_dialog_field_comment"
+        style="@style/textField"
+        android:hint="@string/dictionary_rating_bottom_sheet_dialog_field_comment_hint"
+        app:counterEnabled="true"
+        app:counterMaxLength="200"
+        app:endIconMode="clear_text"
+        app:helperText="@string/dictionary_rating_bottom_sheet_dialog_field_comment_helper"
+        app:helperTextEnabled="true"
+        app:layout_constraintBottom_toTopOf="@id/dictionary_rating_bottom_sheet_dialog_button_layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dictionary_bottom_sheet_dialog_ratingBar"
+        app:startIconDrawable="@drawable/ic_text">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textAutoComplete"
+            android:maxLength="200" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <LinearLayout
+        android:id="@+id/dictionary_rating_bottom_sheet_dialog_button_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_default"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dictionary_rating_bottom_sheet_dialog_field_comment">
+
+        <Button
+            android:id="@+id/dictionary_rating_bottom_sheet_dialog_button_negative"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/common_cancel" />
+
+        <Button
+            android:id="@+id/dictionary_rating_bottom_sheet_dialog_button_positive"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/common_confirm" />
+
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

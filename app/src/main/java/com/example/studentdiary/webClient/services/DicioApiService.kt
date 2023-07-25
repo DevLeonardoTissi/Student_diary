@@ -1,8 +1,11 @@
 package com.example.studentdiary.webClient.services
 
 import com.example.studentdiary.webClient.model.MeaningResponse
+import com.example.studentdiary.webClient.model.RatingSender
 import com.example.studentdiary.webClient.model.SentenceResponse
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface DicioApiService {
@@ -18,5 +21,8 @@ interface DicioApiService {
 
     @GET("sentences/{word}")
     suspend fun searchSentences(@Path("word") word: String): List<SentenceResponse>
+
+    @POST("rating")
+    suspend fun sendRating(@Body rating: RatingSender)
 
 }

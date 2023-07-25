@@ -2,6 +2,7 @@ package com.example.studentdiary.repository
 
 import com.example.studentdiary.model.Meaning
 import com.example.studentdiary.model.Sentence
+import com.example.studentdiary.webClient.model.RatingSender
 import com.example.studentdiary.webClient.services.DicioApiService
 
 class DictionaryRepository(private val dictioApiService: DicioApiService) {
@@ -20,5 +21,9 @@ class DictionaryRepository(private val dictioApiService: DicioApiService) {
         return dictioApiService.searchSentences(word).map { sentencesResponse ->
             sentencesResponse.sentences
         }
+    }
+
+    suspend fun sendRating(rating : RatingSender){
+        return dictioApiService.sendRating(rating)
     }
 }

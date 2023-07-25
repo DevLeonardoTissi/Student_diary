@@ -180,6 +180,7 @@
     <string name="dictionary_fragment_textView_synonym_label">Sinônimos</string>
     <string name="dictionary_fragment_textView_syllabicSeparation_label">Separação silábica</string>
     <string name="dictionary_fragment_textView_sentences_label">Exemplo em frases</string>
+    <string name="dictionary_fragment_rating_extended_fab_text">Avalie a API</string>
 
     <!-- Discipline Details Fragment -->
     <string name="discipline_details_fragment_toolbar_title">Detalhes</string>
@@ -259,6 +260,10 @@
     <!-- Discipline Form Confirm Dialog  -->
     <string name="discipline_form_confirm_dialog_title">Confirmar disciplina</string>
     <string name="discipline_form_confirm_dialog_message">Confirmar adição de uma nova disciplina?</string>
+
+    <!-- dictionary rating bottom sheet dialog -->
+    <string name="dictionary_rating_bottom_sheet_dialog_field_comment_hint">Deixe aqui uma sugestão de melhoria</string>
+    <string name="dictionary_rating_bottom_sheet_dialog_field_comment_helper">Opcional</string>
 
     <!-- Load Alert Dialog -->
     <string name="load_alert_dialog_text_search">Buscando...</string>

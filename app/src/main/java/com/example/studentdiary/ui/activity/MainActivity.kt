@@ -133,37 +133,41 @@ class MainActivity : AppCompatActivity() {
                     WorkManager.getInstance(this@MainActivity).enqueue(uploadWorkRequest)
 
 
-                    val workManager = WorkManager.getInstance(this@MainActivity)
-                    workManager.getWorkInfosByTagLiveData(UPLOAD_TOKEN_WORKER_TAG)
-                        .observe(this@MainActivity) { workInfoList ->
-
-                            val firstWorkInfo = workInfoList.firstOrNull()
-                            if (firstWorkInfo?.state == WorkInfo.State.SUCCEEDED) {
-                                Log.i("TAG", "onCreate: sucesso ao enviar")
-                                Snackbar.make(
-                                    binding.root,
-                                    "sucesso ao enviar token", Snackbar.LENGTH_SHORT
-                                )
-                                    .show()
-                                lifecycleScope.launch {
-                                    this@MainActivity.dataStore.edit { preferences ->
-                                        preferences.remove(
-                                            stringPreferencesKey(
-                                                SEND_TOKEN_PREFERENCES_KEY
-                                            )
-                                        )
-                                    }
-                                }
-
-                            } else {
-                                Log.i("TAG", "onCreate: erro ao enviar")
-                            }
-
-                        }
+                    observerWorkManagerOnUploadToken()
 
                 }
             }
         }
+    }
+
+    private fun observerWorkManagerOnUploadToken() {
+        val workManager = WorkManager.getInstance(this@MainActivity)
+        workManager.getWorkInfosByTagLiveData(UPLOAD_TOKEN_WORKER_TAG)
+            .observe(this@MainActivity) { workInfoList ->
+
+                val firstWorkInfo = workInfoList.firstOrNull()
+                if (firstWorkInfo?.state == WorkInfo.State.SUCCEEDED) {
+                    Log.i("TAG", "onCreate: sucesso ao enviar")
+                    Snackbar.make(
+                        binding.root,
+                        "sucesso ao enviar token", Snackbar.LENGTH_SHORT
+                    )
+                        .show()
+                    lifecycleScope.launch {
+                        this@MainActivity.dataStore.edit { preferences ->
+                            preferences.remove(
+                                stringPreferencesKey(
+                                    SEND_TOKEN_PREFERENCES_KEY
+                                )
+                            )
+                        }
+                    }
+
+                } else {
+                    Log.i("TAG", "onCreate: erro ao enviar")
+                }
+
+            }
     }
 
 
