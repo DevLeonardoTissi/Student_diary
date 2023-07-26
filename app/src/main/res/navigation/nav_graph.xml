@@ -105,6 +105,6 @@
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.example.studentdiary.ui.fragment.profileFragment.ProfileFragment"
-        android:label="@string/profile_fragment_toolbar_title"
+        android:label="@string/user_profile_fragment_toolbar_title"
         tools:layout="@layout/fragment_profile" />
 </navigation>

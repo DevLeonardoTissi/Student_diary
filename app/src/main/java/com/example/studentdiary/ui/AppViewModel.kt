@@ -28,7 +28,7 @@ class AppViewModel(
     val firebaseUser = firebaseAuthRepository.firebaseUser
 
 
-    private suspend fun updateUserProfile(name: String? = null, photoUrl: Uri? = null) {
+    private suspend fun updateUserPhoto(name: String? = null, photoUrl: Uri? = null) {
         firebaseAuthRepository.updateUserProfile(name = name, userPhotoUri = photoUrl)?.await()
     }
 
@@ -44,7 +44,7 @@ class AppViewModel(
         viewModelScope.launch {
             try {
                 val userPhotographUrl = firebaseStorageRepository.updateUserPhoto(file,firebaseUser.value?.email)
-                updateUserProfile(photoUrl = userPhotographUrl)
+                updateUserPhoto(photoUrl = userPhotographUrl)
                 firebaseAuthRepository.updateUser()
                 onSuccessful()
             } catch (e: Exception) {
@@ -57,7 +57,7 @@ class AppViewModel(
         viewModelScope.launch {
             try {
                 firebaseStorageRepository.removeUserPhoto(firebaseUser.value?.email)
-                updateUserProfile(photoUrl = null)
+                updateUserPhoto(photoUrl = null)
                 firebaseAuthRepository.updateUser()
                 onSuccessful()
             } catch (e: Exception) {

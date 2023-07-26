@@ -1,6 +1,7 @@
 package com.example.studentdiary.repository
 
 import android.net.Uri
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.studentdiary.model.User
 import com.google.android.gms.tasks.Task
@@ -9,6 +10,7 @@ import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.userProfileChangeRequest
+import kotlinx.coroutines.tasks.await
 
 class FirebaseAuthRepository(private val firebaseAuth: FirebaseAuth) {
 
@@ -35,16 +37,16 @@ class FirebaseAuthRepository(private val firebaseAuth: FirebaseAuth) {
         return firebaseAuth.sendPasswordResetEmail(email)
     }
 
-    fun updatePassword(password: String): Task<Void>? {
-        return firebaseAuth.currentUser?.updatePassword(password)
+    suspend fun updatePassword(password: String): Void? {
+        return firebaseAuth.currentUser?.updatePassword(password)?.await()
     }
 
     fun updateEmail(newEmail: String): Task<Void>? {
         return firebaseAuth.currentUser?.updateEmail(newEmail)
     }
 
-    fun deleteUser(): Task<Void>? {
-        return firebaseAuth.currentUser?.delete()
+    suspend fun deleteUser(): Void? {
+        return firebaseAuth.currentUser?.delete()?.await()
     }
 
     fun updateUserProfile(name: String? = null, userPhotoUri: Uri? = null): Task<Void>? {
@@ -59,13 +61,15 @@ class FirebaseAuthRepository(private val firebaseAuth: FirebaseAuth) {
     }
 
     fun updateUser() {
-        firebaseUser.value = FirebaseAuth.getInstance().currentUser
+        _firebaseUser.value = FirebaseAuth.getInstance().currentUser
     }
 
-    val firebaseUser = MutableLiveData<FirebaseUser?>().apply {
+  private  val _firebaseUser = MutableLiveData<FirebaseUser?>().apply {
         val authStateListener = FirebaseAuth.AuthStateListener { firebaseAuth ->
             value = firebaseAuth.currentUser
         }
         FirebaseAuth.getInstance().addAuthStateListener(authStateListener)
     }
+
+    val firebaseUser:LiveData<FirebaseUser?> = _firebaseUser
 }

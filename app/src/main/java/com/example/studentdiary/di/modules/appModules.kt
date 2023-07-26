@@ -19,6 +19,7 @@ import com.example.studentdiary.ui.fragment.disciplineFormFragment.DisciplineFor
 import com.example.studentdiary.ui.fragment.disciplinesFragment.DisciplinesViewModel
 import com.example.studentdiary.ui.fragment.loginFragment.LoginViewModel
 import com.example.studentdiary.ui.fragment.pomodoroFragment.PomodoroViewModel
+import com.example.studentdiary.ui.fragment.profileFragment.ProfileViewModel
 import com.example.studentdiary.ui.fragment.publicTenderFragment.PublicTenderViewModel
 import com.example.studentdiary.ui.fragment.registerFragment.RegisterViewModel
 import com.example.studentdiary.ui.recyclerView.adapter.DisciplineListAdapter
@@ -72,6 +73,7 @@ val repositoryModule = module {
     single { PublicTenderRepository(get()) }
     single { SendTokenRepository(get()) }
     single { FirebaseStorageRepository(get()) }
+
 }
 
 
@@ -82,7 +84,8 @@ val viewModelModule = module {
     viewModel { DictionaryViewModel(get()) }
     viewModel { PublicTenderViewModel(get()) }
     viewModel { AppViewModel(get(), get()) }
-    viewModel{PomodoroViewModel()}
+    viewModel { PomodoroViewModel() }
+    viewModel { ProfileViewModel(get()) }
     viewModel { (disciplineId: String) ->
         DisciplineFormViewModel(get(), disciplineId)
     }
@@ -90,6 +93,8 @@ val viewModelModule = module {
     viewModel { (disciplineId: String) ->
         DisciplineDetailsViewModel(get(), disciplineId)
     }
+
+
 }
 
 val adapterModule = module {

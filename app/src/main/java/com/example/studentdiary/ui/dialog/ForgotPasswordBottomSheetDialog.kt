@@ -18,7 +18,7 @@ class ForgotPasswordBottomSheetDialog(private val context: Context) {
                     fieldEmail.error = null
 
                     val email =
-                        forgotPasswordDialogTextFieldEmail.editText?.text.toString().trim()
+                        fieldEmail.editText?.text.toString().trim()
 
                     if (email.isBlank()) {
                         fieldEmail.error =

@@ -314,6 +314,8 @@ class MainActivity : AppCompatActivity() {
                 })
             })
         }
+
+
         if (hasTemperatureSensor()) {
             headerBinding.headerImageViewThermostat.visibility = View.VISIBLE
             headerBinding.headerTextViewTemperature.visibility = View.VISIBLE

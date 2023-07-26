@@ -74,12 +74,19 @@
     <string name="main_activity_toast_message_error_remove_user_photo">Erro ao remover foto</string>
 
 
-    <!-- Forgot password Alert Dialog -->
+    <!-- Forgot password Bottom Sheet Dialog -->
     <string name="forgot_password_alert_dialog_textView_title">Recuperar senha</string>
     <string name="forgot_password_alert_dialog_text_field_email_hint">Email</string>
     <string name="forgot_password_alert_dialog_text_field_email_helper">Não se preocupe! Vamos enviar um e-mail para você com todas as informações necessárias para alterar sua senha. </string>
     <string name="forgot_password_alert_dialog_text_field_email_empty_error">Campo vazio</string>
     <string name="forgot_password_alert_dialog_text_field_email_not_format_email_error">Digite um email válido</string>
+
+    <!-- update Password Bottom Sheet Dialog -->
+    <string name="update_password_dialog_textView_title">Alterar senha</string>
+    <string name="update_password_dialog_text_field_password_hint">Nova senha</string>
+    <string name="update_password_dialog_text_field_password_helper">Mínimo 6 díditos</string>
+    <string name="update_password_dialog_text_field_password_empty_error">Campo vazio</string>
+    <string name="update_password_dialog_text_field_password_not_valid_password_error">Senha inválida</string>
 
 
     <!-- register Fragment -->
@@ -205,8 +212,7 @@
     <!-- Select Pomodoro Cycles Bottom Sheet Dialog -->
     <string name="select_pomodoro_cycles_bottom_sheet_dialog_textView_title">Selecione a quantidade de Pomodoros até o intervalo</string>
 
-    <!-- Profile Fragment -->
-    <string name="profile_fragment_toolbar_title">Perfil</string>
+
 
 
     <!-- Public Tender Fragment -->
@@ -284,6 +290,15 @@
     <string name="user_profile_fragment_finished_button_text">Finalizar alterações</string>
     <string name="user_profile_fragment_text_view_delete_user_question">Deseja excluir a conta?</string>
     <string name="user_profile_fragment_text_view_delete">Excluir conta</string>
+
+    <string name="user_profile_fragment_toolbar_title">Perfil</string>
+    <string name="user_profile_fragment_snackbar_message_firebase_auth_weak_password_exception">Sua senha precisa de, no mínimo, 6 dígitos</string>
+    <string name="user_profile_fragment_snackbar_message_firebase_auth_network_exception_on_forgot_password">Erro de conexão</string>
+    <string name="user_profile_fragment_snackbar_message_unknown_error">Erro desconhecido ao alterar senha</string>
+    <string name="user_profile_fragment_snackbar_message_success_on_update_password">Sucesso ao alterar senha</string>
+    <string name="user_profile_fragment_snackbar_message_success_on_update_user_information">Sucesso ao dados</string>
+    <string name="user_profile_fragment_snackbar_message_firebase_auth_Invalid_credentials_Exception">Email inválido</string>
+    <string name="user_profile_fragment_snackbar_message_firebase_auth_user_collision_exception">Email já cadastrado</string>
 
 
     <!-- Common -->
