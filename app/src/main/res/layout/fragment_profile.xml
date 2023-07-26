@@ -1,17 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:fillViewport="true"
     tools:context=".ui.fragment.profileFragment.ProfileFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/profile_fragment_guideline_horizontal_top"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="@dimen/profile_fragment_guideline_horizontal_top_percent" />
 
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/profile_fragment_text_field_email"
+            style="@style/textField"
+            android:hint="@string/user_profile_fragment_text_field_user_email_hint"
+            app:endIconMode="clear_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/profile_fragment_guideline_horizontal_top"
+            app:startIconDrawable="@drawable/ic_email">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/profile_fragment_text_field_name"
+            style="@style/textField"
+            android:hint="@string/user_profile_fragment_text_field_user_name_hint"
+            app:endIconMode="clear_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/profile_fragment_text_field_email"
+            app:startIconDrawable="@drawable/ic_user">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textAutoComplete" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/profile_fragment_updatePassword"
+            style="@style/elevationButton"
+            android:text="@string/user_profile_fragment_update_password_button_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/profile_fragment_text_field_name" />
+
+
+        <Button
+            android:id="@+id/profile_fragment_finished_button"
+            style="@style/elevationButton"
+            android:text="@string/user_profile_fragment_finished_button_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/profile_fragment_updatePassword" />
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/profile_fragment_guideline_vertical_center"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="@dimen/profile_fragment_guideline_vertical_center_percent" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/profile_fragment_guideline_horizontal_bottom"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.95" />
+
+        <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/profile_fragment_divider_bottom"
+            style="@style/dividerStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/profile_fragment_guideline_horizontal_bottom"
+            app:layout_constraintTop_toTopOf="@id/profile_fragment_guideline_horizontal_bottom" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/profile_fragment_textView_delete_user_question"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/user_profile_fragment_text_view_delete_user_question"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/defaultTextSize"
+            app:layout_constraintBottom_toBottomOf="@id/fragment_profile_textView_delete_user"
+            app:layout_constraintEnd_toStartOf="@id/fragment_profile_textView_delete_user"
+            app:layout_constraintStart_toStartOf="@id/profile_fragment_guideline_vertical_center"
+            app:layout_constraintTop_toTopOf="@id/fragment_profile_textView_delete_user" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/fragment_profile_textView_delete_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/textview_margin_default"
+            android:clickable="true"
+            android:text="@string/user_profile_fragment_text_view_delete"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/defaultTextSize"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/profile_fragment_guideline_vertical_center"
+            app:layout_constraintStart_toEndOf="@id/profile_fragment_textView_delete_user_question"
+            app:layout_constraintTop_toBottomOf="@id/profile_fragment_divider_bottom" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 </ScrollView>

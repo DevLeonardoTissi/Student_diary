@@ -43,6 +43,10 @@
     <dimen name="fragment_login_guideline_horizontal_bottom_percent">0.95</dimen>
     <dimen name="fragment_login_guideline_vertical_center_percent">0.5</dimen>
 
+    <dimen name="profile_fragment_guideline_horizontal_bottom_percent">0.95</dimen>
+    <dimen name="profile_fragment_guideline_horizontal_top_percent">0</dimen>
+    <dimen name="profile_fragment_guideline_vertical_center_percent">0.5</dimen>
+
 
 
 </resources>

@@ -277,6 +277,15 @@
     <string name="public_tender_suggestion_dialog_text_field_url_not_format_email_error">Digite um url válido</string>
 
 
+    <!-- Profile Fragment -->
+    <string name="user_profile_fragment_text_field_user_email_hint">Seu endereço de email</string>
+    <string name="user_profile_fragment_text_field_user_name_hint">Seu nome de usuário</string>
+    <string name="user_profile_fragment_update_password_button_text">Alterar senha</string>
+    <string name="user_profile_fragment_finished_button_text">Finalizar alterações</string>
+    <string name="user_profile_fragment_text_view_delete_user_question">Deseja excluir a conta?</string>
+    <string name="user_profile_fragment_text_view_delete">Excluir conta</string>
+
+
     <!-- Common -->
     <string name="common_confirm">Confirmar</string>
     <string name="common_cancel">Cancelar</string>
