@@ -12,6 +12,7 @@ import com.example.studentdiary.ui.NavigationComponents
 import com.example.studentdiary.ui.dialog.UpdatePasswordBottomSheetDialog
 import com.example.studentdiary.ui.fragment.baseFragment.BaseFragment
 import com.google.firebase.FirebaseNetworkException
+import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthRecentLoginRequiredException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
@@ -125,6 +126,14 @@ class ProfileFragment : BaseFragment() {
         binding.profileFragmentFinishedButton.setOnClickListener {
             val name = binding.profileFragmentTextFieldName.editText?.text.toString().trim()
             val email = binding.profileFragmentTextFieldEmail.editText?.text.toString().trim()
+
+
+            val credential = EmailAuthProvider
+                .getCredential("user@example.com", "password1234")
+
+
+
+
             model.updateUserEmailAndUserName(name = name, email = email,
 
                 // Verificar campos e , se tudo certo, chama o aler dialog
