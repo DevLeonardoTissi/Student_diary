@@ -7,9 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.studentdiary.R
 import com.example.studentdiary.databinding.FragmentLoginBinding
+import com.example.studentdiary.datastore.getUserTokenAuth
+import com.example.studentdiary.datastore.removeUserTokenAuth
+import com.example.studentdiary.datastore.setUserProvider
+import com.example.studentdiary.datastore.setUserTokenAuth
 import com.example.studentdiary.extensions.googleSignInClient
 import com.example.studentdiary.extensions.isOnline
 import com.example.studentdiary.extensions.showToastNoConnectionMessage
@@ -20,6 +25,7 @@ import com.example.studentdiary.ui.FACEBOOK_PERMISSION_EMAIL
 import com.example.studentdiary.ui.FACEBOOK_PERMISSION_PROFILE
 import com.example.studentdiary.ui.NavigationComponents
 import com.example.studentdiary.ui.dialog.ForgotPasswordBottomSheetDialog
+import com.example.studentdiary.utils.enums.UserAuthProvider
 import com.example.studentdiary.utils.exitGoogleAndFacebookAccount
 import com.example.studentdiary.utils.validateEmailFormat
 import com.facebook.AccessToken
@@ -37,6 +43,7 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.GoogleAuthProvider
+import kotlinx.coroutines.launch
 import org.json.JSONException
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -219,7 +226,11 @@ class LoginFragment : Fragment() {
     }
 
 
-    private fun authenticate(user: User) = model.authenticate(user)
+    private fun authenticate(user: User) = model.authenticate(user, onSuccess = {
+        savePreferencesUserProvider(
+            provider = UserAuthProvider.EMAIL_PROVIDER.toString()
+        )
+    })
 
     private fun configureLoginFacebookAccountButton() {
         val callbackManager = CallbackManager.Factory.create()
@@ -233,7 +244,13 @@ class LoginFragment : Fragment() {
             override fun onSuccess(result: LoginResult) {
                 val credential =
                     FacebookAuthProvider.getCredential(result.accessToken.token)
-                model.loginWithCredential(credential)
+                model.loginWithCredential(credential, onSuccess = {
+                    savePreferencesUserProvider(
+                        provider = UserAuthProvider.FACEBOOK_PROVIDER.toString(),
+                        token = result.accessToken.token
+                    )
+
+                })
                 searchFacebookUser()
             }
 
@@ -245,6 +262,22 @@ class LoginFragment : Fragment() {
 
             }
         })
+    }
+
+    fun savePreferencesUserProvider(provider: String, token: String? = null) {
+        lifecycleScope.launch {
+            context?.let { context ->
+                    setUserProvider(context, provider)
+
+                    token?.let {
+                        setUserTokenAuth(context, it)
+                    } ?: kotlin.run {
+                        getUserTokenAuth(context)?.let {
+                            removeUserTokenAuth(context)
+                        }
+                    }
+            }
+        }
     }
 
     private fun searchFacebookUser() {
@@ -273,8 +306,13 @@ class LoginFragment : Fragment() {
                         GoogleSignIn.getSignedInAccountFromIntent(result.data).result
                     val credential =
                         GoogleAuthProvider.getCredential(googleAccount.idToken, null)
-                    model.loginWithCredential(credential)
+                    model.loginWithCredential(credential, onSuccess = {
 
+                        savePreferencesUserProvider(
+                            provider = UserAuthProvider.GOOGLE_PROVIDER.toString()
+                        )
+
+                    })
                 }
             }
 

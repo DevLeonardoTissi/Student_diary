@@ -24,12 +24,11 @@ const val FACEBOOK_PERMISSION_EMAIL = "email"
 const val FACEBOOK_PERMISSION_PROFILE = "public_profile"
 
 
-
 const val GITHUB_LINK = "https://github.com/DevLeonardoTissi"
 const val LINKEDIN_LINK = "https://www.linkedin.com/in/leonardotissi/"
 const val STUDENT_DIARY_GITHUB_LINK = "https://github.com/DevLeonardoTissi/Student_diary"
 
-const val  PUBLIC_TENDER_COLLECTION = "public_tender"
+const val PUBLIC_TENDER_COLLECTION = "public_tender"
 const val PUBLIC_TENDER_SUGGESTION = "public_tender_suggestion"
 const val GENERATE_TOKEN_USER = "user_token"
 
@@ -46,4 +45,6 @@ const val POMODORO_ACTION_STOP = "STOP"
 
 const val UPLOAD_TOKEN_WORKER_TAG = "Upload token"
 const val SEND_TOKEN_PREFERENCES_KEY = "uploadTokenKey"
+const val USER_AUTH_PROVIDER = "userAuthProvider"
+const val USER_AUTH_TOKEN = "userAuthToken"
 

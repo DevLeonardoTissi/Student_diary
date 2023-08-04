@@ -1,9 +1,7 @@
 package com.example.studentdiary.notifications
 
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.stringPreferencesKey
-import com.example.studentdiary.ui.SEND_TOKEN_PREFERENCES_KEY
-import com.example.studentdiary.datastore.dataStore
+import android.util.Log
+import com.example.studentdiary.datastore.setUSerTokenCloudMessaging
 import com.google.firebase.messaging.FirebaseMessagingService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -13,9 +11,8 @@ class StudentDiaryFirebaseMessagingService : FirebaseMessagingService() {
     override fun onNewToken(newToken: String) {
         super.onNewToken(newToken)
         CoroutineScope(Dispatchers.IO).launch {
-            applicationContext.dataStore.edit {preferences ->
-                preferences[stringPreferencesKey(SEND_TOKEN_PREFERENCES_KEY)] = newToken
-            }
+            Log.i("TAG", "onNewToken: tokenCriado")
+            setUSerTokenCloudMessaging(context = applicationContext, token = newToken)
         }
     }
 }

@@ -20,8 +20,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
@@ -37,21 +35,20 @@ import androidx.work.WorkManager
 import androidx.work.WorkRequest
 import com.example.studentdiary.NavGraphDirections
 import com.example.studentdiary.R
+import com.example.studentdiary.broadcastReceiver.AirplaneModeBroadcastReceiver
+import com.example.studentdiary.broadcastReceiver.BatteryStatusBroadcastReceiver
 import com.example.studentdiary.databinding.ActivityMainBinding
 import com.example.studentdiary.databinding.HeaderNavigationDrawerBinding
+import com.example.studentdiary.datastore.getCollectUserTokenCloudMessaging
 import com.example.studentdiary.extensions.alertDialog
 import com.example.studentdiary.extensions.toast
 import com.example.studentdiary.extensions.tryLoadImage
+import com.example.studentdiary.services.PomodoroService
 import com.example.studentdiary.ui.AppViewModel
 import com.example.studentdiary.ui.NavigationComponents
-import com.example.studentdiary.ui.SEND_TOKEN_PREFERENCES_KEY
 import com.example.studentdiary.ui.UPLOAD_TOKEN_WORKER_TAG
 import com.example.studentdiary.ui.dialog.AppInfoBottomSheetDialog
 import com.example.studentdiary.ui.dialog.CustomImageUserBottomSheetDialog
-import com.example.studentdiary.broadcastReceiver.AirplaneModeBroadcastReceiver
-import com.example.studentdiary.broadcastReceiver.BatteryStatusBroadcastReceiver
-import com.example.studentdiary.datastore.dataStore
-import com.example.studentdiary.services.PomodoroService
 import com.example.studentdiary.utils.exitGoogleAndFacebookAccount
 import com.example.studentdiary.workManager.TokenUploadWorker
 import com.google.android.material.snackbar.Snackbar
@@ -68,13 +65,15 @@ class MainActivity : AppCompatActivity() {
 
     private val appViewModel: AppViewModel by viewModel()
     private val airplaneModeBroadcastReceiver: BroadcastReceiver = AirplaneModeBroadcastReceiver()
-    private val batteryStatusBroadcastReceiver:BroadcastReceiver = BatteryStatusBroadcastReceiver()
+    private val batteryStatusBroadcastReceiver: BroadcastReceiver = BatteryStatusBroadcastReceiver()
     private val controller by lazy {
         findNavController(R.id.nav_host_fragment)
     }
 
     private val sensorManager: SensorManager by inject()
     private lateinit var temperatureListener: SensorEventListener
+
+    private var isWorkSchedule = false
 
     private val requestPermissionNotificationsLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission(),
@@ -103,6 +102,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -112,29 +112,34 @@ class MainActivity : AppCompatActivity() {
         registerReceiverAirplaneMode()
         askNotificationPermission()
         registerReceiverBatteryStatus()
+        scheduleTokenUploadWorkIfNeeded()
 
+    }
+
+    private fun scheduleTokenUploadWorkIfNeeded() {
         lifecycleScope.launch {
-            this@MainActivity.dataStore.data.collect { preferences ->
-                preferences[stringPreferencesKey(SEND_TOKEN_PREFERENCES_KEY)]?.let {
+            getCollectUserTokenCloudMessaging(this@MainActivity).collect { token ->
+                token?.let {
 
-                    val constraints = Constraints.Builder()
-                        .setRequiredNetworkType(NetworkType.CONNECTED)
-                        .build()
-
-                    val uploadWorkRequest: WorkRequest =
-                        OneTimeWorkRequestBuilder<TokenUploadWorker>()
-                            .setBackoffCriteria(
-                                BackoffPolicy.EXPONENTIAL,
-                                WorkRequest.MIN_BACKOFF_MILLIS,
-                                TimeUnit.MILLISECONDS
-                            ).addTag(UPLOAD_TOKEN_WORKER_TAG)
-                            .setConstraints(constraints)
+                    if (!isWorkSchedule) {
+                        val constraints = Constraints.Builder()
+                            .setRequiredNetworkType(NetworkType.CONNECTED)
                             .build()
-                    WorkManager.getInstance(this@MainActivity).enqueue(uploadWorkRequest)
 
+                        val uploadWorkRequest: WorkRequest =
+                            OneTimeWorkRequestBuilder<TokenUploadWorker>()
+                                .setBackoffCriteria(
+                                    BackoffPolicy.EXPONENTIAL,
+                                    WorkRequest.MIN_BACKOFF_MILLIS,
+                                    TimeUnit.MILLISECONDS
+                                ).addTag(UPLOAD_TOKEN_WORKER_TAG)
+                                .setConstraints(constraints)
+                                .build()
+                        WorkManager.getInstance(this@MainActivity).enqueue(uploadWorkRequest)
+                        observerWorkManagerOnUploadToken()
+                        isWorkSchedule = true
 
-                    observerWorkManagerOnUploadToken()
-
+                    }
                 }
             }
         }
@@ -147,26 +152,17 @@ class MainActivity : AppCompatActivity() {
 
                 val firstWorkInfo = workInfoList.firstOrNull()
                 if (firstWorkInfo?.state == WorkInfo.State.SUCCEEDED) {
-                    Log.i("TAG", "onCreate: sucesso ao enviar")
+
                     Snackbar.make(
                         binding.root,
                         "sucesso ao enviar token", Snackbar.LENGTH_SHORT
                     )
                         .show()
-                    lifecycleScope.launch {
-                        this@MainActivity.dataStore.edit { preferences ->
-                            preferences.remove(
-                                stringPreferencesKey(
-                                    SEND_TOKEN_PREFERENCES_KEY
-                                )
-                            )
-                        }
-                    }
+
 
                 } else {
                     Log.i("TAG", "onCreate: erro ao enviar")
                 }
-
             }
     }
 
@@ -222,7 +218,7 @@ class MainActivity : AppCompatActivity() {
                         onClickingOnPositiveButton = {
                             logout()
                             goToLogin()
-                            if (PomodoroService.timerIsRunning.value == true){
+                            if (PomodoroService.timerIsRunning.value == true) {
                                 val intent = Intent(this, PomodoroService::class.java)
                                 stopService(intent)
                             }
@@ -288,8 +284,14 @@ class MainActivity : AppCompatActivity() {
                     getString(R.string.header_drawer_greeting),
                     namePresentation
                 )
-                userNonNull.photoUrl?.let {
-                    headerBinding.headerShapeableImageView.tryLoadImage(it.toString())
+                userNonNull.photoUrl?.let {uri ->
+
+                    //REFATORAR
+                    headerBinding.headerShapeableImageView.tryLoadImage(uri.toString())
+                    headerBinding.headerShapeableImageView.setOnClickListener {
+                        headerBinding.headerShapeableImageView.tryLoadImage(uri.toString())
+
+                    }
                 } ?: headerBinding.headerShapeableImageView.tryLoadImage()
 
             }

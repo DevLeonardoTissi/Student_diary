@@ -64,6 +64,10 @@ class FirebaseAuthRepository(private val firebaseAuth: FirebaseAuth) {
         _firebaseUser.value = FirebaseAuth.getInstance().currentUser
     }
 
+    suspend fun reauthenticate(credential: AuthCredential): Void? {
+       return  firebaseAuth.currentUser?.reauthenticate(credential)?.await()
+    }
+
   private  val _firebaseUser = MutableLiveData<FirebaseUser?>().apply {
         val authStateListener = FirebaseAuth.AuthStateListener { firebaseAuth ->
             value = firebaseAuth.currentUser

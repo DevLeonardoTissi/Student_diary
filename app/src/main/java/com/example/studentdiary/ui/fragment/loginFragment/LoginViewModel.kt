@@ -33,34 +33,41 @@ class LoginViewModel(
         _firebaseAuthLiveData.value = Resource(false, null)
     }
 
-    fun authenticate(user: User) {
+    fun authenticate(user: User, onSuccess: () -> Unit) {
         try {
             val task = firebaseAuthRepository.authenticate(user)
-            task.addOnSuccessListener { _firebaseAuthLiveData.value = Resource(true) }
+            task.addOnSuccessListener {
+                onSuccess()
+                _firebaseAuthLiveData.value = Resource(true)
+            }
             task.addOnFailureListener { _firebaseAuthLiveData.value = Resource(false, it) }
         } catch (e: IllegalArgumentException) {
             _firebaseAuthLiveData.value = Resource(false, e)
         }
     }
 
-    fun loginWithCredential(credential: AuthCredential) {
+    fun loginWithCredential(credential: AuthCredential, onSuccess: () -> Unit) {
         try {
             val task = firebaseAuthRepository.linkWithCredential(credential)
-            task.addOnSuccessListener { _firebaseAuthLiveData.value = Resource(true) }
+            task.addOnSuccessListener {
+                onSuccess()
+                _firebaseAuthLiveData.value = Resource(true)
+            }
             task.addOnFailureListener { _firebaseAuthLiveData.value = Resource(false, it) }
         } catch (e: Exception) {
             _firebaseAuthLiveData.value = Resource(false, e)
         }
     }
 
-    fun forgotPassword(email:String, onSuccess:() -> Unit , onFailure:(e:Exception) -> Unit){
+    fun forgotPassword(email: String, onSuccess: () -> Unit, onFailure: (e: Exception) -> Unit) {
         try {
             val task = firebaseAuthRepository.sendPasswordResetEmail(email)
             task.addOnSuccessListener { onSuccess() }
             task.addOnFailureListener { onFailure(it) }
-        }catch (e:Exception){
-                onFailure(e)
+        } catch (e: Exception) {
+            onFailure(e)
         }
     }
+
     fun isAuthenticated() = firebaseAuthRepository.isAuthenticated()
 }

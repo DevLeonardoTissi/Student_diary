@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.studentdiary.repository.FirebaseAuthRepository
+import com.google.firebase.auth.AuthCredential
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
@@ -18,7 +19,7 @@ class ProfileViewModel(private val repository: FirebaseAuthRepository) : ViewMod
     }
 
 
-    private val firebaseUser = repository.firebaseUser.value
+    val firebaseUser = repository.firebaseUser.value
 
     private val _userName = MutableLiveData<String?>(firebaseUser?.displayName)
     val userName: LiveData<String?> = _userName
@@ -56,12 +57,12 @@ class ProfileViewModel(private val repository: FirebaseAuthRepository) : ViewMod
         }
     }
 
-   fun deleteUser(onSuccess: () -> Unit, onError: (e: Exception) -> Unit){
+    fun deleteUser(onSuccess: () -> Unit, onError: (e: Exception) -> Unit) {
         viewModelScope.launch {
             try {
                 repository.deleteUser()
                 onSuccess()
-            }catch (e:Exception){
+            } catch (e: Exception) {
                 onError(e)
             }
         }
@@ -73,5 +74,20 @@ class ProfileViewModel(private val repository: FirebaseAuthRepository) : ViewMod
 
     private suspend fun updateUserName(name: String) {
         repository.updateUserProfile(name = name)?.await()
+    }
+
+    fun reauthenticate(
+        credential: AuthCredential,
+        onSuccess: () -> Unit,
+        onError: (e: Exception) -> Unit
+    ) {
+        viewModelScope.launch {
+            try {
+                repository.reauthenticate(credential)
+                onSuccess()
+            } catch (e: Exception) {
+                onError(e)
+            }
+        }
     }
 }
