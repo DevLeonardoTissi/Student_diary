@@ -12,10 +12,12 @@ import com.example.studentdiary.R
 import com.example.studentdiary.databinding.FragmentProfileBinding
 import com.example.studentdiary.datastore.getUserAuthProvider
 import com.example.studentdiary.datastore.getUserTokenAuth
+import com.example.studentdiary.extensions.alertDialog
 import com.example.studentdiary.extensions.googleSignInClient
 import com.example.studentdiary.extensions.snackBar
 import com.example.studentdiary.ui.AppViewModel
 import com.example.studentdiary.ui.NavigationComponents
+import com.example.studentdiary.ui.activity.MainActivity
 import com.example.studentdiary.ui.dialog.RequestPasswordBottomSheetDialog
 import com.example.studentdiary.ui.dialog.UpdatePasswordBottomSheetDialog
 import com.example.studentdiary.ui.fragment.baseFragment.BaseFragment
@@ -245,10 +247,7 @@ class ProfileFragment : BaseFragment() {
 
             val credential: AuthCredential? =
                 try {
-
-
                     when (authProvider) {
-
                         UserAuthProvider.FACEBOOK_PROVIDER.toString() -> {
                             token?.let { tokenNonNull ->
                                 FacebookAuthProvider.getCredential(tokenNonNull)
@@ -261,10 +260,7 @@ class ProfileFragment : BaseFragment() {
 
                         UserAuthProvider.EMAIL_PROVIDER.toString() -> {
                             val email = model.firebaseUser?.email
-
-
                             var credentialEmailAuthProvider: AuthCredential? = null
-
                             val password = RequestPasswordBottomSheetDialog(context).show()
                             email?.let {
                                 password?.let {
@@ -273,9 +269,7 @@ class ProfileFragment : BaseFragment() {
                                 }
                             }
 
-
                             credentialEmailAuthProvider
-
                         }
 
                         else -> {
@@ -289,11 +283,11 @@ class ProfileFragment : BaseFragment() {
                     null
                 }
 
-            if (!exceptionOccurred){
+            if (!exceptionOccurred) {
                 credential?.let {
                     onSuccess(it)
                 } ?: kotlin.run {
-                    snackBar("Credencial expirada, faça login novamente")
+                    snackBar("Sessão expirada, faça login novamente")
                 }
             }
         }
@@ -326,26 +320,63 @@ class ProfileFragment : BaseFragment() {
     }
 
     private fun onClickDeleteUserTextView() {
-        binding.fragmentProfileTextViewDeleteUser.setOnClickListener {
-            model.deleteUser(onSuccess = {
-                snackBar("Sucesso ao deletar usuário")
-            }, onError = {
-                lifecycleScope.launch {
-                    tryToGetCredential {
-                        reauthenticate(it, onSuccess = {
 
-                            model.deleteUser(onSuccess = {
-                                snackBar("sucesso ao deletar depois de reautenticar")
+        // REFATORAR MÉTODO
+        context?.let { context ->
+            binding.fragmentProfileTextViewDeleteUser.setOnClickListener {
 
-                                // sai do app e vai para login
-                            }, onError = {
-                                snackBar("erro ao deletar depois de reautenticar")
-                            })
+                context.alertDialog(
+                    title = "Excluir conta",
+                    "Deseja realmente excluir a conta?",
+                    icon = R.drawable.ic_exit,
+                    onClickingOnPositiveButton = {
+
+                        model.deleteUser(onSuccess = {
+                            snackBar("Sucesso ao deletar usuário")
+                            exitFromFragment()
+                        }, onError = {
+                            //identifica erro e, se for de autenticação:
+                            //implementar
+                            lifecycleScope.launch {
+                                tryToGetCredential {
+                                    reauthenticate(it, onSuccess = {
+
+
+                                        context.alertDialog(
+                                            title = "Excluir conta",
+                                            "Deseja realmente excluir a conta?",
+                                            icon = R.drawable.ic_exit,
+                                            onClickingOnPositiveButton = {
+
+                                                model.deleteUser(onSuccess = {
+                                                    snackBar("sucesso ao deletar depois de reautenticar")
+
+                                                    exitFromFragment()
+
+                                                }, onError = {
+
+                                                    // identificar erro
+                                                    snackBar("erro ao deletar depois de reautenticar")
+                                                })
+
+
+                                            })
+                                    })
+                                }
+                            }
                         })
-                    }
-                }
-            })
+
+
+                    })
+
+
+            }
         }
+    }
+
+    private fun exitFromFragment() {
+        val mainActivity = activity as MainActivity
+        mainActivity.performExitProcess()
     }
 
 

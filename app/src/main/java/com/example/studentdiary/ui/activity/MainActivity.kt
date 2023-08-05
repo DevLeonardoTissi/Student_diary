@@ -216,12 +216,7 @@ class MainActivity : AppCompatActivity() {
                         getString(R.string.main_activity_alert_dialog_exit_message),
                         icon = R.drawable.ic_exit,
                         onClickingOnPositiveButton = {
-                            logout()
-                            goToLogin()
-                            if (PomodoroService.timerIsRunning.value == true) {
-                                val intent = Intent(this, PomodoroService::class.java)
-                                stopService(intent)
-                            }
+                            performExitProcess()
                         })
                     false
                 }
@@ -254,6 +249,19 @@ class MainActivity : AppCompatActivity() {
         binding.activityMainToolbar.setupWithNavController(navController, appBarConfiguration)
     }
 
+    fun performExitProcess() {
+        logout()
+        goToLogin()
+        stopPomodoroServiceIfNeeded()
+    }
+
+    private fun stopPomodoroServiceIfNeeded() {
+        if (PomodoroService.timerIsRunning.value == true) {
+            val intent = Intent(this, PomodoroService::class.java)
+            stopService(intent)
+        }
+    }
+
     private fun navigationComponentsVisibility() {
         appViewModel.navigationComponents.observe(this) {
             it?.let { hasNavigationComponents ->
@@ -284,7 +292,7 @@ class MainActivity : AppCompatActivity() {
                     getString(R.string.header_drawer_greeting),
                     namePresentation
                 )
-                userNonNull.photoUrl?.let {uri ->
+                userNonNull.photoUrl?.let { uri ->
 
                     //REFATORAR
                     headerBinding.headerShapeableImageView.tryLoadImage(uri.toString())

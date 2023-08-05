@@ -11,12 +11,10 @@ import kotlin.coroutines.resume
 
 class RequestPasswordBottomSheetDialog(private val context: Context) {
     suspend fun show(): String? = suspendCancellableCoroutine { continuation ->
-
-
         val dialog = BottomSheetDialog(context)
         val binding = RequestPasswordDialogBinding.inflate(LayoutInflater.from(context))
-        dialog.setContentView(binding.root)
 
+        dialog.setContentView(binding.root)
         binding.requestPasswordDialogButtonPositive.setOnClickListener {
             val fieldPassword = binding.requestPasswordDialogTextFieldPassword
             fieldPassword.error = null
@@ -40,14 +38,9 @@ class RequestPasswordBottomSheetDialog(private val context: Context) {
             continuation.cancel(CancellationException())
         }
 
-        dialog.setOnCancelListener {
-            continuation.cancel(CancellationException())
-        }
+        dialog.setOnCancelListener { continuation.cancel(CancellationException()) }
 
         dialog.show()
-
-        continuation.invokeOnCancellation {
-            dialog.dismiss()
-        }
+        continuation.invokeOnCancellation { dialog.dismiss() }
     }
 }

@@ -303,7 +303,7 @@
     <string name="user_profile_fragment_snackbar_message_firebase_auth_network_exception_on_forgot_password">Erro de conexão</string>
     <string name="user_profile_fragment_snackbar_message_unknown_error">Erro desconhecido ao alterar senha</string>
     <string name="user_profile_fragment_snackbar_message_success_on_update_password">Sucesso ao alterar senha</string>
-    <string name="user_profile_fragment_snackbar_message_success_on_update_user_information">Sucesso ao dados</string>
+    <string name="user_profile_fragment_snackbar_message_success_on_update_user_information">Sucesso ao alterar dados</string>
     <string name="user_profile_fragment_snackbar_message_firebase_auth_Invalid_credentials_Exception">Email inválido</string>
     <string name="user_profile_fragment_snackbar_message_firebase_auth_user_collision_exception">Email já cadastrado</string>
     <string name="user_profile_fragment_snackbar_message_firebase_auth_recent_login_required_exception">Faça login novamente para alterar seus dados</string>
