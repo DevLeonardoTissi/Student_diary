@@ -86,7 +86,14 @@
     <string name="update_password_dialog_text_field_password_hint">Nova senha</string>
     <string name="update_password_dialog_text_field_password_helper">Mínimo 6 díditos</string>
     <string name="update_password_dialog_text_field_password_empty_error">Campo vazio</string>
-    <string name="update_password_dialog_text_field_password_not_valid_password_error">Senha inválida</string>
+    <string name="update_password_dialog_text_field_password_not_valid_password_error">Senha muito curta</string>
+
+    <!-- request password Bottom Sheet Dialog -->
+    <string name="request_password_dialog_textView_title">Digite sua senha</string>
+    <string name="request_password_dialog_text_field_password_hint">Sua senha</string>
+    <string name="request_password_dialog_text_field_password_helper">Digite a senha para alterar os dados</string>
+    <string name="request_password_dialog_text_field_password_empty_error">Campo vazio</string>
+    <string name="request_password_dialog_text_field_password_not_valid_password_error">Senha muito curta</string>
 
 
     <!-- register Fragment -->

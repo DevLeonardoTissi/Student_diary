@@ -16,8 +16,10 @@ import com.example.studentdiary.extensions.googleSignInClient
 import com.example.studentdiary.extensions.snackBar
 import com.example.studentdiary.ui.AppViewModel
 import com.example.studentdiary.ui.NavigationComponents
+import com.example.studentdiary.ui.dialog.RequestPasswordBottomSheetDialog
 import com.example.studentdiary.ui.dialog.UpdatePasswordBottomSheetDialog
 import com.example.studentdiary.ui.fragment.baseFragment.BaseFragment
+import com.example.studentdiary.utils.CancellationException
 import com.example.studentdiary.utils.enums.UserAuthProvider
 import com.example.studentdiary.utils.validateEmailFormat
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -85,8 +87,6 @@ class ProfileFragment : BaseFragment() {
             }
         }
     }
-
-
 
 
     private fun setupNavigationComponents() {
@@ -165,7 +165,7 @@ class ProfileFragment : BaseFragment() {
         return errorMessage
     }
 
-    private fun validateData(name: String, email: String): Boolean {
+    private fun validateData(email: String): Boolean {
         var valid = true
 
 
@@ -179,18 +179,18 @@ class ProfileFragment : BaseFragment() {
             valid = false
         }
 
-        if (name.isBlank()) {
-            //remove nome do usuário
-        }
         return valid
     }
 
     private fun onclickFinishedButton() {
         binding.profileFragmentFinishedButton.setOnClickListener {
+            val fieldEmail = binding.profileFragmentTextFieldEmail
+            fieldEmail.error = null
             val name = binding.profileFragmentTextFieldName.editText?.text.toString().trim()
-            val email = binding.profileFragmentTextFieldEmail.editText?.text.toString().trim()
+            val email = fieldEmail.editText?.text.toString().trim()
 
-            val isValid = validateData(name, email)
+
+            val isValid = validateData(email)
             if (isValid) {
                 // Verificar campos e , se tudo certo, chama o aler dialog
                 model.updateUserEmailAndUserName(name = name, email = email,
@@ -204,7 +204,6 @@ class ProfileFragment : BaseFragment() {
                                 tryToGetCredential(onSuccess = {
                                     reauthenticate(it, onSuccess = {
                                         model.updateUserEmailAndUserName(
-                                            //verifica nome vazio e remove do usuário
                                             name = name,
                                             email = email,
                                             onSuccess = {
@@ -237,50 +236,67 @@ class ProfileFragment : BaseFragment() {
     }
 
     private suspend fun tryToGetCredential(onSuccess: (credential: AuthCredential) -> Unit) {
-        context?.let {context ->
+        var exceptionOccurred = false
+        context?.let { context ->
 
             val authProvider = getUserAuthProvider(context)
             val token = getUserTokenAuth(context)
 
 
-            val credential: AuthCredential? = when (authProvider) {
+            val credential: AuthCredential? =
+                try {
 
-                UserAuthProvider.FACEBOOK_PROVIDER.toString() -> {
-                    token?.let { tokenNonNull ->
-                        FacebookAuthProvider.getCredential(tokenNonNull)
+
+                    when (authProvider) {
+
+                        UserAuthProvider.FACEBOOK_PROVIDER.toString() -> {
+                            token?.let { tokenNonNull ->
+                                FacebookAuthProvider.getCredential(tokenNonNull)
+                            }
+                        }
+
+                        UserAuthProvider.GOOGLE_PROVIDER.toString() -> {
+                            googleCredential
+                        }
+
+                        UserAuthProvider.EMAIL_PROVIDER.toString() -> {
+                            val email = model.firebaseUser?.email
+
+
+                            var credentialEmailAuthProvider: AuthCredential? = null
+
+                            val password = RequestPasswordBottomSheetDialog(context).show()
+                            email?.let {
+                                password?.let {
+                                    credentialEmailAuthProvider = EmailAuthProvider
+                                        .getCredential(email, password)
+                                }
+                            }
+
+
+                            credentialEmailAuthProvider
+
+                        }
+
+                        else -> {
+                            null
+                        }
                     }
-                }
 
-                UserAuthProvider.GOOGLE_PROVIDER.toString() -> {
-                    googleCredential
-                }
-
-                UserAuthProvider.EMAIL_PROVIDER.toString() -> {
-                    val email = model.firebaseUser?.email
-
-
-                    //Pedir senha
-                    val password = "1231"
-
-                    email?.let {
-                        EmailAuthProvider
-                            .getCredential(email, password)
-                    }
-                }
-
-                else -> {
+                } catch (e: CancellationException) {
+                    exceptionOccurred = true
+                    snackBar("Senha necessária")
                     null
                 }
 
-            }
-
-            credential?.let {
-                onSuccess(it)
-            } ?: kotlin.run {
-                snackBar("Credencial expirada, faça login novamente")
+            if (!exceptionOccurred){
+                credential?.let {
+                    onSuccess(it)
+                } ?: kotlin.run {
+                    snackBar("Credencial expirada, faça login novamente")
+                }
             }
         }
-
     }
 
     private fun reauthenticate(
