@@ -54,6 +54,7 @@ class DictionaryFragment : BaseFragment() {
         binding.fragmentDictionaryExtendedFab.setOnClickListener {
             context?.let { context ->
                 DictionaryRatingBottomSheetDialog(context).show { rating ->
+
                     val constraints = Constraints.Builder()
                         .setRequiredNetworkType(NetworkType.CONNECTED)
                         .build()
