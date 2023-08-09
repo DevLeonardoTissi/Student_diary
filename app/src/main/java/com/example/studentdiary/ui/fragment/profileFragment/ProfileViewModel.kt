@@ -9,7 +9,7 @@ import com.google.firebase.auth.AuthCredential
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
-class ProfileViewModel(private val repository: FirebaseAuthRepository) : ViewModel() {
+class ProfileViewModel(private val authRepository: FirebaseAuthRepository) : ViewModel() {
     fun setUserEmail(userEmail: String?) {
         _userEmail.value = userEmail
     }
@@ -19,7 +19,7 @@ class ProfileViewModel(private val repository: FirebaseAuthRepository) : ViewMod
     }
 
 
-    val firebaseUser = repository.firebaseUser.value
+    val firebaseUser = authRepository.firebaseUser.value
 
     private val _userName = MutableLiveData<String?>(firebaseUser?.displayName)
     val userName: LiveData<String?> = _userName
@@ -31,7 +31,7 @@ class ProfileViewModel(private val repository: FirebaseAuthRepository) : ViewMod
     fun updatePassword(password: String, onSuccess: () -> Unit, onError: (e: Exception) -> Unit) {
         viewModelScope.launch {
             try {
-                repository.updatePassword(password)
+                authRepository.updatePassword(password)
                 onSuccess()
             } catch (e: Exception) {
                 onError(e)
@@ -49,7 +49,7 @@ class ProfileViewModel(private val repository: FirebaseAuthRepository) : ViewMod
             try {
                 updateEmail(email)
                 updateUserName(name)
-                repository.updateUser()
+                authRepository.updateUser()
                 onSuccess()
             } catch (e: Exception) {
                 onError(e)
@@ -60,7 +60,7 @@ class ProfileViewModel(private val repository: FirebaseAuthRepository) : ViewMod
     fun deleteUser(onSuccess: () -> Unit, onError: (e: Exception) -> Unit) {
         viewModelScope.launch {
             try {
-                repository.deleteUser()
+                authRepository.deleteUser()
                 onSuccess()
             } catch (e: Exception) {
                 onError(e)
@@ -69,11 +69,11 @@ class ProfileViewModel(private val repository: FirebaseAuthRepository) : ViewMod
     }
 
     private suspend fun updateEmail(email: String) {
-        repository.updateEmail(email)?.await()
+        authRepository.updateEmail(email)?.await()
     }
 
     private suspend fun updateUserName(name: String) {
-        repository.updateUserProfile(name = name)?.await()
+        authRepository.updateUserName(name = name)?.await()
     }
 
     fun reauthenticate(
@@ -83,7 +83,7 @@ class ProfileViewModel(private val repository: FirebaseAuthRepository) : ViewMod
     ) {
         viewModelScope.launch {
             try {
-                repository.reauthenticate(credential)
+                authRepository.reauthenticate(credential)
                 onSuccess()
             } catch (e: Exception) {
                 onError(e)

@@ -6,15 +6,15 @@ import kotlinx.coroutines.tasks.await
 
 class FirebaseStorageRepository(private val firebaseStorage: FirebaseStorage) {
 
-    suspend fun updateUserPhoto(file: Uri, userEmail: String?): Uri {
+    suspend fun updateUserPhoto(file: Uri, userId: String?): Uri {
         val reference =
-            firebaseStorage.reference.child("user_photo/${userEmail}.jpg")
+            firebaseStorage.reference.child("user_photo/${userId}.jpg")
         return reference.putFile(file).await().storage.downloadUrl.await()
     }
 
-    suspend fun removeUserPhoto(userEmail:String?){
+    suspend fun removeUserPhoto(userId: String?) {
         val reference =
-            firebaseStorage.reference.child("user_photo/${userEmail}.jpg")
+            firebaseStorage.reference.child("user_photo/${userId}.jpg")
         reference.delete().await()
     }
 }

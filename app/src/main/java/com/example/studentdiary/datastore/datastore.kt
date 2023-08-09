@@ -27,6 +27,12 @@ suspend fun setUserProvider(context: Context, provider: String) {
     }
 }
 
+suspend fun removeUserProvider(context: Context){
+    context.dataStore.edit { preferences ->
+        preferences.remove(stringPreferencesKey(USER_AUTH_PROVIDER))
+    }
+}
+
 suspend fun getUserTokenAuth(context: Context): String? {
     return context.dataStore.data.first()[stringPreferencesKey(USER_AUTH_TOKEN)]
 }

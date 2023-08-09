@@ -21,6 +21,8 @@ class DisciplineFormViewModel(private val repository: DisciplineRepository, val 
         }
     }
 
+    fun getDisciplineIdentifier(): String? = discipline.value?.id
+
     fun searchDisciplineForId() {
         viewModelScope.launch {
             _discipline.value = repository.searchId(disciplineId)

@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.studentdiary.repository.FirebaseAuthRepository
 import com.example.studentdiary.repository.FirebaseStorageRepository
+import com.google.firebase.storage.StorageException
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
@@ -28,8 +29,8 @@ class AppViewModel(
     val firebaseUser = firebaseAuthRepository.firebaseUser
 
 
-    private suspend fun updateUserPhoto(name: String? = null, photoUrl: Uri? = null) {
-        firebaseAuthRepository.updateUserProfile(name = name, userPhotoUri = photoUrl)?.await()
+    private suspend fun updateUserPhoto(photoUrl: Uri? = null) {
+        firebaseAuthRepository.updateUserPhoto(userPhotoUri = photoUrl)?.await()
     }
 
 
@@ -40,28 +41,34 @@ class AppViewModel(
     }
 
 
-    fun updateUserPhoto(file: Uri, onError: () -> Unit, onSuccessful: () -> Unit) {
+    fun tryUpdateUserPhoto(file: Uri, onError: (e: Exception) -> Unit, onSuccessful: () -> Unit) {
         viewModelScope.launch {
             try {
-                val userPhotographUrl = firebaseStorageRepository.updateUserPhoto(file,firebaseUser.value?.email)
+                val userPhotographUrl =
+                    firebaseStorageRepository.updateUserPhoto(file, firebaseUser.value?.uid)
                 updateUserPhoto(photoUrl = userPhotographUrl)
                 firebaseAuthRepository.updateUser()
                 onSuccessful()
             } catch (e: Exception) {
-                onError()
+                onError(e)
             }
         }
     }
 
-    fun removeUserPhoto(onError: () -> Unit, onSuccessful: () -> Unit) {
+    fun tryRemoveUserPhoto(onError: (exception: Exception) -> Unit, onSuccessful: () -> Unit) {
         viewModelScope.launch {
             try {
-                firebaseStorageRepository.removeUserPhoto(firebaseUser.value?.email)
                 updateUserPhoto(photoUrl = null)
                 firebaseAuthRepository.updateUser()
+                firebaseStorageRepository.removeUserPhoto(firebaseUser.value?.uid)
                 onSuccessful()
-            } catch (e: Exception) {
-                onError()
+
+            } catch (exception: Exception) {
+                if (exception is StorageException && exception.errorCode == StorageException.ERROR_OBJECT_NOT_FOUND) {
+                    onSuccessful()
+                } else {
+                    onError(exception)
+                }
             }
         }
     }

@@ -112,7 +112,7 @@ class DisciplineDetailsFragment : BaseFragment() {
                                     title = getString(R.string.discipline_form_fragment_delete_dialog_title),
                                     message = getString(R.string.discipline_form_fragment_delete_dialog_message),
                                     onClickingOnPositiveButton = {
-                                        model.delete()
+                                        model.delete(context)
                                         controller.popBackStack()
                                     }
                                 )

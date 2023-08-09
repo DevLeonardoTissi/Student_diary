@@ -49,31 +49,39 @@ class FirebaseAuthRepository(private val firebaseAuth: FirebaseAuth) {
         return firebaseAuth.currentUser?.delete()?.await()
     }
 
-    fun updateUserProfile(name: String? = null, userPhotoUri: Uri? = null): Task<Void>? {
+    fun updateUserPhoto(userPhotoUri: Uri? = null): Task<Void>? {
+        val userProfileChange = userProfileChangeRequest {
+            photoUri = userPhotoUri
+        }
+        return firebaseAuth.currentUser?.updateProfile(userProfileChange)
+    }
+
+
+    fun updateUserName(name: String? = null): Task<Void>? {
         val userProfileChange = userProfileChangeRequest {
             name?.let {
-                displayName = it
-            } ?: kotlin.run {
-                photoUri = userPhotoUri
+                displayName = name
             }
         }
         return firebaseAuth.currentUser?.updateProfile(userProfileChange)
     }
+
 
     fun updateUser() {
         _firebaseUser.value = FirebaseAuth.getInstance().currentUser
     }
 
     suspend fun reauthenticate(credential: AuthCredential): Void? {
-       return  firebaseAuth.currentUser?.reauthenticate(credential)?.await()
+        return firebaseAuth.currentUser?.reauthenticate(credential)?.await()
     }
 
-  private  val _firebaseUser = MutableLiveData<FirebaseUser?>().apply {
+    private val _firebaseUser = MutableLiveData<FirebaseUser?>().apply {
         val authStateListener = FirebaseAuth.AuthStateListener { firebaseAuth ->
             value = firebaseAuth.currentUser
         }
         FirebaseAuth.getInstance().addAuthStateListener(authStateListener)
     }
 
-    val firebaseUser:LiveData<FirebaseUser?> = _firebaseUser
+    val firebaseUser: LiveData<FirebaseUser?> = _firebaseUser
+
 }

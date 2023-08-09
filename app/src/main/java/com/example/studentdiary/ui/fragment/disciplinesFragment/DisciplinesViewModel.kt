@@ -1,5 +1,6 @@
 package com.example.studentdiary.ui.fragment.disciplinesFragment
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,11 +14,12 @@ class DisciplinesViewModel(val repository: DisciplineRepository) : ViewModel() {
     var disciplineList: LiveData<List<Discipline>> = repository.searchAll()
 
     private val _query = MutableLiveData<String?>()
-    var query: LiveData<String?> = _query
+    private var query: LiveData<String?> = _query
 
-    fun delete(id: String) {
+    fun delete(id: String, context: Context) {
         viewModelScope.launch {
             repository.delete(id)
+            repository.cancelWorkerDisciplineReminder(context, id)
         }
     }
 

@@ -220,8 +220,6 @@
     <string name="select_pomodoro_cycles_bottom_sheet_dialog_textView_title">Selecione a quantidade de Pomodoros até o intervalo</string>
 
 
-
-
     <!-- Public Tender Fragment -->
     <string name="public_tender_fragment_toolbar_title">Concursos públicos</string>
     <string name="public_tender_fragment_messageStudent">Nenhuma plataforma encontrada</string>
@@ -307,7 +305,23 @@
     <string name="user_profile_fragment_snackbar_message_firebase_auth_Invalid_credentials_Exception">Email inválido</string>
     <string name="user_profile_fragment_snackbar_message_firebase_auth_user_collision_exception">Email já cadastrado</string>
     <string name="user_profile_fragment_snackbar_message_firebase_auth_recent_login_required_exception">Faça login novamente para alterar seus dados</string>
+    <string name="user_profile_fragment_snackbar_message_firebase_auth_invalid_cradentials_exception_on_reauthenticate">Credenciais inválidas</string>
+    <string name="user_profile_fragment_snackbar_message_firebase_auth_invalid_user_exception_on_reauthenticate">Usuário inválido</string>
 
+    <string name="user_profile_fragment_snackbar_message_session_expired">Sessão expirada, faça login e tente novamente</string>
+    <string name="user_profile_fragment_snackbar_message_cancellation_exception_on_request_password">Senha necessária</string>
+
+    <string name="user_profile_fragment_snackbar_message_error_on_delete_user">Erro ao deletar usuário</string>
+    <string name="user_profile_fragment_snackbar_message_success_on_delete_user">Sucesso ao deletar usuário</string>
+
+    <string name="user_profile_field_email_error_field_empty">Campo vazio</string>
+    <string name="user_profile_field_email_error_email_invalid">Email inválido</string>
+
+    <string name="user_profile_fragment_alert_dialog_update_data_title">Alterar dados</string>
+    <string name="user_profile_fragment_alert_dialog_update_data_description">Confirma a alteração dos dados?</string>
+
+    <string name="user_profile_fragment_alert_dialog_delete_account_title">Excluir conta</string>
+    <string name="user_profile_fragment_alert_dialog_delete_account_description">Deseja realmente excluir a conta</string>
 
     <!-- Common -->
     <string name="common_confirm">Confirmar</string>

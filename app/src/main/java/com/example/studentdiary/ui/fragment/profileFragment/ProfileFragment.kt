@@ -2,7 +2,6 @@ package com.example.studentdiary.ui.fragment.profileFragment
 
 import android.app.Activity
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,6 +29,7 @@ import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.FirebaseAuthRecentLoginRequiredException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
@@ -45,7 +45,7 @@ class ProfileFragment : BaseFragment() {
     private val binding get() = _binding!!
     private val model: ProfileViewModel by viewModel()
     private val appViewModel: AppViewModel by activityViewModel()
-    private var googleCredential: AuthCredential? = null
+    private lateinit var googleCredential: AuthCredential
     private val openGoogleLogin =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
@@ -73,7 +73,6 @@ class ProfileFragment : BaseFragment() {
         onClickUpdatePasswordButton()
         onclickFinishedButton()
         onClickDeleteUserTextView()
-
     }
 
     private fun getGoogleCredential() {
@@ -140,9 +139,19 @@ class ProfileFragment : BaseFragment() {
                 UpdatePasswordBottomSheetDialog(context).show { newPassword ->
                     model.updatePassword(newPassword, onError = { exception ->
                         if (exception is FirebaseAuthRecentLoginRequiredException) {
-
-                            //  USUÁRIO LOGADO HÁ BASTANTE TEMPO
-
+                            lifecycleScope.launch {
+                                tryToGetCredential {
+                                    reAuthenticate(it, onSuccess = {
+                                        model.updatePassword(newPassword, onError = {
+                                            val errorMessage =
+                                                identifiesErrorFirebaseAuthOnUpdatePassword(exception)
+                                            snackBar(errorMessage)
+                                        }, onSuccess = {
+                                            snackBar(getString(R.string.user_profile_fragment_snackbar_message_success_on_update_password))
+                                        })
+                                    })
+                                }
+                            }
 
                         } else {
                             val errorMessage =
@@ -170,14 +179,13 @@ class ProfileFragment : BaseFragment() {
     private fun validateData(email: String): Boolean {
         var valid = true
 
-
         if (email.isBlank()) {
             binding.profileFragmentTextFieldEmail.error =
-                "campo email vazio"
+                getString(R.string.user_profile_field_email_error_field_empty)
             valid = false
         } else if (!validateEmailFormat(email)) {
             binding.profileFragmentTextFieldEmail.error =
-                "digite um email válido"
+                getString(R.string.user_profile_field_email_error_email_invalid)
             valid = false
         }
 
@@ -194,48 +202,56 @@ class ProfileFragment : BaseFragment() {
 
             val isValid = validateData(email)
             if (isValid) {
-                // Verificar campos e , se tudo certo, chama o aler dialog
-                model.updateUserEmailAndUserName(name = name, email = email,
-                    onSuccess = {
-                        snackBar(getString(R.string.user_profile_fragment_snackbar_message_success_on_update_user_information))
-                    }, onError = { exception ->
-                        lifecycleScope.launch {
-                            if (exception is FirebaseAuthRecentLoginRequiredException) {
-                                Log.i("TAG", "onclickFinishedButton: muito tempo sem entrar")
+                context?.alertDialog(
+                    title = getString(R.string.user_profile_fragment_alert_dialog_update_data_title),
+                    message = getString(R.string.user_profile_fragment_alert_dialog_update_data_description),
+                    icon = R.drawable.ic_user,
+                    onClickingOnPositiveButton = {
 
-                                tryToGetCredential(onSuccess = {
-                                    reauthenticate(it, onSuccess = {
-                                        model.updateUserEmailAndUserName(
-                                            name = name,
-                                            email = email,
-                                            onSuccess = {
-                                                snackBar(getString(R.string.user_profile_fragment_snackbar_message_success_on_update_user_information))
-                                            },
-                                            onError = { exception ->
-                                                val errorMessage =
-                                                    identifiesErrorFirebaseAuthOnUpdateUserEmailAndUserName(
-                                                        exception
-                                                    )
-                                                snackBar(errorMessage)
+                        model.updateUserEmailAndUserName(name = name, email = email,
+                            onSuccess = {
+                                snackBar(getString(R.string.user_profile_fragment_snackbar_message_success_on_update_user_information))
+
+                            }, onError = { exception ->
+                                lifecycleScope.launch {
+                                    if (exception is FirebaseAuthRecentLoginRequiredException) {
+
+                                        tryToGetCredential(onSuccess = {
+                                            reAuthenticate(it, onSuccess = {
+                                                model.updateUserEmailAndUserName(
+                                                    name = name,
+                                                    email = email,
+                                                    onSuccess = {
+                                                        snackBar(getString(R.string.user_profile_fragment_snackbar_message_success_on_update_user_information))
+
+                                                    },
+                                                    onError = { exception ->
+                                                        val errorMessage =
+                                                            identifiesErrorFirebaseAuthOnUpdateUserEmailAndUserName(
+                                                                exception
+                                                            )
+                                                        snackBar(errorMessage)
+                                                    })
                                             })
-                                    })
-                                })
+                                        })
 
 
-                            } else {
-                                val errorMessage =
-                                    identifiesErrorFirebaseAuthOnUpdateUserEmailAndUserName(
-                                        exception
-                                    )
-                                snackBar(errorMessage)
-                            }
-                        }
+                                    } else {
+                                        val errorMessage =
+                                            identifiesErrorFirebaseAuthOnUpdateUserEmailAndUserName(
+                                                exception
+                                            )
+                                        snackBar(errorMessage)
+                                    }
+                                }
+                            })
                     })
 
 
             }
         }
     }
+
 
     private suspend fun tryToGetCredential(onSuccess: (credential: AuthCredential) -> Unit) {
         var exceptionOccurred = false
@@ -255,7 +271,11 @@ class ProfileFragment : BaseFragment() {
                         }
 
                         UserAuthProvider.GOOGLE_PROVIDER.toString() -> {
-                            googleCredential
+                            if (::googleCredential.isInitialized) {
+                                googleCredential
+                            } else {
+                                null
+                            }
                         }
 
                         UserAuthProvider.EMAIL_PROVIDER.toString() -> {
@@ -279,7 +299,7 @@ class ProfileFragment : BaseFragment() {
 
                 } catch (e: CancellationException) {
                     exceptionOccurred = true
-                    snackBar("Senha necessária")
+                    snackBar(getString(R.string.user_profile_fragment_snackbar_message_cancellation_exception_on_request_password))
                     null
                 }
 
@@ -287,25 +307,34 @@ class ProfileFragment : BaseFragment() {
                 credential?.let {
                     onSuccess(it)
                 } ?: kotlin.run {
-                    snackBar("Sessão expirada, faça login novamente")
+                    snackBar(getString(R.string.user_profile_fragment_snackbar_message_session_expired))
+                    exitFromFragment()
                 }
             }
         }
     }
 
-    private fun reauthenticate(
+    private fun reAuthenticate(
         credential: AuthCredential,
         onSuccess: () -> Unit
     ) {
-
-
         model.reauthenticate(credential, onSuccess = {
             onSuccess()
         }, onError = {
-            //Pode haver outros erros, ex internet, ou credencial inválida gerada com email e senha
-            Log.i("TAG", "onclickFinishedButton: $it")
-            snackBar("faça login novamente para alterar os dados, $it")
+            val errorMessage = identifiesErrorFirebaseAuthOnReAuthenticate(it)
+            snackBar(errorMessage)
         })
+    }
+
+    private fun identifiesErrorFirebaseAuthOnReAuthenticate(e: Exception): String {
+        val errorMessage = when (e) {
+            is FirebaseAuthInvalidCredentialsException -> getString(R.string.user_profile_fragment_snackbar_message_firebase_auth_invalid_cradentials_exception_on_reauthenticate)
+            is FirebaseNetworkException -> getString(R.string.user_profile_fragment_snackbar_message_firebase_auth_network_exception_on_forgot_password)
+            is FirebaseAuthInvalidUserException -> getString(R.string.user_profile_fragment_snackbar_message_firebase_auth_invalid_user_exception_on_reauthenticate)
+            is FirebaseAuthRecentLoginRequiredException -> getString(R.string.user_profile_fragment_snackbar_message_firebase_auth_recent_login_required_exception)
+            else -> getString(R.string.user_profile_fragment_snackbar_message_unknown_error)
+        }
+        return errorMessage
     }
 
     private fun identifiesErrorFirebaseAuthOnUpdateUserEmailAndUserName(e: Exception): String {
@@ -321,55 +350,48 @@ class ProfileFragment : BaseFragment() {
 
     private fun onClickDeleteUserTextView() {
 
-        // REFATORAR MÉTODO
         context?.let { context ->
             binding.fragmentProfileTextViewDeleteUser.setOnClickListener {
 
                 context.alertDialog(
-                    title = "Excluir conta",
-                    "Deseja realmente excluir a conta?",
+                    title = context.getString(R.string.user_profile_fragment_alert_dialog_delete_account_title),
+                    message = context.getString(R.string.user_profile_fragment_alert_dialog_delete_account_description),
                     icon = R.drawable.ic_exit,
                     onClickingOnPositiveButton = {
 
-                        model.deleteUser(onSuccess = {
-                            snackBar("Sucesso ao deletar usuário")
-                            exitFromFragment()
-                        }, onError = {
-                            //identifica erro e, se for de autenticação:
-                            //implementar
-                            lifecycleScope.launch {
-                                tryToGetCredential {
-                                    reauthenticate(it, onSuccess = {
 
+                        appViewModel.tryRemoveUserPhoto(onError = {
+                            snackBar(getString(R.string.user_profile_fragment_snackbar_message_error_on_delete_user))
+                        }, onSuccessful = {
 
-                                        context.alertDialog(
-                                            title = "Excluir conta",
-                                            "Deseja realmente excluir a conta?",
-                                            icon = R.drawable.ic_exit,
-                                            onClickingOnPositiveButton = {
+                            model.deleteUser(onSuccess = {
+                                snackBar(getString(R.string.user_profile_fragment_snackbar_message_success_on_delete_user))
+                                exitFromFragment()
 
+                            }, onError = { exception ->
+                                if (exception is FirebaseAuthRecentLoginRequiredException) {
+                                    lifecycleScope.launch {
+                                        tryToGetCredential {
+                                            reAuthenticate(it, onSuccess = {
                                                 model.deleteUser(onSuccess = {
-                                                    snackBar("sucesso ao deletar depois de reautenticar")
 
                                                     exitFromFragment()
+                                                    snackBar(getString(R.string.user_profile_fragment_snackbar_message_success_on_delete_user))
 
                                                 }, onError = {
+                                                    snackBar(getString(R.string.user_profile_fragment_snackbar_message_error_on_delete_user))
 
-                                                    // identificar erro
-                                                    snackBar("erro ao deletar depois de reautenticar")
                                                 })
-
-
                                             })
-                                    })
+                                        }
+                                    }
+                                } else {
+                                    snackBar(getString(R.string.user_profile_fragment_snackbar_message_error_on_delete_user))
                                 }
-                            }
+                            })
                         })
-
-
-                    })
-
-
+                    }
+                )
             }
         }
     }

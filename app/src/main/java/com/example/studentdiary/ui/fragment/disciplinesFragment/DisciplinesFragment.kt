@@ -58,8 +58,6 @@ class DisciplinesFragment : BaseFragment() {
     }
 
 
-
-
     private fun configureDisciplineObserver() {
         model.disciplineList.observe(viewLifecycleOwner) { list ->
             buttonToggleGroupFilterList(list)
@@ -189,7 +187,7 @@ class DisciplinesFragment : BaseFragment() {
                         title = getString(R.string.discipline_fragment_delete_dialog_title),
                         message = getString(R.string.discipline_fragment_delete_dialog_message),
                         onClickingOnPositiveButton = {
-                            model.delete(disciplineId)
+                            model.delete(disciplineId, context)
                         }
                     )
                 }

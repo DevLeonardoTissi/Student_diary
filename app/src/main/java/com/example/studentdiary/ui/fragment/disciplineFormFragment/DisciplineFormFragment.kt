@@ -9,6 +9,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.CalendarContract
 import android.text.format.DateFormat.is24HourFormat
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -558,10 +559,14 @@ class DisciplineFormFragment : BaseFragment() {
                     timeInMillis
                 }
 
-                val addReminder = OneTimeWorkRequestBuilder<DisciplineReminderWorker>()
-                    .setInitialDelay(startMillis - System.currentTimeMillis(), TimeUnit.MILLISECONDS)
-                    .build()
-                WorkManager.getInstance(context).enqueue(addReminder)
+                model.getDisciplineIdentifier()?.let {
+                    Log.i("TAG", "addReminderWorker: $it")
+                    val addReminder = OneTimeWorkRequestBuilder<DisciplineReminderWorker>()
+                        .setInitialDelay(startMillis - System.currentTimeMillis(), TimeUnit.MILLISECONDS)
+                        .addTag(it)
+                        .build()
+                    WorkManager.getInstance(context).enqueue(addReminder)
+                }
             }
         }
     }
