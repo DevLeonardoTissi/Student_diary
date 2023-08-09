@@ -40,6 +40,8 @@ import com.example.studentdiary.broadcastReceiver.BatteryStatusBroadcastReceiver
 import com.example.studentdiary.databinding.ActivityMainBinding
 import com.example.studentdiary.databinding.HeaderNavigationDrawerBinding
 import com.example.studentdiary.datastore.getCollectUserTokenCloudMessaging
+import com.example.studentdiary.datastore.removeUserProvider
+import com.example.studentdiary.datastore.removeUserTokenAuth
 import com.example.studentdiary.extensions.alertDialog
 import com.example.studentdiary.extensions.toast
 import com.example.studentdiary.extensions.tryLoadImage
@@ -87,7 +89,7 @@ class MainActivity : AppCompatActivity() {
 
     private val pickImage = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
         uri?.let { file ->
-            appViewModel.updateUserPhoto(file, onError = {
+            appViewModel.tryUpdateUserPhoto(file, onError = {
                 this.toast(getString(R.string.main_activity_toast_message_error_update_user_photo))
             }, onSuccessful = {
                 this.toast(getString(R.string.main_activity_toast_message_successful_update_user_photo))
@@ -253,6 +255,14 @@ class MainActivity : AppCompatActivity() {
         logout()
         goToLogin()
         stopPomodoroServiceIfNeeded()
+        clearDatastoreValues()
+    }
+
+    private fun clearDatastoreValues() {
+        lifecycleScope.launch {
+            removeUserTokenAuth(this@MainActivity)
+            removeUserProvider(this@MainActivity)
+        }
     }
 
     private fun stopPomodoroServiceIfNeeded() {
@@ -317,7 +327,7 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }, onClickRemoveButton = {
-                appViewModel.removeUserPhoto(onError = {
+                appViewModel.tryRemoveUserPhoto(onError = {
                     toast(getString(R.string.main_activity_toast_message_error_remove_user_photo))
                 }, onSuccessful = {
                     toast(getString(R.string.main_activity_toast_message_successful_remove_user_photo))
