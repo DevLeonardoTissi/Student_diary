@@ -43,8 +43,6 @@ class PomodoroFragment : BaseFragment() {
         setupObserverSliderExtraInterval()
         setupSliders()
         setupObserverPomodoroCycles()
-        observerIntervalTimeLeft()
-        observerExtraIntervalTimeLeft()
     }
 
     private fun setupObserverPomodoroCycles() {
@@ -72,8 +70,8 @@ class PomodoroFragment : BaseFragment() {
 
     private fun setupObserverSliderTimer() {
         model.pomodoroStartTime.observe(viewLifecycleOwner) {
-//            val progress = it.toFloat() / 1000 / 60
-//            binding.pomodoroFragmentSliderTimer.setValues(progress)
+            val progress = it.toFloat() / 1000 / 60
+            binding.pomodoroFragmentSliderTimer.setValues(progress)
             binding.pomodoroFragmentTextViewSelectPomodoroTimerLabel.text = String.format(
                 "%s\n%s",
                 getString(R.string.pomodoro_fragment_textView_select_time_label),
@@ -84,8 +82,8 @@ class PomodoroFragment : BaseFragment() {
 
     private fun setupObserverSliderExtraInterval() {
         model.extraIntervalStartTime.observe(viewLifecycleOwner) {
-//            val progress = it.toFloat() / 1000 / 60
-//            binding.pomodoroFragmentSliderExtraInterval.setValues(progress)
+            val progress = it.toFloat() / 1000 / 60
+            binding.pomodoroFragmentSliderExtraInterval.setValues(progress)
             binding.pomodoroFragmentTextViewSelectExtraIntervalTimerLabel.text = String.format(
                 "%s\n%s",
                 getString(R.string.pomodoro_fragment_textView_select_extra_interval_label),
@@ -96,8 +94,8 @@ class PomodoroFragment : BaseFragment() {
 
     private fun setupObserverSliderInterval() {
         model.intervalStartTime.observe(viewLifecycleOwner) {
-//            val progress = it.toFloat() / 1000 / 60
-//            binding.pomodoroFragmentSliderInterval.setValues(progress)
+            val progress = it.toFloat() / 1000 / 60
+            binding.pomodoroFragmentSliderInterval.setValues(progress)
             binding.pomodoroFragmentTextViewSelectIntervalTimerLabel.text = String.format(
                     "%s\n%s",
                     getString(R.string.pomodoro_fragment_textView_select_interval_label),
@@ -106,26 +104,7 @@ class PomodoroFragment : BaseFragment() {
         }
     }
 
-    private fun observerIntervalTimeLeft() {
-//        model.intervalLeftTime.observe(viewLifecycleOwner) { intervalTime ->
-//            binding.pomodoroFragmentTextViewInterval.text = String.format(
-//                "%s %s",
-//                getString(R.string.pomodoro_fragment_textView_interval_timer),
-//                formatTimeLeft(intervalTime)
-//            )
-//        }
-    }
 
-    private fun observerExtraIntervalTimeLeft() {
-//        model.extraIntervalLeftTime.observe(viewLifecycleOwner) { extraIntervalTime ->
-//            binding.pomodoroFragmentTextViewExtraInterval.text = String.format(
-//                "%s %s",
-//                getString(R.string.pomodoro_fragment_textView_extra_interval_timer),
-//                formatTimeLeft(extraIntervalTime)
-//            )
-//
-//        }
-    }
 
     private fun setupSliders() {
         val timerSlider = binding.pomodoroFragmentSliderTimer

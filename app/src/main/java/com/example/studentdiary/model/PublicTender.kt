@@ -6,6 +6,6 @@ data class PublicTender(
     var description: String? = null,
     var url: String? = null,
     var img: String? = null,
-    var contest: Boolean = false,
-    var course: Boolean  = false
+    var isContest: Boolean = false,
+    var isCourse: Boolean  = false
 )

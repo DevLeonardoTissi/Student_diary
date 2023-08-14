@@ -21,7 +21,7 @@ class LoadAlertDialog(private val context:Context) {
         alertDialog.show()
     }
 
-    fun closeLoadDialog(){
+    fun close(){
         alertDialog.dismiss()
     }
 }

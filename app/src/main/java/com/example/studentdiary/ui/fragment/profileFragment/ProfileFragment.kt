@@ -318,7 +318,7 @@ class ProfileFragment : BaseFragment() {
         credential: AuthCredential,
         onSuccess: () -> Unit
     ) {
-        model.reauthenticate(credential, onSuccess = {
+        model.reAuthenticate(credential, onSuccess = {
             onSuccess()
         }, onError = {
             val errorMessage = identifiesErrorFirebaseAuthOnReAuthenticate(it)

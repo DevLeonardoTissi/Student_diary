@@ -36,7 +36,7 @@
     <!--drawer, fundo do time picker, data picker e botões-->
     <color name="colorSurface">@color/lightBlue</color>
 
-    <!--itens não selecionados no toggle group, titulo do drawer, stroeke e helpertext quando não habilitado, numero time picker, data não selecionada no datepicker-->
+    <!--itens não selecionados no toggle group, titulo do drawer, stroke e helpertext quando não habilitado, numero time picker, data não selecionada no datepicker-->
     <color name="colorOnSurface">@color/darkBlue</color>
 
     <!-- hint text field, subtitulo header drawer, icones não selecionados no drawer, texto timepicker e datapicker  -->

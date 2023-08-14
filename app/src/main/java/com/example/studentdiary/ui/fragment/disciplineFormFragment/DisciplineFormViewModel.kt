@@ -1,5 +1,6 @@
 package com.example.studentdiary.ui.fragment.disciplineFormFragment
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -21,7 +22,13 @@ class DisciplineFormViewModel(private val repository: DisciplineRepository, val 
         }
     }
 
-    fun getDisciplineIdentifier(): String? = discipline.value?.id
+   private fun getDisciplineIdentifier(): String? = discipline.value?.id
+
+    fun addWorkerDisciplineReminder(context: Context, starTimer:Long ){
+        getDisciplineIdentifier()?.let {disciplineId ->
+            repository.addWorkerDisciplineReminder(context, starTimer, disciplineId)
+        }
+    }
 
     fun searchDisciplineForId() {
         viewModelScope.launch {

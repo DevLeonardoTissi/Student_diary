@@ -101,7 +101,6 @@ class Notification(private val context: Context) {
         val builder = NotificationCompat.Builder(context, CHANNEL_IDENTIFIER)
             .setContentTitle(title)
             .setContentText(description)
-            //.setLargeIcon(BitmapFactory.decodeResource(context.resources, R.drawable.logo_app))
             .setSmallIcon(iconId)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setAutoCancel(isAutoCancel)

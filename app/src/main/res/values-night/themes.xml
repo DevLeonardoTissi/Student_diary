@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Theme.StudentDiary" parent="Theme.Material3.DayNight.NoActionBar">
         Primary brand color.
@@ -15,6 +15,7 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
 
+        <item name="android:windowBackground">@color/colorPrimaryVariant</item>
 
         <item name="android:windowTranslucentStatus">true</item>
 
@@ -30,7 +31,7 @@
         <item name="colorOutline">@color/colorOutline</item>
         <item name="colorSurfaceVariant">@color/colorSurfaceVariant</item>
 
+        <item name="android:textColor">@color/colorPrimary</item>
     </style>
-
 
 </resources>

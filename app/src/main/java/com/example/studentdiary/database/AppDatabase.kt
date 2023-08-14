@@ -12,6 +12,5 @@ import com.example.studentdiary.model.Discipline
 @TypeConverters(Converters::class)
 
 abstract class AppDatabase : RoomDatabase() {
-
     abstract val disciplineDAO: DisciplineDao
 }

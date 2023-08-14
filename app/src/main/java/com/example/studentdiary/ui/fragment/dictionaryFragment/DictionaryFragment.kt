@@ -17,6 +17,8 @@ import com.example.studentdiary.R
 import com.example.studentdiary.databinding.FragmentDictionaryBinding
 import com.example.studentdiary.extensions.isOnline
 import com.example.studentdiary.extensions.showToastNoConnectionMessage
+import com.example.studentdiary.ui.DATA_KEY_COMMENT
+import com.example.studentdiary.ui.DATA_KEY_RATING
 import com.example.studentdiary.ui.dialog.DictionaryRatingBottomSheetDialog
 import com.example.studentdiary.ui.dialog.LoadAlertDialog
 import com.example.studentdiary.ui.fragment.baseFragment.BaseFragment
@@ -59,10 +61,9 @@ class DictionaryFragment : BaseFragment() {
                         .setRequiredNetworkType(NetworkType.CONNECTED)
                         .build()
 
-                    //Extrair chaves do input data para constantes
                     val data = Data.Builder()
-                        .putFloat("rating", rating.rating)
-                        .putString("comment", rating.comment)
+                        .putFloat(DATA_KEY_RATING, rating.rating)
+                        .putString(DATA_KEY_COMMENT, rating.comment)
                         .build()
 
                     val uploadRatingRequest: WorkRequest =
@@ -98,7 +99,7 @@ class DictionaryFragment : BaseFragment() {
                             loadAlertDialog.show()
                             model.cleanSearched()
                             updateVisibilityAndSearch(word)
-                            loadAlertDialog.closeLoadDialog()
+                            loadAlertDialog.close()
                         }
 
                     } else {

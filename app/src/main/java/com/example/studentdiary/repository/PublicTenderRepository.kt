@@ -12,7 +12,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 class PublicTenderRepository(private val firestore: FirebaseFirestore) {
 
-    fun search(): LiveData<List<PublicTender>> {
+    fun publicTenderList(): LiveData<List<PublicTender>> {
         val publicTenderLiveData = MutableLiveData<List<PublicTender>>()
         firestore.collection(PUBLIC_TENDER_COLLECTION)
             .addSnapshotListener { value, _ ->

@@ -71,7 +71,7 @@ class FirebaseAuthRepository(private val firebaseAuth: FirebaseAuth) {
         _firebaseUser.value = FirebaseAuth.getInstance().currentUser
     }
 
-    suspend fun reauthenticate(credential: AuthCredential): Void? {
+    suspend fun reAuthenticate(credential: AuthCredential): Void? {
         return firebaseAuth.currentUser?.reauthenticate(credential)?.await()
     }
 

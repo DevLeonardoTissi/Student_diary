@@ -31,6 +31,7 @@
     <string name="low_battery_notification_pomodoro_description">Conecte o carregador para continuar utilizando o pomodoro</string>
 
 
+
     <!--Menu OnLongClick Item -->
     <string name="menuPopup_item_details_title">Detalhes</string>
     <string name="menuPopup_item_delete_title">Deletar</string>
@@ -72,6 +73,8 @@
     <string name="main_activity_toast_message_error_update_user_photo">Erro ao alterar foto</string>
     <string name="main_activity_toast_message_successful_remove_user_photo">Sucesso ao remover foto</string>
     <string name="main_activity_toast_message_error_remove_user_photo">Erro ao remover foto</string>
+    <string name="main_activity_toast_message_successful_on_upload_token">Sucesso ao enviar token</string>
+    <string name="main_activity_toast_message_error_on_upload_token">Erro ao enviar token</string>
 
 
     <!-- Forgot password Bottom Sheet Dialog -->
@@ -286,6 +289,10 @@
     <string name="public_tender_suggestion_dialog_text_field_hint_description">Descrição da plataforma</string>
     <string name="public_tender_suggestion_dialog_text_field_error">Campo vazio</string>
     <string name="public_tender_suggestion_dialog_text_field_url_not_format_email_error">Digite um url válido</string>
+    <string name="public_tender_suggestion_dialog_toast_message_on_authentication_error">Erro de authenticação</string>
+    <string name="public_tender_suggestion_dialog_toast_message_on_authentication_failed">Falha na authenticação</string>
+    <string name="public_tender_suggestion_dialog_title_biometric_prompt">Biometria</string>
+    <string name="public_tender_suggestion_dialog_subtitle_biometric_prompt">Para continuar, entre com a credencial</string>
 
 
     <!-- Profile Fragment -->

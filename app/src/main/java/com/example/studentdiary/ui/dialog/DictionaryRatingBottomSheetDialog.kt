@@ -8,7 +8,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 
 class DictionaryRatingBottomSheetDialog(private val context: Context) {
 
-    fun show(onComment:(rating:RatingSender) -> Unit) {
+    fun show(onComment: (rating: RatingSender) -> Unit) {
         val dialog = BottomSheetDialog(context)
         DictionaryRatingBottomSheetDialogBinding.inflate(LayoutInflater.from(context)).apply {
 
@@ -17,17 +17,16 @@ class DictionaryRatingBottomSheetDialog(private val context: Context) {
             }
 
             dictionaryRatingBottomSheetDialogButtonPositive.setOnClickListener {
-                val comment = dictionaryRatingBottomSheetDialogFieldComment.editText?.text.toString().trim()
+                val comment =
+                    dictionaryRatingBottomSheetDialogFieldComment.editText?.text.toString().trim()
                 val rating = dictionaryBottomSheetDialogRatingBar.rating
 
                 onComment(RatingSender(rating = rating, comment = comment.ifBlank { null }))
                 dialog.dismiss()
             }
 
-
             dialog.setContentView(root)
             dialog.show()
         }
     }
-
 }

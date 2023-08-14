@@ -48,3 +48,6 @@ const val SEND_TOKEN_PREFERENCES_KEY = "uploadTokenKey"
 const val USER_AUTH_PROVIDER = "userAuthProvider"
 const val USER_AUTH_TOKEN = "userAuthToken"
 
+const val DATA_KEY_RATING = "rating"
+const val DATA_KEY_COMMENT = "comment"
+

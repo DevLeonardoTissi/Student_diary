@@ -6,7 +6,6 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRONG
@@ -16,6 +15,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.studentdiary.R
 import com.example.studentdiary.databinding.PublicTenderSuggestionDialogBinding
+import com.example.studentdiary.extensions.toast
 import com.example.studentdiary.utils.PublicTenderSuggestion
 import com.example.studentdiary.utils.validateUrlFormat
 import java.util.concurrent.Executor
@@ -25,7 +25,6 @@ class PublicTenderSuggestionDialog(private val context: Context, private val fra
     private lateinit var executor: Executor
     private lateinit var biometricPrompt: BiometricPrompt
     private lateinit var promptInfo: BiometricPrompt.PromptInfo
-
 
 
     fun show(publicTender: (publicTenderSuggestion: PublicTenderSuggestion?) -> Unit) {
@@ -79,18 +78,15 @@ class PublicTenderSuggestionDialog(private val context: Context, private val fra
                             isDeviceSecure?.let {
                                 executor = ContextCompat.getMainExecutor(context)
                                 biometricPrompt = BiometricPrompt(fragment, executor,
+
                                     object : BiometricPrompt.AuthenticationCallback() {
+
                                         override fun onAuthenticationError(
                                             errorCode: Int,
-                                            errString: CharSequence
+                                            errorString: CharSequence
                                         ) {
-                                            super.onAuthenticationError(errorCode, errString)
-                                            Toast.makeText(
-                                                context,
-                                                "Authentication error: $errString",
-                                                Toast.LENGTH_SHORT
-                                            )
-                                                .show()
+                                            super.onAuthenticationError(errorCode, errorString)
+                                            context.toast(context.getString(R.string.public_tender_suggestion_dialog_toast_message_on_authentication_error))
                                         }
 
                                         override fun onAuthenticationSucceeded(
@@ -109,17 +105,13 @@ class PublicTenderSuggestionDialog(private val context: Context, private val fra
 
                                         override fun onAuthenticationFailed() {
                                             super.onAuthenticationFailed()
-//                                            Toast.makeText(
-//                                                context, "Authentication failed",
-//                                                Toast.LENGTH_SHORT
-//                                            )
-//                                                .show()
+                                            context.toast(context.getString(R.string.public_tender_suggestion_dialog_toast_message_on_authentication_failed))
                                         }
                                     })
 
                                 promptInfo = BiometricPrompt.PromptInfo.Builder()
-                                    .setTitle("Biometric login for my app")
-                                    .setSubtitle("Log in using your biometric credential")
+                                    .setTitle(context.getString(R.string.public_tender_suggestion_dialog_title_biometric_prompt))
+                                    .setSubtitle(context.getString(R.string.public_tender_suggestion_dialog_subtitle_biometric_prompt))
                                     .setAllowedAuthenticators(BIOMETRIC_STRONG or DEVICE_CREDENTIAL)
                                     .build()
                                 biometricPrompt.authenticate(promptInfo)
@@ -127,15 +119,15 @@ class PublicTenderSuggestionDialog(private val context: Context, private val fra
                         }
 
                         BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> {
-                                publicTender(
-                                    PublicTenderSuggestion(
-                                        name = name,
-                                        description = description.ifBlank { null },
-                                        url = url
-                                    )
+                            publicTender(
+                                PublicTenderSuggestion(
+                                    name = name,
+                                    description = description.ifBlank { null },
+                                    url = url
                                 )
-                                dialog.dismiss()
-                            }
+                            )
+                            dialog.dismiss()
+                        }
 
 
                         BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE -> {

@@ -76,14 +76,14 @@ class ProfileViewModel(private val authRepository: FirebaseAuthRepository) : Vie
         authRepository.updateUserName(name = name)?.await()
     }
 
-    fun reauthenticate(
+    fun reAuthenticate(
         credential: AuthCredential,
         onSuccess: () -> Unit,
         onError: (e: Exception) -> Unit
     ) {
         viewModelScope.launch {
             try {
-                authRepository.reauthenticate(credential)
+                authRepository.reAuthenticate(credential)
                 onSuccess()
             } catch (e: Exception) {
                 onError(e)

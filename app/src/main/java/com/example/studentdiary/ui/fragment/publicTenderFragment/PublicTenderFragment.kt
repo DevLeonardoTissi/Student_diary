@@ -63,12 +63,12 @@ class PublicTenderFragment : BaseFragment() {
     private fun checkButtonCheckedAndUpdateList(checkedId: Int, list: List<PublicTender>) {
         when (checkedId) {
             R.id.publicTenderFragment_toggle_button_contest -> {
-                updateList(list.filter { it.contest })
+                updateList(list.filter { it.isContest })
             }
 
             R.id.publicTenderFragment_toggle_button_courses -> {
                 updateList(list.filter {
-                    it.course
+                    it.isCourse
                 })
             }
         }
@@ -132,7 +132,7 @@ class PublicTenderFragment : BaseFragment() {
 
     private fun showNotificationSendPublicTenderSuggestion(context: Context) {
         val imgSuggestionsNotification =
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT56PuFScM4ZH3VwzMQOX50aenzv2hM2FlM5VEWvuy-wr3l1MVJU6bWUYOMi3rF_LSC55c&usqp=CAU"
+            "https://img.freepik.com/psd-gratuitas/colecao-3d-com-maos-fazendo-o-simbolo-do-coracao_23-2148938879.jpg?w=1060&t=st=1692051287~exp=1692051887~hmac=606fb4a3bbfdf247a7214ab24386d265105ca01bd630be18b2516a383d03cf4b"
         Notification(context).show(
             title = getString(R.string.suggestion_notification_title),
             description = getString(R.string.suggestion_notification_description),

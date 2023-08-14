@@ -41,18 +41,17 @@ class PomodoroService : Service() {
             } ?: 100
         }
 
-        private val notificationsPomodoroId: Int = Int.MAX_VALUE
+        private const val notificationsPomodoroId: Int = Int.MAX_VALUE
         private lateinit var countDownTimer: CountDownTimer
 
-        private val _pomodoroStartTime = MutableLiveData<Long>(3000)
+        private val _pomodoroStartTime = MutableLiveData<Long>(1500000)
         val pomodoroStartTime: LiveData<Long> = _pomodoroStartTime
 
-        private val _intervalStartTime = MutableLiveData<Long>(3000)
+        private val _intervalStartTime = MutableLiveData<Long>(300000)
         val intervalStartTime: LiveData<Long> = _intervalStartTime
 
-        private val _extraIntervalStartTime = MutableLiveData<Long>(10000)
+        private val _extraIntervalStartTime = MutableLiveData<Long>(900000)
         val extraIntervalStartTime: LiveData<Long> = _extraIntervalStartTime
-
 
         private val _timerIsRunning = MutableLiveData(false)
         val timerIsRunning: LiveData<Boolean> = _timerIsRunning

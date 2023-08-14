@@ -1,11 +1,8 @@
 package com.example.studentdiary.extensions
 
-import android.app.Activity
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import android.view.View
-import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import com.example.studentdiary.R
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -59,17 +56,12 @@ fun Context.toast(message: String, duration: Int = Toast.LENGTH_SHORT) {
         message,
         duration
     ).show()
-
 }
 
 fun Context.showToastNoConnectionMessage() {
     toast(getString(R.string.default_message_noConnection))
 }
 
-fun Context.hideKeyboard(view: View) {
-    val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-    inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
-}
 
 
 

@@ -13,7 +13,6 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
@@ -53,7 +52,6 @@ import com.example.studentdiary.ui.dialog.AppInfoBottomSheetDialog
 import com.example.studentdiary.ui.dialog.CustomImageUserBottomSheetDialog
 import com.example.studentdiary.utils.exitGoogleAndFacebookAccount
 import com.example.studentdiary.workManager.TokenUploadWorker
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -68,14 +66,13 @@ class MainActivity : AppCompatActivity() {
     private val appViewModel: AppViewModel by viewModel()
     private val airplaneModeBroadcastReceiver: BroadcastReceiver = AirplaneModeBroadcastReceiver()
     private val batteryStatusBroadcastReceiver: BroadcastReceiver = BatteryStatusBroadcastReceiver()
+    private val sensorManager: SensorManager by inject()
+    private lateinit var temperatureListener: SensorEventListener
+    private var isWorkSchedule = false
     private val controller by lazy {
         findNavController(R.id.nav_host_fragment)
     }
 
-    private val sensorManager: SensorManager by inject()
-    private lateinit var temperatureListener: SensorEventListener
-
-    private var isWorkSchedule = false
 
     private val requestPermissionNotificationsLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission(),
@@ -140,7 +137,6 @@ class MainActivity : AppCompatActivity() {
                         WorkManager.getInstance(this@MainActivity).enqueue(uploadWorkRequest)
                         observerWorkManagerOnUploadToken()
                         isWorkSchedule = true
-
                     }
                 }
             }
@@ -151,20 +147,9 @@ class MainActivity : AppCompatActivity() {
         val workManager = WorkManager.getInstance(this@MainActivity)
         workManager.getWorkInfosByTagLiveData(UPLOAD_TOKEN_WORKER_TAG)
             .observe(this@MainActivity) { workInfoList ->
-
                 val firstWorkInfo = workInfoList.firstOrNull()
-                if (firstWorkInfo?.state == WorkInfo.State.SUCCEEDED) {
-
-                    Snackbar.make(
-                        binding.root,
-                        "sucesso ao enviar token", Snackbar.LENGTH_SHORT
-                    )
-                        .show()
-
-
-                } else {
-                    Log.i("TAG", "onCreate: erro ao enviar")
-                }
+                if (firstWorkInfo?.state == WorkInfo.State.SUCCEEDED)
+                    toast(getString(R.string.main_activity_toast_message_successful_on_upload_token))
             }
     }
 
@@ -303,15 +288,14 @@ class MainActivity : AppCompatActivity() {
                     namePresentation
                 )
                 userNonNull.photoUrl?.let { uri ->
-
-                    //REFATORAR
-                    headerBinding.headerShapeableImageView.tryLoadImage(uri.toString())
-                    headerBinding.headerShapeableImageView.setOnClickListener {
-                        headerBinding.headerShapeableImageView.tryLoadImage(uri.toString())
-
+                    headerBinding.headerShapeableImageView.apply {
+                        tryLoadImage(uri.toString())
+                        setOnClickListener {
+                            tryLoadImage(uri.toString())
+                        }
                     }
-                } ?: headerBinding.headerShapeableImageView.tryLoadImage()
 
+                } ?: headerBinding.headerShapeableImageView.tryLoadImage()
             }
         }
 
@@ -336,13 +320,13 @@ class MainActivity : AppCompatActivity() {
         }
 
 
+        with(headerBinding) {
+            headerImageViewThermostat.visibility = if (hasTemperatureSensor()) View.VISIBLE else View.GONE
+            headerTextViewTemperature.visibility = if (hasTemperatureSensor()) View.VISIBLE else View.GONE
+        }
+
         if (hasTemperatureSensor()) {
-            headerBinding.headerImageViewThermostat.visibility = View.VISIBLE
-            headerBinding.headerTextViewTemperature.visibility = View.VISIBLE
             setupTemperatureSensorAndUpdateTextView(headerBinding.headerTextViewTemperature)
-        } else {
-            headerBinding.headerImageViewThermostat.visibility = View.GONE
-            headerBinding.headerTextViewTemperature.visibility = View.GONE
         }
 
         binding.navView.addHeaderView(headerBinding.root)

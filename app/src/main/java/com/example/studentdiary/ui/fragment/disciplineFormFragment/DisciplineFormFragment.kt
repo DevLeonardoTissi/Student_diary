@@ -9,7 +9,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.CalendarContract
 import android.text.format.DateFormat.is24HourFormat
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,8 +23,6 @@ import androidx.core.util.component2
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.WorkManager
 import com.example.studentdiary.R
 import com.example.studentdiary.databinding.FragmentDisciplineFormBinding
 import com.example.studentdiary.extensions.alertDialog
@@ -42,7 +39,6 @@ import com.example.studentdiary.utils.concatUtils.concatenateDateValues
 import com.example.studentdiary.utils.concatUtils.concatenateTimeValues
 import com.example.studentdiary.utils.enums.EmailType
 import com.example.studentdiary.utils.validateEmailFormat
-import com.example.studentdiary.workManager.DisciplineReminderWorker
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -55,7 +51,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import java.util.Calendar
 import java.util.TimeZone
-import java.util.concurrent.TimeUnit
 
 class DisciplineFormFragment : BaseFragment() {
 
@@ -546,29 +541,33 @@ class DisciplineFormFragment : BaseFragment() {
     private fun addReminderWorker() {
         context?.let {context ->
 
-            //Parte de obter a data e hora em millisegundos, pode ser extráida, pois é utilizada em outro lugar tbm
+
             //Falta adicionar isso em um listener para adicionar para datas recorrentes tbm.
-            model.getDate()?.let { date ->
-                val startMillis: Long = Calendar.getInstance().run {
-                    val (year, month, day) = converterLongToDate(date.component1())
-                    model.getStartTime()?.let {
-                        set(year, month, day, it.component1(), it.component2())
-                        timeInMillis
-                    }
-                    set(year, month, day)
+            getStartTimeInMillis()?.let {startTimeInMillis ->
+                model.addWorkerDisciplineReminder(context, startTimeInMillis)
+            }
+
+
+        }
+    }
+
+    private fun getStartTimeInMillis():Long? {
+        model.getDate()?.let { date ->
+          val startMillis: Long = Calendar.getInstance().run {
+                val (year, month, day) = converterLongToDate(date.component1())
+                model.getStartTime()?.let {
+                    set(year, month, day, it.component1(), it.component2())
                     timeInMillis
                 }
-
-                model.getDisciplineIdentifier()?.let {
-                    Log.i("TAG", "addReminderWorker: $it")
-                    val addReminder = OneTimeWorkRequestBuilder<DisciplineReminderWorker>()
-                        .setInitialDelay(startMillis - System.currentTimeMillis(), TimeUnit.MILLISECONDS)
-                        .addTag(it)
-                        .build()
-                    WorkManager.getInstance(context).enqueue(addReminder)
-                }
+                set(year, month, day)
+                timeInMillis
             }
+
+            return startMillis
         }
+        return null
+
+
     }
 
 

@@ -10,7 +10,7 @@ import com.example.studentdiary.utils.PublicTenderSuggestion
 class PublicTenderViewModel(private val publicTenderRepository: PublicTenderRepository) :
     ViewModel() {
 
-    val publicTenderList: LiveData<List<PublicTender>> = publicTenderRepository.search()
+    val publicTenderList: LiveData<List<PublicTender>> = publicTenderRepository.publicTenderList()
 
     private val _cardViewSuggestionsIsOpen = MutableLiveData(false)
     fun setIsOpen(isOpen: Boolean) {

@@ -17,6 +17,4 @@ class DisciplineDetailsViewModel(val repository: DisciplineRepository, val disci
             repository.cancelWorkerDisciplineReminder(context, disciplineId)
         }
     }
-
-
 }
