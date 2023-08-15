@@ -122,22 +122,22 @@ Faça o download da <a href="/app/release/app-release.apk?raw=true">APK diretame
 
 <div align="center" style=" width: 100%; display: inline-block;  justify-content: space-between;">
   
-<img src="/arquivos_Readme/gif/00.gif" width="25%"/>
-<img src="/arquivos_Readme/gif/01.gif" width="25%"/>
-<img src="/arquivos_Readme/gif/02.gif" width="25%"/>
-<img src="/arquivos_Readme/gif/03.gif" width="25%"/>
-<img src="/arquivos_Readme/gif/04.gif" width="25%"/>
-<img src="/arquivos_Readme/gif/05.gif" width="25%"/>
-<img src="/arquivos_Readme/gif/06.gif" width="25%"/>
-<img src="/arquivos_Readme/gif/07.gif" width="25%"/>
-<img src="/arquivos_Readme/gif/08.gif" width="25%"/>
-<img src="/arquivos_Readme/gif/09.gif" width="25%"/>
-<img src="/arquivos_Readme/gif/10.gif" width="25%"/>
-<img src="/arquivos_Readme/gif/11.gif" width="25%"/>
-<img src="/arquivos_Readme/gif/12.gif" width="25%"/>
-<img src="/arquivos_Readme/gif/13.gif" width="25%"/>
-<img src="/arquivos_Readme/gif/14.gif" width="25%"/>
-<img src="/arquivos_Readme/gif/15.gif" width="25%"/>
+<img src="arquivos_readme/gif/00.gif" width="25%"/>
+<img src="arquivos_readme/gif/01.gif" width="25%"/>
+<img src="arquivos_readme/gif/02.gif" width="25%"/>
+<img src="arquivos_readme/gif/03.gif" width="25%"/>
+<img src="arquivos_readme/gif/04.gif" width="25%"/>
+<img src="arquivos_readme/gif/05.gif" width="25%"/>
+<img src="arquivos_readme/gif/06.gif" width="25%"/>
+<img src="arquivos_readme/gif/07.gif" width="25%"/>
+<img src="arquivos_readme/gif/08.gif" width="25%"/>
+<img src="arquivos_readme/gif/09.gif" width="25%"/>
+<img src="arquivos_readme/gif/10.gif" width="25%"/>
+<img src="arquivos_readme/gif/11.gif" width="25%"/>
+<img src="arquivos_readme/gif/12.gif" width="25%"/>
+<img src="arquivos_readme/gif/13.gif" width="25%"/>
+<img src="arquivos_readme/gif/14.gif" width="25%"/>
+<img src="arquivos_readme/gif/15.gif" width="25%"/>
 
 </div>
 
