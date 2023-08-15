@@ -42,13 +42,14 @@ Além das tecnologias mencionadas anteriormente, o desenvolvimento do aplicativo
 <img alt = "screenshot" width = "20%" src = "arquivos_readme/screenshot/pomodoro.png">
 <img alt = "screenshot" width = "20%" src = "arquivos_readme/screenshot/select_pomodoro_cycles.png">
 <img alt = "screenshot" width = "20%" src = "arquivos_readme/screenshot/logout.png">
+<img alt = "screenshot" width = "20%" src = "arquivos_readme/screenshot/pomodoro_notification.png">
 <img alt = "screenshot" width = "20%" src = "arquivos_readme/screenshot/public_tender.png">
 <img alt = "screenshot" width = "20%" src = "arquivos_readme/screenshot/about.png">
 
 
 
-</p>
 
+</p>
 
 Faça o download da <a href="/app/release/app-release.apk?raw=true">APK diretamente</a>. Você pode ver <a href="https://www.google.com/search?q=como+instalar+um+apk+no+android">aqui</a> como instalar uma APK no seu aparelho android.
 
@@ -123,22 +124,23 @@ Faça o download da <a href="/app/release/app-release.apk?raw=true">APK diretame
 
 <div align="center" style=" width: 100%; display: inline-block;  justify-content: space-between;">
   
-<img src="arquivos_Readme/gif/00.gif" width="25%"/>
-<img src="arquivos_Readme/gif/01.gif" width="25%"/>
-<img src="arquivos_Readme/gif/02.gif" width="25%"/>
-<img src="arquivos_Readme/gif/03.gif" width="25%"/>
-<img src="arquivos_Readme/gif/04.gif" width="25%"/>
-<img src="arquivos_Readme/gif/05.gif" width="25%"/>
-<img src="arquivos_Readme/gif/06.gif" width="25%"/>
-<img src="arquivos_Readme/gif/07.gif" width="25%"/>
-<img src="arquivos_Readme/gif/08.gif" width="25%"/>
-<img src="arquivos_Readme/gif/09.gif" width="25%"/>
-<img src="arquivos_Readme/gif/10.gif" width="25%"/>
-<img src="arquivos_Readme/gif/11.gif" width="25%"/>
-<img src="arquivos_Readme/gif/12.gif" width="25%"/>
-<img src="arquivos_Readme/gif/13.gif" width="25%"/>
-<img src="arquivos_Readme/gif/14.gif" width="25%"/>
-<img src="arquivos_Readme/gif/15.gif" width="25%"/>
+<img src="arquivos_readme/gif/00.gif" width="25%"/>
+<img src="arquivos_readme/gif/01.gif" width="25%"/>
+<img src="arquivos_readme/gif/02.gif" width="25%"/>
+<img src="arquivos_readme/gif/03.gif" width="25%"/>
+<img src="arquivos_readme/gif/04.gif" width="25%"/>
+<img src="arquivos_readme/gif/05.gif" width="25%"/>
+<img src="arquivos_readme/gif/06.gif" width="25%"/>
+<img src="arquivos_readme/gif/07.gif" width="25%"/>
+<img src="arquivos_readme/gif/08.gif" width="25%"/>
+<img src="arquivos_readme/gif/09.gif" width="25%"/>
+<img src="arquivos_readme/gif/10.gif" width="25%"/>
+<img src="arquivos_readme/gif/11.gif" width="25%"/>
+<img src="arquivos_readme/gif/12.gif" width="25%"/>
+<img src="arquivos_readme/gif/13.gif" width="25%"/>
+<img src="arquivos_readme/gif/14.gif" width="25%"/>
+<img src="arquivos_readme/gif/15.gif" width="25%"/>
+<img src="arquivos_readme/gif/16.gif" width="25%"/>
 
 </div>
 
