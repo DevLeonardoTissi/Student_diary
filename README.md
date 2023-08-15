@@ -42,8 +42,10 @@ Além das tecnologias mencionadas anteriormente, o desenvolvimento do aplicativo
 <img alt = "screenshot" width = "20%" src = "arquivos_readme/screenshot/pomodoro.png">
 <img alt = "screenshot" width = "20%" src = "arquivos_readme/screenshot/select_pomodoro_cycles.png">
 <img alt = "screenshot" width = "20%" src = "arquivos_readme/screenshot/logout.png">
+<img alt = "screenshot" width = "20%" src = "arquivos_readme/screenshot/pomodoro_notification.png">
 <img alt = "screenshot" width = "20%" src = "arquivos_readme/screenshot/public_tender.png">
 <img alt = "screenshot" width = "20%" src = "arquivos_readme/screenshot/about.png">
+
 
 
 
@@ -138,6 +140,7 @@ Faça o download da <a href="/app/release/app-release.apk?raw=true">APK diretame
 <img src="arquivos_readme/gif/13.gif" width="25%"/>
 <img src="arquivos_readme/gif/14.gif" width="25%"/>
 <img src="arquivos_readme/gif/15.gif" width="25%"/>
+<img src="arquivos_readme/gif/16.gif" width="25%"/>
 
 </div>
 
