@@ -21,7 +21,7 @@ Além das tecnologias mencionadas anteriormente, o desenvolvimento do aplicativo
 </br>
 
 <p float="left" align="center">
-<img alt = "screenshot" width = "20%" src = "arquivos_readme/screenshot/login.png">
+<img alt = "screenshot" width = "20%" src = "//arquivos_readme/screenshot/login.png">
 <img alt = "screenshot" width = "20%" src = "arquivos_readme/screenshot/google_login.png">
 <img alt = "screenshot" width = "20%" src = "arquivos_readme/screenshot/forgot_password.png">
 <img alt = "screenshot" width = "20%" src = "arquivos_readme/screenshot/register.png">
