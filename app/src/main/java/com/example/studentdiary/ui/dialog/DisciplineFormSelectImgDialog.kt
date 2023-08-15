@@ -14,7 +14,10 @@ class DisciplineFormSelectImgDialog(private val context: Context) {
         imageUrl: String? = null,
         onClickPositiveButton: (imageUrl: String?) -> Unit
     ) {
+
         DisciplineFormDialogBinding.inflate(LayoutInflater.from(context)).apply {
+            val alertDialog =  AlertDialog.Builder(context).create()
+
             imageUrl?.let {
                 disciplineFormImageDialogImageView.tryLoadImage(it)
                 disciplineFormImageDialogTextInputLayoutUrl.editText?.setText(it)
@@ -43,20 +46,23 @@ class DisciplineFormSelectImgDialog(private val context: Context) {
                 }
             }
 
-            AlertDialog.Builder(context)
-                .setView(root)
-                .setPositiveButton(context.getString(R.string.common_confirm)) { _, _ ->
-                    val url = disciplineFormImageDialogTextInputLayoutUrl.editText?.text.toString()
-                    if (url.isNotBlank()){
-                        onClickPositiveButton(url)
-                    } else{
-                        onClickPositiveButton(null)
-                    }
+            disciplineFormImageDialogButtonPositive.setOnClickListener {
+                val url = disciplineFormImageDialogTextInputLayoutUrl.editText?.text.toString()
+                if (url.isNotBlank()){
+                    onClickPositiveButton(url)
+                } else{
+                    onClickPositiveButton(null)
                 }
-                .setNegativeButton(context.getString(R.string.common_cancel)){_, _ ->
+                alertDialog.dismiss()
+            }
 
-                }
-                .show()
+            disciplineFormImageDialogButtonNegative.setOnClickListener {
+                alertDialog.dismiss()
+            }
+
+            alertDialog.setView(root)
+            alertDialog.show()
+
         }
     }
 }
