@@ -21,7 +21,7 @@ Além das tecnologias mencionadas anteriormente, o desenvolvimento do aplicativo
 </br>
 
 <p float="left" align="center">
-<img alt = "screenshot" width = "20%" src = "//arquivos_readme/screenshot/login.png">
+<img alt = "screenshot" width = "20%" src = "arquivos_readme/screenshot/login.png">
 <img alt = "screenshot" width = "20%" src = "arquivos_readme/screenshot/google_login.png">
 <img alt = "screenshot" width = "20%" src = "arquivos_readme/screenshot/forgot_password.png">
 <img alt = "screenshot" width = "20%" src = "arquivos_readme/screenshot/register.png">
@@ -122,22 +122,22 @@ Faça o download da <a href="/app/release/app-release.apk?raw=true">APK diretame
 
 <div align="center" style=" width: 100%; display: inline-block;  justify-content: space-between;">
   
-<img src="arquivos_Readme/gif/00.gif" width="25%"/>
-<img src="arquivos_Readme/gif/01.gif" width="25%"/>
-<img src="arquivos_Readme/gif/02.gif" width="25%"/>
-<img src="arquivos_Readme/gif/03.gif" width="25%"/>
-<img src="arquivos_Readme/gif/04.gif" width="25%"/>
-<img src="arquivos_Readme/gif/05.gif" width="25%"/>
-<img src="arquivos_Readme/gif/06.gif" width="25%"/>
-<img src="arquivos_Readme/gif/07.gif" width="25%"/>
-<img src="arquivos_Readme/gif/08.gif" width="25%"/>
-<img src="arquivos_Readme/gif/09.gif" width="25%"/>
-<img src="arquivos_Readme/gif/10.gif" width="25%"/>
-<img src="arquivos_Readme/gif/11.gif" width="25%"/>
-<img src="arquivos_Readme/gif/12.gif" width="25%"/>
-<img src="arquivos_Readme/gif/13.gif" width="25%"/>
-<img src="arquivos_Readme/gif/14.gif" width="25%"/>
-<img src="arquivos_Readme/gif/15.gif" width="25%"/>
+<img src="/arquivos_Readme/gif/00.gif" width="25%"/>
+<img src="/arquivos_Readme/gif/01.gif" width="25%"/>
+<img src="/arquivos_Readme/gif/02.gif" width="25%"/>
+<img src="/arquivos_Readme/gif/03.gif" width="25%"/>
+<img src="/arquivos_Readme/gif/04.gif" width="25%"/>
+<img src="/arquivos_Readme/gif/05.gif" width="25%"/>
+<img src="/arquivos_Readme/gif/06.gif" width="25%"/>
+<img src="/arquivos_Readme/gif/07.gif" width="25%"/>
+<img src="/arquivos_Readme/gif/08.gif" width="25%"/>
+<img src="/arquivos_Readme/gif/09.gif" width="25%"/>
+<img src="/arquivos_Readme/gif/10.gif" width="25%"/>
+<img src="/arquivos_Readme/gif/11.gif" width="25%"/>
+<img src="/arquivos_Readme/gif/12.gif" width="25%"/>
+<img src="/arquivos_Readme/gif/13.gif" width="25%"/>
+<img src="/arquivos_Readme/gif/14.gif" width="25%"/>
+<img src="/arquivos_Readme/gif/15.gif" width="25%"/>
 
 </div>
 
