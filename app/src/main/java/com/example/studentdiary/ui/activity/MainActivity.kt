@@ -70,7 +70,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var temperatureListener: SensorEventListener
     private var isWorkSchedule = false
     private val controller by lazy {
-        findNavController(R.id.nav_host_fragment)
+        findNavController(R.id.activity_main_nav_host_fragment)
     }
 
 
@@ -192,8 +192,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupMenuDrawerAndToolbarNavigation() {
-        val navController = findNavController(R.id.nav_host_fragment)
-        val navView = binding.navView
+        val navController = findNavController(R.id.activity_main_nav_host_fragment)
+        val navView = binding.activityMainNavView
         navView.setupWithNavController(navController)
         navView.setNavigationItemSelectedListener {
             when (it.itemId) {
@@ -321,15 +321,17 @@ class MainActivity : AppCompatActivity() {
 
 
         with(headerBinding) {
-            headerImageViewThermostat.visibility = if (hasTemperatureSensor()) View.VISIBLE else View.GONE
-            headerTextViewTemperature.visibility = if (hasTemperatureSensor()) View.VISIBLE else View.GONE
+            headerImageViewThermostat.visibility =
+                if (hasTemperatureSensor()) View.VISIBLE else View.GONE
+            headerTextViewTemperature.visibility =
+                if (hasTemperatureSensor()) View.VISIBLE else View.GONE
         }
 
         if (hasTemperatureSensor()) {
             setupTemperatureSensorAndUpdateTextView(headerBinding.headerTextViewTemperature)
         }
 
-        binding.navView.addHeaderView(headerBinding.root)
+        binding.activityMainNavView.addHeaderView(headerBinding.root)
     }
 
     private fun registerReceiverAirplaneMode() {
