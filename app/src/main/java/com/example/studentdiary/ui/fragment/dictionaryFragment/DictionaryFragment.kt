@@ -49,7 +49,6 @@ class DictionaryFragment : BaseFragment() {
         saveFieldValue()
         buttonSearch()
         setupRatingFab()
-
     }
 
     private fun setupRatingFab() {

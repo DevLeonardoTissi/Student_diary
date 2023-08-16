@@ -391,7 +391,8 @@ class DisciplineFormFragment : BaseFragment() {
                     addReminderWorker()
                     insert()
                     controller.popBackStack()
-                })
+                }
+            )
         }
     }
 
@@ -415,7 +416,6 @@ class DisciplineFormFragment : BaseFragment() {
                     timeInMillis
                 } ?: set(year, month, day)
                 timeInMillis
-
             }
 
             model.getEventId()?.let { eventId ->
@@ -539,21 +539,16 @@ class DisciplineFormFragment : BaseFragment() {
     }
 
     private fun addReminderWorker() {
-        context?.let {context ->
-
-
-            //Falta adicionar isso em um listener para adicionar para datas recorrentes tbm.
-            getStartTimeInMillis()?.let {startTimeInMillis ->
+        context?.let { context ->
+            getStartTimeInMillis()?.let { startTimeInMillis ->
                 model.addWorkerDisciplineReminder(context, startTimeInMillis)
             }
-
-
         }
     }
 
-    private fun getStartTimeInMillis():Long? {
+    private fun getStartTimeInMillis(): Long? {
         model.getDate()?.let { date ->
-          val startMillis: Long = Calendar.getInstance().run {
+            val startMillis: Long = Calendar.getInstance().run {
                 val (year, month, day) = converterLongToDate(date.component1())
                 model.getStartTime()?.let {
                     set(year, month, day, it.component1(), it.component2())
@@ -566,8 +561,6 @@ class DisciplineFormFragment : BaseFragment() {
             return startMillis
         }
         return null
-
-
     }
 
 
