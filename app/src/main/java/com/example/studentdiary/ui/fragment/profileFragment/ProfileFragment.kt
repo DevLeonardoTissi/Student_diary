@@ -135,7 +135,7 @@ class ProfileFragment : BaseFragment() {
 
     private fun onClickUpdatePasswordButton() {
         context?.let { context ->
-            binding.profileFragmentUpdatePassword.setOnClickListener {
+            binding.profileFragmentUpdatePasswordButton.setOnClickListener {
                 UpdatePasswordBottomSheetDialog(context).show { newPassword ->
                     model.updatePassword(newPassword, onError = { exception ->
                         if (exception is FirebaseAuthRecentLoginRequiredException) {
